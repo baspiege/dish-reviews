@@ -8,10 +8,10 @@
 <div>
 <ul id="navlist" style="margin:0;padding:0;">
 
-<% if (!request.getServletPath().equals("geoNotes.jsp")) { %>
+<% //if (request.getServletPath().indexOf("geoNotes.jsp")==-1) { %>
 
 <li><a href="geoNotes.jsp">Main</a></li>
-<% } %>
+<% //} %>
 
 
 <%
@@ -21,16 +21,27 @@
     boolean isSignedIn=request.getUserPrincipal()!= null;    
 
     Long storeId=RequestUtils.getNumericInput(request,"storeId",bundle.getString("storeId"),false);
+    Long dishId=RequestUtils.getNumericInput(request,"dishId",bundle.getString("dishId"),false);
     
-    if (storeId!=null) {
+    if (storeId!=null && dishId==null) {
     
         request.setAttribute("id",storeId);
     
         new GeoNoteGetSingle().execute(request);
-        // If note is null, forward to main page
         GeoNote geoNote=(GeoNote)request.getAttribute("geoNote");
         if (geoNote!=null) {
-            out.write("<li><a href=\"geoNotes.jsp\">" + geoNote.note + "</a></li>");
+            out.write("<li>" + geoNote.note + "</li>");
+        }
+    } else if (storeId!=null && dishId!=null) {
+    
+        request.setAttribute("id",storeId);
+        
+//        new GeoNoteGetSingle().execute(request);
+    
+        new GeoNoteGetSingle().execute(request);
+        GeoNote geoNote=(GeoNote)request.getAttribute("geoNote");
+        if (geoNote!=null) {
+            out.write("<li><a href=\"dishes.jsp?storeId=" + storeId.toString() + "\">" + geoNote.note + "</a></li>");
         }
     }
 %>

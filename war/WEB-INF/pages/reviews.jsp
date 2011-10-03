@@ -17,6 +17,9 @@
     List<Note> reviews = null;
     
     Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",false);
+    
+    Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
+    
     if (dishId!=null) {
         new ReviewsGetAll().execute(request);
         reviews=(List<Note>)request.getAttribute("reviews");
@@ -57,7 +60,7 @@
 
 <% } %>
 
-</th><th>Pictures</th></tr>
+</th><th>Image</th></tr>
 <%
     if (reviews!=null && reviews.size()>0) {
         for (Note review:reviews) {
@@ -68,7 +71,16 @@
             // Add attributes
             out.write("<tr>");
             out.write("<td>" + HtmlUtils.escapeChars(review.note) + "</td>");
-            out.write("<td><a href=\"review.jsp?reviewId=" + reviewId + "\">" + 22 + "</a></td>");
+            out.write("<td>");
+            
+            if (review.imageThumbnail==null) {
+                out.write("<a class=\"add\" href=\"reviewImage.jsp?reviewId=" + reviewId + "\">" + bundle.getString("addLabel") + "</a>");
+            
+            } else {
+                out.write("<img src=\"\">");
+            }
+            
+            out.write("</td>");
             out.write("</tr>");
         }
     }

@@ -62,7 +62,7 @@
             // Add attributes
             out.write("<tr>");
             out.write("<td>" + HtmlUtils.escapeChars(dish.note) + "</td>");
-            out.write("<td><a href=\"reviews.jsp?dishId=" + dishId + "\">" + 22 + "</a></td>");
+            out.write("<td><a href=\"reviews.jsp?storeId=" + storeId + "&dishId=" + dishId + "\">" + 22 + "</a></td>");
             out.write("</tr>");
         }
     }
