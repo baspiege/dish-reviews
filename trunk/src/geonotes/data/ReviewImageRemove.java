@@ -1,50 +1,40 @@
 package geonotes.data;
 
-import java.util.Date;
-
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Review;
 import geonotes.utils.RequestUtils;
 
 /**
- * Add a review.
+ * Remove an image.
  *
  * @author Brian Spiegel
  */
-public class ReviewAdd {
+public class ReviewImageRemove {
 
     /**
-     * Add a review.
-     *
+     * Remove an image.
+	   *
      * @param aRequest The request
      *
      * @since 1.0
      */
     public void execute(HttpServletRequest aRequest) {
 
-        // Note
-        String note=(String)aRequest.getAttribute("note");
-        Long type=(Long)aRequest.getAttribute("type");
-        Long dishId=(Long)aRequest.getAttribute("dishId");
-        //String user=(String)aRequest.getAttribute("user");
-
+        // Get Id.
+        Long reviewId=(Long)aRequest.getAttribute("reviewId");
+        
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
-
-            Review review=new Review();
-            review.setNote(note);
-            review.setLastUpdateTime(new Date());
-            review.setDishId(dishId);
-            // geoNote.setType(type.longValue());
-            // dish.setYes(0);
-            // dish.setUser(user);
             
-            // Save
-            pm.makePersistent(review);
+            Review review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
+            
+            if (review!=null){
+                review.setImage(null);
+                review.setImageThumbnail(null);
+            }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();

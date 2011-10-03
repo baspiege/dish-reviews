@@ -1,41 +1,45 @@
 package geonotes.data;
 
-import java.util.List;
+import com.google.appengine.api.datastore.Blob;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
-import geonotes.data.model.GeoNote;
+import geonotes.data.model.Review;
 import geonotes.utils.RequestUtils;
 
 /**
- * Delete all notes.
+ * Update an image.
  *
  * @author Brian Spiegel
  */
-public class GeoNoteBulkDelete {
+public class ReviewImageUpdate {
 
     /**
-     * Delete all notes.
+     * Update an image.
 	   *
      * @param aRequest The request
      *
      * @since 1.0
      */
     public void execute(HttpServletRequest aRequest) {
+
+        // Get Id.
+        Long reviewId=(Long)aRequest.getAttribute("reviewId");
+        
+        // Fields
+        Blob image=(Blob)aRequest.getAttribute("image");
+        Blob imageThumbnail=(Blob)aRequest.getAttribute("imageThumbnail");
+        
         PersistenceManager pm=null;
-        long count=1;
         try {
             pm=PMF.get().getPersistenceManager();
-            while (count>0) {
-                Query query = pm.newQuery(GeoNote.class);
-                query.setRange(0,1000); 
-                query.setFilter("(user==userParam)");
-                query.declareParameters("String userParam");                
-                List<GeoNote> notes=(List<GeoNote>) query.execute("CityDataPortal");
-                count=notes.size();
-                pm.deletePersistentAll(notes);
+            
+            Review review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
+            
+            if (review!=null){
+                review.setImage(image);
+                review.setImageThumbnail(imageThumbnail);
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

@@ -17,11 +17,11 @@ import geonotes.utils.NumberUtils;
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable="true")
 
 /**
- * Note.
+ * Review.
  * 
  * @author Brian Spiegel
  */
-public class Note implements Serializable {
+public class Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
  
@@ -54,7 +54,7 @@ public class Note implements Serializable {
      * Constructor.
      * 
      */ 
-    public Note()
+    public Review()
     {
     } 
  
