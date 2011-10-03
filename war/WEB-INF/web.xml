@@ -36,4 +36,21 @@
       <servlet-name>geoNoteImage</servlet-name>
       <url-pattern>/geoNoteImage</url-pattern>
     </servlet-mapping>
+    <!-- Review images -->
+    <servlet>
+      <servlet-name>reviewImage</servlet-name>
+      <servlet-class>geonotes.ReviewImage</servlet-class>
+    </servlet>
+    <servlet>
+      <servlet-name>reviewThumbNailImage</servlet-name>
+      <servlet-class>geonotes.ReviewThumbNailImage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>reviewThumbNailImage</servlet-name>
+      <url-pattern>/reviewThumbNailImage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>reviewImage</servlet-name>
+      <url-pattern>/reviewImage</url-pattern>
+    </servlet-mapping>
 </web-app>
