@@ -6,7 +6,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
-import geonotes.data.model.Note;
+import geonotes.data.model.Review;
 import geonotes.utils.NumberUtils;
 import geonotes.utils.RequestUtils;
 
@@ -32,11 +32,11 @@ public class ReviewsGetAll {
 
                 Long dishId=(Long)aRequest.getAttribute("dishId");
                 
-                query = pm.newQuery(Note.class);
+                query = pm.newQuery(Review.class);
                 query.setFilter("dishId==dishIdParam");
                 query.declareParameters("long dishIdParam");
                 
-                List<Note> results = (List<Note>) query.execute(dishId);
+                List<Review> results = (List<Review>) query.execute(dishId);
                 
                 // Bug workaround.  Get size actually triggers the underlying database call.
                 results.size();

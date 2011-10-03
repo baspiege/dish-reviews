@@ -6,7 +6,7 @@
 <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 <%@ page import="geonotes.data.ReviewsGetAll" %>
-<%@ page import="geonotes.data.model.Note" %>
+<%@ page import="geonotes.data.model.Review" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%
@@ -14,7 +14,7 @@
     UserService userService = UserServiceFactory.getUserService();
     boolean isSignedIn=request.getUserPrincipal()!= null;  
 
-    List<Note> reviews = null;
+    List<Review> reviews = null;
     
     Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",false);
     
@@ -22,7 +22,7 @@
     
     if (dishId!=null) {
         new ReviewsGetAll().execute(request);
-        reviews=(List<Note>)request.getAttribute("reviews");
+        reviews=(List<Review>)request.getAttribute("reviews");
     } else {
         // Forward to main page
     }    
@@ -63,7 +63,7 @@
 </th><th>Image</th></tr>
 <%
     if (reviews!=null && reviews.size()>0) {
-        for (Note review:reviews) {
+        for (Review review:reviews) {
             long reviewId=review.getKey().getId();
             
             // Add link to reviews...

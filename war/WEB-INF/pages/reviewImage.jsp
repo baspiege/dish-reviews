@@ -27,12 +27,12 @@
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
     
-    Note review=null;
+    Review review=null;
     if (reviewId!=null) {
         new ReviewGetSingle().execute(request);
          
         // If note is null, forward to main page
-        review=(Note)request.getAttribute("review");
+        review=(Review)request.getAttribute("review");
         if (review==null) {
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
