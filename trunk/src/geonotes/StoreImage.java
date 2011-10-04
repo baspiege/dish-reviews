@@ -7,15 +7,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import geonotes.data.GeoNoteGetSingle;
+import geonotes.data.StoreGetSingle;
 import geonotes.data.PMF;
-import geonotes.data.model.GeoNote;
+import geonotes.data.model.Store;
 import geonotes.utils.RequestUtils;
 
 /**
-* Return a thumbnail image.
+* Return an image.
 */
-public class GeoNoteThumbNailImage extends HttpServlet {
+public class StoreImage extends HttpServlet {
 
     /**
     * Process the request.
@@ -23,20 +23,20 @@ public class GeoNoteThumbNailImage extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
      
         // Get Id.
-        Long geoNoteId=RequestUtils.getNumericInput(request,"id","id",true);
+        Long storeId=RequestUtils.getNumericInput(request,"id","id",true);
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
                         
-            GeoNote geoNote=GeoNoteGetSingle.getGeoNote(request,pm,geoNoteId.longValue());
+            Store store=StoreGetSingle.getStore(request,pm,storeId.longValue());
             
-            if (geoNote!=null){
+            if (store!=null){
                 response.setContentType("image/jpeg");
-                response.getOutputStream().write(geoNote.imageThumbnail.getBytes());
+                response.getOutputStream().write(store.image.getBytes());
             }
         } catch (Exception e) {
-            System.err.println(GeoNoteThumbNailImage.class.getName() + ": " + e);
+            System.err.println(StoreImage.class.getName() + ": " + e);
             e.printStackTrace();
         } finally {
             if (pm!=null) {

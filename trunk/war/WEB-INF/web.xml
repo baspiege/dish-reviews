@@ -4,37 +4,31 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
     <welcome-file-list>
-        <welcome-file>geoNotes.jsp</welcome-file>
+        <welcome-file>stores.jsp</welcome-file>
     </welcome-file-list>
     <security-constraint> 
         <web-resource-collection> 
             <url-pattern>/cron/*</url-pattern> 
-        </web-resource-collection> 
-        <web-resource-collection> 
-            <url-pattern>/bulkUpload.jsp</url-pattern> 
-        </web-resource-collection> 
-        <web-resource-collection> 
-            <url-pattern>/bulkDelete.jsp</url-pattern> 
-        </web-resource-collection> 
+        </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name> 
         </auth-constraint> 
     </security-constraint>
     <servlet>
-      <servlet-name>geoNoteImage</servlet-name>
-      <servlet-class>geonotes.GeoNoteImage</servlet-class>
+      <servlet-name>storeImage</servlet-name>
+      <servlet-class>geonotes.StoreImage</servlet-class>
     </servlet>
     <servlet>
-      <servlet-name>geoNoteThumbNailImage</servlet-name>
-      <servlet-class>geonotes.GeoNoteThumbNailImage</servlet-class>
+      <servlet-name>storeThumbNailImage</servlet-name>
+      <servlet-class>geonotes.StoreThumbNailImage</servlet-class>
     </servlet>
     <servlet-mapping>
-      <servlet-name>geoNoteThumbNailImage</servlet-name>
-      <url-pattern>/geoNoteThumbNailImage</url-pattern>
+      <servlet-name>storeThumbNailImage</servlet-name>
+      <url-pattern>/storeThumbNailImage</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-      <servlet-name>geoNoteImage</servlet-name>
-      <url-pattern>/geoNoteImage</url-pattern>
+      <servlet-name>storeImage</servlet-name>
+      <url-pattern>/storeImage</url-pattern>
     </servlet-mapping>
     <!-- Review images -->
     <servlet>

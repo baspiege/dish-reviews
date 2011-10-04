@@ -10,7 +10,7 @@
     boolean isSignedIn=request.getUserPrincipal()!= null;
     if (!isSignedIn) {
         %>
-        <jsp:forward page="/geoNotesRedirect.jsp"/>
+        <jsp:forward page="/storesRedirect.jsp"/>
         <%    
     }
     
@@ -40,19 +40,19 @@
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<title><%=bundle.getString("geoNotesLabel")%></title>
+<title><%=bundle.getString("storesLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 <body>
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <%-- Fields --%>
-<form id="geoNote" method="post" action="reviewAdd.jsp" autocomplete="off">
+<form id="store" method="post" action="reviewAdd.jsp" autocomplete="off">
 <table>
 <tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=note%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
 </table>
 <p>
 <%-- Cancel --%>
-<input class="button" type="button" name="action" value="<%=bundle.getString("cancelLabel")%>" onclick="window.location='geoNotes.jsp';return false;"/>
+<input class="button" type="button" name="action" value="<%=bundle.getString("cancelLabel")%>" onclick="window.location='stores.jsp';return false;"/>
 <%-- Add --%>
 <input id="storeId" type="hidden" name="dishId" value="<%=dishId%>" />
 <input class="button" type="submit" style="display:none" id="addButtonDisabled" disabled="disabled" value="<%=bundle.getString("addLabel")%>"/>

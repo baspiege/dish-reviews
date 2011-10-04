@@ -1,14 +1,14 @@
-<%-- This JSP has the HTML for Geo Note page. --%>
+<%-- This JSP has the HTML for store page. --%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="java.util.TimeZone" %>
-<%@ page import="geonotes.data.GeoNoteDelete" %>
-<%@ page import="geonotes.data.GeoNoteGetSingle" %>
-<%@ page import="geonotes.data.GeoNoteUpdate" %>
-<%@ page import="geonotes.data.model.GeoNote" %>
+<%@ page import="geonotes.data.StoreDelete" %>
+<%@ page import="geonotes.data.StoreGetSingle" %>
+<%@ page import="geonotes.data.StoreUpdate" %>
+<%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%@ page import="geonotes.utils.StringUtils" %>
@@ -18,37 +18,37 @@
 
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    Long geoNoteId=RequestUtils.getNumericInput(request,"id","id",true);
+    Long storeId=RequestUtils.getNumericInput(request,"id","id",true);
 
-    GeoNote geoNote=null;
-    if (geoNoteId!=null) {
-        new GeoNoteGetSingle().execute(request);
+    Store store=null;
+    if (storeId!=null) {
+        new StoreGetSingle().execute(request);
         // If note is null, forward to main page
-        geoNote=(GeoNote)request.getAttribute("geoNote");
-        if (geoNote==null) {
+        store=(Store)request.getAttribute("store");
+        if (store==null) {
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
             %>
-            <jsp:forward page="/geoNotesRedirect.jsp"/>
+            <jsp:forward page="/storesRedirect.jsp"/>
             <%
         } else {
             // Can only edit own note
             if (isSignedIn) {
-                isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(geoNote.user);
+                isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(store.user);
             }
             if (!isSignedIn) {
                 %>
-                <jsp:forward page="/geoNotesRedirect.jsp"/>
+                <jsp:forward page="/storesRedirect.jsp"/>
                 <%
             }
         
-            request.setAttribute("type", geoNote.type);
+            request.setAttribute("type", store.type);
         }
     } else {
         RequestUtils.resetAction(request);
         RequestUtils.removeEdits(request);
         %>
-        <jsp:forward page="/geoNotesRedirect.jsp"/>
+        <jsp:forward page="/storesRedirect.jsp"/>
         <%
     }
 
@@ -59,20 +59,20 @@
             RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),false);
             RequestUtils.getNumericInput(request,"type",bundle.getString("typeLabel"),true);		
             if (!RequestUtils.hasEdits(request)) {
-                new GeoNoteUpdate().execute(request);
+                new StoreUpdate().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
                 %>
-                <jsp:forward page="/geoNotesRedirect.jsp"/>
+                <jsp:forward page="/storesRedirect.jsp"/>
                 <%
             }
         } else if (action.equals(bundle.getString("deleteLabel"))) {		
             if (!RequestUtils.hasEdits(request)) {
-                new GeoNoteDelete().execute(request);
+                new StoreDelete().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
                 %>
-                <jsp:forward page="/geoNotesRedirect.jsp"/>
+                <jsp:forward page="/storesRedirect.jsp"/>
                 <%
             }
         }
@@ -83,19 +83,19 @@
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<title><%=bundle.getString("geoNoteLabel")%></title>
+<title><%=bundle.getString("storeLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 <body>
-<form id="geoNote" method="post" action="geoNoteUpdate.jsp" autocomplete="off">
+<form id="store" method="post" action="storeUpdate.jsp" autocomplete="off">
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <table>
 <tr><td><%=bundle.getString("typeLabel")%>:</td><td><jsp:include page="/WEB-INF/pages/components/selectType.jsp"/></td></tr>
-<tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(geoNote.note)%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
-<tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(geoNote.lastUpdateTime)%></td></tr>
+<tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(store.note)%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
+<tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(store.lastUpdateTime)%></td></tr>
 </table>
 <div style="margin-top:1.5em">
-<input type="hidden" name="id" value="<%=new Long(geoNote.getKey().getId()).toString()%>"/>
+<input type="hidden" name="id" value="<%=new Long(store.getKey().getId()).toString()%>"/>
 <%-- Update --%>
 <input class="button" type="submit" name="action" value="<%=bundle.getString("updateLabel")%>"/>
 <%-- Delete --%>

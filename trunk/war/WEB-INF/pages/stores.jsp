@@ -1,4 +1,4 @@
-<%-- This JSP has the HTML for Geo Notes page. --%>
+<%-- This JSP has the HTML for stores page. --%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
@@ -11,7 +11,7 @@
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<title><%=bundle.getString("geoNotesLabel")%></title>
+<title><%=bundle.getString("storesLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
 <script type="text/javascript">
@@ -27,10 +27,10 @@ var locationNotFoundMessage="<%=bundle.getString("locationNotFoundMessage")%>";
 <div style="margin-top:1.5em"><span id="geoStatus"></span><a style="margin-left:1em" href="location.jsp"><%=bundle.getString("changeLocationLabel")%></a></div>
 
 <%-- Data --%>
-<div style="margin-top:1.5em" id="geoNotesDiv">
+<div style="margin-top:1.5em" class="data" id="data">
 <p> <%=bundle.getString("waitingForDataLabel")%> </p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
-<script type="text/javascript" src="/js/geoNotes.js" ></script>
+<script type="text/javascript" src="/js/stores.js" ></script>
 </body>
 </html>

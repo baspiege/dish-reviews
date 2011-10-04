@@ -1,14 +1,14 @@
-<%-- This JSP has the HTML for Geo Note image page. --%>
+<%-- This JSP has the HTML for store image page. --%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%> 
 <%@ page import="java.io.ByteArrayOutputStream" %>
 <%@ page import="java.io.InputStream" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="geonotes.data.GeoNoteGetSingle" %>
-<%@ page import="geonotes.data.GeoNoteImageRemove" %>
-<%@ page import="geonotes.data.GeoNoteImageUpdate" %>
-<%@ page import="geonotes.data.model.GeoNote" %>
+<%@ page import="geonotes.data.StoreGetSingle" %>
+<%@ page import="geonotes.data.StoreImageRemove" %>
+<%@ page import="geonotes.data.StoreImageUpdate" %>
+<%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%@ page import="geonotes.utils.StringUtils" %>
 <%@ page import="org.apache.commons.fileupload.FileItemStream" %>
@@ -25,31 +25,31 @@
 
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    Long geoNoteId=RequestUtils.getNumericInput(request,"id","id",true);
+    Long storeId=RequestUtils.getNumericInput(request,"id","id",true);
     
-    GeoNote geoNote=null;
-    if (geoNoteId!=null) {
-        new GeoNoteGetSingle().execute(request);
+    Store store=null;
+    if (storeId!=null) {
+        new StoreGetSingle().execute(request);
          
         // If note is null, forward to main page
-        geoNote=(GeoNote)request.getAttribute("geoNote");
-        if (geoNote==null) {
+        store=(Store)request.getAttribute("store");
+        if (store==null) {
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
             %>
-            <jsp:forward page="/geoNotesRedirect.jsp"/>
+            <jsp:forward page="/storesRedirect.jsp"/>
             <%
         }
         
         // Can only edit own note
         if (isSignedIn) {
-            isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(geoNote.user);
+            isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(store.user);
         }
     } else {    
         RequestUtils.resetAction(request);
         RequestUtils.removeEdits(request);
         %>
-        <jsp:forward page="/geoNotesRedirect.jsp"/>
+        <jsp:forward page="/storesRedirect.jsp"/>
         <%
     }
 
@@ -89,27 +89,27 @@
                 request.setAttribute("imageThumbnail",imageBlobThumbnail);
                 // Process if no edits
                 if (!RequestUtils.hasEdits(request)) {
-                    new GeoNoteImageUpdate().execute(request);
+                    new StoreImageUpdate().execute(request);
                     RequestUtils.resetAction(request);
                     %>
-                    <jsp:forward page="/geoNotesRedirect.jsp"/>
+                    <jsp:forward page="/storesRedirect.jsp"/>
                     <%
                 }
             }
         } else if (action.equals(bundle.getString("removeLabel"))) {		
             // Remove an image
             if (!RequestUtils.hasEdits(request)) {
-                new GeoNoteImageRemove().execute(request);
+                new StoreImageRemove().execute(request);
                 RequestUtils.resetAction(request);
                 %>
-                <jsp:forward page="/geoNotesRedirect.jsp"/>
+                <jsp:forward page="/storesRedirect.jsp"/>
                 <%
             }
         } else {
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
             %>
-            <jsp:forward page="/geoNotesRedirect.jsp"/>
+            <jsp:forward page="/storesRedirect.jsp"/>
             <%
         }
     }
@@ -123,18 +123,18 @@ form {margin: 0px 0px 0px 0px; display: inline;}
 </style>
 </head>
 <body>
-<% if (geoNote!=null && geoNote.image!=null) { %>
-<img src="geoNoteImage?id=<%=new Long(geoNote.getKey().getId()).toString()%>" alt="<%=bundle.getString("altPictureLabel")%>"/> <br/>
+<% if (store!=null && store.image!=null) { %>
+<img src="storeImage?id=<%=new Long(store.getKey().getId()).toString()%>" alt="<%=bundle.getString("altPictureLabel")%>"/> <br/>
 <% } %>
 <%-- Signed In --%>
 <% if (isSignedIn) { %>
-<form method="post" enctype="multipart/form-data" action="geoNoteImage.jsp?action=Upload&id=<%=new Long(geoNote.getKey().getId()).toString()%>"> 
+<form method="post" enctype="multipart/form-data" action="storeImage.jsp?action=Upload&id=<%=new Long(store.getKey().getId()).toString()%>"> 
 <input style="margin-bottom:1.5em" type="file" name="imageFile">
 <br/>
 <%-- Upload --%>
 <input class="button" type="submit" name="action" value="Upload">
 </form>
-<form method="post" action="geoNoteImage.jsp?id=<%=new Long(geoNote.getKey().getId()).toString()%>" autocomplete="off">
+<form method="post" action="storeImage.jsp?id=<%=new Long(store.getKey().getId()).toString()%>" autocomplete="off">
 <%-- Remove --%>
 <input type="submit" name="action" value="Remove">
 </form>

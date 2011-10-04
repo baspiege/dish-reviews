@@ -2,15 +2,15 @@
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
-<%@ page import="geonotes.data.GeoNoteGetSingle" %>
-<%@ page import="geonotes.data.model.GeoNote" %>
+<%@ page import="geonotes.data.StoreGetSingle" %>
+<%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <div>
 <ul id="navlist" style="margin:0;padding:0;">
 
-<% //if (request.getServletPath().indexOf("geoNotes.jsp")==-1) { %>
+<% //if (request.getServletPath().indexOf("stores.jsp")==-1) { %>
 
-<li><a href="geoNotes.jsp">Main</a></li>
+<li><a href="stores.jsp">Main</a></li>
 <% //} %>
 
 
@@ -27,29 +27,29 @@
     
         request.setAttribute("id",storeId);
     
-        new GeoNoteGetSingle().execute(request);
-        GeoNote geoNote=(GeoNote)request.getAttribute("geoNote");
-        if (geoNote!=null) {
-            out.write("<li>" + geoNote.note + "</li>");
+        new StoreGetSingle().execute(request);
+        Store store=(Store)request.getAttribute("store");
+        if (store!=null) {
+            out.write("<li>" + store.note + "</li>");
         }
     } else if (storeId!=null && dishId!=null) {
     
         request.setAttribute("id",storeId);
         
-//        new GeoNoteGetSingle().execute(request);
+//        new StoreGetSingle().execute(request);
     
-        new GeoNoteGetSingle().execute(request);
-        GeoNote geoNote=(GeoNote)request.getAttribute("geoNote");
-        if (geoNote!=null) {
-            out.write("<li><a href=\"dishes.jsp?storeId=" + storeId.toString() + "\">" + geoNote.note + "</a></li>");
+        new StoreGetSingle().execute(request);
+        Store store=(Store)request.getAttribute("store");
+        if (store!=null) {
+            out.write("<li><a href=\"dishes.jsp?storeId=" + storeId.toString() + "\">" + store.note + "</a></li>");
         }
     }
 %>
 <li>    
 <% if (!isSignedIn) { %>
-<a href='<%=userService.createLoginURL("../geoNotes.jsp")%>'><%=bundle.getString("logonLabel")%></a>
+<a href='<%=userService.createLoginURL("../stores.jsp")%>'><%=bundle.getString("logonLabel")%></a>
 <% } else { %>
-<a href='<%=userService.createLogoutURL("../geoNotes.jsp")%>'><%=bundle.getString("logoffLabel")%></a>
+<a href='<%=userService.createLogoutURL("../stores.jsp")%>'><%=bundle.getString("logoffLabel")%></a>
 <% } %>
     
 </li>

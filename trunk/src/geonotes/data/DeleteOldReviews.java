@@ -1,47 +1,46 @@
 package geonotes.data;
 
-import com.google.appengine.api.datastore.Blob;
-
+import java.util.Calendar;
+import java.util.Date;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
-import geonotes.data.model.GeoNote;
+import geonotes.data.model.Review;
+import geonotes.data.model.Store;
 import geonotes.utils.RequestUtils;
 
 /**
- * Update an image.
+ * Delete old reviews.
  *
  * @author Brian Spiegel
  */
-public class GeoNoteImageUpdate {
+public class DeleteOldReviews {
 
     /**
-     * Update a note.
-	   *
+     * Delete reviews.
+     *
      * @param aRequest The request
      *
      * @since 1.0
      */
     public void execute(HttpServletRequest aRequest) {
-
-        // Get Id.
-        Long geoNoteId=(Long)aRequest.getAttribute("id");
-        
-        // Fields
-        Blob image=(Blob)aRequest.getAttribute("image");
-        Blob imageThumbnail=(Blob)aRequest.getAttribute("imageThumbnail");
-        
         PersistenceManager pm=null;
+        Query query=null;
         try {
             pm=PMF.get().getPersistenceManager();
-            
-            GeoNote geoNote=GeoNoteGetSingle.getGeoNote(aRequest,pm,geoNoteId.longValue());
-            
-            if (geoNote!=null){
-                geoNote.setImage(image);
-                geoNote.setImageThumbnail(imageThumbnail);
-            }
-        } catch (Exception e) {
+
+            query = pm.newQuery(Review.class);
+            query.setFilter("lastUpdateTime < lastUpdateTimeParam");
+            query.declareParameters("java.util.Date lastUpdateTimeParam");
+
+            // Set date.
+            Calendar calendar=Calendar.getInstance();
+            calendar.add(Calendar.DATE, -90);  // 90 days in the past
+
+            query.deletePersistentAll( calendar.getTime() );
+        }
+        catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();
             RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");

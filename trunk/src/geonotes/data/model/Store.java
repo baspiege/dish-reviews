@@ -54,6 +54,9 @@ public class Store implements Serializable {
     public double latitude2Decimal;
     
     @Persistent 
+    public long yes;
+    
+    @Persistent 
     public String user;	
  
     /**
@@ -101,6 +104,11 @@ public class Store implements Serializable {
     { 
         longitude2Decimal=NumberUtils.getNumber2DecimalPrecision(aLongitude);
         longitude=aLongitude; 
+    }
+        
+    public void setYes(long aYes)
+    { 
+        yes=aYes; 
     }
     
     public void setUser(String aUser)

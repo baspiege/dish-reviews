@@ -18,7 +18,7 @@ import geonotes.utils.RequestUtils;
 public class DishesGetAll {
 
     /**
-     * Get geo notes.
+     * Get dishes.
      *
      * @param aRequest The request
      * @since 1.0

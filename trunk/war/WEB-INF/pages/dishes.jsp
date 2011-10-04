@@ -39,7 +39,7 @@
 -->
 
 <%-- Data --%>
-<div style="margin-top:1.5em" id="dishes">
+<div style="margin-top:1.5em" class="data">
 <table>
 <tr><th>Dish
 

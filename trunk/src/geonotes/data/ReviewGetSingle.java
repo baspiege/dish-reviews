@@ -51,8 +51,8 @@ public class ReviewGetSingle {
      *
      * @param aRequest The request
      * @param aPm PersistenceManager
-     * @param aReviewId geo note Id
-     * @return a geo note or null if not found
+     * @param aReviewId review Id
+     * @return a review null if not found
      *
      * @since 1.0
      */
