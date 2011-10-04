@@ -77,7 +77,7 @@
                 out.write("<a class=\"add\" href=\"reviewImage.jsp?reviewId=" + reviewId + "\">" + bundle.getString("addLabel") + "</a>");
             
             } else {
-                out.write("<img src=\"\">");
+                out.write("<img src=\"reviewThumbNailImage?reviewId=" + reviewId + "\">");
             }
             
             out.write("</td>");
