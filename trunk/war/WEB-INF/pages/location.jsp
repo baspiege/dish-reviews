@@ -35,7 +35,7 @@ function setFieldsIntoLocalStorage() {
   <input type="radio" name="location" id="useOverride" value="useOverride"/><label for="useOverride"><%=bundle.getString("locationBelowLabel")%></label>
 </p>
 <table>
-  <tr><td><%=bundle.getString("positionLabel")%>:</td><td><span id="info"></span></td></tr>
+<!--  <tr><td><%=bundle.getString("positionLabel")%>:</td><td><span id="info"></span></td></tr> -->
   <tr><td><%=bundle.getString("addressLabel")%>:</td><td><span id="address"></span></td></tr>
 </table>
 <div style="margin-top:1em;margin-bottom:1em;">
@@ -105,7 +105,7 @@ function initialize() {
   changeLongitude=lon;
   var latLng = new google.maps.LatLng(lat, lon);
   var map = new google.maps.Map(document.getElementById('mapCanvas'), {
-    zoom: 18,
+    zoom: 16,
     center: latLng,
     mapTypeId: google.maps.MapTypeId.HYBRID
   });
@@ -117,7 +117,7 @@ function initialize() {
   });
 
   // Update current position info.
-  updateMarkerPosition(latLng);
+  //updateMarkerPosition(latLng);
   geocodePosition(latLng);
 
   // Add dragging event listeners.
@@ -126,7 +126,7 @@ function initialize() {
   });
 
   google.maps.event.addListener(marker, 'drag', function() {
-    updateMarkerPosition(marker.getPosition());
+    //updateMarkerPosition(marker.getPosition());
   });
 
   google.maps.event.addListener(marker, 'dragend', function() {

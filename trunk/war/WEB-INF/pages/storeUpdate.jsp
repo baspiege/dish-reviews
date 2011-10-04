@@ -41,8 +41,6 @@
                 <jsp:forward page="/storesRedirect.jsp"/>
                 <%
             }
-        
-            request.setAttribute("type", store.type);
         }
     } else {
         RequestUtils.resetAction(request);
@@ -57,7 +55,6 @@
         if (action.equals(bundle.getString("updateLabel"))) {		
             // Fields
             RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),false);
-            RequestUtils.getNumericInput(request,"type",bundle.getString("typeLabel"),true);		
             if (!RequestUtils.hasEdits(request)) {
                 new StoreUpdate().execute(request);
             }
@@ -90,7 +87,6 @@
 <form id="store" method="post" action="storeUpdate.jsp" autocomplete="off">
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <table>
-<tr><td><%=bundle.getString("typeLabel")%>:</td><td><jsp:include page="/WEB-INF/pages/components/selectType.jsp"/></td></tr>
 <tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(store.note)%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
 <tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(store.lastUpdateTime)%></td></tr>
 </table>
