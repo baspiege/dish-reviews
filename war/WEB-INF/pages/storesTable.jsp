@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<%-- This JSP has the HTML for Geo Notes table. --%>
+<%-- This JSP has the HTML for stores table. --%>
 <%@page pageEncoding="UTF-8" contentType="text/xml; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="geonotes.data.GeoNoteGetAll" %>
-<%@ page import="geonotes.data.GeoNoteGetSingle" %>
-<%@ page import="geonotes.data.model.GeoNote" %>
+<%@ page import="geonotes.data.StoreGetAll" %>
+<%@ page import="geonotes.data.StoreGetSingle" %>
+<%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    List<GeoNote> geoNotes = null;
+    List<Store> stores = null;
     
-    Long geoNoteId=RequestUtils.getNumericInput(request,"id","id",false);
-    if (geoNoteId!=null) {
-       new GeoNoteGetSingle().execute(request);
+    Long storeId=RequestUtils.getNumericInput(request,"id","id",false);
+    if (storeId!=null) {
+       new StoreGetSingle().execute(request);
        // Add to list.
-       geoNotes=new ArrayList<GeoNote>();
-       geoNotes.add((GeoNote)request.getAttribute("geoNote"));
+       stores=new ArrayList<Store>();
+       stores.add((Store)request.getAttribute("store"));
     } else { 
         RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
         RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
-        new GeoNoteGetAll().execute(request);
-        geoNotes=(List<GeoNote>)request.getAttribute("geoNotes");
+        new StoreGetAll().execute(request);
+        stores=(List<Store>)request.getAttribute("stores");
     }
     
     String user=null;
@@ -32,31 +32,31 @@
         user=request.getUserPrincipal().getName();
     }
 %>
-<geoNotes>
+<stores>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%
-    if (geoNotes!=null && geoNotes.size()>0) {
-        for (GeoNote geoNote:geoNotes) {
-            long geoId=geoNote.getKey().getId();
+    if (stores!=null && stores.size()>0) {
+        for (Store store:stores) {
+            long geoId=store.getKey().getId();
             // Add attributes
-            out.write("<geoNote");
+            out.write("<store");
             out.write(" id=\"" + geoId + "\"");
-            out.write(" lat=\"" + geoNote.latitude + "\"");
-            out.write(" lon=\"" + geoNote.longitude + "\"");
-            out.write(" yes=\"" + geoNote.yes + "\""); 
-            out.write(" text=\"" + HtmlUtils.escapeChars(geoNote.note) + "\"");
+            out.write(" lat=\"" + store.latitude + "\"");
+            out.write(" lon=\"" + store.longitude + "\"");
+            out.write(" yes=\"" + store.yes + "\""); 
+            out.write(" text=\"" + HtmlUtils.escapeChars(store.note) + "\"");
             
             out.write(" dishCount=\"" + 11 + "\"");
             
             // User
-            if (user!=null && user.equalsIgnoreCase(geoNote.user)) {
+            if (user!=null && user.equalsIgnoreCase(store.user)) {
                 out.write(" user=\"true\"");
             } else {
                 out.write(" user=\"false\"");
             }
             
             // Thumbnail
-            if (geoNote.imageThumbnail!=null) {
+            if (store.imageThumbnail!=null) {
                 out.write(" img=\"true\"");
             } else {
                 out.write(" img=\"false\"");
@@ -65,4 +65,4 @@
         }
     }
 %>
-</geoNotes>
+</stores>

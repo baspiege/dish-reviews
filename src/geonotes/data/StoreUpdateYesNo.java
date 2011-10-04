@@ -1,45 +1,49 @@
 package geonotes.data;
 
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
-import geonotes.data.model.GeoNote;
+import geonotes.data.model.Store;
+import geonotes.utils.DisplayUtils;
 import geonotes.utils.RequestUtils;
 
 /**
- * Delete old notes.
+ * Update a store.
  *
  * @author Brian Spiegel
  */
-public class DeleteOldNotes {
+public class StoreUpdateYesNo {
 
     /**
-     * Delete notes.
-     *
+     * Update a note.
+	   *
      * @param aRequest The request
      *
      * @since 1.0
      */
     public void execute(HttpServletRequest aRequest) {
+
+        // Get Id.
+        Long storeId=(Long)aRequest.getAttribute("id");
+        
+        // Fields
+        String vote=(String)aRequest.getAttribute("vote");
+
         PersistenceManager pm=null;
-        Query query=null;
         try {
             pm=PMF.get().getPersistenceManager();
-
-            query = pm.newQuery(GeoNote.class);
-            query.setFilter("lastUpdateTime < lastUpdateTimeParam");
-            query.declareParameters("java.util.Date lastUpdateTimeParam");
-
-            // Set date.
-            Calendar calendar=Calendar.getInstance();
-            calendar.add(Calendar.DATE, -90);  // 90 days in the past
-
-            query.deletePersistentAll( calendar.getTime() );
-        }
-        catch (Exception e) {
+                        
+            Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
+            
+            if (store!=null){
+            
+                if (vote.equals("yes")){
+                  store.setYes(store.yes+1);
+                }
+            }
+        } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();
             RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");

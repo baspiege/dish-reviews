@@ -3,7 +3,7 @@ package geonotes.data;
 import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServletRequest;
 
-import geonotes.data.model.GeoNote;
+import geonotes.data.model.Store;
 import geonotes.utils.RequestUtils;
 
 /**
@@ -11,7 +11,7 @@ import geonotes.utils.RequestUtils;
  *
  * @author Brian Spiegel
  */
-public class GeoNoteImageRemove {
+public class StoreImageRemove {
 
     /**
      * Remove an image.
@@ -23,17 +23,17 @@ public class GeoNoteImageRemove {
     public void execute(HttpServletRequest aRequest) {
 
         // Get Id.
-        Long geoNoteId=(Long)aRequest.getAttribute("id");
+        Long storeId=(Long)aRequest.getAttribute("id");
         
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
             
-            GeoNote geoNote=GeoNoteGetSingle.getGeoNote(aRequest,pm,geoNoteId.longValue());
+            Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
             
-            if (geoNote!=null){
-                geoNote.setImage(null);
-                geoNote.setImageThumbnail(null);
+            if (store!=null){
+                store.setImage(null);
+                store.setImageThumbnail(null);
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

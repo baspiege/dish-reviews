@@ -55,27 +55,27 @@ function sendRequest(url,callback,postData) {
 // Data
 ///////////////////
 
-function getGeoNotesData() {
+function getStoresData() {
   // Get position and send request
   var lat=getCookie("latitude");
   var lon=getCookie("longitude");
-  sendRequest('geoNotesTable.jsp?latitude='+lat+'&longitude='+lon, handleGeoNotesDataRequest);
+  sendRequest('storesTable.jsp?latitude='+lat+'&longitude='+lon, handleStoresDataRequest);
 }
 
-function getGeoNotesDataById(id) {
-  sendRequest('geoNotesTable.jsp?id='+id, handleGeoNotesDataRequest);
+function getStoresDataById(id) {
+  sendRequest('storesTable.jsp?id='+id, handleStoresDataRequest);
 }
 
-function handleGeoNotesDataRequest(req) {
+function handleStoresDataRequest(req) {
   var table=document.createElement("table");
-  table.setAttribute("id","geoNotes");
+  table.setAttribute("id","stores");
   var tr=document.createElement("tr");
   // Distance
   var thDistance=document.createElement("th");
   tr.appendChild(thDistance);
   var distanceLink=document.createElement("a");
   distanceLink.setAttribute("href","#");
-  distanceLink.setAttribute("onclick","reorderGeoNotesByDistanceAscending();return false;");
+  distanceLink.setAttribute("onclick","reorderStoresByDistanceAscending();return false;");
   distanceLink.appendChild(document.createTextNode("Distance"));  
   thDistance.appendChild(distanceLink);
   
@@ -92,12 +92,12 @@ function handleGeoNotesDataRequest(req) {
   addButton.setAttribute("id","addButtonEnabled");
   addButton.setAttribute("name","action");
   addButton.setAttribute("value","Add");
-  addButton.setAttribute("onclick","window.location='geoNoteAddLocation.jsp';");
+  addButton.setAttribute("onclick","window.location='storeAddLocation.jsp';");
   thNote.appendChild(addButton);  
   */
   
   var addLink=document.createElement("a");
-  addLink.setAttribute("href","geoNoteAddLocation.jsp");
+  addLink.setAttribute("href","storeAddLocation.jsp");
   addLink.setAttribute("class","add addTh");
   addLink.appendChild(document.createTextNode("Add"));
   thNote.appendChild(addLink);
@@ -113,7 +113,7 @@ function handleGeoNotesDataRequest(req) {
   tr.appendChild(thVote);
   var voteLink=document.createElement("a");
   voteLink.setAttribute("href","#");
-  voteLink.setAttribute("onclick","reorderGeoNotesByVoteYesDescending();return false;");
+  voteLink.setAttribute("onclick","reorderStoresByVoteYesDescending();return false;");
   voteLink.appendChild(document.createTextNode("Vote"));  
   thVote.appendChild(voteLink);
   // Image
@@ -126,7 +126,7 @@ function handleGeoNotesDataRequest(req) {
   tr.appendChild(thType);
   var typeLink=document.createElement("a");
   typeLink.setAttribute("href","#");
-  typeLink.setAttribute("onclick","reorderGeoNotesByTypeAscending();return false;");
+  typeLink.setAttribute("onclick","reorderStoresByTypeAscending();return false;");
   typeLink.appendChild(document.createTextNode("Type"));  
   thType.appendChild(typeLink);  
   */
@@ -136,38 +136,38 @@ function handleGeoNotesDataRequest(req) {
   tr.appendChild(thType);
   var typeLink=document.createElement("a");
   typeLink.setAttribute("href","#");
-  typeLink.setAttribute("onclick","reorderGeoNotesByReviewAscending();return false;");
+  typeLink.setAttribute("onclick","reorderStoresByReviewAscending();return false;");
   typeLink.appendChild(document.createTextNode("Dishes"));  
   thType.appendChild(typeLink);  
   
   // Process request
   var xmlDoc=req.responseXML;
-  var geoNotes=xmlDoc.getElementsByTagName("geoNote");
-  if (geoNotes.length==0){
+  var stores=xmlDoc.getElementsByTagName("store");
+  if (stores.length==0){
     var tr=document.createElement("tr");
     var td=document.createElement("td");
     td.setAttribute("colspan","7");
     td.appendChild(document.createTextNode("No nearby restaurants."));
     tr.appendChild(td);
     table.appendChild(tr);
-    var tableDiv=document.getElementById("geoNotesDiv");
+    var tableDiv=document.getElementById("data");
     removeChildrenFromElement(tableDiv);
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
     tableDiv.appendChild(table);
   } else {
-    // Make HTML for each geoNote
-    for (var i=0;i<geoNotes.length;i++) {
-      var geoNote=geoNotes[i];
+    // Make HTML for each store
+    for (var i=0;i<stores.length;i++) {
+      var store=stores[i];
       // User
-      var user=geoNote.getAttribute("user")=="true";
+      var user=store.getAttribute("user")=="true";
       var tr=document.createElement("tr");
       // Attributes
-      var id=geoNote.getAttribute("id");
+      var id=store.getAttribute("id");
       tr.setAttribute("id",id);
-      tr.setAttribute("lat",geoNote.getAttribute("lat"));
-      tr.setAttribute("lon",geoNote.getAttribute("lon"));
-      tr.setAttribute("yes",geoNote.getAttribute("yes"));
+      tr.setAttribute("lat",store.getAttribute("lat"));
+      tr.setAttribute("lon",store.getAttribute("lon"));
+      tr.setAttribute("yes",store.getAttribute("yes"));
       // Distance and bearing
       tr.appendChild(document.createElement("td"));
       
@@ -175,8 +175,8 @@ function handleGeoNotesDataRequest(req) {
       var desc=document.createElement("td");
       if (user) {
         var descLink=document.createElement("a");
-        descLink.setAttribute("href","geoNoteUpdate.jsp?id="+id);
-        var text=geoNote.getAttribute("text");
+        descLink.setAttribute("href","storeUpdate.jsp?id="+id);
+        var text=store.getAttribute("text");
         if (text=="") {
           text="Add";
           descLink.setAttribute("class","add");
@@ -184,7 +184,7 @@ function handleGeoNotesDataRequest(req) {
         descLink.appendChild(document.createTextNode(text));
         desc.appendChild(descLink);
       } else {
-        var text=geoNote.getAttribute("text");
+        var text=store.getAttribute("text");
         desc.appendChild(document.createTextNode(text));
       }
       tr.appendChild(desc);
@@ -194,21 +194,21 @@ function handleGeoNotesDataRequest(req) {
       var vote=document.createElement("td")
       var voteButton=document.createElement("button");
       voteButton.setAttribute("onclick","sendYesVote(this)");
-      voteButton.appendChild(document.createTextNode(geoNote.getAttribute("yes")));
+      voteButton.appendChild(document.createTextNode(store.getAttribute("yes")));
       vote.appendChild(voteButton);
       tr.appendChild(vote);
       // Image
       var imageCell=document.createElement("td");
-      if (geoNote.getAttribute("img")=="true") {
+      if (store.getAttribute("img")=="true") {
         var imageLink=document.createElement("a");
-        imageLink.setAttribute("href","geoNoteImage.jsp?id="+id);
+        imageLink.setAttribute("href","storeImage.jsp?id="+id);
         var image=document.createElement("img");
-        image.setAttribute("src","geoNoteThumbNailImage?id="+id);
+        image.setAttribute("src","storeThumbNailImage?id="+id);
         imageLink.appendChild(image);
         imageCell.appendChild(imageLink);
       } else if (user) {
         var imageLink=document.createElement("a");
-        imageLink.setAttribute("href","geoNoteImage.jsp?id="+id);
+        imageLink.setAttribute("href","storeImage.jsp?id="+id);
         imageLink.setAttribute("class","add");
         imageLink.appendChild(document.createTextNode("Add"));
         imageCell.appendChild(imageLink);
@@ -219,11 +219,11 @@ function handleGeoNotesDataRequest(req) {
       var type=document.createElement("td");
       if (user) {
         var typeLink=document.createElement("a");
-        typeLink.setAttribute("href","geoNoteUpdate.jsp?id="+id);
-        typeLink.appendChild(document.createTextNode(geoNote.getAttribute("type")));
+        typeLink.setAttribute("href","storeUpdate.jsp?id="+id);
+        typeLink.appendChild(document.createTextNode(store.getAttribute("type")));
         type.appendChild(typeLink);
       } else {
-        type.appendChild(document.createTextNode(geoNote.getAttribute("type")));
+        type.appendChild(document.createTextNode(store.getAttribute("type")));
       }
       tr.appendChild(type);
       */
@@ -231,11 +231,11 @@ function handleGeoNotesDataRequest(req) {
       var type=document.createElement("td");
       var typeLink=document.createElement("a");
       typeLink.setAttribute("href","dishes.jsp?storeId="+id);
-      typeLink.appendChild(document.createTextNode(geoNote.getAttribute("dishCount")));
+      typeLink.appendChild(document.createTextNode(store.getAttribute("dishCount")));
       type.appendChild(typeLink);
       tr.appendChild(type);
     }
-    var tableDiv=document.getElementById("geoNotesDiv");
+    var tableDiv=document.getElementById("data");
     removeChildrenFromElement(tableDiv);
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
@@ -254,7 +254,7 @@ function sendYesVote(elem) {
   var id=parseInt(tr.getAttribute("id"));
   tr.setAttribute("yes",yes+1);
   elem.innerHTML=yes+1;
-  sendRequest('GeoNoteVote.jsp?vote=yes&id='+id);
+  sendRequest('StoreVote.jsp?vote=yes&id='+id);
 }
 
 ///////////////////
@@ -296,7 +296,7 @@ function getCoordinates() {
       var latLng = new google.maps.LatLng(getCookie("latitude"), getCookie("longitude"));
       geocodePosition(latLng);
     }
-    getGeoNotesData();
+    getStoresData();
     // Update buttons
     var addButtonDisabled=document.getElementById("addButtonDisabled");
     if (addButtonDisabled) {
@@ -326,7 +326,7 @@ function setPosition(position){
     if (addButtonEnabled) {
       addButtonEnabled.style.display='inline';
     }
-    getGeoNotesData();
+    getStoresData();
     if (google) {
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       geocodePosition(latLng);
@@ -375,16 +375,16 @@ function calculateBearing(lat1, lon1, lat2, lon2) {
 // Sorting
 ///////////////////
 
-function reorderGeoNotes(sortFunction) {
-  var geoNotes=document.getElementById("geoNotes");
-  var notes=geoNotes.getElementsByTagName("tr");
+function reorderStores(sortFunction) {
+  var stores=document.getElementById("stores");
+  var notes=stores.getElementsByTagName("tr");
   var notesTemp=new Array();
   for (var i=1; i<notes.length; i++) {
     notesTemp.push(notes[i]);
   }
   notesTemp.sort(sortFunction);
   for (var i=0; i<notesTemp.length; i++) {
-    geoNotes.appendChild(notesTemp[i]);
+    stores.appendChild(notesTemp[i]);
   }
 }
 
@@ -430,24 +430,24 @@ function sortByVoteYesDescending(note1,note2) {
   }
 }
 
-function reorderGeoNotesByTimeDescending() {
+function reorderStoresByTimeDescending() {
   setCookie("sortBy","time");
-  reorderGeoNotes(sortByTimeDescending);
+  reorderStores(sortByTimeDescending);
 }
 
-function reorderGeoNotesByDistanceAscending() {
+function reorderStoresByDistanceAscending() {
   setCookie("sortBy","distance");
-  reorderGeoNotes(sortByDistanceAscending);
+  reorderStores(sortByDistanceAscending);
 }
 
-function reorderGeoNotesByTypeAscending() {
+function reorderStoresByTypeAscending() {
   setCookie("sortBy","type");
-  reorderGeoNotes(sortByTypeAscending);
+  reorderStores(sortByTypeAscending);
 }
 
-function reorderGeoNotesByVoteYesDescending() {
+function reorderStoresByVoteYesDescending() {
   setCookie("sortBy","voteYes");
-  reorderGeoNotes(sortByVoteYesDescending);
+  reorderStores(sortByVoteYesDescending);
 }
 
 ///////////////////
@@ -467,8 +467,8 @@ function updateNotesDispay() {
   var latitude=parseFloat(getCookie("latitude"));
   var longitude=parseFloat(getCookie("longitude"));
   // For each note
-  var geoNotes=document.getElementById("geoNotes");
-  var notes=geoNotes.getElementsByTagName("tr");
+  var stores=document.getElementById("stores");
+  var notes=stores.getElementsByTagName("tr");
   for (var i=1; i<notes.length; i++) {
     var note=notes[i];
     var noteLat=parseFloat(note.getAttribute("lat"));
@@ -487,20 +487,20 @@ function updateNotesDispay() {
     // Bearing
     var bearingDegrees=calculateBearing(latitude, longitude, noteLat, noteLon);
     display+=" " + getCardinalDirection(bearingDegrees);
-    display="<a href='geoNoteUpdateLocation.jsp?id=" + note.getAttribute("id") + "'>"+display+"</a>";
+    display="<a href='storeUpdateLocation.jsp?id=" + note.getAttribute("id") + "'>"+display+"</a>";
     // Update direction display
     note.getElementsByTagName("td")[0].innerHTML=display;
   }
   // Sort
   var sortBy=getCookie("sortBy");
   if (sortBy=="" || sortBy=="distance") {
-    reorderGeoNotesByDistanceAscending();
+    reorderStoresByDistanceAscending();
   } else if (sortBy=="time") {
-    reorderGeoNotesByTimeDescending();
+    reorderStoresByTimeDescending();
   } else if (sortBy=="type") {
-    reorderGeoNotesByTypeAscending();
+    reorderStoresByTypeAscending();
   } else if (sortBy=="voteYes") {
-    reorderGeoNotesByVoteYesDescending();
+    reorderStoresByVoteYesDescending();
   }
 }
 

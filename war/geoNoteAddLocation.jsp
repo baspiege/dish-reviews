@@ -1,1 +1,0 @@
-<%@ include file="/WEB-INF/pages/geoNoteAddLocation.jsp" %>

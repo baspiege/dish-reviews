@@ -6,18 +6,18 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
-import geonotes.data.model.GeoNote;
+import geonotes.data.model.Store;
 import geonotes.utils.RequestUtils;
 
 /**
- * Add a geo note.
+ * Add a store.
  *
  * @author Brian Spiegel
  */
-public class GeoNoteAdd {
+public class StoreAdd {
 
     /**
-     * Add a note.
+     * Add a store.
      *
      * @param aRequest The request
      *
@@ -25,28 +25,25 @@ public class GeoNoteAdd {
      */
     public void execute(HttpServletRequest aRequest) {
 
-        // Note
         String note=(String)aRequest.getAttribute("note");
         Double longitude=(Double)aRequest.getAttribute("longitude");
         Double latitude=(Double)aRequest.getAttribute("latitude");
-        Long type=(Long)aRequest.getAttribute("type");
         String user=(String)aRequest.getAttribute("user");
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
 
-            GeoNote geoNote=new GeoNote();
-            geoNote.setNote(note);
-            geoNote.setLastUpdateTime(new Date());
-            geoNote.setLongitude(longitude.doubleValue());
-            geoNote.setLatitude(latitude.doubleValue());
-            geoNote.setType(type.longValue());
-            geoNote.setYes(0);
-            geoNote.setUser(user);
+            Store store=new Store();
+            store.setNote(note);
+            store.setLastUpdateTime(new Date());
+            store.setLongitude(longitude.doubleValue());
+            store.setLatitude(latitude.doubleValue());
+            store.setYes(0);
+            store.setUser(user);
             
             // Save
-            pm.makePersistent(geoNote);
+            pm.makePersistent(store);
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();

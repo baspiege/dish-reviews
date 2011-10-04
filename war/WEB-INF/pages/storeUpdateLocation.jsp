@@ -3,9 +3,9 @@
 <%@ page language="java"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="geonotes.data.GeoNoteGetSingle" %>
-<%@ page import="geonotes.data.GeoNoteUpdate" %>
-<%@ page import="geonotes.data.model.GeoNote" %>
+<%@ page import="geonotes.data.StoreGetSingle" %>
+<%@ page import="geonotes.data.StoreUpdate" %>
+<%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%@ page import="geonotes.utils.StringUtils" %>
 <%
@@ -14,29 +14,29 @@
 
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    Long geoNoteId=RequestUtils.getNumericInput(request,"id","id",true);
+    Long storeId=RequestUtils.getNumericInput(request,"id","id",true);
 
-    GeoNote geoNote=null;
-    if (geoNoteId!=null) {
-        new GeoNoteGetSingle().execute(request);
+    Store store=null;
+    if (storeId!=null) {
+        new StoreGetSingle().execute(request);
         // If note is null, forward to main page
-        geoNote=(GeoNote)request.getAttribute("geoNote");
-        if (geoNote==null) {
+        store=(Store)request.getAttribute("store");
+        if (store==null) {
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
             %>
-            <jsp:forward page="/geoNotesRedirect.jsp"/>
+            <jsp:forward page="/storesRedirect.jsp"/>
             <%
         }
         // Can only edit own note
         if (isSignedIn) {
-            isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(geoNote.user);
+            isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(store.user);
         }
     } else {
         RequestUtils.resetAction(request);
         RequestUtils.removeEdits(request);
         %>
-        <jsp:forward page="/geoNotesRedirect.jsp"/>
+        <jsp:forward page="/storesRedirect.jsp"/>
         <%
     }
 
@@ -47,18 +47,18 @@
             RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
             RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);		
             if (!RequestUtils.hasEdits(request)) {
-                new GeoNoteUpdate().execute(request);
+                new StoreUpdate().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
                 %>
-                <jsp:forward page="/geoNotesRedirect.jsp"/>
+                <jsp:forward page="/storesRedirect.jsp"/>
                 <%
             }
         } else {
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
             %>
-            <jsp:forward page="/geoNotesRedirect.jsp"/>
+            <jsp:forward page="/storesRedirect.jsp"/>
             <%
         }
     }
@@ -77,12 +77,12 @@
 <div style="margin-top:1em;margin-bottom:1em;">
 <%-- Signed In --%>
 <% if (isSignedIn) { %>
-<form id="geoNote" method="post" action="geoNoteUpdateLocation.jsp" autocomplete="off">
+<form id="store" method="post" action="storeUpdateLocation.jsp" autocomplete="off">
 <%-- Update --%>
 <input class="button" type="submit" name="action" onclick="setFieldsFromLocalStorage();" value="<%=bundle.getString("updateLabel")%>"/>
 <input id="latitude" type="hidden" name="latitude" value="" />
 <input id="longitude" type="hidden" name="longitude" value="" />
-<input type="hidden" name="id" value="<%=new Long(geoNote.getKey().getId()).toString()%>"/>
+<input type="hidden" name="id" value="<%=new Long(store.getKey().getId()).toString()%>"/>
 </form>
 <% } %>
 </div>
@@ -121,8 +121,8 @@ var addLatitude;
 var addLongitude;
 
 function initialize() {
-  var lat=<%=geoNote.latitude%>;
-  var lon=<%=geoNote.longitude%>;
+  var lat=<%=store.latitude%>;
+  var lon=<%=store.longitude%>;
   addLatitude=lat;
   addLongitude=lon;
   var latLng = new google.maps.LatLng(lat, lon);

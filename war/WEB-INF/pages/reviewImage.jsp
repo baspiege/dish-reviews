@@ -1,4 +1,4 @@
-<%-- This JSP has the HTML for Geo Note image page. --%>
+<%-- This JSP has the HTML for store image page. --%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%> 
 <%@ page import="java.io.ByteArrayOutputStream" %>
@@ -39,7 +39,7 @@
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
             %>
-            <jsp:forward page="/geoNotesRedirect.jsp"/>
+            <jsp:forward page="/storesRedirect.jsp"/>
             <%
         }
         
@@ -51,7 +51,7 @@
         RequestUtils.resetAction(request);
         RequestUtils.removeEdits(request);
         %>
-        <jsp:forward page="/geoNotesRedirect.jsp"/>
+        <jsp:forward page="/storesRedirect.jsp"/>
         <%
     }
 
@@ -94,7 +94,7 @@
                     new ReviewImageUpdate().execute(request);
                     RequestUtils.resetAction(request);
                     %>
-                    <jsp:forward page="/geoNotesRedirect.jsp"/>
+                    <jsp:forward page="/storesRedirect.jsp"/>
                     <%
                 }
             }
@@ -104,14 +104,14 @@
                 new ReviewImageRemove().execute(request);
                 RequestUtils.resetAction(request);
                 %>
-                <jsp:forward page="/geoNotesRedirect.jsp"/>
+                <jsp:forward page="/storesRedirect.jsp"/>
                 <%
             }
         } else {
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
             %>
-            <jsp:forward page="/geoNotesRedirect.jsp"/>
+            <jsp:forward page="/storesRedirect.jsp"/>
             <%
         }
     }

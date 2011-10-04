@@ -1,21 +1,22 @@
 package geonotes.data;
 
+import com.google.appengine.api.datastore.Blob;
+
 import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServletRequest;
 
-import geonotes.data.model.GeoNote;
-import geonotes.utils.DisplayUtils;
+import geonotes.data.model.Store;
 import geonotes.utils.RequestUtils;
 
 /**
- * Delete a note.
+ * Update an image.
  *
  * @author Brian Spiegel
  */
-public class GeoNoteDelete {
+public class StoreImageUpdate {
 
     /**
-     * Delete a note.
+     * Update a note.
 	   *
      * @param aRequest The request
      *
@@ -24,16 +25,21 @@ public class GeoNoteDelete {
     public void execute(HttpServletRequest aRequest) {
 
         // Get Id.
-        Long geoNoteId=(Long)aRequest.getAttribute("id");
-
+        Long storeId=(Long)aRequest.getAttribute("id");
+        
+        // Fields
+        Blob image=(Blob)aRequest.getAttribute("image");
+        Blob imageThumbnail=(Blob)aRequest.getAttribute("imageThumbnail");
+        
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
             
-            GeoNote geoNote=GeoNoteGetSingle.getGeoNote(aRequest,pm,geoNoteId.longValue());
+            Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
             
-            if (geoNote!=null){
-                pm.deletePersistent(geoNote);
+            if (store!=null){
+                store.setImage(image);
+                store.setImageThumbnail(imageThumbnail);
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

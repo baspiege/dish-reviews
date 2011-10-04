@@ -5,18 +5,18 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
-import geonotes.data.model.GeoNote;
+import geonotes.data.model.Store;
 import geonotes.utils.RequestUtils;
 
 /**
- * Get geo note.
+ * Get store.
  *
  * @author Brian Spiegel
  */
-public class GeoNoteGetSingle {
+public class StoreGetSingle {
 
     /**
-     * Get geo notes.
+     * Get store.
      *
      * @param aRequest The request
      * @since 1.0
@@ -25,15 +25,15 @@ public class GeoNoteGetSingle {
         PersistenceManager pm=null;
         
         // Get Id.
-        Long geoNoteId=(Long)aRequest.getAttribute("id");
+        Long storeId=(Long)aRequest.getAttribute("id");
         
         try {
             pm=PMF.get().getPersistenceManager();
 
-            GeoNote geoNote=GeoNoteGetSingle.getGeoNote(aRequest,pm,geoNoteId.longValue());
+            Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
 
             // Set into request
-            aRequest.setAttribute("geoNote", geoNote);
+            aRequest.setAttribute("store", store);
 
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
@@ -47,30 +47,30 @@ public class GeoNoteGetSingle {
     }
     
     /**
-     * Get a GeoNote.
+     * Get a Store.
      *
      * @param aRequest The request
      * @param aPm PersistenceManager
-     * @param aGeoNoteId geo note Id
-     * @return a geo note or null if not found
+     * @param aStoreId Id
+     * @return a store or null if not found
      *
      * @since 1.0
      */
-    public static GeoNote getGeoNote(HttpServletRequest aRequest, PersistenceManager aPm, long aGeoNoteId) {
-        GeoNote geoNote=null;
+    public static Store getStore(HttpServletRequest aRequest, PersistenceManager aPm, long aStoreId) {
+        Store store=null;
 
         Query query=null;
         try {
             // Get appts.
-            query = aPm.newQuery(GeoNote.class); 
-            query.setFilter("(key == geoNoteIdParam)"); 
-            query.declareParameters("long geoNoteIdParam");
+            query = aPm.newQuery(Store.class); 
+            query.setFilter("(key == storeIdParam)"); 
+            query.declareParameters("long storeIdParam");
             query.setRange(0,1);
 
-            List<GeoNote> results = (List<GeoNote>) query.execute(aGeoNoteId); 
+            List<Store> results = (List<Store>) query.execute(aStoreId); 
 
             if (!results.isEmpty()) {
-                geoNote=(GeoNote)results.get(0);
+                store=(Store)results.get(0);
             }
         } finally {
             if (query!=null) {   
@@ -78,6 +78,6 @@ public class GeoNoteGetSingle {
             }
         }
 
-        return geoNote;
+        return store;
     }    
 }

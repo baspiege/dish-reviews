@@ -1,23 +1,21 @@
 package geonotes.data;
 
-import java.util.Date;
-import java.util.Map;
 import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServletRequest;
 
-import geonotes.data.model.GeoNote;
+import geonotes.data.model.Store;
 import geonotes.utils.DisplayUtils;
 import geonotes.utils.RequestUtils;
 
 /**
- * Update a note.
+ * Delete store
  *
  * @author Brian Spiegel
  */
-public class GeoNoteUpdateYesNo {
+public class StoreDelete {
 
     /**
-     * Update a note.
+     * Delete store.
 	   *
      * @param aRequest The request
      *
@@ -26,22 +24,16 @@ public class GeoNoteUpdateYesNo {
     public void execute(HttpServletRequest aRequest) {
 
         // Get Id.
-        Long geoNoteId=(Long)aRequest.getAttribute("id");
-        
-        // Fields
-        String vote=(String)aRequest.getAttribute("vote");
+        Long storeId=(Long)aRequest.getAttribute("id");
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
-                        
-            GeoNote geoNote=GeoNoteGetSingle.getGeoNote(aRequest,pm,geoNoteId.longValue());
             
-            if (geoNote!=null){
+            Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
             
-                if (vote.equals("yes")){
-                  geoNote.setYes(geoNote.yes+1);
-                }
+            if (store!=null){
+                pm.deletePersistent(store);
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

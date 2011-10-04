@@ -5,19 +5,19 @@ import java.util.Map;
 import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServletRequest;
 
-import geonotes.data.model.GeoNote;
+import geonotes.data.model.Store;
 import geonotes.utils.DisplayUtils;
 import geonotes.utils.RequestUtils;
 
 /**
- * Update a note.
+ * Update a store.
  *
  * @author Brian Spiegel
  */
-public class GeoNoteUpdate {
+public class StoreUpdate {
 
     /**
-     * Update a note.
+     * Update a store.
 	   *
      * @param aRequest The request
      *
@@ -26,38 +26,33 @@ public class GeoNoteUpdate {
     public void execute(HttpServletRequest aRequest) {
 
         // Get Id.
-        Long geoNoteId=(Long)aRequest.getAttribute("id");
+        Long storeId=(Long)aRequest.getAttribute("id");
         
         // Fields
         String note=(String)aRequest.getAttribute("note");
         Double longitude=(Double)aRequest.getAttribute("longitude");
         Double latitude=(Double)aRequest.getAttribute("latitude");
-        Long type=(Long)aRequest.getAttribute("type");
-
+        
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
                         
-            GeoNote geoNote=GeoNoteGetSingle.getGeoNote(aRequest,pm,geoNoteId.longValue());
+            Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
             
-            if (geoNote!=null){
+            if (store!=null){
             
                 if (note!=null) {
-                    geoNote.setNote(note);
+                    store.setNote(note);
                 }
                     
-                geoNote.setLastUpdateTime(new Date());
+                store.setLastUpdateTime(new Date());
 
                 if (longitude!=null) {
-                    geoNote.setLongitude(longitude.doubleValue());
+                    store.setLongitude(longitude.doubleValue());
                 }
                 
                 if (latitude!=null) {
-                    geoNote.setLatitude(latitude.doubleValue());
-                }
-                
-                if (type!=null) {
-                    geoNote.setType(type.longValue());
+                    store.setLatitude(latitude.doubleValue());
                 }
             }
         } catch (Exception e) {
