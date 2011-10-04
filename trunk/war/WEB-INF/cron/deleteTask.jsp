@@ -1,8 +1,8 @@
 <%-- This JSP has the HTML for the delete task. --%>
 <%@ page language="java"%>
-<%@ page import="geonotes.data.DeleteNotes" %>
+<%@ page import="geonotes.data.DeleteOldReviews" %>
 <%
-    new DeleteNotes().execute(request);
+    new DeleteOldReviews().execute(request);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
