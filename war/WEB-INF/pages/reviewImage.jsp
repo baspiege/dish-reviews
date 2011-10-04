@@ -22,6 +22,8 @@
 <%
     // Check if signed in
     boolean isSignedIn=request.getUserPrincipal()!=null;
+    
+    System.out.println( isSignedIn );
 
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -123,22 +125,27 @@ form {margin: 0px 0px 0px 0px; display: inline;}
 </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/pages/components/header.jsp"/>
 <% if (review!=null && review.image!=null) { %>
 <img src="reviewImage?id=<%=new Long(review.getKey().getId()).toString()%>" alt="<%=bundle.getString("altPictureLabel")%>"/> <br/>
 <% } %>
 <%-- Signed In --%>
+<p> Test</p>
 <% if (isSignedIn) { %>
-<form method="post" enctype="multipart/form-data" action="reviewImage.jsp?action=Upload&id=<%=new Long(review.getKey().getId()).toString()%>"> 
+
+<p> Test2</p>
+<form method="post" enctype="multipart/form-data" action="reviewImage.jsp?action=Upload&reviewId=<%=new Long(review.getKey().getId()).toString()%>"> 
 <input style="margin-bottom:1.5em" type="file" name="imageFile">
 <br/>
 <%-- Upload --%>
 <input class="button" type="submit" name="action" value="Upload">
 </form>
-<form method="post" action="reviewImage.jsp?id=<%=new Long(review.getKey().getId()).toString()%>" autocomplete="off">
+<form method="post" action="reviewImage.jsp?reviewId=<%=new Long(review.getKey().getId()).toString()%>" autocomplete="off">
 <%-- Remove --%>
 <input type="submit" name="action" value="Remove">
 </form>
 <% } %>  
+
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </html>

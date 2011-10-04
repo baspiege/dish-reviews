@@ -21,7 +21,6 @@
 
     // Fields
     String note="";
-    //String type="";
     Long dishId=RequestUtils.getNumericInput(request,"dishId",bundle.getString("dishId"),true);
 
     // Process based on action
@@ -29,7 +28,6 @@
         if (action.equals(bundle.getString("addLabel"))) {		
             // Get fields
             note=RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),false);
-            //RequestUtils.getNumericInput(request,"type",bundle.getString("typeLabel"),true);		
             if (!RequestUtils.hasEdits(request)) {
                 new ReviewAdd().execute(request);
                 RequestUtils.resetAction(request);
@@ -50,8 +48,6 @@
 <%-- Fields --%>
 <form id="geoNote" method="post" action="reviewAdd.jsp" autocomplete="off">
 <table>
-<tr><td>Type:</td><td>
-</td></tr>
 <tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=note%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
 </table>
 <p>

@@ -45,7 +45,6 @@
             out.write(" lon=\"" + geoNote.longitude + "\"");
             out.write(" yes=\"" + geoNote.yes + "\""); 
             out.write(" text=\"" + HtmlUtils.escapeChars(geoNote.note) + "\"");
-            //out.write(" type=\"" + bundle.getString("type_"+geoNote.type) + "\"");
             
             out.write(" dishCount=\"" + 11 + "\"");
             
@@ -62,7 +61,7 @@
             } else {
                 out.write(" img=\"false\"");
             }
-            out.write(" time=\"" + geoNote.lastUpdateTime.getTime()/1000 + "\"/>");
+            out.write("/>");
         }
     }
 %>

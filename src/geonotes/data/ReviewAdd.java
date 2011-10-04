@@ -29,7 +29,7 @@ public class ReviewAdd {
         String note=(String)aRequest.getAttribute("note");
         Long type=(Long)aRequest.getAttribute("type");
         Long dishId=(Long)aRequest.getAttribute("dishId");
-        //String user=(String)aRequest.getAttribute("user");
+        String user=(String)aRequest.getAttribute("user");
 
         PersistenceManager pm=null;
         try {
@@ -39,9 +39,9 @@ public class ReviewAdd {
             review.setNote(note);
             review.setLastUpdateTime(new Date());
             review.setDishId(dishId);
-            // geoNote.setType(type.longValue());
-            // dish.setYes(0);
-            // dish.setUser(user);
+            // review.setType(type.longValue());
+            review.setYes(0);
+            review.setUser(user);
             
             // Save
             pm.makePersistent(review);

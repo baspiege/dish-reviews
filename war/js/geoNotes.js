@@ -78,16 +78,6 @@ function handleGeoNotesDataRequest(req) {
   distanceLink.setAttribute("onclick","reorderGeoNotesByDistanceAscending();return false;");
   distanceLink.appendChild(document.createTextNode("Distance"));  
   thDistance.appendChild(distanceLink);
-  // Time
-  /*
-  var thTime=document.createElement("th");
-  tr.appendChild(thTime);
-  var timeLink=document.createElement("a");
-  timeLink.setAttribute("href","#");
-  timeLink.setAttribute("onclick","reorderGeoNotesByTimeDescending();return false;");
-  timeLink.appendChild(document.createTextNode("Time Ago"));  
-  thTime.appendChild(timeLink);
-  */
   
   // Note
   var thNote=document.createElement("th");
@@ -178,8 +168,6 @@ function handleGeoNotesDataRequest(req) {
       tr.setAttribute("lat",geoNote.getAttribute("lat"));
       tr.setAttribute("lon",geoNote.getAttribute("lon"));
       tr.setAttribute("yes",geoNote.getAttribute("yes"));
-      tr.setAttribute("time",geoNote.getAttribute("time"));
-      tr.setAttribute("type",geoNote.getAttribute("type"));
       // Distance and bearing
       tr.appendChild(document.createElement("td"));
       
@@ -202,13 +190,6 @@ function handleGeoNotesDataRequest(req) {
       tr.appendChild(desc);
       table.appendChild(tr);
       
-      
-      // Elapse time
-      //tr.appendChild(document.createElement("td"));
-      // Id
-      //var idCell=document.createElement("td");
-      //idCell.appendChild(document.createTextNode(id));
-      //tr.appendChild(idCell);
       // Vote
       var vote=document.createElement("td")
       var voteButton=document.createElement("button");
@@ -485,7 +466,6 @@ function updateNotesDispay() {
   // Current location
   var latitude=parseFloat(getCookie("latitude"));
   var longitude=parseFloat(getCookie("longitude"));
-  var currentSeconds=new Date().getTime()/1000;
   // For each note
   var geoNotes=document.getElementById("geoNotes");
   var notes=geoNotes.getElementsByTagName("tr");
@@ -510,8 +490,6 @@ function updateNotesDispay() {
     display="<a href='geoNoteUpdateLocation.jsp?id=" + note.getAttribute("id") + "'>"+display+"</a>";
     // Update direction display
     note.getElementsByTagName("td")[0].innerHTML=display;
-    // Update time display
-    //note.getElementsByTagName("td")[1].innerHTML=getElapsedTime(parseInt(note.getAttribute("time")),currentSeconds);
   }
   // Sort
   var sortBy=getCookie("sortBy");
