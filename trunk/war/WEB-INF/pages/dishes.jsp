@@ -32,11 +32,6 @@
 <body>
 <jsp:include page="/WEB-INF/pages/components/header.jsp"/>
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-<!--
-<div style="margin-top:1.5em">
-
-</div>
--->
 
 <%-- Data --%>
 <div style="margin-top:1.5em" class="data">
@@ -45,11 +40,8 @@
 
 <%-- Add Button --%>
 <% if (isSignedIn) { %>
-
  <a class="add addTh" href='dishAdd.jsp?storeId=<%=storeId.toString()%>'><%=bundle.getString("addLabel")%></a>
-
 <% } %>
-
 
 </th><th>Reviews</th></tr>
 <%

@@ -109,6 +109,7 @@ function handleStoresDataRequest(req) {
   //tr.appendChild(thId);
   //thId.appendChild(document.createTextNode("Id"));
   // Vote
+  /*
   var thVote=document.createElement("th");
   tr.appendChild(thVote);
   var voteLink=document.createElement("a");
@@ -116,10 +117,13 @@ function handleStoresDataRequest(req) {
   voteLink.setAttribute("onclick","reorderStoresByVoteYesDescending();return false;");
   voteLink.appendChild(document.createTextNode("Vote"));  
   thVote.appendChild(voteLink);
+  */
   // Image
+  /*
   var thImage=document.createElement("th");
   tr.appendChild(thImage);
   thImage.appendChild(document.createTextNode("Image"));
+  */
   // Type
   /*
   var thType=document.createElement("th");
@@ -191,13 +195,16 @@ function handleStoresDataRequest(req) {
       table.appendChild(tr);
       
       // Vote
+      /*
       var vote=document.createElement("td")
       var voteButton=document.createElement("button");
       voteButton.setAttribute("onclick","sendYesVote(this)");
       voteButton.appendChild(document.createTextNode(store.getAttribute("yes")));
       vote.appendChild(voteButton);
       tr.appendChild(vote);
+      */
       // Image
+      /*
       var imageCell=document.createElement("td");
       if (store.getAttribute("img")=="true") {
         var imageLink=document.createElement("a");
@@ -214,6 +221,7 @@ function handleStoresDataRequest(req) {
         imageCell.appendChild(imageLink);
       }
       tr.appendChild(imageCell);      
+      */
       // Type
       /*
       var type=document.createElement("td");

@@ -29,24 +29,12 @@
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<title><%=bundle.getString("dishesLabel")%></title>
+<title><%=bundle.getString("reviewsLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 <body>
 <jsp:include page="/WEB-INF/pages/components/header.jsp"/>
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-
-<!--
-
-<div style="margin-top:1.5em">
-<%-- Add Button --%>
-<% if (isSignedIn) { %>
-<input class="button" type="button" style="display:none" id="addButtonDisabled" disabled="disabled" value="<%=bundle.getString("addLabel")%>"/>
-<input class="button" type="button" style="display:inline" id="addButtonEnabled" name="action" onclick="window.location='reviewAdd.jsp?dishId=<%=dishId.toString()%>';" value="<%=bundle.getString("addLabel")%>"/>
-<% } %>
-</div>
-
--->
 
 <%-- Data --%>
 <div style="margin-top:1.5em" class="data">
@@ -55,9 +43,7 @@
 
 <%-- Add Button --%>
 <% if (isSignedIn) { %>
-
  <a class="add addTh" href='reviewAdd.jsp?dishId=<%=dishId.toString()%>'><%=bundle.getString("addLabel")%></a>
-
 <% } %>
 
 </th><th>Image</th></tr>
