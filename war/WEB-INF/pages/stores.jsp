@@ -25,7 +25,6 @@ var locationNotFoundMessage="<%=bundle.getString("locationNotFoundMessage")%>";
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <%-- Location --%>
 <div style="margin-top:1.5em"><span id="geoStatus"></span><a style="margin-left:1em" href="location.jsp"><%=bundle.getString("changeLocationLabel")%></a></div>
-
 <%-- Data --%>
 <div style="margin-top:1.5em" class="data" id="data">
 <p> <%=bundle.getString("waitingForDataLabel")%> </p>

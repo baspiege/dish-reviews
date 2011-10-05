@@ -54,7 +54,7 @@
     if (!StringUtils.isEmpty(action) && isSignedIn) {
         if (action.equals(bundle.getString("updateLabel"))) {		
             // Fields
-            RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),false);
+            RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),false);
             if (!RequestUtils.hasEdits(request)) {
                 new StoreUpdate().execute(request);
             }
@@ -84,10 +84,10 @@
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 <body>
-<form id="store" method="post" action="storeUpdate.jsp" autocomplete="off">
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
+<form id="store" method="post" action="storeUpdate.jsp" autocomplete="off">
 <table>
-<tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(store.note)%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
+<tr><td><%=bundle.getString("nameLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(store.note)%>" id="note" title="<%=bundle.getString("nameLabel")%>" maxlength="500"/></td></tr>
 <tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(store.lastUpdateTime)%></td></tr>
 </table>
 <div style="margin-top:1.5em">

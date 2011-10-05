@@ -28,7 +28,7 @@
     if (!RequestUtils.isForwarded(request) && !StringUtils.isEmpty(action)) {
         if (action.equals(bundle.getString("addLabel"))) {		
             // Get fields
-            note=RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),false);
+            note=RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),false);
             RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
             RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
             if (!RequestUtils.hasEdits(request)) {
@@ -43,7 +43,7 @@
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<title><%=bundle.getString("storesLabel")%></title>
+<title><%=bundle.getString("storeLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 <body>
@@ -51,7 +51,7 @@
 <%-- Fields --%>
 <form id="store" method="post" action="storeAdd.jsp" autocomplete="off">
 <table>
-<tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=note%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
+<tr><td><%=bundle.getString("nameLabel")%>:</td><td><input type="text" name="note" value="<%=note%>" id="note" title="<%=bundle.getString("nameLabel")%>" maxlength="500"/></td></tr>
 </table>
 <p>
 <%-- Cancel --%>

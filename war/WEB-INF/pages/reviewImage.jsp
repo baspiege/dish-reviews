@@ -125,7 +125,6 @@ form {margin: 0px 0px 0px 0px; display: inline;}
 </style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/pages/components/header.jsp"/>
 <% if (review!=null && review.image!=null) { %>
 <img src="reviewImage?id=<%=new Long(review.getKey().getId()).toString()%>" alt="<%=bundle.getString("altPictureLabel")%>"/> <br/>
 <% } %>
