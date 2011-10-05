@@ -18,6 +18,7 @@
 var waitingForCoordinatesMessage="<%=bundle.getString("waitingForCoordinatesMessage")%>";
 var locationNotAvailableMessage="<%=bundle.getString("locationNotAvailableMessage")%>";
 var locationNotFoundMessage="<%=bundle.getString("locationNotFoundMessage")%>";
+var isLoggedIn='<%=isSignedIn%>';
 </script>
 </head>
 <body onload="getCoordinates();">

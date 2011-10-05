@@ -95,12 +95,15 @@ function handleStoresDataRequest(req) {
   addButton.setAttribute("onclick","window.location='storeAddLocation.jsp';");
   thNote.appendChild(addButton);  
   */
-  
-  var addLink=document.createElement("a");
-  addLink.setAttribute("href","storeAddLocation.jsp");
-  addLink.setAttribute("class","add addTh");
-  addLink.appendChild(document.createTextNode("Add"));
-  thNote.appendChild(addLink);
+
+  // Show Add link if logged in
+  if (isLoggedIn=="true") {
+    var addLink=document.createElement("a");
+    addLink.setAttribute("href","storeAddLocation.jsp");
+    addLink.setAttribute("class","add addTh");
+    addLink.appendChild(document.createTextNode("Add"));
+    thNote.appendChild(addLink);
+  }
   
   table.appendChild(tr);
   
