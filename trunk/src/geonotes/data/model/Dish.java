@@ -39,18 +39,6 @@ public class Dish implements Serializable {
     public String note; 
     
     @Persistent 
-    public double latitude;
-    
-    @Persistent 
-    public double longitude;
-    
-    @Persistent 
-    public double longitude2Decimal;
-    
-    @Persistent 
-    public double latitude2Decimal;
-    
-    @Persistent 
     public long yes;
     
     @Persistent 
@@ -79,18 +67,6 @@ public class Dish implements Serializable {
     public void setLastUpdateTime(Date aLastUpdateTime)
     { 
         lastUpdateTime=aLastUpdateTime; 
-    }
-    
-    public void setLatitude(double aLatitude)
-    { 
-        latitude2Decimal=NumberUtils.getNumber2DecimalPrecision(aLatitude);
-        latitude=aLatitude; 
-    }
-
-    public void setLongitude(double aLongitude)
-    { 
-        longitude2Decimal=NumberUtils.getNumber2DecimalPrecision(aLongitude);
-        longitude=aLongitude; 
     }
     
     public void setStoreId(long aStoreId)
