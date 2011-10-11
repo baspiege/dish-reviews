@@ -56,7 +56,7 @@
             
             // Add attributes
             out.write("<tr>");
-            out.write("<td>" + HtmlUtils.escapeChars(review.note) + "</td>");
+            out.write("<td><a href=\"reviewUpdate.jsp?reviewId=" + reviewId + "\">" + HtmlUtils.escapeChars(review.note) + "</a></td>");
             out.write("<td>");
             
             if (review.imageThumbnail==null) {
