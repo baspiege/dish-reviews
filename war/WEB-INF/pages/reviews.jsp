@@ -5,7 +5,9 @@
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
+<%@ page import="geonotes.data.DishGetSingle" %>
 <%@ page import="geonotes.data.ReviewsGetAll" %>
+<%@ page import="geonotes.data.model.Dish" %>
 <%@ page import="geonotes.data.model.Review" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
@@ -20,9 +22,13 @@
     
     Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
     
+    Dish dish=null;
     if (dishId!=null) {
         new ReviewsGetAll().execute(request);
         reviews=(List<Review>)request.getAttribute("reviews");
+        
+        new DishGetSingle().execute(request);
+        dish=(Dish)request.getAttribute("dish");
     } else {
         // Forward to main page
     }    
@@ -38,7 +44,11 @@
 
 <%-- Data --%>
 <div style="margin-top:1.5em" class="data">
+
 <table>
+<caption>
+<a href="dishUpdate.jsp?dishId=<%=dishId.toString()%>"><%= HtmlUtils.escapeChars(dish.note) %></a>
+</caption>
 <tr><th>Reviews
 
 <%-- Add Button --%>

@@ -1,50 +1,50 @@
 package geonotes.data;
 
 import java.util.Date;
-
+import java.util.Map;
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Dish;
+import geonotes.utils.DisplayUtils;
 import geonotes.utils.RequestUtils;
 
 /**
- * Add a dish.
+ * Update a dish.
  *
  * @author Brian Spiegel
  */
-public class DishAdd {
+public class DishUpdate {
 
     /**
-     * Add a dish.
-     *
+     * Update a dish.
+	   *
      * @param aRequest The request
      *
      * @since 1.0
      */
     public void execute(HttpServletRequest aRequest) {
 
-        // Note
+        // Get Id.
+        Long dishId=(Long)aRequest.getAttribute("dishId");
+        
+        // Fields
         String note=(String)aRequest.getAttribute("note");
-        Long type=(Long)aRequest.getAttribute("type");
-        Long storeId=(Long)aRequest.getAttribute("storeId");
-        String user=(String)aRequest.getAttribute("user");
-
+        
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
-
-            Dish dish=new Dish();
-            dish.setNote(note);
-            dish.setLastUpdateTime(new Date());
-            dish.setStoreId(storeId);
-            // geoNote.setType(type.longValue());
-            // dish.setYes(0);
-            dish.setUser(user);
+                        
+            Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
             
-            // Save
-            pm.makePersistent(dish);
+            if (dish!=null){
+            
+                if (note!=null) {
+                    dish.setNote(note);
+                }
+                    
+                dish.setLastUpdateTime(new Date());
+            }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();
