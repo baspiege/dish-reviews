@@ -34,10 +34,7 @@
         }
     } else if (storeId!=null && dishId!=null) {
     
-        request.setAttribute("id",storeId);
-        
-//        new StoreGetSingle().execute(request);
-    
+        request.setAttribute("id",storeId);    
         new StoreGetSingle().execute(request);
         Store store=(Store)request.getAttribute("store");
         if (store!=null) {
