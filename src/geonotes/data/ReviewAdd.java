@@ -6,6 +6,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
+import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
 import geonotes.utils.RequestUtils;
 
@@ -45,6 +46,11 @@ public class ReviewAdd {
             
             // Save
             pm.makePersistent(review);
+            
+            // Update review count
+            Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
+            dish.setReviewCount(dish.reviewCount+1);
+            
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();

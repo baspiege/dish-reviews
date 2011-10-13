@@ -45,8 +45,7 @@
             out.write(" lon=\"" + store.longitude + "\"");
             out.write(" yes=\"" + store.yes + "\""); 
             out.write(" text=\"" + HtmlUtils.escapeChars(store.note) + "\"");
-            
-            out.write(" dishCount=\"" + 11 + "\"");
+            out.write(" dishCount=\"" + store.dishCount + "\"");
             
             // User
             if (user!=null && user.equalsIgnoreCase(store.user)) {

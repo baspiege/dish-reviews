@@ -239,6 +239,7 @@ function handleStoresDataRequest(req) {
       tr.appendChild(type);
       */
       
+      // Count
       var type=document.createElement("td");
       var typeLink=document.createElement("a");
       typeLink.setAttribute("href","dishes.jsp?storeId="+id);

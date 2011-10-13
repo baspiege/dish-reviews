@@ -4,6 +4,7 @@ import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Dish;
+import geonotes.data.model.Store;
 import geonotes.utils.DisplayUtils;
 import geonotes.utils.RequestUtils;
 
@@ -34,6 +35,10 @@ public class DishDelete {
             
             if (dish!=null){
                 pm.deletePersistent(dish);
+                
+                // Update count
+                Store store=StoreGetSingle.getStore(aRequest,pm,dish.storeId);
+                store.setDishCount(store.dishCount-1);
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
