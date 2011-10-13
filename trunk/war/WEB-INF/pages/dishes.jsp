@@ -21,6 +21,7 @@
         new DishesGetAll().execute(request);
         dishes=(List<Dish>)request.getAttribute("dishes");
     } else {
+        // TODO Update
         // Forward to main page
     }    
 %>
@@ -54,7 +55,7 @@
             // Add attributes
             out.write("<tr>");
             out.write("<td>" + HtmlUtils.escapeChars(dish.note) + "</td>");
-            out.write("<td><a href=\"reviews.jsp?storeId=" + storeId + "&dishId=" + dishId + "\">" + 22 + "</a></td>");
+            out.write("<td><a href=\"reviews.jsp?storeId=" + storeId + "&dishId=" + dishId + "\">" + dish.reviewCount + "</a></td>");
             out.write("</tr>");
         }
     }

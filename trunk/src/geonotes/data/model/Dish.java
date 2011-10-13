@@ -39,10 +39,13 @@ public class Dish implements Serializable {
     public String note; 
     
     @Persistent 
-    public long yes;
+    public long reviewCount;
     
     @Persistent 
-    public String user;	
+    public String user;
+    
+    @Persistent 
+    public long yes;	
  
     /**
      * Constructor.
@@ -58,7 +61,7 @@ public class Dish implements Serializable {
     { 
         return key; 
     }  
-    
+        
     public void setNote(String aNote)
     { 
         note=aNote; 
@@ -68,19 +71,24 @@ public class Dish implements Serializable {
     { 
         lastUpdateTime=aLastUpdateTime; 
     }
+
+    public void setReviewCount(long aReviewCount)
+    { 
+        reviewCount=aReviewCount; 
+    }
     
     public void setStoreId(long aStoreId)
     { 
         storeId=aStoreId; 
     }
-        
-    public void setYes(long aYes)
-    { 
-        yes=aYes; 
-    }
      
     public void setUser(String aUser)
     { 
         user=aUser; 
+    }
+    
+    public void setYes(long aYes)
+    { 
+        yes=aYes; 
     }
 }

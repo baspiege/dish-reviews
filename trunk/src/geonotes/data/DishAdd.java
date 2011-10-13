@@ -7,6 +7,7 @@ import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Dish;
+import geonotes.data.model.Store;
 import geonotes.utils.RequestUtils;
 
 /**
@@ -45,6 +46,10 @@ public class DishAdd {
             
             // Save
             pm.makePersistent(dish);
+            
+            // Update count
+            Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
+            store.setDishCount(store.dishCount+1);
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();

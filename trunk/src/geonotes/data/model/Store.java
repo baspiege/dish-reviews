@@ -30,6 +30,9 @@ public class Store implements Serializable {
     private Key key;
     
     @Persistent 
+    public long dishCount;
+    
+    @Persistent 
     public Blob image;	
     
     @Persistent 
@@ -54,10 +57,10 @@ public class Store implements Serializable {
     public double latitude2Decimal;
     
     @Persistent 
-    public long yes;
+    public String user;	
     
     @Persistent 
-    public String user;	
+    public long yes;
  
     /**
      * Constructor.
@@ -73,6 +76,11 @@ public class Store implements Serializable {
     { 
         return key; 
     }  
+    
+    public void setDishCount(long aDishCount)
+    { 
+        dishCount=aDishCount; 
+    }
     
     public void setNote(String aNote)
     { 
@@ -105,14 +113,14 @@ public class Store implements Serializable {
         longitude2Decimal=NumberUtils.getNumber2DecimalPrecision(aLongitude);
         longitude=aLongitude; 
     }
-        
-    public void setYes(long aYes)
-    { 
-        yes=aYes; 
-    }
-    
+     
     public void setUser(String aUser)
     { 
         user=aUser; 
+    }
+     
+    public void setYes(long aYes)
+    { 
+        yes=aYes; 
     }
 }
