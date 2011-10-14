@@ -41,6 +41,7 @@
                 <jsp:forward page="/reviewsRedirect.jsp"/>
                 <%
             }
+            request.setAttribute("dishId",review.dishId);
         }
     } else {
         RequestUtils.resetAction(request);
@@ -54,7 +55,7 @@
     if (!StringUtils.isEmpty(action) && isSignedIn) {
         if (action.equals(bundle.getString("updateLabel"))) {		
             // Fields
-            RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),false);
+            RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),false);
             if (!RequestUtils.hasEdits(request)) {
                 new ReviewUpdate().execute(request);
             }
@@ -87,7 +88,7 @@
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <form id="review" method="post" action="reviewUpdate.jsp" autocomplete="off">
 <table>
-<tr><td><%=bundle.getString("nameLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(review.note)%>" id="note" title="<%=bundle.getString("nameLabel")%>" maxlength="500"/></td></tr>
+<tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(review.note)%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
 <tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(review.lastUpdateTime)%></td></tr>
 </table>
 <div style="margin-top:1.5em">

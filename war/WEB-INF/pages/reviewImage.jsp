@@ -129,10 +129,7 @@ form {margin: 0px 0px 0px 0px; display: inline;}
 <img src="reviewImage?id=<%=new Long(review.getKey().getId()).toString()%>" alt="<%=bundle.getString("altPictureLabel")%>"/> <br/>
 <% } %>
 <%-- Signed In --%>
-<p> Test</p>
 <% if (isSignedIn) { %>
-
-<p> Test2</p>
 <form method="post" enctype="multipart/form-data" action="reviewImage.jsp?action=Upload&reviewId=<%=new Long(review.getKey().getId()).toString()%>"> 
 <input style="margin-bottom:1.5em" type="file" name="imageFile">
 <br/>
