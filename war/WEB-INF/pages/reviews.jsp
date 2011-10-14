@@ -20,8 +20,6 @@
     
     Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",false);
     
-    Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
-    
     Dish dish=null;
     if (dishId!=null) {
         new ReviewsGetAll().execute(request);
@@ -47,7 +45,7 @@
 
 <table>
 <caption>
-<a href="dishUpdate.jsp?dishId=<%=dishId.toString()%>"><%= HtmlUtils.escapeChars(dish.note) %></a>
+<%= HtmlUtils.escapeChars(dish.note) %>
 </caption>
 <tr><th>Reviews
 

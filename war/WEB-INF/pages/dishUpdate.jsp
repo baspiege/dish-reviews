@@ -43,6 +43,7 @@
                 <jsp:forward page="/dishesRedirect.jsp"/>
                 <%
             }
+            request.setAttribute("storeId",dish.storeId);
         }
     } else {
         RequestUtils.resetAction(request);
@@ -62,7 +63,7 @@
             }
             if (!RequestUtils.hasEdits(request)) {
                 %>
-                <jsp:forward page="/dishsRedirect.jsp"/>
+                <jsp:forward page="/dishesRedirect.jsp"/>
                 <%
             }
         } else if (action.equals(bundle.getString("deleteLabel"))) {		
@@ -71,7 +72,7 @@
             }
             if (!RequestUtils.hasEdits(request)) {
                 %>
-                <jsp:forward page="/dishsRedirect.jsp"/>
+                <jsp:forward page="/dishesRedirect.jsp"/>
                 <%
             }
         }
