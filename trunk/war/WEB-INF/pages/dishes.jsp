@@ -40,7 +40,7 @@
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 <body>
-<jsp:include page="/WEB-INF/pages/components/header.jsp"/>
+<jsp:include page="/WEB-INF/pages/components/headerDishes.jsp"/>
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 
 <%-- Data --%>
