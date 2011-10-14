@@ -22,7 +22,19 @@ var isLoggedIn='<%=isSignedIn%>';
 </script>
 </head>
 <body onload="getCoordinates();">
-<jsp:include page="/WEB-INF/pages/components/header.jsp"/>
+
+<nav>
+<ul id="navlist" style="margin:0;padding:0;">
+<li>    
+<% if (!isSignedIn) { %>
+<a href='<%=userService.createLoginURL("../stores.jsp")%>'><%=bundle.getString("logonLabel")%></a>
+<% } else { %>
+<a href='<%=userService.createLogoutURL("../stores.jsp")%>'><%=bundle.getString("logoffLabel")%></a>
+<% } %>
+</li>
+<ul>
+</nav>
+
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <%-- Location --%>
 <div style="margin-top:1.5em"><span id="geoStatus"></span><a style="margin-left:1em" href="location.jsp"><%=bundle.getString("changeLocationLabel")%></a></div>
