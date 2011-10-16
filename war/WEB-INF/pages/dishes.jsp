@@ -47,14 +47,18 @@
 <div style="margin-top:1.5em" class="data">
 <table>
 <caption><%= HtmlUtils.escapeChars(store.note) %></caption>
-<tr><th>Dish
+<tr>
 
+<th>Dish
 <%-- Add Button --%>
 <% if (isSignedIn) { %>
  <a class="add addTh" href='dishAdd.jsp?storeId=<%=storeId.toString()%>'><%=bundle.getString("addLabel")%></a>
 <% } %>
+</th>
 
-</th><th>Reviews</th></tr>
+<th>Like</th>
+<th>Reviews</th>
+</tr>
 <%
     if (dishes!=null && dishes.size()>0) {
         for (Dish dish:dishes) {
@@ -69,6 +73,9 @@
                 out.write("<td>" + HtmlUtils.escapeChars(dish.note) + "</td>");
             }
             
+            // Like
+            out.write("<td><button onclick=\"sendYesVote(this," + dishId +")\">" + dish.yes +  "</button></td>");
+            
             // Review count and link
             out.write("<td><a href=\"reviews.jsp?storeId=" + storeId + "&dishId=" + dishId + "\">" + dish.reviewCount + "</a></td>");
             out.write("</tr>");
@@ -78,5 +85,6 @@
 </table>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
+<script type="text/javascript" src="/js/dishes.js" ></script>
 </body>
 </html>
