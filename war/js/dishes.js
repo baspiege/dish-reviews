@@ -35,10 +35,19 @@ function sendRequest(url,callback,postData) {
 // Votes
 ///////////////////
 
+function handleYesVote(req) {
+  var xmlDoc=req.responseXML;
+  var error=xmlDoc.getElementsByTagName("error");
+  if (error.length>0){
+    var message=error[0].getAttribute("message");
+    alert(message);
+  }
+}
+
 function sendYesVote(elem,id) {
   var yes=parseInt(elem.innerHTML);
   elem.innerHTML=yes+1;
-  sendRequest('dishVote.jsp?vote=yes&dishId='+id);
+  sendRequest('dishVote.jsp?vote=yes&dishId='+id,handleYesVote);
 }
 
 ///////////////////
