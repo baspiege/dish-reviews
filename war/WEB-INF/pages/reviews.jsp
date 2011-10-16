@@ -44,7 +44,23 @@
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 <body>
-<jsp:include page="/WEB-INF/pages/components/headerReviews.jsp"/>
+<nav>
+<ul id="navlist" style="margin:0;padding:0;">
+<li><a href="stores.jsp">Main</a></li>
+<%
+    Store store=(Store)request.getAttribute("store");
+    out.write("<li><a href=\"dishes.jsp?storeId=" + store.getKey().getId() + "\">" + HtmlUtils.escapeChars(store.note) + "</a></li>");
+%>
+<li>
+<% if (!isSignedIn) { %>
+<a href='<%=userService.createLoginURL("../stores.jsp")%>'><%=bundle.getString("logonLabel")%></a>
+<% } else { %>
+<a href='<%=userService.createLogoutURL("../stores.jsp")%>'><%=bundle.getString("logoffLabel")%></a>
+<% } %>
+</li>
+<ul>
+</nav>
+
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 
 <%-- Data --%>
