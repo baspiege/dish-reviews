@@ -61,6 +61,8 @@
  <a class="add addTh" href='reviewAdd.jsp?dishId=<%=dishId.toString()%>'><%=bundle.getString("addLabel")%></a>
 <% } %>
 
+<th>Agree</th>
+
 </th><th>Image</th></tr>
 <%
     if (reviews!=null && reviews.size()>0) {
@@ -71,6 +73,9 @@
             
             // Review with link - TODO Update if signed in
             out.write("<td><a href=\"reviewUpdate.jsp?reviewId=" + reviewId + "\">" + HtmlUtils.escapeChars(review.note) + "</a></td>");
+            
+            // Like
+            out.write("<td><button onclick=\"\">" + review.yes +  "</button></td>");
             
             // Image
             out.write("<td>");
