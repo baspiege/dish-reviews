@@ -7,17 +7,17 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
-import geonotes.data.model.Dish;
-import geonotes.data.model.DishVote;
+import geonotes.data.model.Review;
+import geonotes.data.model.ReviewVote;
 import geonotes.utils.DisplayUtils;
 import geonotes.utils.RequestUtils;
 
 /**
- * Update a dish.
+ * Update a review.
  *
  * @author Brian Spiegel
  */
-public class DishUpdateYesNo {
+public class ReviewUpdateYesNo {
 
     /**
      * Update vote.
@@ -28,7 +28,7 @@ public class DishUpdateYesNo {
      */
     public void execute(HttpServletRequest aRequest) {
 
-        Long dishId=(Long)aRequest.getAttribute("dishId");
+        Long reviewId=(Long)aRequest.getAttribute("reviewId");
         String vote=(String)aRequest.getAttribute("vote");
         String user=(String)aRequest.getAttribute("user");
 
@@ -38,29 +38,29 @@ public class DishUpdateYesNo {
             pm=PMF.get().getPersistenceManager();
 
             // If user has voted, create edit and return
-            query = pm.newQuery(DishVote.class);
-            query.setFilter("(dishId == dishIdParam && user==userParam)");
-            query.declareParameters("long dishIdParam, String userParam");
+            query = pm.newQuery(ReviewVote.class);
+            query.setFilter("(reviewId == reviewIdParam && user==userParam)");
+            query.declareParameters("long reviewIdParam, String userParam");
             query.setRange(0,1);
-            List<DishVote> results = (List<DishVote>) query.execute(dishId, user);
+            List<ReviewVote> results = (List<ReviewVote>) query.execute(reviewId, user);
             if (!results.isEmpty()) {
                 RequestUtils.addEditUsingKey(aRequest,"alreadyVotedEditMsssage");
                 return;
             }
 
             // Update vote
-            Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
-            if (dish!=null){
+            Review review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
+            if (review!=null){
                 if (vote.equals("yes")){
-                  dish.setYes(dish.yes+1);
+                  review.setYes(review.yes+1);
                 }
             }
             
             // Record vote
-            DishVote dishVote=new DishVote();
-            dishVote.setDishId(dishId);
-            dishVote.setUser(user);
-            pm.makePersistent(dishVote);
+            ReviewVote reviewVote=new ReviewVote();
+            reviewVote.setReviewId(reviewId);
+            reviewVote.setUser(user);
+            pm.makePersistent(reviewVote);
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();

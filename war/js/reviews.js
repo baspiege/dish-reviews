@@ -47,23 +47,23 @@ function handleYesVote(req) {
 function sendYesVote(elem,id) {
   var yes=parseInt(elem.innerHTML);
   elem.innerHTML=yes+1;
-  sendRequest('dishVote.jsp?vote=yes&dishId='+id,handleYesVote);
+  sendRequest('reviewVote.jsp?vote=yes&reviewId='+id,handleYesVote);
 }
 
 ///////////////////
 // Sorting
 ///////////////////
 
-function reorderDishes(sortFunction) {
-  var dishes=document.getElementById("dishes");
-  var notes=dishes.getElementsByTagName("tr");
+function reorderReviews(sortFunction) {
+  var reviews=document.getElementById("reviews");
+  var notes=reviews.getElementsByTagName("tr");
   var notesTemp=new Array();
   for (var i=1; i<notes.length; i++) {
     notesTemp.push(notes[i]);
   }
   notesTemp.sort(sortFunction);
   for (var i=0; i<notesTemp.length; i++) {
-    stores.appendChild(notesTemp[i]);
+    reviews.appendChild(notesTemp[i]);
   }
 }
 
@@ -97,19 +97,19 @@ function sortByVoteYesDescending(note1,note2) {
   }
 }
 
-function reorderDishesByTimeDescending() {
+function reorderReviewsByTimeDescending() {
   setCookie("sortBy","time");
-  reorderDishes(sortByTimeDescending);
+  reorderReviews(sortByTimeDescending);
 }
 
-function reorderDishesByTypeAscending() {
+function reorderReviewsByTypeAscending() {
   setCookie("sortBy","type");
-  reorderDishes(sortByTypeAscending);
+  reorderReviews(sortByTypeAscending);
 }
 
-function reorderDishesByVoteYesDescending() {
+function reorderReviewsByVoteYesDescending() {
   setCookie("sortBy","voteYes");
-  reorderDishes(sortByVoteYesDescending);
+  reorderReviews(sortByVoteYesDescending);
 }
 
 ///////////////////
