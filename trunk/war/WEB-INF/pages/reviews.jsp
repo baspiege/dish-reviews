@@ -75,7 +75,13 @@
             out.write("<td><a href=\"reviewUpdate.jsp?reviewId=" + reviewId + "\">" + HtmlUtils.escapeChars(review.note) + "</a></td>");
             
             // Like
-            out.write("<td><button onclick=\"\">" + review.yes +  "</button></td>");
+            out.write("<td>");
+            if (isSignedIn) {
+                out.write("<button onclick=\"sendYesVote(this," + reviewId +")\">" + review.yes +  "</button></td>");
+            } else {
+                out.write(new Long(review.yes).toString());
+            }
+            out.write("</td>");
             
             // Image
             out.write("<td>");
@@ -93,5 +99,6 @@
 </table>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
+<script type="text/javascript" src="/js/reviews.js" ></script>
 </body>
 </html>
