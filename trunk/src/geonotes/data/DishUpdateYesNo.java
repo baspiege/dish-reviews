@@ -44,6 +44,7 @@ public class DishUpdateYesNo {
             query.setRange(0,1);
             List<DishVote> results = (List<DishVote>) query.execute(dishId, user);
             if (!results.isEmpty()) {
+                RequestUtils.addEditUsingKey(aRequest,"alreadyVotedEditMsssage");
                 return;
             }
 
