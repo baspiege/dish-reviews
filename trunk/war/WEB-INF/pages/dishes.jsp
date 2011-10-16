@@ -40,7 +40,20 @@
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 <body>
-<jsp:include page="/WEB-INF/pages/components/headerDishes.jsp"/>
+
+<nav>
+<ul id="navlist" style="margin:0;padding:0;">
+<li><a href="stores.jsp">Main</a></li>
+<li>    
+<% if (!isSignedIn) { %>
+<a href='<%=userService.createLoginURL("../stores.jsp")%>'><%=bundle.getString("logonLabel")%></a>
+<% } else { %>
+<a href='<%=userService.createLogoutURL("../stores.jsp")%>'><%=bundle.getString("logoffLabel")%></a>
+<% } %>
+</li>
+<ul>
+</nav>
+
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 
 <%-- Data --%>
@@ -67,15 +80,23 @@
             out.write("<tr>");
             
             // Note
+            out.write("<td>");
             if (isSignedIn) {
-                out.write("<td><a href=\"dishUpdate.jsp?&dishId=" + dishId + "\">" + HtmlUtils.escapeChars(dish.note) + "</a></td>");
+                out.write("<a href=\"dishUpdate.jsp?&dishId=" + dishId + "\">" + HtmlUtils.escapeChars(dish.note) + "</a>");
             } else {
-                out.write("<td>" + HtmlUtils.escapeChars(dish.note) + "</td>");
+                out.write(HtmlUtils.escapeChars(dish.note));
             }
+            out.write("</td>");
             
             // Like
-            out.write("<td><button onclick=\"sendYesVote(this," + dishId +")\">" + dish.yes +  "</button></td>");
-            
+            out.write("<td>");
+            if (isSignedIn) {
+                out.write("<button onclick=\"sendYesVote(this," + dishId +")\">" + dish.yes +  "</button></td>");
+            } else {
+                out.write(new Long(dish.yes).toString());
+            }
+            out.write("</td>");
+                        
             // Review count and link
             out.write("<td><a href=\"reviews.jsp?storeId=" + storeId + "&dishId=" + dishId + "\">" + dish.reviewCount + "</a></td>");
             out.write("</tr>");
