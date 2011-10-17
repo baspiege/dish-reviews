@@ -14,7 +14,7 @@
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     UserService userService = UserServiceFactory.getUserService();
-    boolean isSignedIn=request.getUserPrincipal()!= null;  
+    boolean isSignedIn=request.getUserPrincipal()!= null;
 
     List<Dish> dishes = null;
     Store store = null;
@@ -81,7 +81,7 @@
             
             // Note
             out.write("<td>");
-            if (isSignedIn) {
+            if (isSignedIn && request.getUserPrincipal().getName().equalsIgnoreCase(dish.user)) {
                 out.write("<a href=\"dishUpdate.jsp?&dishId=" + dishId + "\">" + HtmlUtils.escapeChars(dish.note) + "</a>");
             } else {
                 out.write(HtmlUtils.escapeChars(dish.note));

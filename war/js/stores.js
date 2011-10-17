@@ -70,6 +70,8 @@ function handleStoresDataRequest(req) {
   var table=document.createElement("table");
   table.setAttribute("id","stores");
   var tr=document.createElement("tr");
+  table.appendChild(tr);
+  
   // Distance
   var thDistance=document.createElement("th");
   tr.appendChild(thDistance);
@@ -80,21 +82,13 @@ function handleStoresDataRequest(req) {
   thDistance.appendChild(distanceLink);
   
   // Note
-  var thNote=document.createElement("th");
-  tr.appendChild(thNote);
-  thNote.appendChild(document.createTextNode("Name"));  
-
-  // Add
-  /*
-  var addButton=document.createElement("input");
-  addButton.setAttribute("class","button");
-  addButton.setAttribute("type","button");
-  addButton.setAttribute("id","addButtonEnabled");
-  addButton.setAttribute("name","action");
-  addButton.setAttribute("value","Add");
-  addButton.setAttribute("onclick","window.location='storeAddLocation.jsp';");
-  thNote.appendChild(addButton);  
-  */
+  var thName=document.createElement("th");
+  tr.appendChild(thName);
+  var nameLink=document.createElement("a");
+  nameLink.setAttribute("href","#");
+  nameLink.setAttribute("onclick","reorderStoresByNameAscending();return false;");
+  nameLink.appendChild(document.createTextNode("Name"));  
+  thName.appendChild(nameLink);
 
   // Show Add link if logged in
   if (isLoggedIn=="true") {
@@ -102,48 +96,15 @@ function handleStoresDataRequest(req) {
     addLink.setAttribute("href","storeAddLocation.jsp");
     addLink.setAttribute("class","add addTh");
     addLink.appendChild(document.createTextNode("Add"));
-    thNote.appendChild(addLink);
+    thName.appendChild(addLink);
   }
-  
-  table.appendChild(tr);
-  
-  // Id
-  //var thId=document.createElement("th");
-  //tr.appendChild(thId);
-  //thId.appendChild(document.createTextNode("Id"));
-  // Vote
-  /*
-  var thVote=document.createElement("th");
-  tr.appendChild(thVote);
-  var voteLink=document.createElement("a");
-  voteLink.setAttribute("href","#");
-  voteLink.setAttribute("onclick","reorderStoresByVoteYesDescending();return false;");
-  voteLink.appendChild(document.createTextNode("Vote"));  
-  thVote.appendChild(voteLink);
-  */
-  // Image
-  /*
-  var thImage=document.createElement("th");
-  tr.appendChild(thImage);
-  thImage.appendChild(document.createTextNode("Image"));
-  */
-  // Type
-  /*
-  var thType=document.createElement("th");
-  tr.appendChild(thType);
-  var typeLink=document.createElement("a");
-  typeLink.setAttribute("href","#");
-  typeLink.setAttribute("onclick","reorderStoresByTypeAscending();return false;");
-  typeLink.appendChild(document.createTextNode("Type"));  
-  thType.appendChild(typeLink);  
-  */
   
   // Reviews
   var thType=document.createElement("th");
   tr.appendChild(thType);
   var typeLink=document.createElement("a");
   typeLink.setAttribute("href","#");
-  typeLink.setAttribute("onclick","reorderStoresByReviewAscending();return false;");
+  typeLink.setAttribute("onclick","reorderStoresByDishCountDescending();return false;");
   typeLink.appendChild(document.createTextNode("Dishes"));  
   thType.appendChild(typeLink);  
   
@@ -172,9 +133,11 @@ function handleStoresDataRequest(req) {
       // Attributes
       var id=store.getAttribute("id");
       tr.setAttribute("id",id);
+      tr.setAttribute("name",store.getAttribute("text").toLowerCase());
       tr.setAttribute("lat",store.getAttribute("lat"));
       tr.setAttribute("lon",store.getAttribute("lon"));
       tr.setAttribute("yes",store.getAttribute("yes"));
+      tr.setAttribute("dishCount",store.getAttribute("dishCount"));
       // Distance and bearing
       tr.appendChild(document.createElement("td"));
       
@@ -196,48 +159,6 @@ function handleStoresDataRequest(req) {
       }
       tr.appendChild(desc);
       table.appendChild(tr);
-      
-      // Vote
-      /*
-      var vote=document.createElement("td")
-      var voteButton=document.createElement("button");
-      voteButton.setAttribute("onclick","sendYesVote(this)");
-      voteButton.appendChild(document.createTextNode(store.getAttribute("yes")));
-      vote.appendChild(voteButton);
-      tr.appendChild(vote);
-      */
-      // Image
-      /*
-      var imageCell=document.createElement("td");
-      if (store.getAttribute("img")=="true") {
-        var imageLink=document.createElement("a");
-        imageLink.setAttribute("href","storeImage.jsp?id="+id);
-        var image=document.createElement("img");
-        image.setAttribute("src","storeThumbNailImage?id="+id);
-        imageLink.appendChild(image);
-        imageCell.appendChild(imageLink);
-      } else if (user) {
-        var imageLink=document.createElement("a");
-        imageLink.setAttribute("href","storeImage.jsp?id="+id);
-        imageLink.setAttribute("class","add");
-        imageLink.appendChild(document.createTextNode("Add"));
-        imageCell.appendChild(imageLink);
-      }
-      tr.appendChild(imageCell);      
-      */
-      // Type
-      /*
-      var type=document.createElement("td");
-      if (user) {
-        var typeLink=document.createElement("a");
-        typeLink.setAttribute("href","storeUpdate.jsp?id="+id);
-        typeLink.appendChild(document.createTextNode(store.getAttribute("type")));
-        type.appendChild(typeLink);
-      } else {
-        type.appendChild(document.createTextNode(store.getAttribute("type")));
-      }
-      tr.appendChild(type);
-      */
       
       // Count
       var type=document.createElement("td");
@@ -412,22 +333,22 @@ function sortByDistanceAscending(note1,note2) {
   }
 }
 
-function sortByTimeDescending(note1,note2) {
-  var time1=parseFloat(note1.getAttribute("time"));
-  var time2=parseFloat(note2.getAttribute("time"));
-  if (time1>time2) {
+function sortByNameAscending(note1,note2) {
+  var name1=note1.getAttribute("name");
+  var name2=note2.getAttribute("name");
+  return name1.localeCompare(name2);
+}
+
+function sortByDishCountDescending(note1,note2) {
+  var dishCount1=parseFloat(note1.getAttribute("dishCount"));
+  var dishCount2=parseFloat(note2.getAttribute("dishCount"));
+  if (dishCount1>dishCount2) {
       return -1;
-  } else if (time2>time1) {
+  } else if (dishCount2>dishCount1) {
       return 1;
   } else {
       return 0;
   }
-}
-
-function sortByTypeAscending(note1,note2) {
-  var type1=note1.getAttribute("type");
-  var type2=note2.getAttribute("type");
-  return type1.localeCompare(type2);
 }
 
 function sortByVoteYesDescending(note1,note2) {
@@ -442,19 +363,19 @@ function sortByVoteYesDescending(note1,note2) {
   }
 }
 
-function reorderStoresByTimeDescending() {
-  setCookie("sortBy","time");
-  reorderStores(sortByTimeDescending);
+function reorderStoresByNameAscending() {
+  setCookie("sortBy","name");
+  reorderStores(sortByNameAscending);
+}
+
+function reorderStoresByDishCountDescending() {
+  setCookie("sortBy","dishCount");
+  reorderStores(sortByDishCountDescending);
 }
 
 function reorderStoresByDistanceAscending() {
   setCookie("sortBy","distance");
   reorderStores(sortByDistanceAscending);
-}
-
-function reorderStoresByTypeAscending() {
-  setCookie("sortBy","type");
-  reorderStores(sortByTypeAscending);
 }
 
 function reorderStoresByVoteYesDescending() {
@@ -507,10 +428,10 @@ function updateNotesDispay() {
   var sortBy=getCookie("sortBy");
   if (sortBy=="" || sortBy=="distance") {
     reorderStoresByDistanceAscending();
-  } else if (sortBy=="time") {
-    reorderStoresByTimeDescending();
-  } else if (sortBy=="type") {
-    reorderStoresByTypeAscending();
+  } else if (sortBy=="name") {
+    reorderStoresByNameAscending();
+  } else if (sortBy=="dishCount") {
+    reorderStoresByDishCountDescending();
   } else if (sortBy=="voteYes") {
     reorderStoresByVoteYesDescending();
   }

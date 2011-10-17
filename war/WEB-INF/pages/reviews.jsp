@@ -87,8 +87,14 @@
             
             out.write("<tr>");
             
-            // Review with link - TODO Update if signed in
-            out.write("<td><a href=\"reviewUpdate.jsp?reviewId=" + reviewId + "\">" + HtmlUtils.escapeChars(review.note) + "</a></td>");
+            // Note
+            out.write("<td>");
+            if (isSignedIn && request.getUserPrincipal().getName().equalsIgnoreCase(review.user)) {
+                out.write("<a href=\"reviewUpdate.jsp?&reviewId=" + reviewId + "\">" + HtmlUtils.escapeChars(review.note) + "</a>");
+            } else {
+                out.write(HtmlUtils.escapeChars(review.note));
+            }
+            out.write("</td>");
             
             // Like
             out.write("<td>");
@@ -106,8 +112,8 @@
             } else {
                 out.write("<img src=\"reviewThumbNailImage?reviewId=" + reviewId + "\">");
             }
-            
             out.write("</td>");
+            
             out.write("</tr>");
         }
     }
