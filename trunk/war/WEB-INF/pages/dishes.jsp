@@ -78,10 +78,10 @@
             long dishId=dish.getKey().getId();
             
             out.write("<tr ");
-            out.write("id=\"" + dishId + "\"");            
-            out.write("name=\"" + HtmlUtils.escapeChars(dish.note).toLowerCase() + "\"");            
-            out.write("yes=\"" + dish.yes + "\""); 
-            out.write("reviewCount=\"" + dish.reviewCount+ "\"");             
+            out.write(" id=\"" + dishId + "\"");            
+            out.write(" name=\"" + HtmlUtils.escapeChars(dish.note).toLowerCase() + "\"");            
+            out.write(" yes=\"" + dish.yes + "\""); 
+            out.write(" reviewCount=\"" + dish.reviewCount+ "\"");             
             out.write(">");
             
             // Note
