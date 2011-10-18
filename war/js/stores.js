@@ -460,28 +460,6 @@ function getCardinalDirection(degrees) {
   return value;
 }
 
-function getElapsedTime(oldSeconds,newSeconds){
-  var display="";
-  var seconds=newSeconds-oldSeconds;
-  if (seconds<60){
-    display=Math.round(seconds)+" sec";
-  } else {
-    var minutes=seconds/60;
-    if (minutes<60) {
-      display=Math.round(minutes)+" min";
-    } else {
-      var hours=minutes/60;
-      if (hours<24) {
-        display=Math.round(hours)+" hr";
-      } else {
-        var days=hours/24;
-        display=Math.round(days)+" days";
-      }
-    }
-  }
-  return display;
-}
-
 function displayError(error){
   updateGeoStatus(locationNotFoundMessage + ": (" + error.code + ") " + error.message);
 }
