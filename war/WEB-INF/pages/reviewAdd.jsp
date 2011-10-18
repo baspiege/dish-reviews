@@ -27,7 +27,7 @@
     if (!RequestUtils.isForwarded(request) && !StringUtils.isEmpty(action)) {
         if (action.equals(bundle.getString("addLabel"))) {		
             // Get fields
-            note=RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),false);
+            note=RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
             if (!RequestUtils.hasEdits(request)) {
                 new ReviewAdd().execute(request);
                 RequestUtils.resetAction(request);

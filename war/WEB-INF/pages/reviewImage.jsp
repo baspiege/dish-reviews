@@ -39,7 +39,7 @@
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
             %>
-            <jsp:forward page="/storesRedirect.jsp"/>
+            <jsp:forward page="/reviewsRedirect.jsp"/>
             <%
         }
         
@@ -51,7 +51,7 @@
         RequestUtils.resetAction(request);
         RequestUtils.removeEdits(request);
         %>
-        <jsp:forward page="/storesRedirect.jsp"/>
+        <jsp:forward page="/reviewsRedirect.jsp"/>
         <%
     }
 
@@ -94,7 +94,7 @@
                     new ReviewImageUpdate().execute(request);
                     RequestUtils.resetAction(request);
                     %>
-                    <jsp:forward page="/storesRedirect.jsp"/>
+                    <jsp:forward page="/reviewsRedirect.jsp"/>
                     <%
                 }
             }
@@ -104,14 +104,14 @@
                 new ReviewImageRemove().execute(request);
                 RequestUtils.resetAction(request);
                 %>
-                <jsp:forward page="/storesRedirect.jsp"/>
+                <jsp:forward page="/reviewsRedirect.jsp"/>
                 <%
             }
         } else {
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
             %>
-            <jsp:forward page="/storesRedirect.jsp"/>
+            <jsp:forward page="/reviewsRedirect.jsp"/>
             <%
         }
     }
@@ -126,7 +126,7 @@ form {margin: 0px 0px 0px 0px; display: inline;}
 </head>
 <body>
 <% if (review!=null && review.image!=null) { %>
-<img src="reviewImage?id=<%=new Long(review.getKey().getId()).toString()%>" alt="<%=bundle.getString("altPictureLabel")%>"/> <br/>
+<img src="reviewImage?reviewId=<%=new Long(review.getKey().getId()).toString()%>" alt="<%=bundle.getString("altPictureLabel")%>"/> <br/>
 <% } %>
 <%-- Signed In --%>
 <% if (isSignedIn) { %>

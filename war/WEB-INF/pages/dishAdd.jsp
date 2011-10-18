@@ -28,7 +28,7 @@
     if (!RequestUtils.isForwarded(request) && !StringUtils.isEmpty(action)) {
         if (action.equals(bundle.getString("addLabel"))) {		
             // Get fields
-            note=RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),false);
+            note=RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
             //RequestUtils.getNumericInput(request,"type",bundle.getString("typeLabel"),true);		
             if (!RequestUtils.hasEdits(request)) {
                 new DishAdd().execute(request);

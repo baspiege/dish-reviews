@@ -110,7 +110,9 @@
             if (review.imageThumbnail==null) {
                 out.write("<a class=\"add\" href=\"reviewImage.jsp?reviewId=" + reviewId + "\">" + bundle.getString("addLabel") + "</a>");
             } else {
+                out.write("<a href=\"reviewImage.jsp?reviewId=" + reviewId + "\">");
                 out.write("<img src=\"reviewThumbNailImage?reviewId=" + reviewId + "\">");
+                out.write("</a>");
             }
             out.write("</td>");
             
