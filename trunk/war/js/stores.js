@@ -162,6 +162,7 @@ function handleStoresDataRequest(req) {
       
       // Count
       var type=document.createElement("td");
+      type.setAttribute("class","center");
       var typeLink=document.createElement("a");
       typeLink.setAttribute("href","dishes.jsp?storeId="+id);
       typeLink.appendChild(document.createTextNode(store.getAttribute("dishCount")));
@@ -321,6 +322,18 @@ function reorderStores(sortFunction) {
   }
 }
 
+function sortByDishCountDescending(note1,note2) {
+  var dishCount1=parseFloat(note1.getAttribute("dishCount"));
+  var dishCount2=parseFloat(note2.getAttribute("dishCount"));
+  if (dishCount1>dishCount2) {
+      return -1;
+  } else if (dishCount2>dishCount1) {
+      return 1;
+  } else {
+      return 0;
+  }
+}
+
 function sortByDistanceAscending(note1,note2) {
   var distance1=parseFloat(note1.getAttribute("distance"));
   var distance2=parseFloat(note2.getAttribute("distance"));
@@ -339,18 +352,6 @@ function sortByNameAscending(note1,note2) {
   return name1.localeCompare(name2);
 }
 
-function sortByDishCountDescending(note1,note2) {
-  var dishCount1=parseFloat(note1.getAttribute("dishCount"));
-  var dishCount2=parseFloat(note2.getAttribute("dishCount"));
-  if (dishCount1>dishCount2) {
-      return -1;
-  } else if (dishCount2>dishCount1) {
-      return 1;
-  } else {
-      return 0;
-  }
-}
-
 function sortByVoteYesDescending(note1,note2) {
   var vote1=parseInt(note1.getAttribute("yes"));
   var vote2=parseInt(note2.getAttribute("yes"));
@@ -363,11 +364,6 @@ function sortByVoteYesDescending(note1,note2) {
   }
 }
 
-function reorderStoresByNameAscending() {
-  setCookie("sortBy","name");
-  reorderStores(sortByNameAscending);
-}
-
 function reorderStoresByDishCountDescending() {
   setCookie("sortBy","dishCount");
   reorderStores(sortByDishCountDescending);
@@ -376,6 +372,11 @@ function reorderStoresByDishCountDescending() {
 function reorderStoresByDistanceAscending() {
   setCookie("sortBy","distance");
   reorderStores(sortByDistanceAscending);
+}
+
+function reorderStoresByNameAscending() {
+  setCookie("sortBy","name");
+  reorderStores(sortByNameAscending);
 }
 
 function reorderStoresByVoteYesDescending() {

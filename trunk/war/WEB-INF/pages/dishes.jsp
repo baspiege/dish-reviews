@@ -58,26 +58,31 @@
 
 <%-- Data --%>
 <div style="margin-top:1.5em" class="data">
-<table>
+<table id="dishes">
 <caption><%= HtmlUtils.escapeChars(store.note) %></caption>
 <tr>
 
-<th>Dish
+<th><a href="#" onclick="reorderDishesByNameAscending();return false;">Dish</a>
 <%-- Add Button --%>
 <% if (isSignedIn) { %>
  <a class="add addTh" href='dishAdd.jsp?storeId=<%=storeId.toString()%>'><%=bundle.getString("addLabel")%></a>
 <% } %>
 </th>
 
-<th>Like</th>
-<th>Reviews</th>
+<th><a href="#" onclick="reorderDishesByVoteYesDescending();return false;">Like</a></th>
+<th><a href="#" onclick="reorderDishesByReviewCountDescending();return false;">Reviews</a></th>
 </tr>
 <%
     if (dishes!=null && dishes.size()>0) {
         for (Dish dish:dishes) {
             long dishId=dish.getKey().getId();
             
-            out.write("<tr>");
+            out.write("<tr ");
+            out.write("id=\"" + dishId + "\"");            
+            out.write("name=\"" + HtmlUtils.escapeChars(dish.note).toLowerCase() + "\"");            
+            out.write("yes=\"" + dish.yes + "\""); 
+            out.write("reviewCount=\"" + dish.reviewCount+ "\"");             
+            out.write(">");
             
             // Note
             out.write("<td>");
@@ -98,7 +103,7 @@
             out.write("</td>");
                         
             // Review count and link
-            out.write("<td><a href=\"reviews.jsp?storeId=" + storeId + "&dishId=" + dishId + "\">" + dish.reviewCount + "</a></td>");
+            out.write("<td class=\"center\"><a href=\"reviews.jsp?storeId=" + storeId + "&dishId=" + dishId + "\">" + dish.reviewCount + "</a></td>");
             out.write("</tr>");
         }
     }

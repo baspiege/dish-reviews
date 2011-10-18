@@ -28,10 +28,6 @@ function sendRequest(url,callback,postData) {
 }
 
 ///////////////////
-// Data
-///////////////////
-
-///////////////////
 // Votes
 ///////////////////
 
@@ -63,26 +59,26 @@ function reorderDishes(sortFunction) {
   }
   notesTemp.sort(sortFunction);
   for (var i=0; i<notesTemp.length; i++) {
-    stores.appendChild(notesTemp[i]);
+    dishes.appendChild(notesTemp[i]);
   }
 }
 
-function sortByTimeDescending(note1,note2) {
-  var time1=parseFloat(note1.getAttribute("time"));
-  var time2=parseFloat(note2.getAttribute("time"));
-  if (time1>time2) {
+function sortByNameAscending(note1,note2) {
+  var name1=note1.getAttribute("name");
+  var name2=note2.getAttribute("name");
+  return name1.localeCompare(name2);
+}
+
+function sortByReviewCountDescending(note1,note2) {
+  var reviewCount1=parseFloat(note1.getAttribute("reviewCount"));
+  var reviewCount2=parseFloat(note2.getAttribute("reviewCount"));
+  if (reviewCount1>reviewCount2) {
       return -1;
-  } else if (time2>time1) {
+  } else if (reviewCount2>reviewCount1) {
       return 1;
   } else {
       return 0;
   }
-}
-
-function sortByTypeAscending(note1,note2) {
-  var type1=note1.getAttribute("type");
-  var type2=note2.getAttribute("type");
-  return type1.localeCompare(type2);
 }
 
 function sortByVoteYesDescending(note1,note2) {
@@ -97,51 +93,17 @@ function sortByVoteYesDescending(note1,note2) {
   }
 }
 
-function reorderDishesByTimeDescending() {
-  setCookie("sortBy","time");
-  reorderDishes(sortByTimeDescending);
+function reorderDishesByNameAscending() {
+  //setCookie("sortBy","name");
+  reorderDishes(sortByNameAscending);
 }
 
-function reorderDishesByTypeAscending() {
-  setCookie("sortBy","type");
-  reorderDishes(sortByTypeAscending);
+function reorderDishesByReviewCountDescending() {
+  //setCookie("sortBy","reviewCount");
+  reorderDishes(sortByReviewCountDescending);
 }
 
 function reorderDishesByVoteYesDescending() {
-  setCookie("sortBy","voteYes");
+  //setCookie("sortBy","voteYes");
   reorderDishes(sortByVoteYesDescending);
-}
-
-///////////////////
-// Display
-///////////////////
-
-function removeChildrenFromElement(element) {
-  if (element.hasChildNodes()) {
-    while (element.childNodes.length>0) {
-      element.removeChild(element.firstChild);
-    }
-  }
-}
-
-function getElapsedTime(oldSeconds,newSeconds){
-  var display="";
-  var seconds=newSeconds-oldSeconds;
-  if (seconds<60){
-    display=Math.round(seconds)+" sec";
-  } else {
-    var minutes=seconds/60;
-    if (minutes<60) {
-      display=Math.round(minutes)+" min";
-    } else {
-      var hours=minutes/60;
-      if (hours<24) {
-        display=Math.round(hours)+" hr";
-      } else {
-        var days=hours/24;
-        display=Math.round(days)+" days";
-      }
-    }
-  }
-  return display;
 }

@@ -28,7 +28,7 @@
     if (!RequestUtils.isForwarded(request) && !StringUtils.isEmpty(action)) {
         if (action.equals(bundle.getString("addLabel"))) {		
             // Get fields
-            note=RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),false);
+            note=RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
             RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
             RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
             if (!RequestUtils.hasEdits(request)) {
