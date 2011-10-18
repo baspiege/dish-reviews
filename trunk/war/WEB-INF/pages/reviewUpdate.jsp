@@ -55,7 +55,7 @@
     if (!StringUtils.isEmpty(action) && isSignedIn) {
         if (action.equals(bundle.getString("updateLabel"))) {		
             // Fields
-            RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),false);
+            RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
             if (!RequestUtils.hasEdits(request)) {
                 new ReviewUpdate().execute(request);
             }

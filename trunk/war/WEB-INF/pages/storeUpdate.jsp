@@ -54,7 +54,7 @@
     if (!StringUtils.isEmpty(action) && isSignedIn) {
         if (action.equals(bundle.getString("updateLabel"))) {		
             // Fields
-            RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),false);
+            RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
             if (!RequestUtils.hasEdits(request)) {
                 new StoreUpdate().execute(request);
             }
