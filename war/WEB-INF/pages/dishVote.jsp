@@ -28,6 +28,8 @@
                 message+=HtmlUtils.escapeChars((String)edits.get(i));
             }
             out.write("<error message=\"" + message + "\"/>");
+        } else {
+            out.write("<success dishId=\"" + dishId + "\"/>");
         }
     }
 %>
