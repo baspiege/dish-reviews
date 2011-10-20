@@ -70,6 +70,7 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <table>
 <!--  <tr><td><%=bundle.getString("positionLabel")%>:</td><td><span id="info"></span></td></tr> -->
   <tr><td><%=bundle.getString("addressLabel")%>:</td><td><span id="address"></span></td></tr>
