@@ -90,6 +90,7 @@
     if (reviews!=null && reviews.size()>0) {
         for (Review review:reviews) {
             long reviewId=review.getKey().getId();
+            boolean usersOwnReview=isSignedIn && request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
             
             out.write("<tr");
             out.write(" id=\"" + reviewId + "\"");            
@@ -100,7 +101,7 @@
             
             // Note
             out.write("<td>");
-            if (isSignedIn && request.getUserPrincipal().getName().equalsIgnoreCase(review.user)) {
+            if (usersOwnReview) {
                 out.write("<a href=\"reviewUpdate.jsp?&reviewId=" + reviewId + "\">" + HtmlUtils.escapeChars(review.note) + "</a>");
             } else {
                 out.write(HtmlUtils.escapeChars(review.note));
@@ -122,7 +123,9 @@
             // Image
             out.write("<td>");
             if (review.imageThumbnail==null) {
-                out.write("<a class=\"add\" href=\"reviewImage.jsp?reviewId=" + reviewId + "\">" + bundle.getString("addLabel") + "</a>");
+                if (usersOwnReview) {
+                    out.write("<a class=\"add\" href=\"reviewImage.jsp?reviewId=" + reviewId + "\">" + bundle.getString("addLabel") + "</a>");
+                }
             } else {
                 out.write("<a href=\"reviewImage.jsp?reviewId=" + reviewId + "\">");
                 out.write("<img src=\"reviewThumbNailImage?reviewId=" + reviewId + "\">");
