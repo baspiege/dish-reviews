@@ -37,6 +37,11 @@ public class DishUpdate {
                         
             Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
             
+            if (dish.reviewCount>0) {
+                RequestUtils.addEditUsingKey(aRequest,"dishesWithReviewsCantBeUpdatedEditMessage");
+                return;
+            }
+            
             if (dish!=null){
             
                 if (note!=null) {

@@ -33,6 +33,11 @@ public class DishDelete {
             
             Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
             
+            if (dish.reviewCount>0) {
+                RequestUtils.addEditUsingKey(aRequest,"dishesWithReviewsCantBeDeletedEditMessage");
+                return;
+            }
+            
             if (dish!=null){
                 pm.deletePersistent(dish);
                 
