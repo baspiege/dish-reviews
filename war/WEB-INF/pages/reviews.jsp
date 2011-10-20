@@ -1,6 +1,7 @@
 <%-- This JSP has the HTML for reviews page. --%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
+<%@ page import="java.util.Date" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="com.google.appengine.api.users.UserService" %>
@@ -11,6 +12,7 @@
 <%@ page import="geonotes.data.model.Dish" %>
 <%@ page import="geonotes.data.model.Review" %>
 <%@ page import="geonotes.data.model.Store" %>
+<%@ page import="geonotes.utils.DisplayUtils" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%
@@ -79,10 +81,12 @@
  <a class="add addTh" href='reviewAdd.jsp?dishId=<%=dishId.toString()%>'><%=bundle.getString("addLabel")%></a>
 <% } %>
 
+<th><a href="#" onclick="reorderReviewsByTimeDescending();return false;">Time Ago</a></th>
 <th><a href="#" onclick="reorderReviewsByVoteYesDescending();return false;">Agree</a></th>
 
 </th><th>Image</th></tr>
 <%
+    long currentTime=new Date().getTime()/1000;
     if (reviews!=null && reviews.size()>0) {
         for (Review review:reviews) {
             long reviewId=review.getKey().getId();
@@ -90,7 +94,8 @@
             out.write("<tr");
             out.write(" id=\"" + reviewId + "\"");            
             out.write(" name=\"" + HtmlUtils.escapeChars(review.note).toLowerCase() + "\"");            
-            out.write(" yes=\"" + review.yes + "\"");           
+            out.write(" yes=\"" + review.yes + "\"");
+            out.write(" time=\"" + review.lastUpdateTime.getTime() + "\"");
             out.write(">");
             
             // Note
@@ -101,6 +106,9 @@
                 out.write(HtmlUtils.escapeChars(review.note));
             }
             out.write("</td>");
+            
+            // Time Ago
+            out.write("<td>" + DisplayUtils.displayElapsedTime(review.lastUpdateTime.getTime()/1000,currentTime) + "</td>");
             
             // Like
             out.write("<td>");
