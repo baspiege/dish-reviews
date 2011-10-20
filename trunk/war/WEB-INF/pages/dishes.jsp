@@ -103,7 +103,7 @@
             out.write("</td>");
                         
             // Review count and link
-            out.write("<td class=\"center\"><a href=\"reviews.jsp?storeId=" + storeId + "&dishId=" + dishId + "\">" + dish.reviewCount + "</a></td>");
+            out.write("<td class=\"center\"><a href=\"reviews.jsp?dishId=" + dishId + "\">" + dish.reviewCount + "</a></td>");
             out.write("</tr>");
         }
     }
