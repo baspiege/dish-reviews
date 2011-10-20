@@ -41,6 +41,11 @@ public class StoreUpdate {
             
             if (store!=null){
             
+                if (store.dishCount>0) {
+                    RequestUtils.addEditUsingKey(aRequest,"storesWithDishesCantBeUpdatedEditMessage");
+                    return;
+                }
+            
                 if (note!=null) {
                     store.setNote(note);
                 }

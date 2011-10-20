@@ -32,6 +32,11 @@ public class StoreDelete {
             
             Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
             
+            if (store.dishCount>0) {
+                RequestUtils.addEditUsingKey(aRequest,"storesWithDishesCantBeDeletedEditMessage");
+                return;
+            }
+            
             if (store!=null){
                 pm.deletePersistent(store);
             }
