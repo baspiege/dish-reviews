@@ -96,7 +96,7 @@
             // Like
             out.write("<td>");
             if (isSignedIn) {
-                out.write("<button onclick=\"sendYesVote(this," + dishId +")\">" + dish.yes +  "</button></td>");
+                out.write("<button id=\"button" + dishId + "\" onclick=\"sendYesVote(" + dishId +")\">" + dish.yes +  "</button></td>");
             } else {
                 out.write(new Long(dish.yes).toString());
             }

@@ -66,18 +66,20 @@
 <%-- Data --%>
 <div style="margin-top:1.5em" class="data">
 
-<table>
+<table id="reviews">
 <caption>
 <%= HtmlUtils.escapeChars(dish.note) %>
 </caption>
-<tr><th>Reviews
+<tr>
+
+<th><a href="#" onclick="reorderReviewsByNameAscending();return false;">Reviews</a>
 
 <%-- Add Button --%>
 <% if (isSignedIn) { %>
  <a class="add addTh" href='reviewAdd.jsp?dishId=<%=dishId.toString()%>'><%=bundle.getString("addLabel")%></a>
 <% } %>
 
-<th>Agree</th>
+<th><a href="#" onclick="reorderReviewsByVoteYesDescending();return false;">Agree</a></th>
 
 </th><th>Image</th></tr>
 <%
@@ -85,7 +87,11 @@
         for (Review review:reviews) {
             long reviewId=review.getKey().getId();
             
-            out.write("<tr>");
+            out.write("<tr");
+            out.write(" id=\"" + reviewId + "\"");            
+            out.write(" name=\"" + HtmlUtils.escapeChars(review.note).toLowerCase() + "\"");            
+            out.write(" yes=\"" + review.yes + "\"");           
+            out.write(">");
             
             // Note
             out.write("<td>");
@@ -99,7 +105,7 @@
             // Like
             out.write("<td>");
             if (isSignedIn) {
-                out.write("<button onclick=\"sendYesVote(this," + reviewId +")\">" + review.yes +  "</button></td>");
+                out.write("<button id=\"button" + reviewId + "\" onclick=\"sendYesVote(" + reviewId + ")\">" + review.yes +  "</button></td>");
             } else {
                 out.write(new Long(review.yes).toString());
             }

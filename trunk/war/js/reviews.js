@@ -37,12 +37,16 @@ function handleYesVote(req) {
   if (error.length>0){
     var message=error[0].getAttribute("message");
     alert(message);
+  } else {
+    var success=xmlDoc.getElementsByTagName("success");
+    var reviewId=success[0].getAttribute("reviewId");
+    var button=document.getElementById("button" + reviewId);
+    var yes=parseInt(button.innerHTML);
+    button.innerHTML=yes+1;
   }
 }
 
-function sendYesVote(elem,id) {
-  var yes=parseInt(elem.innerHTML);
-  elem.innerHTML=yes+1;
+function sendYesVote(id) {
   sendRequest('reviewVote.jsp?vote=yes&reviewId='+id,handleYesVote);
 }
 
@@ -95,7 +99,7 @@ function sortByVoteYesDescending(note1,note2) {
 
 function reorderReviewsByNameAscending() {
   // setCookie("sortBy","name");
-  reorderStores(sortByNameAscending);
+  reorderReviews(sortByNameAscending);
 }
 
 function reorderReviewsByTimeDescending() {
