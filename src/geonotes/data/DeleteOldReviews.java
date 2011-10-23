@@ -36,7 +36,9 @@ public class DeleteOldReviews {
 
             // Set date.
             Calendar calendar=Calendar.getInstance();
-            calendar.add(Calendar.DATE, -90);  // 90 days in the past
+            calendar.add(Calendar.DATE, -180);  // 180 days in the past
+            
+            // TODO - Also decrement review count from dishes...
 
             query.deletePersistentAll( calendar.getTime() );
         }

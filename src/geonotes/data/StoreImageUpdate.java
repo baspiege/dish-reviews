@@ -16,7 +16,7 @@ import geonotes.utils.RequestUtils;
 public class StoreImageUpdate {
 
     /**
-     * Update a note.
+     * Update an image.
 	   *
      * @param aRequest The request
      *
