@@ -28,7 +28,6 @@ public class ReviewAdd {
 
         // Note
         String note=(String)aRequest.getAttribute("note");
-        Long type=(Long)aRequest.getAttribute("type");
         Long dishId=(Long)aRequest.getAttribute("dishId");
         String user=(String)aRequest.getAttribute("user");
 
@@ -40,7 +39,6 @@ public class ReviewAdd {
             review.setNote(note);
             review.setLastUpdateTime(new Date());
             review.setDishId(dishId);
-            // review.setType(type.longValue());
             review.setYes(0);
             review.setUser(user);
             

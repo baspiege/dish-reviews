@@ -51,8 +51,6 @@
 <tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=note%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
 </table>
 <p>
-<%-- Cancel --%>
-<input class="button" type="button" name="action" value="<%=bundle.getString("cancelLabel")%>" onclick="window.location='stores.jsp';return false;"/>
 <%-- Add --%>
 <input id="storeId" type="hidden" name="dishId" value="<%=dishId%>" />
 <input class="button" type="submit" style="display:none" id="addButtonDisabled" disabled="disabled" value="<%=bundle.getString("addLabel")%>"/>

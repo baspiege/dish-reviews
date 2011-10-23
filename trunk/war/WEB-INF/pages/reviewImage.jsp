@@ -47,6 +47,7 @@
         if (isSignedIn) {
             isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
         }
+        request.setAttribute("dishId",review.dishId);
     } else {    
         RequestUtils.resetAction(request);
         RequestUtils.removeEdits(request);
