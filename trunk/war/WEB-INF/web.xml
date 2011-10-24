@@ -39,9 +39,17 @@
       <servlet-name>reviewThumbNailImage</servlet-name>
       <servlet-class>geonotes.ReviewThumbNailImage</servlet-class>
     </servlet>
+    <servlet>
+      <servlet-name>reviewLastThumbNailImage</servlet-name>
+      <servlet-class>geonotes.ReviewLastThumbNailImage</servlet-class>
+    </servlet>
     <servlet-mapping>
       <servlet-name>reviewThumbNailImage</servlet-name>
       <url-pattern>/reviewThumbNailImage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>reviewLastThumbNailImage</servlet-name>
+      <url-pattern>/reviewLastThumbNailImage</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
       <servlet-name>reviewImage</servlet-name>

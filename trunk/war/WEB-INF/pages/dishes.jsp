@@ -38,6 +38,21 @@
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
 <title><%=bundle.getString("dishesLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+<script type="text/javascript">
+
+function removeImage(elem) {
+  removeChildrenFromElement(elem.parentNode);
+}
+
+function removeChildrenFromElement(element) {
+  if (element.hasChildNodes()) {
+    while (element.childNodes.length>0) {
+      element.removeChild(element.firstChild);
+    }
+  }
+}
+
+</script>
 </head>
 <body>
 
@@ -71,6 +86,7 @@
 
 <th><a href="#" onclick="reorderDishesByVoteYesDescending();return false;">Like</a></th>
 <th><a href="#" onclick="reorderDishesByReviewCountDescending();return false;">Reviews</a></th>
+<th>Image</th>
 </tr>
 <%
     if (dishes!=null && dishes.size()>0) {
@@ -104,6 +120,14 @@
                         
             // Review count and link
             out.write("<td class=\"center\"><a href=\"reviews.jsp?dishId=" + dishId + "\">" + dish.reviewCount + "</a></td>");
+
+            // Last image
+            out.write("<td>");
+            out.write("<a href=\"reviews.jsp?dishId=" + dishId + "\">");
+            out.write("<img src=\"reviewLastThumbNailImage?dishId=" + dishId + "\" onerror=\"removeImage(this)\">");
+            out.write("</a>");
+            out.write("</td>");
+                
             out.write("</tr>");
         }
     }
