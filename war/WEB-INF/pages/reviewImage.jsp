@@ -22,8 +22,6 @@
 <%
     // Check if signed in
     boolean isSignedIn=request.getUserPrincipal()!=null;
-    
-    System.out.println( isSignedIn );
 
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
