@@ -143,19 +143,18 @@ function handleStoresDataRequest(req) {
       
       // Desc
       var desc=document.createElement("td");
-      if (user) {
-        var descLink=document.createElement("a");
-        descLink.setAttribute("href","storeUpdate.jsp?id="+id);
-        var text=store.getAttribute("text");
-        if (text=="") {
-          text="Add";
-          descLink.setAttribute("class","add");
-        }
-        descLink.appendChild(document.createTextNode(text));
-        desc.appendChild(descLink);
-      } else {
-        var text=store.getAttribute("text");
-        desc.appendChild(document.createTextNode(text));
+      var descLink=document.createElement("a");
+      descLink.setAttribute("href","dishes.jsp?storeId="+id);
+      var text=store.getAttribute("text");
+      descLink.appendChild(document.createTextNode(text));
+      desc.appendChild(descLink);
+      if (user && parseInt(store.getAttribute("dishCount"))==0) {
+        var editLink=document.createElement("a");
+        editLink.setAttribute("href","storeUpdate.jsp?id="+id);
+        editLink.setAttribute("class","edit");
+        editLink.appendChild(document.createTextNode("edit"));
+        desc.appendChild(document.createTextNode(' '));
+        desc.appendChild(editLink);
       }
       tr.appendChild(desc);
       table.appendChild(tr);

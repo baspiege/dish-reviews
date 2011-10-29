@@ -114,4 +114,39 @@ public class ReviewGetSingle {
 
         return review;
     }    
+    
+    /**
+     * Get the last review with image.
+     *
+     * @param aRequest The request
+     * @param aPm PersistenceManager
+     * @param aDishId dish Id
+     * @return a review null if not found
+     *
+     * @since 1.0
+     */
+    public static Review getLastReviewWithImage(HttpServletRequest aRequest, PersistenceManager aPm, long aDishId) {
+        Review review=null;
+
+        Query query=null;
+        try {
+            query = aPm.newQuery(Review.class); 
+            query.setFilter("(dishId == dishIdParam) && (hasImage==true)"); 
+            query.declareParameters("long dishIdParam");
+            query.setRange(0,1);
+            query.setOrdering("lastUpdateTime DESC");
+
+            List<Review> results = (List<Review>) query.execute(aDishId); 
+
+            if (!results.isEmpty()) {
+                review=(Review)results.get(0);
+            }
+        } finally {
+            if (query!=null) {   
+                query.closeAll(); 
+            }
+        }
+
+        return review;
+    }
 }

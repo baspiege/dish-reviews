@@ -33,10 +33,13 @@ public class Review implements Serializable {
     public long dishId;
     
     @Persistent 
+    public Boolean hasImage;
+    
+    @Persistent 
     public Blob image;	
     
     @Persistent 
-    public Blob imageThumbnail;	
+    public Blob imageThumbnail;		
     
     @Persistent 
     public Date lastUpdateTime;	
@@ -59,6 +62,15 @@ public class Review implements Serializable {
     } 
  
     // Accessors for the fields.  JDO doesn't use these, but the application does. 
+    
+    public boolean getHasImage()
+    {
+        if (hasImage==null) {
+            return false;
+        } else {
+            return hasImage.booleanValue();        
+        }
+    }
 
     public Key getKey()
     { 
@@ -68,6 +80,11 @@ public class Review implements Serializable {
     public void setDishId(long aDishId)
     { 
         dishId=aDishId; 
+    }
+    
+    public void setHasImage(Boolean aHasImage)
+    {
+        hasImage=aHasImage; 
     }
     
     public void setNote(String aNote)

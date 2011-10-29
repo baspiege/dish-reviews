@@ -30,8 +30,8 @@ public class Dish implements Serializable {
     private Key key;
     
     @Persistent 
-    public long storeId;
-    
+    public String lastReview;	
+        
     @Persistent 
     public Date lastUpdateTime;	
 
@@ -42,10 +42,13 @@ public class Dish implements Serializable {
     public long reviewCount;
     
     @Persistent 
+    public long storeId;
+    
+    @Persistent 
     public String user;
     
     @Persistent 
-    public long yes;	
+    public long yes;
  
     /**
      * Constructor.
@@ -67,6 +70,11 @@ public class Dish implements Serializable {
         note=aNote; 
     }
     
+    public void setLastReview(String aLastReview)
+    { 
+        lastReview=aLastReview; 
+    }
+        
     public void setLastUpdateTime(Date aLastUpdateTime)
     { 
         lastUpdateTime=aLastUpdateTime; 

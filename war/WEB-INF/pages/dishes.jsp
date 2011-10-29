@@ -102,11 +102,11 @@ function removeChildrenFromElement(element) {
             
             // Note
             out.write("<td>");
-            if (isSignedIn && request.getUserPrincipal().getName().equalsIgnoreCase(dish.user)) {
-                out.write("<a href=\"dishUpdate.jsp?&dishId=" + dishId + "\">" + HtmlUtils.escapeChars(dish.note) + "</a>");
-            } else {
-                out.write(HtmlUtils.escapeChars(dish.note));
+            out.write("<a href=\"reviews.jsp?dishId=" + dishId + "\">" + HtmlUtils.escapeChars(dish.note) + "</a>");
+            if (isSignedIn && request.getUserPrincipal().getName().equalsIgnoreCase(dish.user) && dish.reviewCount==0) {
+                out.write("<a class=\"edit\" href=\"dishUpdate.jsp?&dishId=" + dishId + "\">" + " edit" + "</a>");
             }
+            
             out.write("</td>");
             
             // Like
