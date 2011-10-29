@@ -29,7 +29,7 @@ public class ReviewLastThumbNailImage extends HttpServlet {
         try {
             pm=PMF.get().getPersistenceManager();
                         
-            Review review=ReviewGetSingle.getLastReview(request,pm,dishId.longValue());
+            Review review=ReviewGetSingle.getLastReviewWithImage(request,pm,dishId.longValue());
             
             if (review!=null && review.imageThumbnail!=null){
                 response.setContentType("image/jpeg");

@@ -101,10 +101,10 @@
             
             // Note
             out.write("<td>");
+            out.write(HtmlUtils.escapeChars(review.note));
             if (usersOwnReview) {
-                out.write("<a href=\"reviewUpdate.jsp?&reviewId=" + reviewId + "\">" + HtmlUtils.escapeChars(review.note) + "</a>");
+                out.write("<a class=\"edit\" href=\"reviewUpdate.jsp?&reviewId=" + reviewId + "\">" + " edit" + "</a>");
             } else {
-                out.write(HtmlUtils.escapeChars(review.note));
             }
             out.write("</td>");
             

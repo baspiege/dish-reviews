@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServletRequest;
 
+import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
 import geonotes.utils.DisplayUtils;
 import geonotes.utils.RequestUtils;
@@ -41,9 +42,13 @@ public class ReviewUpdate {
             
                 if (note!=null) {
                     review.setNote(note);
-                }
                     
-                review.setLastUpdateTime(new Date());
+                    // Last review
+                    Dish dish=DishGetSingle.getDish(aRequest,pm,review.dishId);
+                    dish.setLastReview(note);
+                    
+                    review.setLastUpdateTime(new Date());
+                }
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

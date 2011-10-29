@@ -49,6 +49,9 @@ public class ReviewAdd {
             Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
             dish.setReviewCount(dish.reviewCount+1);
             
+            // Last review
+            dish.setLastReview(note);
+            
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();

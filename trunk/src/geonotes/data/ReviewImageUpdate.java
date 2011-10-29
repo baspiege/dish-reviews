@@ -40,6 +40,7 @@ public class ReviewImageUpdate {
             if (review!=null){
                 review.setImage(image);
                 review.setImageThumbnail(imageThumbnail);
+                review.setHasImage(Boolean.TRUE);
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

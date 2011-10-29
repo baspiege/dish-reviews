@@ -1,6 +1,9 @@
 package geonotes.data;
 
+import java.util.List;
+
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Dish;
@@ -39,6 +42,18 @@ public class ReviewDelete {
                 // Update count
                 Dish dish=DishGetSingle.getDish(aRequest,pm,review.dishId);
                 dish.setReviewCount(dish.reviewCount-1);
+                
+                // Reset last review
+                Query query = pm.newQuery(Review.class); 
+                query.setFilter("(dishId == dishIdParam)"); 
+                query.declareParameters("long dishIdParam");
+                query.setRange(0,1);
+                query.setOrdering("lastUpdateTime DESC");
+                List<Review> results = (List<Review>) query.execute(dish.getKey().getId()); 
+                if (!results.isEmpty()) {
+                    review=(Review)results.get(0);
+                    dish.setLastReview(review.note);
+                }
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
