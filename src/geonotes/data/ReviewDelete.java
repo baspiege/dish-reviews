@@ -53,6 +53,8 @@ public class ReviewDelete {
                 if (!results.isEmpty()) {
                     review=(Review)results.get(0);
                     dish.setLastReview(review.note);
+                } else {
+                    dish.setLastReview(null);                
                 }
             }
         } catch (Exception e) {

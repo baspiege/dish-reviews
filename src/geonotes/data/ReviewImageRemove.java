@@ -34,6 +34,7 @@ public class ReviewImageRemove {
             if (review!=null){
                 review.setImage(null);
                 review.setImageThumbnail(null);
+                review.setHasImage(Boolean.FALSE);
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
