@@ -86,7 +86,8 @@ function removeChildrenFromElement(element) {
 
 <th><a href="#" onclick="reorderDishesByVoteYesDescending();return false;">Like</a></th>
 <th><a href="#" onclick="reorderDishesByReviewCountDescending();return false;">Reviews</a></th>
-<th>Image</th>
+<th>Last Review</th>
+<th>Last Image</th>
 </tr>
 <%
     if (dishes!=null && dishes.size()>0) {
@@ -121,6 +122,13 @@ function removeChildrenFromElement(element) {
             // Review count and link
             out.write("<td class=\"center\"><a href=\"reviews.jsp?dishId=" + dishId + "\">" + dish.reviewCount + "</a></td>");
 
+            // Last note
+            out.write("<td>");
+            out.write("<a href=\"reviews.jsp?dishId=" + dishId + "\">");
+            out.write(HtmlUtils.escapeChars(dish.lastReview));
+            out.write("</a>");
+            out.write("</td>");
+            
             // Last image
             out.write("<td>");
             out.write("<a href=\"reviews.jsp?dishId=" + dishId + "\">");
