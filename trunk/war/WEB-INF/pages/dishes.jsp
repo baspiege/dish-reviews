@@ -85,7 +85,7 @@ function removeChildrenFromElement(element) {
 </th>
 
 <th><a href="#" onclick="reorderDishesByVoteYesDescending();return false;">Like</a></th>
-<th><a href="#" onclick="reorderDishesByReviewCountDescending();return false;">Reviews</a></th>
+<%-- <th><a href="#" onclick="reorderDishesByReviewCountDescending();return false;">Reviews</a></th> --%>
 <th>Last Review</th>
 <th>Last Image</th>
 </tr>
@@ -120,13 +120,20 @@ function removeChildrenFromElement(element) {
             out.write("</td>");
                         
             // Review count and link
-            out.write("<td class=\"center\"><a href=\"reviews.jsp?dishId=" + dishId + "\">" + dish.reviewCount + "</a></td>");
+            // out.write("<td class=\"center\"><a href=\"reviews.jsp?dishId=" + dishId + "\">" + dish.reviewCount + "</a></td>");
 
             // Last note
             out.write("<td>");
-            out.write("<a href=\"reviews.jsp?dishId=" + dishId + "\">");
-            out.write(HtmlUtils.escapeChars(dish.lastReview));
-            out.write("</a>");
+            
+            if (dish.lastReview!=null) {
+                out.write("<a href=\"reviews.jsp?dishId=" + dishId + "\">");
+                out.write(HtmlUtils.escapeChars(dish.lastReview));
+                out.write("</a>");
+            } else if (isSignedIn) {
+                out.write("<a class=\"add\" href=\"reviewAdd.jsp?dishId=" + dishId + "\">");
+                out.write(bundle.getString("addLabel"));
+                out.write("</a>");
+            }
             out.write("</td>");
             
             // Last image
