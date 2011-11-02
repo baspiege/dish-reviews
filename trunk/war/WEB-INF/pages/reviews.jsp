@@ -15,6 +15,7 @@
 <%@ page import="geonotes.utils.DisplayUtils" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
+<%@ page import="geonotes.utils.MemCacheUtils" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     UserService userService = UserServiceFactory.getUserService();
@@ -29,8 +30,7 @@
         new ReviewsGetAll().execute(request);
         reviews=(List<Review>)request.getAttribute("reviews");
         
-        new DishGetSingle().execute(request);
-        dish=(Dish)request.getAttribute("dish");
+        dish=RequestUtils.getDish(request,dishId);
         
         request.setAttribute("id",dish.storeId);    
         new StoreGetSingle().execute(request);
