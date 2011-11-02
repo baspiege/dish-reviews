@@ -13,6 +13,9 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import geonotes.data.DishGetSingle;
+import geonotes.data.model.Dish;
+
 /**
  * Request utilities.
  *
@@ -22,6 +25,7 @@ public class RequestUtils
 {
     public static String FORWARDED="forwarded";
     public static String EDITS="edits";
+    public static String DISH="dish";
 
     // These are thread-safe.
     private static Pattern mNumbersPattern=Pattern.compile("[-]?[\\d]*[\\.]?[\\d]*");
@@ -108,6 +112,35 @@ public class RequestUtils
         }
 
         return value;
+    }
+    
+    /**
+    * Get dish.
+    *
+    * @param aRequest Servlet Request
+    */
+    public static Dish getDish(HttpServletRequest aRequest, long aDishId)
+    {
+        Dish dish=null;
+        
+        // Try cache.
+        dish=MemCacheUtils.getDish(aRequest, aDishId);
+        if (dish!=null)
+        {
+            // Set into request.
+            aRequest.setAttribute(DISH,dish);
+        }
+        else
+        {
+            // Get from the datastore which sets into the request.
+            // And put into the cache.
+            aRequest.setAttribute("dishId",aDishId);
+            new DishGetSingle().execute(aRequest);
+            dish=(Dish)aRequest.getAttribute(DISH);
+            MemCacheUtils.setDish(aRequest,dish);
+        }
+
+        return dish;
     }
     
     /**
