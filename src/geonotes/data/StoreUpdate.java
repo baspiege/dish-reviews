@@ -26,7 +26,7 @@ public class StoreUpdate {
     public void execute(HttpServletRequest aRequest) {
 
         // Get Id.
-        Long storeId=(Long)aRequest.getAttribute("id");
+        Long storeId=(Long)aRequest.getAttribute("storeId");
         
         // Fields
         String note=(String)aRequest.getAttribute("note");

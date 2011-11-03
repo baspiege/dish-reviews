@@ -273,7 +273,7 @@ public class RequestUtils
         {
             // Get from the datastore which sets into the request.
             // And put into the cache.
-            aRequest.setAttribute("id",aStoreId);
+            aRequest.setAttribute("storeId",aStoreId);
             new StoreGetSingle().execute(aRequest);
             store=(Store)aRequest.getAttribute(STORE);
             MemCacheUtils.setStore(aRequest,store);

@@ -25,7 +25,7 @@
 
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    Long storeId=RequestUtils.getNumericInput(request,"id","id",true);
+    Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
     
     Store store=null;
     if (storeId!=null) {

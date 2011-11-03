@@ -23,7 +23,7 @@ public class StoreImage extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
      
         // Get Id.
-        Long storeId=RequestUtils.getNumericInput(request,"id","id",true);
+        Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
 
         PersistenceManager pm=null;
         try {
