@@ -23,11 +23,7 @@
     if (storeId!=null) {
         new DishesGetAll().execute(request);
         dishes=(List<Dish>)request.getAttribute("dishes");
-        
-        // Get store
-        request.setAttribute("id",storeId);
-        new StoreGetSingle().execute(request);
-        store=(Store)request.getAttribute("store");
+        store=RequestUtils.getStore(request,storeId);
     } else {
           %>
           <jsp:forward page="/storesRedirect.jsp"/>

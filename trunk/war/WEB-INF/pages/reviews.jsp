@@ -26,14 +26,12 @@
     Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",false);
     
     Dish dish=null;
+    Store store=null;
     if (dishId!=null) {
         new ReviewsGetAll().execute(request);
         reviews=(List<Review>)request.getAttribute("reviews");
-        
         dish=RequestUtils.getDish(request,dishId);
-        
-        request.setAttribute("id",dish.storeId);    
-        new StoreGetSingle().execute(request);
+        store=RequestUtils.getStore(request,dish.storeId);
     } else {
           %>
           <jsp:forward page="/storesRedirect.jsp"/>
@@ -50,7 +48,6 @@
 <ul id="navlist" style="margin:0;padding:0;">
 <li><a href="stores.jsp">Main</a></li>
 <%
-    Store store=(Store)request.getAttribute("store");
     out.write("<li><a href=\"dishes.jsp?storeId=" + store.getKey().getId() + "\">" + HtmlUtils.escapeChars(store.note) + "</a></li>");
 %>
 <li>

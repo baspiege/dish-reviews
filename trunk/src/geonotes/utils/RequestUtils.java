@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import geonotes.data.DishGetSingle;
+import geonotes.data.StoreGetSingle;
 import geonotes.data.model.Dish;
+import geonotes.data.model.Store;
 
 /**
  * Request utilities.
@@ -26,6 +28,7 @@ public class RequestUtils
     public static String FORWARDED="forwarded";
     public static String EDITS="edits";
     public static String DISH="dish";
+    public static String STORE="store";
 
     // These are thread-safe.
     private static Pattern mNumbersPattern=Pattern.compile("[-]?[\\d]*[\\.]?[\\d]*");
@@ -249,6 +252,35 @@ public class RequestUtils
 
         return retValue;
     }    
+    
+    /**
+    * Get store.
+    *
+    * @param aRequest Servlet Request
+    */
+    public static Store getStore(HttpServletRequest aRequest, long aStoreId)
+    {
+        Store store=null;
+        
+        // Try cache.
+        store=MemCacheUtils.getStore(aRequest, aStoreId);
+        if (store!=null)
+        {
+            // Set into request.
+            aRequest.setAttribute(STORE,store);
+        }
+        else
+        {
+            // Get from the datastore which sets into the request.
+            // And put into the cache.
+            aRequest.setAttribute("id",aStoreId);
+            new StoreGetSingle().execute(aRequest);
+            store=(Store)aRequest.getAttribute(STORE);
+            MemCacheUtils.setStore(aRequest,store);
+        }
+
+        return store;
+    }
     
     /**
     * Has edits.
