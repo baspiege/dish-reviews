@@ -24,7 +24,7 @@ public class StoreDelete {
     public void execute(HttpServletRequest aRequest) {
 
         // Get Id.
-        Long storeId=(Long)aRequest.getAttribute("id");
+        Long storeId=(Long)aRequest.getAttribute("storeId");
 
         PersistenceManager pm=null;
         try {

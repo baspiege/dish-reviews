@@ -14,7 +14,7 @@
 
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    Long storeId=RequestUtils.getNumericInput(request,"id","id",true);
+    Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
 
     Store store=null;
     if (storeId!=null) {
@@ -83,7 +83,7 @@
 <input class="button" type="submit" name="action" onclick="setFieldsFromLocalStorage();" value="<%=bundle.getString("updateLabel")%>"/>
 <input id="latitude" type="hidden" name="latitude" value="" />
 <input id="longitude" type="hidden" name="longitude" value="" />
-<input type="hidden" name="id" value="<%=new Long(store.getKey().getId()).toString()%>"/>
+<input type="hidden" name="storeId" value="<%=new Long(store.getKey().getId()).toString()%>"/>
 </form>
 <% } %>
 </div>

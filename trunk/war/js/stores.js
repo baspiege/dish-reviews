@@ -62,8 +62,8 @@ function getStoresData() {
   sendRequest('storesTable.jsp?latitude='+lat+'&longitude='+lon, handleStoresDataRequest);
 }
 
-function getStoresDataById(id) {
-  sendRequest('storesTable.jsp?id='+id, handleStoresDataRequest);
+function getStoresDataById(storeId) {
+  sendRequest('storesTable.jsp?storeId='+storeId, handleStoresDataRequest);
 }
 
 function handleStoresDataRequest(req) {
@@ -131,8 +131,8 @@ function handleStoresDataRequest(req) {
       var user=store.getAttribute("user")=="true";
       var tr=document.createElement("tr");
       // Attributes
-      var id=store.getAttribute("id");
-      tr.setAttribute("id",id);
+      var storeId=store.getAttribute("storeId");
+      tr.setAttribute("storeId",storeId);
       tr.setAttribute("name",store.getAttribute("text").toLowerCase());
       tr.setAttribute("lat",store.getAttribute("lat"));
       tr.setAttribute("lon",store.getAttribute("lon"));
@@ -144,13 +144,13 @@ function handleStoresDataRequest(req) {
       // Desc
       var desc=document.createElement("td");
       var descLink=document.createElement("a");
-      descLink.setAttribute("href","dishes.jsp?storeId="+id);
+      descLink.setAttribute("href","dishes.jsp?storeId="+storeId);
       var text=store.getAttribute("text");
       descLink.appendChild(document.createTextNode(text));
       desc.appendChild(descLink);
       if (user && parseInt(store.getAttribute("dishCount"))==0) {
         var editLink=document.createElement("a");
-        editLink.setAttribute("href","storeUpdate.jsp?id="+id);
+        editLink.setAttribute("href","storeUpdate.jsp?storeId="+storeId);
         editLink.setAttribute("class","edit");
         editLink.appendChild(document.createTextNode("edit"));
         desc.appendChild(document.createTextNode(' '));
@@ -163,7 +163,7 @@ function handleStoresDataRequest(req) {
       var type=document.createElement("td");
       type.setAttribute("class","center");
       var typeLink=document.createElement("a");
-      typeLink.setAttribute("href","dishes.jsp?storeId="+id);
+      typeLink.setAttribute("href","dishes.jsp?storeId="+storeId);
       typeLink.appendChild(document.createTextNode(store.getAttribute("dishCount")));
       type.appendChild(typeLink);
       tr.appendChild(type);
@@ -184,10 +184,10 @@ function handleStoresDataRequest(req) {
 function sendYesVote(elem) {
   var tr=elem.parentNode.parentNode;
   var yes=parseInt(tr.getAttribute("yes"));
-  var id=parseInt(tr.getAttribute("id"));
+  var storeId=parseInt(tr.getAttribute("storeId"));
   tr.setAttribute("yes",yes+1);
   elem.innerHTML=yes+1;
-  sendRequest('storeVote.jsp?vote=yes&id='+id);
+  sendRequest('storeVote.jsp?vote=yes&storeId='+storeId);
 }
 
 ///////////////////
@@ -420,7 +420,7 @@ function updateNotesDispay() {
     // Bearing
     var bearingDegrees=calculateBearing(latitude, longitude, noteLat, noteLon);
     display+=" " + getCardinalDirection(bearingDegrees);
-    display="<a href='storeUpdateLocation.jsp?id=" + note.getAttribute("id") + "'>"+display+"</a>";
+    display="<a href='storeUpdateLocation.jsp?storeId=" + note.getAttribute("storeId") + "'>"+display+"</a>";
     // Update direction display
     note.getElementsByTagName("td")[0].innerHTML=display;
   }

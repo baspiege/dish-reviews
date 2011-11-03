@@ -25,7 +25,7 @@ public class StoreImageUpdate {
     public void execute(HttpServletRequest aRequest) {
 
         // Get Id.
-        Long storeId=(Long)aRequest.getAttribute("id");
+        Long storeId=(Long)aRequest.getAttribute("storeId");
         
         // Fields
         Blob image=(Blob)aRequest.getAttribute("image");

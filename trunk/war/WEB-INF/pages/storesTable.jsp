@@ -14,7 +14,7 @@
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     List<Store> stores = null;
     
-    Long storeId=RequestUtils.getNumericInput(request,"id","id",false);
+    Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
     if (storeId!=null) {
        new StoreGetSingle().execute(request);
        // Add to list.
@@ -40,7 +40,7 @@
             long geoId=store.getKey().getId();
             // Add attributes
             out.write("<store");
-            out.write(" id=\"" + geoId + "\"");
+            out.write(" storeId=\"" + geoId + "\"");
             out.write(" lat=\"" + store.latitude + "\"");
             out.write(" lon=\"" + store.longitude + "\"");
             out.write(" yes=\"" + store.yes + "\""); 
