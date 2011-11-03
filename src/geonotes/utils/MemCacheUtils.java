@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Dish;
+import geonotes.data.model.Store;
 
 /**
  * Mem cache utilities.
@@ -16,6 +17,7 @@ import geonotes.data.model.Dish;
 public class MemCacheUtils
 {
     public static String DISH="dish";
+    public static String STORE="store";
 
     /**
     * Get the dish from cache.
@@ -30,6 +32,20 @@ public class MemCacheUtils
 
         return dish;
     }
+    
+    /**
+    * Get the store from cache.
+    *
+    * @param aRequest Servlet Request
+    */
+    public static Store getStore(HttpServletRequest aRequest, long aStoreId)
+    {
+        Store store=null;
+        MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
+        store=(Store)memcache.get(aStoreId + STORE);
+
+        return store;
+    }
 
     /**
     * Set the dish into cache.
@@ -41,5 +57,17 @@ public class MemCacheUtils
     {
         MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
         memcache.put(aDish.getKey().getId() + DISH, aDish);
+    }
+    
+    /**
+    * Set the store into cache.
+    *
+    * @param aRequest Servlet Request
+    * @param aStore store
+    */
+    public static void setStore(HttpServletRequest aRequest, Store aStore)
+    {
+        MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
+        memcache.put(aStore.getKey().getId() + STORE, aStore);
     }
 }
