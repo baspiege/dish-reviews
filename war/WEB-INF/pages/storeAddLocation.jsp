@@ -11,7 +11,6 @@
         <jsp:forward page="/storesRedirect.jsp"/>
         <%    
     }
-    
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
 %>
 <title><%=bundle.getString("adjustLocationLabel")%></title>
