@@ -33,14 +33,15 @@
             <%
         } else {
             // Can only edit own note
-            if (isSignedIn) {
-                isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(store.user);
-            }
+            //if (isSignedIn) {
+            //    isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(store.user);
+            //}
             if (!isSignedIn) {
                 %>
                 <jsp:forward page="/storesRedirect.jsp"/>
                 <%
             }
+            request.setAttribute("user",request.getUserPrincipal().getName());
         }
     } else {
         RequestUtils.resetAction(request);

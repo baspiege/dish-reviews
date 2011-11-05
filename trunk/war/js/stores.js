@@ -148,14 +148,14 @@ function handleStoresDataRequest(req) {
       var text=store.getAttribute("text");
       descLink.appendChild(document.createTextNode(text));
       desc.appendChild(descLink);
-      if (user && parseInt(store.getAttribute("dishCount"))==0) {
+      //if (user && parseInt(store.getAttribute("dishCount"))==0) {
         var editLink=document.createElement("a");
         editLink.setAttribute("href","storeUpdate.jsp?storeId="+storeId);
         editLink.setAttribute("class","edit");
         editLink.appendChild(document.createTextNode("edit"));
         desc.appendChild(document.createTextNode(' '));
         desc.appendChild(editLink);
-      }
+      //}
       tr.appendChild(desc);
       table.appendChild(tr);
       

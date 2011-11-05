@@ -32,6 +32,7 @@ public class StoreUpdate {
         String note=(String)aRequest.getAttribute("note");
         Double longitude=(Double)aRequest.getAttribute("longitude");
         Double latitude=(Double)aRequest.getAttribute("latitude");
+        String user=(String)aRequest.getAttribute("user");
         
         PersistenceManager pm=null;
         try {
@@ -40,17 +41,20 @@ public class StoreUpdate {
             Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
             
             if (store!=null){
-            
+
+                /*
                 if (store.dishCount>0) {
                     RequestUtils.addEditUsingKey(aRequest,"storesWithDishesCantBeUpdatedEditMessage");
                     return;
                 }
+                */
             
                 if (note!=null) {
                     store.setNote(note);
                 }
                     
                 store.setLastUpdateTime(new Date());
+                store.setUser(user);
 
                 if (longitude!=null) {
                     store.setLongitude(longitude.doubleValue());

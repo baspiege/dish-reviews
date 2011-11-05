@@ -30,6 +30,7 @@ public class DishUpdate {
         
         // Fields
         String note=(String)aRequest.getAttribute("note");
+        String user=(String)aRequest.getAttribute("user");
         
         PersistenceManager pm=null;
         try {
@@ -37,10 +38,12 @@ public class DishUpdate {
                         
             Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
             
+            /*
             if (dish.reviewCount>0) {
                 RequestUtils.addEditUsingKey(aRequest,"dishesWithReviewsCantBeUpdatedEditMessage");
                 return;
             }
+            */
             
             if (dish!=null){
             
@@ -49,6 +52,7 @@ public class DishUpdate {
                 }
                     
                 dish.setLastUpdateTime(new Date());
+                dish.setUser(user);
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

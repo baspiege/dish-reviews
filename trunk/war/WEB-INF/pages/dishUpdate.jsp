@@ -34,15 +34,17 @@
             <%
         } else {
             // Can only edit own note
-            if (isSignedIn) {
-                isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(dish.user);
-            }
+            //if (isSignedIn) {
+            //    isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(dish.user);
+            //}
+            
             if (!isSignedIn) {
             
                 %>
                 <jsp:forward page="/dishesRedirect.jsp"/>
                 <%
             }
+            request.setAttribute("user",request.getUserPrincipal().getName());
             request.setAttribute("storeId",dish.storeId);
         }
     } else {

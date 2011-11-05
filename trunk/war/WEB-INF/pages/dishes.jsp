@@ -100,9 +100,9 @@ function removeChildrenFromElement(element) {
             // Note
             out.write("<td>");
             out.write("<a href=\"reviews.jsp?dishId=" + dishId + "\">" + HtmlUtils.escapeChars(dish.note) + "</a>");
-            if (isSignedIn && request.getUserPrincipal().getName().equalsIgnoreCase(dish.user) && dish.reviewCount==0) {
+            //if (isSignedIn && request.getUserPrincipal().getName().equalsIgnoreCase(dish.user) && dish.reviewCount==0) {
                 out.write("<a class=\"edit\" href=\"dishUpdate.jsp?&dishId=" + dishId + "\">" + " edit" + "</a>");
-            }
+            //}
             
             out.write("</td>");
             
