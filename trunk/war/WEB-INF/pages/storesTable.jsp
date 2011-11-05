@@ -48,11 +48,12 @@
             out.write(" dishCount=\"" + store.dishCount + "\"");
             
             // User
+            /*
             if (user!=null && user.equalsIgnoreCase(store.user)) {
                 out.write(" user=\"true\"");
             } else {
                 out.write(" user=\"false\"");
-            }
+            }*/
             
             // Thumbnail
             if (store.imageThumbnail!=null) {

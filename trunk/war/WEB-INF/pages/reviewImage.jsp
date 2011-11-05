@@ -22,6 +22,7 @@
 <%
     // Check if signed in
     boolean isSignedIn=request.getUserPrincipal()!=null;
+    boolean usersOwnReview=false;
 
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -43,7 +44,7 @@
         
         // Can only edit own note
         if (isSignedIn) {
-            isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
+            usersOwnReview=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
         }
         request.setAttribute("dishId",review.dishId);
     } else {    
@@ -127,8 +128,7 @@ form {margin: 0px 0px 0px 0px; display: inline;}
 <% if (review!=null && review.image!=null) { %>
 <img src="reviewImage?reviewId=<%=new Long(review.getKey().getId()).toString()%>" alt="<%=bundle.getString("altPictureLabel")%>"/> <br/>
 <% } %>
-<%-- Signed In --%>
-<% if (isSignedIn) { %>
+<% if (usersOwnReview) { %>
 <form method="post" enctype="multipart/form-data" action="reviewImage.jsp?action=Upload&reviewId=<%=new Long(review.getKey().getId()).toString()%>"> 
 <input style="margin-bottom:1.5em" type="file" name="imageFile">
 <br/>

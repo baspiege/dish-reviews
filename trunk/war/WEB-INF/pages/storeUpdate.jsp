@@ -32,10 +32,6 @@
             <jsp:forward page="/storesRedirect.jsp"/>
             <%
         } else {
-            // Can only edit own note
-            //if (isSignedIn) {
-            //    isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(store.user);
-            //}
             if (!isSignedIn) {
                 %>
                 <jsp:forward page="/storesRedirect.jsp"/>

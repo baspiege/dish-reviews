@@ -15,6 +15,7 @@
 <%
     // Check if signed in
     boolean isSignedIn=request.getUserPrincipal()!=null;
+    boolean usersOwnReview=false;
 
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -34,9 +35,9 @@
         } else {
             // Can only edit own note
             if (isSignedIn) {
-                isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
+                usersOwnReview=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
             }
-            if (!isSignedIn) {
+            if (!usersOwnReview) {
                 %>
                 <jsp:forward page="/reviewsRedirect.jsp"/>
                 <%

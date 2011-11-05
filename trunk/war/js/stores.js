@@ -127,8 +127,6 @@ function handleStoresDataRequest(req) {
     // Make HTML for each store
     for (var i=0;i<stores.length;i++) {
       var store=stores[i];
-      // User
-      var user=store.getAttribute("user")=="true";
       var tr=document.createElement("tr");
       // Attributes
       var storeId=store.getAttribute("storeId");
@@ -148,14 +146,14 @@ function handleStoresDataRequest(req) {
       var text=store.getAttribute("text");
       descLink.appendChild(document.createTextNode(text));
       desc.appendChild(descLink);
-      //if (user && parseInt(store.getAttribute("dishCount"))==0) {
+      if (isLoggedIn=="true") {
         var editLink=document.createElement("a");
         editLink.setAttribute("href","storeUpdate.jsp?storeId="+storeId);
         editLink.setAttribute("class","edit");
         editLink.appendChild(document.createTextNode("edit"));
         desc.appendChild(document.createTextNode(' '));
         desc.appendChild(editLink);
-      //}
+      }
       tr.appendChild(desc);
       table.appendChild(tr);
       

@@ -33,11 +33,6 @@
             <jsp:forward page="/dishesRedirect.jsp"/>
             <%
         } else {
-            // Can only edit own note
-            //if (isSignedIn) {
-            //    isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(dish.user);
-            //}
-            
             if (!isSignedIn) {
             
                 %>

@@ -28,10 +28,7 @@
             <jsp:forward page="/storesRedirect.jsp"/>
             <%
         }
-        // Can only edit own note
-        if (isSignedIn) {
-            isSignedIn=request.getUserPrincipal().getName().equalsIgnoreCase(store.user);
-        }
+        request.setAttribute("user",request.getUserPrincipal().getName());
     } else {
         RequestUtils.resetAction(request);
         RequestUtils.removeEdits(request);
