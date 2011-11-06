@@ -217,7 +217,7 @@ function getCoordinates() {
     updateGeoStatus(waitingForCoordinatesMessage);
     var geolocation = navigator.geolocation;
     if (geolocation) {
-      var parameters={enableHighAccuracy:true, maximumAge:20000, timeout:20000};
+      var parameters={maximumAge:300000, timeout:20000};
       geolocation.watchPosition(setPosition,displayError,parameters);
     } else {
       updateGeoStatus(locationNotAvailableMessage);
