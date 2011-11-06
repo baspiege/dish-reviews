@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import geonotes.data.model.Dish;
 import geonotes.data.model.DishHistory;
 import geonotes.utils.DisplayUtils;
+import geonotes.utils.MemCacheUtils;
 import geonotes.utils.RequestUtils;
 
 /**
@@ -54,6 +55,9 @@ public class DishUpdate {
                     
                 dish.setLastUpdateTime(new Date());
                 dish.setUser(user);
+                
+                // Reset cache
+                MemCacheUtils.setDish(aRequest,dish);
                 
                 // History
                 DishHistory dishHistory=new DishHistory();
