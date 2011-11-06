@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import geonotes.data.model.Store;
 import geonotes.data.model.StoreHistory;
 import geonotes.utils.DisplayUtils;
+import geonotes.utils.MemCacheUtils;
 import geonotes.utils.RequestUtils;
 
 /**
@@ -64,6 +65,9 @@ public class StoreUpdate {
                 
                 store.setLastUpdateTime(new Date());
                 store.setUser(user);
+                
+                // Reset cache
+                MemCacheUtils.setStore(aRequest,store);
 
                 // History
                 StoreHistory storeHistory=new StoreHistory();
