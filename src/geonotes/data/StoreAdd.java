@@ -7,6 +7,7 @@ import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Store;
+import geonotes.data.model.StoreHistory;
 import geonotes.utils.RequestUtils;
 
 /**
@@ -44,6 +45,17 @@ public class StoreAdd {
             
             // Save
             pm.makePersistent(store);
+            
+            // History
+            StoreHistory storeHistory=new StoreHistory();
+            storeHistory.setStoreId(store.getKey().getId());
+            storeHistory.setNote(store.note);
+            storeHistory.setLastUpdateTime(store.lastUpdateTime);
+            storeHistory.setLongitude(store.longitude);
+            storeHistory.setLatitude(store.latitude);
+            storeHistory.setYes(store.yes);
+            storeHistory.setUser(store.user);
+            pm.makePersistent(storeHistory);
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();
