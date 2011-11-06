@@ -35,6 +35,7 @@ public class ReviewsGetAll {
                 query = pm.newQuery(Review.class);
                 query.setFilter("dishId==dishIdParam");
                 query.declareParameters("long dishIdParam");
+                query.setOrdering("lastUpdateTime DESC");
                 
                 List<Review> results = (List<Review>) query.execute(dishId);
                 
