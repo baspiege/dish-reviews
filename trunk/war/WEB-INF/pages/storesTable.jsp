@@ -37,10 +37,10 @@
 <%
     if (stores!=null && stores.size()>0) {
         for (Store store:stores) {
-            long geoId=store.getKey().getId();
+            long storeIdTemp=store.getKey().getId();
             // Add attributes
             out.write("<store");
-            out.write(" storeId=\"" + geoId + "\"");
+            out.write(" storeId=\"" + storeIdTemp + "\"");
             out.write(" lat=\"" + store.latitude + "\"");
             out.write(" lon=\"" + store.longitude + "\"");
             out.write(" yes=\"" + store.yes + "\""); 
