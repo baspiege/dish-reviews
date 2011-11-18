@@ -1,4 +1,4 @@
-<%-- This JSP has the HTML for stores page. --%>
+<%-- This JSP has the HTML for 'my reviews' page. --%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
@@ -8,29 +8,22 @@
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     UserService userService = UserServiceFactory.getUserService();
     boolean isSignedIn=request.getUserPrincipal()!= null;    
+    if (!isSignedIn) {
+        %>
+        <jsp:forward page="/storesRedirect.jsp"/>
+        <%    
+    }
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<title><%=bundle.getString("storesLabel")%></title>
+<title><%=bundle.getString("myReviewsLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
-<script type="text/javascript">
-var waitingForCoordinatesMessage="<%=bundle.getString("waitingForCoordinatesMessage")%>";
-var locationNotAvailableMessage="<%=bundle.getString("locationNotAvailableMessage")%>";
-var locationNotFoundMessage="<%=bundle.getString("locationNotFoundMessage")%>";
-var isLoggedIn='<%=isSignedIn%>';
-</script>
 </head>
-<body onload="getCoordinates();">
+<body onload="getReviewsData();">
 
 <nav>
 <ul id="navlist" style="margin:0;padding:0;">
-<% if (isSignedIn) { %>
-<li>    
-<a href='reviewsOwn.jsp'>My Reviews</a>
-<li>
-<% } %>
-
+<li><a href="stores.jsp">Main</a></li>
 <li>    
 <% if (!isSignedIn) { %>
 <a href='<%=userService.createLoginURL("../stores.jsp")%>'><%=bundle.getString("logonLabel")%></a>
@@ -42,13 +35,11 @@ var isLoggedIn='<%=isSignedIn%>';
 </nav>
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-<%-- Location --%>
-<div style="margin-top:1.5em"><span id="geoStatus"></span><a style="margin-left:1em" href="location.jsp"><%=bundle.getString("changeLocationLabel")%></a></div>
 <%-- Data --%>
 <div style="margin-top:1.5em" class="data" id="data">
 <p> <%=bundle.getString("waitingForDataLabel")%> </p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
-<script type="text/javascript" src="/js/stores.js" ></script>
+<script type="text/javascript" src="/js/reviewsOwn.js" ></script>
 </body>
 </html>

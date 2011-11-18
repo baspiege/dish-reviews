@@ -2,14 +2,14 @@
 #infoPanel {float: left;margin-left: 10px;}
 #infoPanel div {margin-bottom: 5px;}
 
-a:link, a:visited {color:DarkBlue;}
+a:link, a:visited {color:DarkBlue;text-decoration:none;}
 a.add:link, a.add:visited, a.edit:link, a.edit:visited  {text-decoration:none; color:#909090; font-size:small;}
 
 .addTh { padding-left: 5px; font-weight:normal;}
 
 .data th {background-color: WhiteSmoke;}
 .data table {border-collapse:collapse;}
-.data table,.data th,.data td { padding: 3px; border: 1px solid black; word-wrap:break-word; }
+.data table,.data th,.data td { padding: 5px; border: 1px solid black; word-wrap:break-word; height:45px;}
 
 .button {margin-right:30px;}
 
