@@ -74,8 +74,8 @@ function handleReviewsDataRequest(req) {
   if (reviews.length==0){
     var tr=document.createElement("tr");
     var td=document.createElement("td");
-    td.setAttribute("colspan","7");
-    td.appendChild(document.createTextNode("No nearby restaurants."));
+    td.setAttribute("colspan","4");
+    td.appendChild(document.createTextNode("No reviews."));
     tr.appendChild(td);
     table.appendChild(tr);
     var tableDiv=document.getElementById("data");
@@ -92,15 +92,16 @@ function handleReviewsDataRequest(req) {
       var reviewId=review.getAttribute("reviewId");
       var dishId=review.getAttribute("dishId");
       var storeId=review.getAttribute("storeId")
+      var storeText=review.getAttribute("storeText");
+      var dishText=review.getAttribute("dishText");
       tr.setAttribute("reviewId",reviewId);
-      tr.setAttribute("name",review.getAttribute("text").toLowerCase());
-      tr.setAttribute("yes",review.getAttribute("yes"));
+      tr.setAttribute("dishName",dishText);
+      tr.setAttribute("storeName",storeText);
       
       // Store
       var storeDesc=document.createElement("td");
       var storeDescLink=document.createElement("a");
       storeDescLink.setAttribute("href","dishes.jsp?storeId="+storeId);
-      var storeText=review.getAttribute("storeText");
       storeDescLink.appendChild(document.createTextNode(storeText));
       storeDesc.appendChild(storeDescLink);
       tr.appendChild(storeDesc);
@@ -109,7 +110,6 @@ function handleReviewsDataRequest(req) {
       var dishDesc=document.createElement("td");
       var dishDescLink=document.createElement("a");
       dishDescLink.setAttribute("href","reviews.jsp?dishId="+dishId);
-      var dishText=review.getAttribute("dishText");
       dishDescLink.appendChild(document.createTextNode(dishText));
       dishDesc.appendChild(dishDescLink);
       tr.appendChild(dishDesc);
@@ -163,17 +163,24 @@ function reorderReviews(sortFunction) {
   }
 }
 
-function sortByNameAscending(note1,note2) {
-  var name1=note1.getAttribute("name");
-  var name2=note2.getAttribute("name");
+function sortByDishNameAscending(note1,note2) {
+  var name1=note1.getAttribute("dishName");
+  var name2=note2.getAttribute("dishName");
   return name1.localeCompare(name2);
 }
 
+function sortByStoreNameAscending(note1,note2) {
+  var name1=note1.getAttribute("storeName");
+  var name2=note2.getAttribute("storeName");
+  return name1.localeCompare(name2);
+}
 
+function reorderReviewsByDishNameAscending() {
+  reorderReviews(sortByDishNameAscending);
+}
 
-function reorderReviewsByNameAscending() {
-  setCookie("sortBy","name");
-  reorderReviews(sortByNameAscending);
+function reorderReviewsByStoreNameAscending() {
+  reorderReviews(sortByStoreNameAscending);
 }
 
 ///////////////////
@@ -187,13 +194,3 @@ function removeChildrenFromElement(element) {
     }
   }
 }
-
-function updateNotesDispay() {
-  // Sort
-  var sortBy=getCookie("sortBy");
-  if (sortBy=="name") {
-    reorderReviewsByNameAscending();
-  } else if (sortBy=="voteYes") {
-    reorderReviewsByVoteYesDescending();
-  }
-}S
