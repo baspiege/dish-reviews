@@ -6,7 +6,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="geonotes.data.ReviewsSingleUserGetAll" %>
+<%@ page import="geonotes.data.model.Dish" %>
 <%@ page import="geonotes.data.model.Review" %>
+<%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%
@@ -20,6 +22,8 @@
         <jsp:forward page="/storesRedirect.jsp"/>
         <%
     }
+    
+    RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
     
     new ReviewsSingleUserGetAll().execute(request);
     List<Review> reviews=(List<Review>)request.getAttribute("reviews");
@@ -36,6 +40,16 @@
             out.write(" reviewId=\"" + reviewId + "\"");
             out.write(" yes=\"" + review.yes + "\""); 
             out.write(" text=\"" + HtmlUtils.escapeChars(review.note) + "\"");
+            
+            // Dish attributes
+            Dish dish=RequestUtils.getDish(request,review.dishId);
+            out.write(" dishId=\"" + dish.getKey().getId() + "\"");
+            out.write(" dishText=\"" + HtmlUtils.escapeChars(dish.note) + "\"");
+            
+            // Store attributes
+            Store store=RequestUtils.getStore(request,dish.storeId);
+            out.write(" storeId=\"" + store.getKey().getId() + "\"");
+            out.write(" storeText=\"" + HtmlUtils.escapeChars(store.note) + "\"");
             
             // User
             /*
