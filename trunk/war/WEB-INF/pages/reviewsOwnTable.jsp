@@ -51,14 +51,6 @@
             out.write(" storeId=\"" + store.getKey().getId() + "\"");
             out.write(" storeText=\"" + HtmlUtils.escapeChars(store.note) + "\"");
             
-            // User
-            /*
-            if (user!=null && user.equalsIgnoreCase(store.user)) {
-                out.write(" user=\"true\"");
-            } else {
-                out.write(" user=\"false\"");
-            }*/
-            
             // Thumbnail
             if (review.imageThumbnail!=null) {
                 out.write(" img=\"true\"");
