@@ -31,7 +31,7 @@ function sendRequest(url,callback,postData) {
 ///////////////////
 
 function getReviewsData() {
-  sendRequest('reviewsOwnTable.jsp', handleReviewsDataRequest);
+  sendRequest('reviewsOwnTable.jsp?start=0', handleReviewsDataRequest);
 }
 
 function handleReviewsDataRequest(req) {
@@ -40,7 +40,25 @@ function handleReviewsDataRequest(req) {
   var tr=document.createElement("tr");
   table.appendChild(tr);
   
-  // Note
+  // Store
+  var thName=document.createElement("th");
+  tr.appendChild(thName);
+  var nameLink=document.createElement("a");
+  nameLink.setAttribute("href","#");
+  nameLink.setAttribute("onclick","reorderReviewsByNameAscending();return false;");
+  nameLink.appendChild(document.createTextNode("Store"));  
+  thName.appendChild(nameLink);
+  
+  // Dish
+  var thName=document.createElement("th");
+  tr.appendChild(thName);
+  var nameLink=document.createElement("a");
+  nameLink.setAttribute("href","#");
+  nameLink.setAttribute("onclick","reorderReviewsByNameAscending();return false;");
+  nameLink.appendChild(document.createTextNode("Dish"));  
+  thName.appendChild(nameLink);
+  
+  // Review
   var thName=document.createElement("th");
   tr.appendChild(thName);
   var nameLink=document.createElement("a");
@@ -48,6 +66,11 @@ function handleReviewsDataRequest(req) {
   nameLink.setAttribute("onclick","reorderReviewsByNameAscending();return false;");
   nameLink.appendChild(document.createTextNode("Review"));  
   thName.appendChild(nameLink);
+  
+  // Image
+  var thName=document.createElement("th");
+  tr.appendChild(thName);
+  thName.appendChild(document.createTextNode("Image"));
   
   // Process request
   var xmlDoc=req.responseXML;
@@ -71,9 +94,29 @@ function handleReviewsDataRequest(req) {
       var tr=document.createElement("tr");
       // Attributes
       var reviewId=review.getAttribute("reviewId");
+      var dishId=review.getAttribute("dishId");
+      var storeId=review.getAttribute("storeId")
       tr.setAttribute("reviewId",reviewId);
       tr.setAttribute("name",review.getAttribute("text").toLowerCase());
       tr.setAttribute("yes",review.getAttribute("yes"));
+      
+      // Store
+      var storeDesc=document.createElement("td");
+      var storeDescLink=document.createElement("a");
+      storeDescLink.setAttribute("href","storeUpdate.jsp?storeId="+storeId);
+      var storeText=review.getAttribute("storeText");
+      storeDescLink.appendChild(document.createTextNode(storeText));
+      storeDesc.appendChild(storeDescLink);
+      tr.appendChild(storeDesc);
+
+      // Dish
+      var dishDesc=document.createElement("td");
+      var dishDescLink=document.createElement("a");
+      dishDescLink.setAttribute("href","dishUpdate.jsp?dishId="+reviewId);
+      var dishText=review.getAttribute("dishText");
+      dishDescLink.appendChild(document.createTextNode(dishText));
+      dishDesc.appendChild(dishDescLink);
+      tr.appendChild(dishDesc);
       
       // Desc
       var desc=document.createElement("td");
@@ -83,6 +126,19 @@ function handleReviewsDataRequest(req) {
       descLink.appendChild(document.createTextNode(text));
       desc.appendChild(descLink);
       tr.appendChild(desc);
+      
+      // Image
+      var imageCell=document.createElement("td");
+      if (review.getAttribute("img")=="true") {
+        var imageLink=document.createElement("a");
+        imageLink.setAttribute("href","reviewImage.jsp?reviewId="+reviewId);
+        var image=document.createElement("img");
+        image.setAttribute("src","reviewThumbNailImage?reviewId="+reviewId);
+        imageLink.appendChild(image);
+        imageCell.appendChild(imageLink);
+      }
+      tr.appendChild(imageCell);
+      
       table.appendChild(tr);
     }
     var tableDiv=document.getElementById("data");

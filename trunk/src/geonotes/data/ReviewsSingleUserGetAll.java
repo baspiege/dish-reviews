@@ -31,11 +31,13 @@ public class ReviewsSingleUserGetAll {
             try {
 
                 String user=(String)aRequest.getAttribute("user");
+                Long start=(Long)aRequest.getAttribute("start");
                 
                 query = pm.newQuery(Review.class);
                 query.setFilter("user==userParam");
                 query.declareParameters("String userParam");
                 query.setOrdering("lastUpdateTime DESC");
+                query.setRange(start, start+10);
                 
                 List<Review> results = (List<Review>) query.execute(user);
                 
