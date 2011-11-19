@@ -30,48 +30,58 @@ function sendRequest(url,callback,postData) {
 // Data
 ///////////////////
 
+var startIndexReview=0;
+
 function getReviewsData() {
-  sendRequest('reviewsOwnTable.jsp?start=0', handleReviewsDataRequest);
+  sendRequest('reviewsOwnTable.jsp?start=' + startIndexReview, handleReviewsDataRequest);
 }
 
 function handleReviewsDataRequest(req) {
-  var table=document.createElement("table");
-  table.setAttribute("id","reviews");
-  var tr=document.createElement("tr");
-  table.appendChild(tr);
-  
-  // Store
-  var thName=document.createElement("th");
-  tr.appendChild(thName);
-  var nameLink=document.createElement("a");
-  nameLink.setAttribute("href","#");
-  nameLink.setAttribute("onclick","reorderReviewsByStoreNameAscending();return false;");
-  nameLink.appendChild(document.createTextNode("Store"));  
-  thName.appendChild(nameLink);
-  
-  // Dish
-  var thName=document.createElement("th");
-  tr.appendChild(thName);
-  var nameLink=document.createElement("a");
-  nameLink.setAttribute("href","#");
-  nameLink.setAttribute("onclick","reorderReviewsByDishNameAscending();return false;");
-  nameLink.appendChild(document.createTextNode("Dish"));  
-  thName.appendChild(nameLink);
-  
-  // Review
-  var thName=document.createElement("th");
-  tr.appendChild(thName);  
-  thName.appendChild(document.createTextNode("Review"));
-  
-  // Image
-  var thName=document.createElement("th");
-  tr.appendChild(thName);
-  thName.appendChild(document.createTextNode("Image"));
+  var tableOrig=document.getElementById("reviews");
+  var table;
+  var newTable=false;
+  if (tableOrig==null) {
+    newTable=true;
+    table=document.createElement("table");
+    table.setAttribute("id","reviews");    
+    var tr=document.createElement("tr");
+    table.appendChild(tr);
+    
+    // Store
+    var thName=document.createElement("th");
+    tr.appendChild(thName);
+    var nameLink=document.createElement("a");
+    nameLink.setAttribute("href","#");
+    nameLink.setAttribute("onclick","reorderReviewsByStoreNameAscending();return false;");
+    nameLink.appendChild(document.createTextNode("Store"));  
+    thName.appendChild(nameLink);
+    
+    // Dish
+    var thName=document.createElement("th");
+    tr.appendChild(thName);
+    var nameLink=document.createElement("a");
+    nameLink.setAttribute("href","#");
+    nameLink.setAttribute("onclick","reorderReviewsByDishNameAscending();return false;");
+    nameLink.appendChild(document.createTextNode("Dish"));  
+    thName.appendChild(nameLink);
+    
+    // Review
+    var thName=document.createElement("th");
+    tr.appendChild(thName);  
+    thName.appendChild(document.createTextNode("Review"));
+    
+    // Image
+    var thName=document.createElement("th");
+    tr.appendChild(thName);
+    thName.appendChild(document.createTextNode("Image"));
+  } else {
+    table=tableOrig.cloneNode(true);
+  }
   
   // Process request
   var xmlDoc=req.responseXML;
   var reviews=xmlDoc.getElementsByTagName("review");
-  if (reviews.length==0){
+  if (reviews.length==0 && newTable){
     var tr=document.createElement("tr");
     var td=document.createElement("td");
     td.setAttribute("colspan","4");
@@ -143,6 +153,13 @@ function handleReviewsDataRequest(req) {
     // requests from interfering with each other
     tableDiv.appendChild(table);
     //updateNotesDispay();
+    
+    // More button...
+    var moreButton=document.createElement("button");
+    moreButton.setAttribute("class","moreButton");
+    moreButton.setAttribute("onclick","startIndexReview+=10;getReviewsData()");
+    moreButton.appendChild(document.createTextNode("More"));
+    tableDiv.appendChild(moreButton);
   }
 }
 
