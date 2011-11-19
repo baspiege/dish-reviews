@@ -12,6 +12,7 @@ a.add:link, a.add:visited, a.edit:link, a.edit:visited  {text-decoration:none; c
 .data table,.data th,.data td { padding: 5px; border: 1px solid black; word-wrap:break-word; height:45px;}
 
 .button {margin-right:30px;}
+.moreButton {margin-top:20px;}
 
 h2 { font-size: medium; margin-bottom: 0; padding-bottom: 0;}
 
