@@ -36,14 +36,11 @@ window.onscroll=checkForMoreReviews;
 var startIndexReview=0;
 
 function checkForMoreReviews() {
-  var moreReviews=document.getElementById("moreIndicator");
-  var areMoreReviews=elementInViewport(moreReviews);
-  if (areMoreReviews) {
-    if (!gettingReviews && moreReviews) {
-      gettingReviews=true;
-      startIndexReview+=0;
-      getReviewsData();
-    }
+  var moreIndicator=document.getElementById("moreIndicator");
+  if (elementInViewport(moreIndicator) && !gettingReviews && moreReviews) {
+    gettingReviews=true;
+    startIndexReview+=10;
+    getReviewsData();
   }
 }
 
@@ -110,6 +107,8 @@ function handleReviewsDataRequest(req) {
       // Update tableDiv with new table at end of processing to prevent multiple
       // requests from interfering with each other
       tableDiv.appendChild(table);
+    } else {
+      removeChildrenFromElement(document.getElementById("moreIndicator"));
     }
   } else {
     // Make HTML for each review
@@ -175,7 +174,7 @@ function handleReviewsDataRequest(req) {
     if (moreReviews) {
       var moreIndicator=document.createElement("p");
       moreIndicator.setAttribute("id","moreIndicator");
-      moreIndicator.appendChild(document.createTextNode("Loading..."));
+      moreIndicator.appendChild(document.createTextNode("Loading more..."));
       tableDiv.appendChild(moreIndicator);
     }
     gettingReviews=false;
