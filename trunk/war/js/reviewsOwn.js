@@ -30,7 +30,22 @@ function sendRequest(url,callback,postData) {
 // Data
 ///////////////////
 
+var gettingReviews=false;
+var moreReviews=true;
+window.onscroll=checkForMoreReviews;
 var startIndexReview=0;
+
+function checkForMoreReviews() {
+  var moreReviews=document.getElementById("moreIndicator");
+  var areMoreReviews=elementInViewport(moreReviews);
+  if (areMoreReviews) {
+    if (!gettingReviews && moreReviews) {
+      gettingReviews=true;
+      startIndexReview+=0;
+      getReviewsData();
+    }
+  }
+}
 
 function getReviewsData() {
   sendRequest('reviewsOwnTable.jsp?start=' + startIndexReview, handleReviewsDataRequest);
@@ -81,18 +96,21 @@ function handleReviewsDataRequest(req) {
   // Process request
   var xmlDoc=req.responseXML;
   var reviews=xmlDoc.getElementsByTagName("review");
-  if (reviews.length==0 && newTable){
-    var tr=document.createElement("tr");
-    var td=document.createElement("td");
-    td.setAttribute("colspan","4");
-    td.appendChild(document.createTextNode("No reviews."));
-    tr.appendChild(td);
-    table.appendChild(tr);
-    var tableDiv=document.getElementById("data");
-    removeChildrenFromElement(tableDiv);
-    // Update tableDiv with new table at end of processing to prevent multiple
-    // requests from interfering with each other
-    tableDiv.appendChild(table);
+  if (reviews.length==0){
+    moreReviews=false;
+    if (newTable) {
+      var tr=document.createElement("tr");
+      var td=document.createElement("td");
+      td.setAttribute("colspan","4");
+      td.appendChild(document.createTextNode("No reviews."));
+      tr.appendChild(td);
+      table.appendChild(tr);
+      var tableDiv=document.getElementById("data");
+      removeChildrenFromElement(tableDiv);
+      // Update tableDiv with new table at end of processing to prevent multiple
+      // requests from interfering with each other
+      tableDiv.appendChild(table);
+    }
   } else {
     // Make HTML for each review
     for (var i=0;i<reviews.length;i++) {
@@ -154,12 +172,13 @@ function handleReviewsDataRequest(req) {
     tableDiv.appendChild(table);
     //updateNotesDispay();
     
-    // More button...
-    var moreButton=document.createElement("button");
-    moreButton.setAttribute("class","moreButton");
-    moreButton.setAttribute("onclick","startIndexReview+=10;getReviewsData()");
-    moreButton.appendChild(document.createTextNode("More"));
-    tableDiv.appendChild(moreButton);
+    if (moreReviews) {
+      var moreIndicator=document.createElement("p");
+      moreIndicator.setAttribute("id","moreIndicator");
+      moreIndicator.appendChild(document.createTextNode("Loading..."));
+      tableDiv.appendChild(moreIndicator);
+    }
+    gettingReviews=false;
   }
 }
 
@@ -210,4 +229,15 @@ function removeChildrenFromElement(element) {
       element.removeChild(element.firstChild);
     }
   }
+}
+
+function elementInViewport(el) {
+  var rect = el.getBoundingClientRect()
+
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= window.innerHeight &&
+    rect.right <= window.innerWidth 
+    );
 }
