@@ -178,6 +178,7 @@ function handleReviewsDataRequest(req) {
       tableDiv.appendChild(moreIndicator);
     }
     gettingReviews=false;
+    checkForMoreReviews();
   }
 }
 
