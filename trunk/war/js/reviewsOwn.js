@@ -45,7 +45,7 @@ function checkForMoreReviews() {
 }
 
 function getReviewsData() {
-  sendRequest('reviewsOwnTable.jsp?start=' + startIndexReview, handleReviewsDataRequest);
+  sendRequest('../data/reviewsOwn.jsp?start=' + startIndexReview, handleReviewsDataRequest);
 }
 
 function handleReviewsDataRequest(req) {
