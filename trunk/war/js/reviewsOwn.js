@@ -65,7 +65,7 @@ function handleReviewsDataRequest(req) {
     var nameLink=document.createElement("a");
     nameLink.setAttribute("href","#");
     nameLink.setAttribute("onclick","reorderReviewsByStoreNameAscending();return false;");
-    nameLink.appendChild(document.createTextNode("Store"));  
+    nameLink.appendChild(document.createTextNode("Restaurant"));  
     thName.appendChild(nameLink);
     
     // Dish

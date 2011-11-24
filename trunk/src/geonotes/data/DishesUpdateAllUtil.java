@@ -7,18 +7,19 @@ import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Dish;
+import geonotes.data.model.Review;
 import geonotes.utils.NumberUtils;
 import geonotes.utils.RequestUtils;
 
 /**
- * Get dishes.
+ * Update all dishes.
  *
  * @author Brian Spiegel
  */
-public class DishesGetAll {
+public class DishesUpdateAllUtil {
 
     /**
-     * Get dishes.
+     * Update all dishes.
      *
      * @param aRequest The request
      * @since 1.0
@@ -29,20 +30,25 @@ public class DishesGetAll {
             pm=PMF.get().getPersistenceManager();
             Query query=null;
             try {
-
-                Long storeId=(Long)aRequest.getAttribute("storeId");
-                Long start=(Long)aRequest.getAttribute("start");
                 
                 query = pm.newQuery(Dish.class);
-                query.setFilter("storeId==storeIdParam");
-                query.declareParameters("long storeIdParam");
-                query.setOrdering("noteLowerCase ASC");
-                query.setRange(start, start+10);
                 
-                List<Dish> results = (List<Dish>) query.execute(storeId);
+                List<Dish> results = (List<Dish>) query.execute();
                 
                 // Bug workaround.  Get size actually triggers the underlying database call.
                 results.size();
+                
+                for (Dish dish:results) {
+                
+                    // Reset note (to set lowercase)
+                    dish.setNote(dish.note);
+                    
+                    // Set last image
+                    Review review=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,dish.getKey().getId());
+                    if (review!=null) {
+                        dish.setLastReviewImageId(review.getKey().getId());
+                    }
+                }
                 
                 // Set into request
                 aRequest.setAttribute("dishes", results);
