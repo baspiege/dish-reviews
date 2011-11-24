@@ -19,6 +19,10 @@
     List<Dish> dishes = null;
     Store store = null;
     
+    // TODO Change
+    request.setAttribute("start",0l);
+    //RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
+    
     Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
     if (storeId!=null) {
         new DishesGetAll().execute(request);

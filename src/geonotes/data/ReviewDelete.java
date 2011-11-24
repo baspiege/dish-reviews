@@ -56,6 +56,12 @@ public class ReviewDelete {
                 } else {
                     dish.setLastReview(null);                
                 }
+                
+                // Set last image
+                Review reviewImage=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,dish.getKey().getId());
+                if (reviewImage!=null) {
+                    dish.setLastReviewImageId(review.getKey().getId());
+                }
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

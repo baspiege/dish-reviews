@@ -5,6 +5,7 @@ import com.google.appengine.api.datastore.Blob;
 import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServletRequest;
 
+import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
 import geonotes.utils.RequestUtils;
 
@@ -41,6 +42,10 @@ public class ReviewImageUpdate {
                 review.setImage(image);
                 review.setImageThumbnail(imageThumbnail);
                 review.setHasImage(Boolean.TRUE);
+
+                // Set last image
+                Dish dish=DishGetSingle.getDish(aRequest,pm,review.dishId);
+                dish.setLastReviewImageId(review.getKey().getId());
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

@@ -31,12 +31,18 @@ public class Dish implements Serializable {
     
     @Persistent 
     public String lastReview;	
+    
+    @Persistent 
+    public Long lastReviewImageId;
         
     @Persistent 
     public Date lastUpdateTime;	
 
     @Persistent 
     public String note; 
+    
+    @Persistent 
+    public String noteLowerCase; 
     
     @Persistent 
     public long reviewCount;
@@ -68,11 +74,17 @@ public class Dish implements Serializable {
     public void setNote(String aNote)
     { 
         note=aNote; 
+        noteLowerCase=aNote.toLowerCase(); 
     }
     
     public void setLastReview(String aLastReview)
     { 
         lastReview=aLastReview; 
+    }
+    
+    public void setLastReviewImageId(long aId)
+    { 
+        lastReviewImageId=aId; 
     }
         
     public void setLastUpdateTime(Date aLastUpdateTime)

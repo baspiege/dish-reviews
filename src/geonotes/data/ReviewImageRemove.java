@@ -3,6 +3,7 @@ package geonotes.data;
 import javax.jdo.PersistenceManager;
 import javax.servlet.http.HttpServletRequest;
 
+import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
 import geonotes.utils.RequestUtils;
 
@@ -35,6 +36,13 @@ public class ReviewImageRemove {
                 review.setImage(null);
                 review.setImageThumbnail(null);
                 review.setHasImage(Boolean.FALSE);
+                
+                // Set last image
+                Review reviewImage=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,review.dishId);
+                if (reviewImage!=null) {
+                    Dish dish=DishGetSingle.getDish(aRequest,pm,review.dishId);
+                    dish.setLastReviewImageId(reviewImage.getKey().getId());
+                }
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

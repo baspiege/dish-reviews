@@ -28,6 +28,144 @@ function sendRequest(url,callback,postData) {
 }
 
 ///////////////////
+// Data
+///////////////////
+
+var gettingDishes=false;
+var moreDishes=true;
+window.onscroll=checkForMoreDishes;
+var startIndexReview=0;
+
+function checkForMoreDishes() {
+  var moreIndicator=document.getElementById("moreIndicator");
+  if (elementInViewport(moreIndicator) && !gettingDishes && moreDishes) {
+    gettingDishes=true;
+    startIndexReview+=10;
+    getDishesData();
+  }
+}
+
+function getDishesData() {
+  sendRequest('../data/dishes.jsp?start=' + startIndexReview, handleDishesDataRequest);
+}
+
+function handleDishesDataRequest(req) {
+  var tableOrig=document.getElementById("dishes");
+  var table;
+  var newTable=false;
+  if (tableOrig==null) {
+    newTable=true;
+    table=document.createElement("table");
+    table.setAttribute("id","dishes");    
+    var tr=document.createElement("tr");
+    table.appendChild(tr);
+    
+    // Dish
+    var thName=document.createElement("th");
+    tr.appendChild(thName);
+    var nameLink=document.createElement("a");
+    nameLink.setAttribute("href","#");
+    nameLink.setAttribute("onclick","reorderDishesByDishNameAscending();return false;");
+    nameLink.appendChild(document.createTextNode("Dish"));  
+    thName.appendChild(nameLink);
+    
+    // Vote
+    
+    // Review
+    var thName=document.createElement("th");
+    tr.appendChild(thName);  
+    thName.appendChild(document.createTextNode("Review"));
+    
+    // Image
+    var thName=document.createElement("th");
+    tr.appendChild(thName);
+    thName.appendChild(document.createTextNode("Image"));
+  } else {
+    table=tableOrig.cloneNode(true);
+  }
+  
+  // Process request
+  var xmlDoc=req.responseXML;
+  var dishes=xmlDoc.getElementsByTagName("review");
+  if (dishes.length==0){
+    moreDishes=false;
+    if (newTable) {
+      var tr=document.createElement("tr");
+      var td=document.createElement("td");
+      td.setAttribute("colspan","4");
+      td.appendChild(document.createTextNode("No dishes."));
+      tr.appendChild(td);
+      table.appendChild(tr);
+      var tableDiv=document.getElementById("data");
+      removeChildrenFromElement(tableDiv);
+      // Update tableDiv with new table at end of processing to prevent multiple
+      // requests from interfering with each other
+      tableDiv.appendChild(table);
+    } else {
+      removeChildrenFromElement(document.getElementById("moreIndicator"));
+    }
+  } else {
+    // Make HTML for each review
+    for (var i=0;i<dishes.length;i++) {
+      var review=dishes[i];
+      var tr=document.createElement("tr");
+      // Attributes
+      var dishId=review.getAttribute("dishId");
+      var dishText=review.getAttribute("dishText");
+      tr.setAttribute("dishName",dishText);
+
+      // Dish
+      var dishDesc=document.createElement("td");
+      var dishDescLink=document.createElement("a");
+      dishDescLink.setAttribute("href","dishes.jsp?dishId="+dishId);
+      dishDescLink.appendChild(document.createTextNode(dishText));
+      dishDesc.appendChild(dishDescLink);
+      tr.appendChild(dishDesc);
+      
+      // Desc
+      var desc=document.createElement("td");
+      var descLink=document.createElement("a");
+      descLink.setAttribute("href","reviewUpdate.jsp?reviewId="+reviewId);
+      var text=review.getAttribute("text");
+      descLink.appendChild(document.createTextNode(text));
+      desc.appendChild(descLink);
+      tr.appendChild(desc);
+      
+      // Vote
+      
+      // Image
+      var imageCell=document.createElement("td");
+      if (review.getAttribute("img")=="true") {
+        var imageLink=document.createElement("a");
+        imageLink.setAttribute("href","reviewImage.jsp?reviewId="+reviewId);
+        var image=document.createElement("img");
+        image.setAttribute("src","reviewThumbNailImage?reviewId="+reviewId);
+        imageLink.appendChild(image);
+        imageCell.appendChild(imageLink);
+      }
+      tr.appendChild(imageCell);
+      
+      table.appendChild(tr);
+    }
+    var tableDiv=document.getElementById("data");
+    removeChildrenFromElement(tableDiv);
+    // Update tableDiv with new table at end of processing to prevent multiple
+    // requests from interfering with each other
+    tableDiv.appendChild(table);
+    //updateNotesDispay();
+    
+    if (moreDishes) {
+      var moreIndicator=document.createElement("p");
+      moreIndicator.setAttribute("id","moreIndicator");
+      moreIndicator.appendChild(document.createTextNode("Loading more..."));
+      tableDiv.appendChild(moreIndicator);
+    }
+    gettingDishes=false;
+    checkForMoreDishes();
+  }
+}
+
+///////////////////
 // Votes
 ///////////////////
 
@@ -98,16 +236,36 @@ function sortByVoteYesDescending(note1,note2) {
 }
 
 function reorderDishesByNameAscending() {
-  //setCookie("sortBy","name");
   reorderDishes(sortByNameAscending);
 }
 
 function reorderDishesByReviewCountDescending() {
-  //setCookie("sortBy","reviewCount");
   reorderDishes(sortByReviewCountDescending);
 }
 
 function reorderDishesByVoteYesDescending() {
-  //setCookie("sortBy","voteYes");
   reorderDishes(sortByVoteYesDescending);
+}
+
+///////////////////
+// Display
+///////////////////
+
+function removeChildrenFromElement(element) {
+  if (element.hasChildNodes()) {
+    while (element.childNodes.length>0) {
+      element.removeChild(element.firstChild);
+    }
+  }
+}
+
+function elementInViewport(el) {
+  var rect = el.getBoundingClientRect()
+
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= window.innerHeight &&
+    rect.right <= window.innerWidth 
+    );
 }
