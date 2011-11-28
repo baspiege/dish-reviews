@@ -46,7 +46,7 @@ function checkForMoreDishes() {
 }
 
 function getDishesData() {
-  sendRequest('../data/dishes.jsp?start=' + startIndexReview, handleDishesDataRequest);
+  sendRequest('../data/dishes.jsp?storeId='+storeId+'&start=' + startIndexReview, handleDishesDataRequest);
 }
 
 function handleDishesDataRequest(req) {
@@ -59,7 +59,7 @@ function handleDishesDataRequest(req) {
     table.setAttribute("id","dishes");    
     var tr=document.createElement("tr");
     table.appendChild(tr);
-    
+      
     // Dish
     var thName=document.createElement("th");
     tr.appendChild(thName);
@@ -71,12 +71,12 @@ function handleDishesDataRequest(req) {
     
     // Vote
     
-    // Review
+    // Last Review
     var thName=document.createElement("th");
     tr.appendChild(thName);  
     thName.appendChild(document.createTextNode("Review"));
     
-    // Image
+    // Last Image
     var thName=document.createElement("th");
     tr.appendChild(thName);
     thName.appendChild(document.createTextNode("Image"));
@@ -86,7 +86,7 @@ function handleDishesDataRequest(req) {
   
   // Process request
   var xmlDoc=req.responseXML;
-  var dishes=xmlDoc.getElementsByTagName("review");
+  var dishes=xmlDoc.getElementsByTagName("dish");
   if (dishes.length==0){
     moreDishes=false;
     if (newTable) {
@@ -105,13 +105,15 @@ function handleDishesDataRequest(req) {
       removeChildrenFromElement(document.getElementById("moreIndicator"));
     }
   } else {
-    // Make HTML for each review
+    // Make HTML for each dish
     for (var i=0;i<dishes.length;i++) {
-      var review=dishes[i];
+      var dish=dishes[i];
       var tr=document.createElement("tr");
       // Attributes
-      var dishId=review.getAttribute("dishId");
-      var dishText=review.getAttribute("dishText");
+      var dishId=dish.getAttribute("dishId");
+      var dishText=dish.getAttribute("dishText");
+      var lastReviewText=dish.getAttribute("lastReviewText");
+      var lastReviewImageId=dish.getAttribute("lastReviewImageId");
       tr.setAttribute("dishName",dishText);
 
       // Dish
@@ -122,24 +124,24 @@ function handleDishesDataRequest(req) {
       dishDesc.appendChild(dishDescLink);
       tr.appendChild(dishDesc);
       
-      // Desc
+      // Vote
+      
+      // Last Review
       var desc=document.createElement("td");
       var descLink=document.createElement("a");
-      descLink.setAttribute("href","reviewUpdate.jsp?reviewId="+reviewId);
-      var text=review.getAttribute("text");
-      descLink.appendChild(document.createTextNode(text));
+      descLink.setAttribute("href","dishes.jsp?dishId="+dishId);
+      var text=dish.getAttribute("text");
+      descLink.appendChild(document.createTextNode(lastReviewText));
       desc.appendChild(descLink);
       tr.appendChild(desc);
       
-      // Vote
-      
-      // Image
+      // Last Image
       var imageCell=document.createElement("td");
-      if (review.getAttribute("img")=="true") {
+      if (dish.getAttribute("img")=="true") {
         var imageLink=document.createElement("a");
-        imageLink.setAttribute("href","reviewImage.jsp?reviewId="+reviewId);
+        imageLink.setAttribute("href","reviewImage.jsp?reviewId="+lastReviewImageId);
         var image=document.createElement("img");
-        image.setAttribute("src","reviewThumbNailImage?reviewId="+reviewId);
+        image.setAttribute("src","reviewThumbNailImage?reviewId="+lastReviewImageId);
         imageLink.appendChild(image);
         imageCell.appendChild(imageLink);
       }
@@ -211,18 +213,6 @@ function sortByNameAscending(note1,note2) {
   return name1.localeCompare(name2);
 }
 
-function sortByReviewCountDescending(note1,note2) {
-  var reviewCount1=parseFloat(note1.getAttribute("reviewCount"));
-  var reviewCount2=parseFloat(note2.getAttribute("reviewCount"));
-  if (reviewCount1>reviewCount2) {
-      return -1;
-  } else if (reviewCount2>reviewCount1) {
-      return 1;
-  } else {
-      return 0;
-  }
-}
-
 function sortByVoteYesDescending(note1,note2) {
   var vote1=parseInt(note1.getAttribute("yes"));
   var vote2=parseInt(note2.getAttribute("yes"));
@@ -237,10 +227,6 @@ function sortByVoteYesDescending(note1,note2) {
 
 function reorderDishesByNameAscending() {
   reorderDishes(sortByNameAscending);
-}
-
-function reorderDishesByReviewCountDescending() {
-  reorderDishes(sortByReviewCountDescending);
 }
 
 function reorderDishesByVoteYesDescending() {
