@@ -28,6 +28,7 @@
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript">
 var storeId=<%=storeId%>;
+var isLoggedIn='<%=isSignedIn%>';
 </script>
 </head>
 <body onload="getDishesData();">
