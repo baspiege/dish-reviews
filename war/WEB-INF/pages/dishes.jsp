@@ -17,7 +17,7 @@
     boolean isSignedIn=request.getUserPrincipal()!= null; 
     
     Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
-    Store store;
+    Store store=null;
     if (storeId!=null) {
         store=RequestUtils.getStore(request,storeId);
     }
@@ -47,8 +47,10 @@ var isLoggedIn='<%=isSignedIn%>';
 </nav>
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
+<div style="margin-top:1.5em"><%= HtmlUtils.escapeChars(store.note) %></div>
+
 <%-- Data --%>
-<div style="margin-top:1.5em" class="data" id="data">
+<div class="data" id="data">
 <p> <%=bundle.getString("waitingForDataLabel")%> </p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
