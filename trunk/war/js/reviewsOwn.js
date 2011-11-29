@@ -60,32 +60,32 @@ function handleReviewsDataRequest(req) {
     table.appendChild(tr);
     
     // Store
-    var thName=document.createElement("th");
-    tr.appendChild(thName);
-    var nameLink=document.createElement("a");
-    nameLink.setAttribute("href","#");
-    nameLink.setAttribute("onclick","reorderReviewsByStoreNameAscending();return false;");
-    nameLink.appendChild(document.createTextNode("Restaurant"));  
-    thName.appendChild(nameLink);
+    var thStore=document.createElement("th");
+    tr.appendChild(thStore);
+    var storeLink=document.createElement("a");
+    storeLink.setAttribute("href","#");
+    storeLink.setAttribute("onclick","reorderReviewsByStoreNameAscending();return false;");
+    storeLink.appendChild(document.createTextNode("Restaurant"));  
+    thStore.appendChild(storeLink);
     
     // Dish
-    var thName=document.createElement("th");
-    tr.appendChild(thName);
-    var nameLink=document.createElement("a");
-    nameLink.setAttribute("href","#");
-    nameLink.setAttribute("onclick","reorderReviewsByDishNameAscending();return false;");
-    nameLink.appendChild(document.createTextNode("Dish"));  
-    thName.appendChild(nameLink);
+    var thDish=document.createElement("th");
+    tr.appendChild(thDish);
+    var dishLink=document.createElement("a");
+    dishLink.setAttribute("href","#");
+    dishLink.setAttribute("onclick","reorderReviewsByDishNameAscending();return false;");
+    dishLink.appendChild(document.createTextNode("Dish"));  
+    thDish.appendChild(dishLink);
     
     // Review
-    var thName=document.createElement("th");
-    tr.appendChild(thName);  
-    thName.appendChild(document.createTextNode("Review"));
+    var thReview=document.createElement("th");
+    tr.appendChild(thReview);  
+    thReview.appendChild(document.createTextNode("Review"));
     
     // Image
-    var thName=document.createElement("th");
-    tr.appendChild(thName);
-    thName.appendChild(document.createTextNode("Image"));
+    var thImage=document.createElement("th");
+    tr.appendChild(thImage);
+    thImage.appendChild(document.createTextNode("Image"));
   } else {
     table=tableOrig.cloneNode(true);
   }
@@ -121,6 +121,7 @@ function handleReviewsDataRequest(req) {
       var storeId=review.getAttribute("storeId")
       var storeText=review.getAttribute("storeText");
       var dishText=review.getAttribute("dishText");
+      var reviewText=review.getAttribute("text");
       tr.setAttribute("reviewId",reviewId);
       tr.setAttribute("dishName",dishText);
       tr.setAttribute("storeName",storeText);
@@ -141,14 +142,13 @@ function handleReviewsDataRequest(req) {
       dishDesc.appendChild(dishDescLink);
       tr.appendChild(dishDesc);
       
-      // Desc
-      var desc=document.createElement("td");
-      var descLink=document.createElement("a");
-      descLink.setAttribute("href","reviewUpdate.jsp?reviewId="+reviewId);
-      var text=review.getAttribute("text");
-      descLink.appendChild(document.createTextNode(text));
-      desc.appendChild(descLink);
-      tr.appendChild(desc);
+      // Review
+      var descReview=document.createElement("td");
+      var descReviewLink=document.createElement("a");
+      descReviewLink.setAttribute("href","reviewUpdate.jsp?reviewId="+reviewId);
+      descReviewLink.appendChild(document.createTextNode(reviewText));
+      descReview.appendChild(descReviewLink);
+      tr.appendChild(descReview);
       
       // Image
       var imageCell=document.createElement("td");
@@ -232,12 +232,6 @@ function removeChildrenFromElement(element) {
 }
 
 function elementInViewport(el) {
-  var rect = el.getBoundingClientRect()
-
-  return (
-    rect.top >= 0 &&
-    //rect.left >= 0 &&
-    rect.bottom <= window.innerHeight //&&
-    //rect.right <= window.innerWidth 
-    );
+  var rect = el.getBoundingClientRect();
+  return (rect.top >= 0 && rect.bottom <= window.innerHeight);
 }

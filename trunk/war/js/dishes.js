@@ -65,21 +65,25 @@ function handleDishesDataRequest(req) {
     tr.appendChild(thName);
     var nameLink=document.createElement("a");
     nameLink.setAttribute("href","#");
-    nameLink.setAttribute("onclick","reorderDishesByDishNameAscending();return false;");
+    nameLink.setAttribute("onclick","return false;");
+    //nameLink.setAttribute("onclick","reorderDishesByDishNameAscending();return false;");
     nameLink.appendChild(document.createTextNode("Dish"));  
     thName.appendChild(nameLink);
     
     // Vote
+    var thVote=document.createElement("th");
+    tr.appendChild(thVote);  
+    thVote.appendChild(document.createTextNode("Like"));
     
     // Last Review
-    var thName=document.createElement("th");
-    tr.appendChild(thName);  
-    thName.appendChild(document.createTextNode("Review"));
+    var thReview=document.createElement("th");
+    tr.appendChild(thReview);  
+    thReview.appendChild(document.createTextNode("Last Review"));
     
     // Last Image
-    var thName=document.createElement("th");
-    tr.appendChild(thName);
-    thName.appendChild(document.createTextNode("Image"));
+    var thLastImage=document.createElement("th");
+    tr.appendChild(thLastImage);
+    thLastImage.appendChild(document.createTextNode("Last Image"));
   } else {
     table=tableOrig.cloneNode(true);
   }
@@ -112,6 +116,7 @@ function handleDishesDataRequest(req) {
       // Attributes
       var dishId=dish.getAttribute("dishId");
       var dishText=dish.getAttribute("dishText");
+      var vote=dish.getAttribute("yes");
       var lastReviewText=dish.getAttribute("lastReviewText");
       var lastReviewImageId=dish.getAttribute("lastReviewImageId");
       tr.setAttribute("dishName",dishText);
@@ -119,17 +124,31 @@ function handleDishesDataRequest(req) {
       // Dish
       var dishDesc=document.createElement("td");
       var dishDescLink=document.createElement("a");
-      dishDescLink.setAttribute("href","dishes.jsp?dishId="+dishId);
+      dishDescLink.setAttribute("href","reviews.jsp?dishId="+dishId);
       dishDescLink.appendChild(document.createTextNode(dishText));
       dishDesc.appendChild(dishDescLink);
       tr.appendChild(dishDesc);
       
-      // Vote
+      // Vote      
+      if (isLoggedIn=="true") {
+          var voteDisplay=document.createElement("td");
+          var voteButton=document.createElement("button");
+          voteDisplay.appendChild(voteButton);
+          voteButton.setAttribute("id","button"+dishId);
+          voteButton.setAttribute("onclick","sendYesVote("+dishId+")");
+          voteButton.appendChild(document.createTextNode(vote));
+          tr.appendChild(voteDisplay);
+      } else {
+          var voteDisplay=document.createElement("td");
+          voteDisplay.setAttribute("class","center");          
+          voteDisplay.appendChild(document.createTextNode(vote));
+          tr.appendChild(voteDisplay);
+      }
       
       // Last Review
       var desc=document.createElement("td");
       var descLink=document.createElement("a");
-      descLink.setAttribute("href","dishes.jsp?dishId="+dishId);
+      descLink.setAttribute("href","reviews.jsp?dishId="+dishId);
       var text=dish.getAttribute("text");
       descLink.appendChild(document.createTextNode(lastReviewText));
       desc.appendChild(descLink);
@@ -191,49 +210,6 @@ function sendYesVote(id) {
 }
 
 ///////////////////
-// Sorting
-///////////////////
-
-function reorderDishes(sortFunction) {
-  var dishes=document.getElementById("dishes");
-  var notes=dishes.getElementsByTagName("tr");
-  var notesTemp=new Array();
-  for (var i=1; i<notes.length; i++) {
-    notesTemp.push(notes[i]);
-  }
-  notesTemp.sort(sortFunction);
-  for (var i=0; i<notesTemp.length; i++) {
-    dishes.appendChild(notesTemp[i]);
-  }
-}
-
-function sortByNameAscending(note1,note2) {
-  var name1=note1.getAttribute("name");
-  var name2=note2.getAttribute("name");
-  return name1.localeCompare(name2);
-}
-
-function sortByVoteYesDescending(note1,note2) {
-  var vote1=parseInt(note1.getAttribute("yes"));
-  var vote2=parseInt(note2.getAttribute("yes"));
-  if (vote1>vote2) {
-      return -1;
-  } else if (vote2>vote1) {
-      return 1;
-  } else {
-      return 0;
-  }
-}
-
-function reorderDishesByNameAscending() {
-  reorderDishes(sortByNameAscending);
-}
-
-function reorderDishesByVoteYesDescending() {
-  reorderDishes(sortByVoteYesDescending);
-}
-
-///////////////////
 // Display
 ///////////////////
 
@@ -246,12 +222,6 @@ function removeChildrenFromElement(element) {
 }
 
 function elementInViewport(el) {
-  var rect = el.getBoundingClientRect()
-
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= window.innerHeight &&
-    rect.right <= window.innerWidth 
-    );
+  var rect = el.getBoundingClientRect();
+  return (rect.top >= 0 && rect.bottom <= window.innerHeight);
 }
