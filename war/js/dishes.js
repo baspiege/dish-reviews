@@ -70,6 +70,15 @@ function handleDishesDataRequest(req) {
     nameLink.appendChild(document.createTextNode("Dish"));  
     thName.appendChild(nameLink);
     
+    // Show Add link if logged in
+    if (isLoggedIn=="true") {
+      var addLink=document.createElement("a");
+      addLink.setAttribute("href","dishAdd.jsp?storeId="+storeId);
+      addLink.setAttribute("class","add addTh");
+      addLink.appendChild(document.createTextNode("Add"));
+      thName.appendChild(addLink);
+    }
+    
     // Vote
     var thVote=document.createElement("th");
     tr.appendChild(thVote);  
