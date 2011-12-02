@@ -41,7 +41,7 @@ public class DishesUpdateAllUtil {
                 for (Dish dish:results) {
                 
                     // Reset note (to set lowercase)
-                    dish.setNote(dish.note);
+                    //dish.setNote(dish.note);
                     
                     // Set last image
                     Review review=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,dish.getKey().getId());
