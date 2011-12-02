@@ -35,12 +35,13 @@ var gettingDishes=false;
 var moreDishes=true;
 window.onscroll=checkForMoreDishes;
 var startIndexReview=0;
+var PAGE_SIZE=10; // If changes, update server count as well.
 
 function checkForMoreDishes() {
   var moreIndicator=document.getElementById("moreIndicator");
   if (elementInViewport(moreIndicator) && !gettingDishes && moreDishes) {
     gettingDishes=true;
-    startIndexReview+=10;
+    startIndexReview+=PAGE_SIZE;
     getDishesData();
   }
 }
@@ -118,6 +119,9 @@ function handleDishesDataRequest(req) {
       removeChildrenFromElement(document.getElementById("moreIndicator"));
     }
   } else {
+    if (dishes.length<PAGE_SIZE){
+      moreDishes=false;
+    }
     // Make HTML for each dish
     for (var i=0;i<dishes.length;i++) {
       var dish=dishes[i];
@@ -155,13 +159,20 @@ function handleDishesDataRequest(req) {
       }
       
       // Last Review
-      var desc=document.createElement("td");
-      var descLink=document.createElement("a");
-      descLink.setAttribute("href","reviews.jsp?dishId="+dishId);
-      var text=dish.getAttribute("text");
-      descLink.appendChild(document.createTextNode(lastReviewText));
-      desc.appendChild(descLink);
-      tr.appendChild(desc);
+      var lastReview=document.createElement("td");
+      if (lastReviewText) {
+        var reviewLink=document.createElement("a");
+        reviewLink.setAttribute("href","reviews.jsp?dishId="+dishId);
+        reviewLink.appendChild(document.createTextNode(lastReviewText));
+        lastReview.appendChild(reviewLink);
+      } else if (isLoggedIn=="true") {
+        var addLink=document.createElement("a");
+        addLink.setAttribute("class","add");
+        addLink.setAttribute("href","reviewAdd.jsp?dishId="+dishId);
+        addLink.appendChild(document.createTextNode("Add"));
+        lastReview.appendChild(addLink);
+      }
+      tr.appendChild(lastReview);
       
       // Last Image
       var imageCell=document.createElement("td");

@@ -34,12 +34,13 @@ var gettingReviews=false;
 var moreReviews=true;
 window.onscroll=checkForMoreReviews;
 var startIndexReview=0;
+var PAGE_SIZE=10; // If changes, update server count as well.
 
 function checkForMoreReviews() {
   var moreIndicator=document.getElementById("moreIndicator");
   if (elementInViewport(moreIndicator) && !gettingReviews && moreReviews) {
     gettingReviews=true;
-    startIndexReview+=10;
+    startIndexReview+=PAGE_SIZE;
     getReviewsData();
   }
 }
@@ -111,6 +112,9 @@ function handleReviewsDataRequest(req) {
       removeChildrenFromElement(document.getElementById("moreIndicator"));
     }
   } else {
+    if (reviews.length<PAGE_SIZE){
+      moreReviews=false;
+    }
     // Make HTML for each review
     for (var i=0;i<reviews.length;i++) {
       var review=reviews[i];
