@@ -38,7 +38,7 @@ var PAGE_SIZE=10; // If changes, update server count as well.
 
 function checkForMoreReviews() {
   var moreIndicator=document.getElementById("moreIndicator");
-  if (elementInViewport(moreIndicator) && !gettingReviews && moreReviews) {
+  if (moreIndicator && elementInViewport(moreIndicator) && !gettingReviews && moreReviews) {
     gettingReviews=true;
     startIndexReview+=PAGE_SIZE;
     getReviewsData();

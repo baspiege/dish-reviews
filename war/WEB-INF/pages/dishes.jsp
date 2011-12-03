@@ -1,13 +1,10 @@
 <%-- This JSP has the HTML for dishes page. --%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
-<%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
-<%@ page import="geonotes.data.DishesGetAll" %>
 <%@ page import="geonotes.data.StoreGetSingle" %>
-<%@ page import="geonotes.data.model.Dish" %>
 <%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>

@@ -31,11 +31,13 @@ public class ReviewsGetAll {
             try {
 
                 Long dishId=(Long)aRequest.getAttribute("dishId");
+                Long start=(Long)aRequest.getAttribute("start");
                 
                 query = pm.newQuery(Review.class);
                 query.setFilter("dishId==dishIdParam");
                 query.declareParameters("long dishIdParam");
                 query.setOrdering("lastUpdateTime DESC");
+                query.setRange(start, start+10);
                 
                 List<Review> results = (List<Review>) query.execute(dishId);
                 

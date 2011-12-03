@@ -28,6 +28,186 @@ function sendRequest(url,callback,postData) {
 }
 
 ///////////////////
+// Data
+///////////////////
+
+var gettingReviews=false;
+var moreReviews=true;
+window.onscroll=checkForMoreReviews;
+var startIndexReview=0;
+var PAGE_SIZE=10; // If changes, update server count as well.
+
+function checkForMoreReviews() {
+  var moreIndicator=document.getElementById("moreIndicator");
+  if (moreIndicator && elementInViewport(moreIndicator) && !gettingReviews && moreReviews) {
+    gettingReviews=true;
+    startIndexReview+=PAGE_SIZE;
+    getReviewsData();
+  }
+}
+
+function getReviewsData() {
+  sendRequest('../data/reviews.jsp?dishId='+dishId+'&start=' + startIndexReview, handleReviewsDataRequest);
+}
+
+function handleReviewsDataRequest(req) {
+  var tableOrig=document.getElementById("reviews");
+  var table;
+  var newTable=false;
+  if (tableOrig==null) {
+ 
+    newTable=true;
+    table=document.createElement("table");
+    table.setAttribute("id","reviews");    
+    var tr=document.createElement("tr");
+    table.appendChild(tr);
+    
+    // Review
+    var thReview=document.createElement("th");
+    tr.appendChild(thReview);
+    thReview.appendChild(document.createTextNode("Review"));
+    
+    // Show Add link if logged in
+    if (isLoggedIn=="true") {
+      var addLink=document.createElement("a");
+      addLink.setAttribute("href","reviewAdd.jsp?dishId="+dishId);
+      addLink.setAttribute("class","add addTh");
+      addLink.appendChild(document.createTextNode("Add"));
+      thReview.appendChild(addLink);
+    }
+
+    // Time
+    var thTime=document.createElement("th");
+    tr.appendChild(thTime);  
+    thTime.appendChild(document.createTextNode("Time Ago"));
+    
+    // Agree
+    var thVote=document.createElement("th");
+    tr.appendChild(thVote);  
+    thVote.appendChild(document.createTextNode("Agree"));   
+    
+    // Image
+    var thImage=document.createElement("th");
+    tr.appendChild(thImage);
+    thImage.appendChild(document.createTextNode("Image"));
+   
+  } else {
+    table=tableOrig.cloneNode(true);
+  }
+  
+  // Process request
+  var xmlDoc=req.responseXML;
+  var reviews=xmlDoc.getElementsByTagName("review");
+  if (reviews.length==0){
+
+    moreReviews=false;
+    if (newTable) {
+      var tr=document.createElement("tr");
+      var td=document.createElement("td");
+      td.setAttribute("colspan","4");
+      td.appendChild(document.createTextNode("No reviews."));
+      tr.appendChild(td);
+      table.appendChild(tr);
+      var tableDiv=document.getElementById("data");
+      removeChildrenFromElement(tableDiv);
+      // Update tableDiv with new table at end of processing to prevent multiple
+      // requests from interfering with each other
+      tableDiv.appendChild(table);
+    } else {
+      removeChildrenFromElement(document.getElementById("moreIndicator"));
+    }
+  } else {
+    if (reviews.length<PAGE_SIZE){
+      moreReviews=false;
+    }
+    // Make HTML for each review
+    var currentSeconds=new Date().getTime()/1000;
+    for (var i=0;i<reviews.length;i++) {
+
+      var review=reviews[i];
+      var tr=document.createElement("tr");
+      // Attributes
+      var reviewId=review.getAttribute("reviewId");
+      var reviewText=review.getAttribute("text");
+      var vote=review.getAttribute("yes");
+      var time=review.getAttribute("time");
+      var usersOwn=review.getAttribute("user")=="true";
+      tr.setAttribute("reviewId",reviewId);
+    
+      // Review
+      var descReview=document.createElement("td");
+      if (usersOwn) {
+        var descReviewLink=document.createElement("a");
+        descReviewLink.setAttribute("href","reviewUpdate.jsp?reviewId="+reviewId);
+        descReviewLink.appendChild(document.createTextNode(reviewText));
+        descReview.appendChild(descReviewLink);
+      } else {
+        descReview.appendChild(document.createTextNode(reviewText));
+      }
+      tr.appendChild(descReview);
+      
+      // Time Ago
+      var timeReview=document.createElement("td");
+      var elapsedTime=getElapsedTime(parseInt(review.getAttribute("time")),currentSeconds);
+      timeReview.appendChild(document.createTextNode(elapsedTime));
+      tr.appendChild(timeReview);
+      
+      // Vote      
+      if (isLoggedIn=="true") {
+          var voteDisplay=document.createElement("td");
+          var voteButton=document.createElement("button");
+          voteDisplay.appendChild(voteButton);
+          voteButton.setAttribute("id","button"+reviewId);
+          voteButton.setAttribute("onclick","sendYesVote("+reviewId+")");
+          voteButton.appendChild(document.createTextNode(vote));
+          tr.appendChild(voteDisplay);
+      } else {
+          var voteDisplay=document.createElement("td");
+          voteDisplay.setAttribute("class","center");          
+          voteDisplay.appendChild(document.createTextNode(vote));
+          tr.appendChild(voteDisplay);
+      }
+      
+      // Image
+      var imageCell=document.createElement("td");
+      if (review.getAttribute("img")=="true") {
+        var imageLink=document.createElement("a");
+        imageLink.setAttribute("href","reviewImage.jsp?reviewId="+reviewId);
+        var image=document.createElement("img");
+        image.setAttribute("src","reviewThumbNailImage?reviewId="+reviewId);
+        imageLink.appendChild(image);
+        imageCell.appendChild(imageLink);
+      } else if (usersOwn) {
+        var imageLink=document.createElement("a");
+        imageLink.setAttribute("class","add");
+        imageLink.setAttribute("href","reviewImage.jsp?reviewId="+reviewId);
+        imageLink.appendChild(document.createTextNode("Add"));
+        imageCell.appendChild(imageLink)      
+      }
+      tr.appendChild(imageCell);
+      
+      table.appendChild(tr);
+   
+    }
+    var tableDiv=document.getElementById("data");
+    removeChildrenFromElement(tableDiv);
+    // Update tableDiv with new table at end of processing to prevent multiple
+    // requests from interfering with each other
+    tableDiv.appendChild(table);
+    //updateNotesDispay();
+    
+    if (moreReviews) {
+      var moreIndicator=document.createElement("p");
+      moreIndicator.setAttribute("id","moreIndicator");
+      moreIndicator.appendChild(document.createTextNode("Loading more..."));
+      tableDiv.appendChild(moreIndicator);
+    }
+    gettingReviews=false;
+    checkForMoreReviews();
+  }
+}
+
+///////////////////
 // Votes
 ///////////////////
 
@@ -51,63 +231,40 @@ function sendYesVote(id) {
 }
 
 ///////////////////
-// Sorting
+// Display
 ///////////////////
 
-function reorderReviews(sortFunction) {
-  var reviews=document.getElementById("reviews");
-  var notes=reviews.getElementsByTagName("tr");
-  var notesTemp=new Array();
-  for (var i=1; i<notes.length; i++) {
-    notesTemp.push(notes[i]);
-  }
-  notesTemp.sort(sortFunction);
-  for (var i=0; i<notesTemp.length; i++) {
-    reviews.appendChild(notesTemp[i]);
-  }
-}
-
-function sortByNameAscending(note1,note2) {
-  var name1=note1.getAttribute("name");
-  var name2=note2.getAttribute("name");
-  return name1.localeCompare(name2);
-}
-
-function sortByTimeDescending(note1,note2) {
-  var time1=parseFloat(note1.getAttribute("time"));
-  var time2=parseFloat(note2.getAttribute("time"));
-  if (time1>time2) {
-      return -1;
-  } else if (time2>time1) {
-      return 1;
+function getElapsedTime(oldSeconds,newSeconds){
+  var display="";
+  var seconds=newSeconds-oldSeconds;
+  if (seconds<60){
+    display=Math.round(seconds)+" sec";
   } else {
-      return 0;
+    var minutes=seconds/60;
+    if (minutes<60) {
+      display=Math.round(minutes)+" min";
+    } else {
+      var hours=minutes/60;
+      if (hours<24) {
+        display=Math.round(hours)+" hr";
+      } else {
+        var days=hours/24;
+        display=Math.round(days)+" days";
+      }
+    }
+  }
+  return display;
+}
+
+function removeChildrenFromElement(element) {
+  if (element.hasChildNodes()) {
+    while (element.childNodes.length>0) {
+      element.removeChild(element.firstChild);
+    }
   }
 }
 
-function sortByVoteYesDescending(note1,note2) {
-  var vote1=parseInt(note1.getAttribute("yes"));
-  var vote2=parseInt(note2.getAttribute("yes"));
-  if (vote1>vote2) {
-      return -1;
-  } else if (vote2>vote1) {
-      return 1;
-  } else {
-      return 0;
-  }
-}
-
-function reorderReviewsByNameAscending() {
-  // setCookie("sortBy","name");
-  reorderReviews(sortByNameAscending);
-}
-
-function reorderReviewsByTimeDescending() {
-  // setCookie("sortBy","time");
-  reorderReviews(sortByTimeDescending);
-}
-
-function reorderReviewsByVoteYesDescending() {
-  // setCookie("sortBy","voteYes");
-  reorderReviews(sortByVoteYesDescending);
+function elementInViewport(el) {
+  var rect = el.getBoundingClientRect();
+  return (rect.top >= 0 && rect.bottom <= window.innerHeight);
 }
