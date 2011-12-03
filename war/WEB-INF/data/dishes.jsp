@@ -15,6 +15,7 @@
     ResourceBundle bundle = ResourceBundle.getBundle("Text");    
     RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
     RequestUtils.getNumericInput(request,"storeId",bundle.getString("storeId"),true);
+    RequestUtils.getAlphaInput(request,"sortBy",bundle.getString("sortByLabel"),false);
     
     // Get data
     new DishesGetAll().execute(request);
@@ -33,11 +34,6 @@
             out.write(" dishText=\"" + HtmlUtils.escapeChars(dish.note) + "\"");
             out.write(" lastReviewText=\"" + HtmlUtils.escapeChars(dish.lastReview) + "\"");
             out.write(" lastReviewImageId=\"" + dish.lastReviewImageId + "\"");
-            
-            // Store attributes
-            Store store=RequestUtils.getStore(request,dish.storeId);
-            out.write(" storeId=\"" + store.getKey().getId() + "\"");
-            out.write(" storeText=\"" + HtmlUtils.escapeChars(store.note) + "\"");
             
             // Thumbnail
             if (dish.lastReviewImageId!=null && dish.lastReviewImageId!=0l) {
