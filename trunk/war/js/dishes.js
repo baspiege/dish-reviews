@@ -36,6 +36,7 @@ var moreDishes=true;
 window.onscroll=checkForMoreDishes;
 var startIndexReview=0;
 var PAGE_SIZE=10; // If changes, update server count as well.
+var sortBy="name"
 
 function checkForMoreDishes() {
   var moreIndicator=document.getElementById("moreIndicator");
@@ -47,7 +48,7 @@ function checkForMoreDishes() {
 }
 
 function getDishesData() {
-  sendRequest('../data/dishes.jsp?storeId='+storeId+'&start=' + startIndexReview, handleDishesDataRequest);
+  sendRequest('../data/dishes.jsp?storeId='+storeId+'&start='+startIndexReview+'&sortBy='+sortBy, handleDishesDataRequest);
 }
 
 function handleDishesDataRequest(req) {
@@ -64,13 +65,11 @@ function handleDishesDataRequest(req) {
     // Dish
     var thName=document.createElement("th");
     tr.appendChild(thName);
-    //var nameLink=document.createElement("a");
-    //nameLink.setAttribute("href","#");
-    //nameLink.setAttribute("onclick","return false;");
-    //nameLink.setAttribute("onclick","reorderDishesByDishNameAscending();return false;");
-    //nameLink.appendChild(document.createTextNode("Dish"));  
-    //thName.appendChild(nameLink);
-    thName.appendChild(document.createTextNode("Dish"));
+    var nameLink=document.createElement("a");
+    nameLink.setAttribute("href","#");
+    nameLink.setAttribute("onclick","sortDishesBy('name');return false;");
+    nameLink.appendChild(document.createTextNode("Dish"));  
+    thName.appendChild(nameLink);
     
     // Show Add link if logged in
     if (isLoggedIn=="true") {
@@ -83,8 +82,12 @@ function handleDishesDataRequest(req) {
     
     // Vote
     var thVote=document.createElement("th");
-    tr.appendChild(thVote);  
-    thVote.appendChild(document.createTextNode("Like"));
+    tr.appendChild(thVote);
+    var voteLink=document.createElement("a");
+    voteLink.setAttribute("href","#");
+    voteLink.setAttribute("onclick","sortDishesBy('vote');return false;");
+    voteLink.appendChild(document.createTextNode("Like"));  
+    thVote.appendChild(voteLink);
     
     // Last Review
     var thReview=document.createElement("th");
@@ -228,6 +231,16 @@ function handleYesVote(req) {
 
 function sendYesVote(id) {
   sendRequest('dishVote.jsp?vote=yes&dishId='+id,handleYesVote);
+}
+
+///////////////////
+// Display
+///////////////////
+
+function sortDishesBy(fieldToSortBy) {
+  removeChildrenFromElement(document.getElementById("data"));  // Reset data
+  sortBy=fieldToSortBy;
+  getDishesData();
 }
 
 ///////////////////

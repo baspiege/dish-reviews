@@ -32,11 +32,19 @@ public class DishesGetAll {
 
                 Long storeId=(Long)aRequest.getAttribute("storeId");
                 Long start=(Long)aRequest.getAttribute("start");
+                String sortBy=(String)aRequest.getAttribute("sortBy");
                 
                 query = pm.newQuery(Dish.class);
                 query.setFilter("storeId==storeIdParam");
                 query.declareParameters("long storeIdParam");
-                query.setOrdering("noteLowerCase ASC");
+                
+                // Sorting
+                if (sortBy==null || sortBy.equalsIgnoreCase("name")){
+                    query.setOrdering("noteLowerCase ASC");
+                } else if (sortBy.equalsIgnoreCase("vote")){
+                    query.setOrdering("yes DESC");
+                }
+                
                 query.setRange(start, start+10);
                 
                 List<Dish> results = (List<Dish>) query.execute(storeId);
