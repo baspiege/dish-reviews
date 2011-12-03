@@ -59,7 +59,7 @@ function getStoresData() {
   // Get position and send request
   var lat=getCookie("latitude");
   var lon=getCookie("longitude");
-  sendRequest('storesTable.jsp?latitude='+lat+'&longitude='+lon, handleStoresDataRequest);
+  sendRequest('../data/stores.jsp?latitude='+lat+'&longitude='+lon, handleStoresDataRequest);
 }
 
 function getStoresDataById(storeId) {

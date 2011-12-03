@@ -39,7 +39,7 @@ var PAGE_SIZE=10; // If changes, update server count as well.
 
 function checkForMoreDishes() {
   var moreIndicator=document.getElementById("moreIndicator");
-  if (elementInViewport(moreIndicator) && !gettingDishes && moreDishes) {
+  if (moreIndicator && elementInViewport(moreIndicator) && !gettingDishes && moreDishes) {
     gettingDishes=true;
     startIndexReview+=PAGE_SIZE;
     getDishesData();
@@ -64,12 +64,13 @@ function handleDishesDataRequest(req) {
     // Dish
     var thName=document.createElement("th");
     tr.appendChild(thName);
-    var nameLink=document.createElement("a");
-    nameLink.setAttribute("href","#");
-    nameLink.setAttribute("onclick","return false;");
+    //var nameLink=document.createElement("a");
+    //nameLink.setAttribute("href","#");
+    //nameLink.setAttribute("onclick","return false;");
     //nameLink.setAttribute("onclick","reorderDishesByDishNameAscending();return false;");
-    nameLink.appendChild(document.createTextNode("Dish"));  
-    thName.appendChild(nameLink);
+    //nameLink.appendChild(document.createTextNode("Dish"));  
+    //thName.appendChild(nameLink);
+    thName.appendChild(document.createTextNode("Dish"));
     
     // Show Add link if logged in
     if (isLoggedIn=="true") {

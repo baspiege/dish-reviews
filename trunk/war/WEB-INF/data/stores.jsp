@@ -43,24 +43,18 @@
             out.write(" storeId=\"" + storeIdTemp + "\"");
             out.write(" lat=\"" + store.latitude + "\"");
             out.write(" lon=\"" + store.longitude + "\"");
-            out.write(" yes=\"" + store.yes + "\""); 
+            //out.write(" yes=\"" + store.yes + "\""); 
             out.write(" text=\"" + HtmlUtils.escapeChars(store.note) + "\"");
             out.write(" dishCount=\"" + store.dishCount + "\"");
             
-            // User
-            /*
-            if (user!=null && user.equalsIgnoreCase(store.user)) {
-                out.write(" user=\"true\"");
-            } else {
-                out.write(" user=\"false\"");
-            }*/
-            
             // Thumbnail
+            /*
             if (store.imageThumbnail!=null) {
                 out.write(" img=\"true\"");
             } else {
                 out.write(" img=\"false\"");
             }
+            */
             out.write("/>");
         }
     }
