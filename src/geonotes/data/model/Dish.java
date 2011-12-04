@@ -54,7 +54,10 @@ public class Dish implements Serializable {
     public String user;
     
     @Persistent 
-    public long yes;
+    public Long vote;
+    
+    @Persistent 
+    public Long yesVote;
  
     /**
      * Constructor.
@@ -107,8 +110,8 @@ public class Dish implements Serializable {
         user=aUser; 
     }
     
-    public void setYes(long aYes)
+    public void setYesVote(long aYes)
     { 
-        yes=aYes; 
+        yesVote=aYes; 
     }
 }

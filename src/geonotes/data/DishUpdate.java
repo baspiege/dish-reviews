@@ -65,7 +65,7 @@ public class DishUpdate {
                 dishHistory.setNote(dish.note);
                 dishHistory.setLastUpdateTime(dish.lastUpdateTime);
                 dishHistory.setStoreId(dish.storeId);
-                dishHistory.setYes(dish.yes);
+                dishHistory.setYesVote(dish.yesVote);
                 dishHistory.setUser(dish.user);
                 pm.makePersistent(dishHistory);
             }

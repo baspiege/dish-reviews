@@ -144,6 +144,16 @@ function handleDishesDataRequest(req) {
       dishDescLink.setAttribute("href","reviews.jsp?dishId="+dishId);
       dishDescLink.appendChild(document.createTextNode(dishText));
       dishDesc.appendChild(dishDescLink);
+      
+      if (isLoggedIn=="true") {
+        var editLink=document.createElement("a");
+        editLink.setAttribute("href","dishUpdate.jsp?dishId="+dishId);
+        editLink.setAttribute("class","edit");
+        editLink.appendChild(document.createTextNode("edit"));
+        dishDescLink.appendChild(document.createTextNode(' '));
+        dishDescLink.appendChild(editLink);
+      }
+      
       tr.appendChild(dishDesc);
       
       // Vote      

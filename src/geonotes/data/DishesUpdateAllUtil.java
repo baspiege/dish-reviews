@@ -40,14 +40,18 @@ public class DishesUpdateAllUtil {
                 
                 for (Dish dish:results) {
                 
+                    //if (dish.yesVote==null) {
+                        dish.setYesVote(dish.vote);
+                    //}
+                
                     // Reset note (to set lowercase)
                     //dish.setNote(dish.note);
                     
                     // Set last image
-                    Review review=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,dish.getKey().getId());
-                    if (review!=null) {
-                        dish.setLastReviewImageId(review.getKey().getId());
-                    }
+                    //Review review=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,dish.getKey().getId());
+                    //if (review!=null) {
+                    //    dish.setLastReviewImageId(review.getKey().getId());
+                    //}
                 }
                 
                 // Set into request

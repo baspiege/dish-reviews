@@ -42,7 +42,7 @@ public class DishesGetAll {
                 if (sortBy==null || sortBy.equalsIgnoreCase("name")){
                     query.setOrdering("noteLowerCase ASC");
                 } else if (sortBy.equalsIgnoreCase("vote")){
-                    query.setOrdering("yes DESC");
+                    query.setOrdering("yesVote DESC");
                 }
                 
                 query.setRange(start, start+10);
