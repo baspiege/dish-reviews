@@ -52,7 +52,7 @@ public class DishUpdateYesNo {
             Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
             if (dish!=null){
                 if (vote.equals("yes")){
-                  dish.setYes(dish.yes+1);
+                  dish.setYesVote(dish.yesVote+1);
                 }
             }
             

@@ -40,7 +40,7 @@ public class DishAdd {
             dish.setNote(note);
             dish.setLastUpdateTime(new Date());
             dish.setStoreId(storeId);
-            dish.setYes(0);
+            dish.setYesVote(0);
             dish.setUser(user);
             
             // Save
@@ -56,7 +56,7 @@ public class DishAdd {
             dishHistory.setNote(dish.note);
             dishHistory.setLastUpdateTime(dish.lastUpdateTime);
             dishHistory.setStoreId(dish.storeId);
-            dishHistory.setYes(dish.yes);
+            dishHistory.setYesVote(dish.yesVote);
             dishHistory.setUser(dish.user);
             pm.makePersistent(dishHistory);
 

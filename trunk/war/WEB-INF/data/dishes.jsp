@@ -30,7 +30,7 @@
             // Add attributes
             out.write("<dish");
             out.write(" dishId=\"" + dishId + "\"");
-            out.write(" yes=\"" + dish.yes + "\""); 
+            out.write(" yes=\"" + dish.yesVote + "\""); 
             out.write(" dishText=\"" + HtmlUtils.escapeChars(dish.note) + "\"");
             out.write(" lastReviewText=\"" + HtmlUtils.escapeChars(dish.lastReview) + "\"");
             out.write(" lastReviewImageId=\"" + dish.lastReviewImageId + "\"");
