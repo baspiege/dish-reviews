@@ -39,7 +39,7 @@ public class ReviewAdd {
             review.setNote(note);
             review.setLastUpdateTime(new Date());
             review.setDishId(dishId);
-            review.setYes(0);
+            review.setYesVote(0);
             review.setUser(user);
             
             // Save
