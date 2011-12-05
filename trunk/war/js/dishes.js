@@ -150,8 +150,8 @@ function handleDishesDataRequest(req) {
         editLink.setAttribute("href","dishUpdate.jsp?dishId="+dishId);
         editLink.setAttribute("class","edit");
         editLink.appendChild(document.createTextNode("edit"));
-        dishDescLink.appendChild(document.createTextNode(' '));
-        dishDescLink.appendChild(editLink);
+        dishDesc.appendChild(document.createTextNode(' '));
+        dishDesc.appendChild(editLink);
       }
       
       tr.appendChild(dishDesc);
