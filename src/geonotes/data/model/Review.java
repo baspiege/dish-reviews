@@ -48,7 +48,10 @@ public class Review implements Serializable {
     public String note; 
     
     @Persistent 
-    public long yes;
+    public Long yes;
+    
+    @Persistent 
+    public Long yesVote;
     
     @Persistent 
     public String user;	
@@ -110,6 +113,11 @@ public class Review implements Serializable {
     public void setYes(long aYes)
     { 
         yes=aYes; 
+    }
+    
+    public void setYesVote(long aYes)
+    { 
+        yesVote=aYes; 
     }
     
     public void setUser(String aUser)

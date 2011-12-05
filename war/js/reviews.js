@@ -155,11 +155,11 @@ function handleReviewsDataRequest(req) {
       // Vote      
       if (isLoggedIn=="true") {
           var voteDisplay=document.createElement("td");
-          var voteButton=document.createElement("button");
-          voteDisplay.appendChild(voteButton);
-          voteButton.setAttribute("id","button"+reviewId);
-          voteButton.setAttribute("onclick","sendYesVote("+reviewId+")");
-          voteButton.appendChild(document.createTextNode(vote));
+          var voteLink=document.createElement("a");
+          voteLink.setAttribute("href","reviewVote.jsp?reviewId="+reviewId);
+          voteLink.setAttribute("class","center");
+          voteLink.appendChild(document.createTextNode(vote));
+          voteDisplay.appendChild(voteLink);
           tr.appendChild(voteDisplay);
       } else {
           var voteDisplay=document.createElement("td");
@@ -205,29 +205,6 @@ function handleReviewsDataRequest(req) {
     gettingReviews=false;
     checkForMoreReviews();
   }
-}
-
-///////////////////
-// Votes
-///////////////////
-
-function handleYesVote(req) {
-  var xmlDoc=req.responseXML;
-  var error=xmlDoc.getElementsByTagName("error");
-  if (error.length>0){
-    var message=error[0].getAttribute("message");
-    alert(message);
-  } else {
-    var success=xmlDoc.getElementsByTagName("success");
-    var reviewId=success[0].getAttribute("reviewId");
-    var button=document.getElementById("button" + reviewId);
-    var yes=parseInt(button.innerHTML);
-    button.innerHTML=yes+1;
-  }
-}
-
-function sendYesVote(id) {
-  sendRequest('reviewVote.jsp?vote=yes&reviewId='+id,handleYesVote);
 }
 
 ///////////////////
