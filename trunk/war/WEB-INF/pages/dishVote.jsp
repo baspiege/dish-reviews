@@ -1,36 +1,89 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<%-- This JSP votes for a dish. --%>
-<%@page pageEncoding="UTF-8" contentType="text/xml; charset=UTF-8" %>
+<%-- This JSP has the HTML for dish update page. --%>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.ResourceBundle" %>
+<%@ page import="geonotes.data.DishGetSingle" %>
 <%@ page import="geonotes.data.DishUpdateYesNo" %>
+<%@ page import="geonotes.data.DishUpdateUndoYesNo" %>
+<%@ page import="geonotes.data.model.Dish" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
-<%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
-<result>
+<%@ page import="geonotes.utils.StringUtils" %>
 <%
     // Check if signed in
-    boolean isSignedIn=request.getUserPrincipal()!= null;
-    if (isSignedIn) {
-        request.setAttribute("user",request.getUserPrincipal().getName());
+    boolean isSignedIn=request.getUserPrincipal()!=null;
 
-        Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
-        RequestUtils.getAlphaInput(request,"vote","vote",true);
+    ResourceBundle bundle = ResourceBundle.getBundle("Text");
+    String action=RequestUtils.getAlphaInput(request,"action","Action",false);
+    Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
+    RequestUtils.getAlphaInput(request,"vote","vote",false);
 
-        if (dishId!=null) {
-            new DishUpdateYesNo().execute(request);
-        }
+    Dish dish=null;
+    if (dishId!=null) {
+        new DishGetSingle().execute(request);
+        // If note is null, forward to main page
+        dish=(Dish)request.getAttribute("dish");
+        if (dish==null) {
         
-        List edits=(List)request.getAttribute("edits");
-        if (edits!=null && edits.size()>0) {
-            String message="";
-            for (int i=0;i<edits.size();i++) {
-                message+=HtmlUtils.escapeChars((String)edits.get(i));
-            }
-            out.write("<error message=\"" + message + "\"/>");
+            RequestUtils.resetAction(request);
+            RequestUtils.removeEdits(request);
+            %>
+            <jsp:forward page="/dishesRedirect.jsp"/>
+            <%
         } else {
-            out.write("<success dishId=\"" + dishId + "\"/>");
+            if (!isSignedIn) {
+            
+                %>
+                <jsp:forward page="/dishesRedirect.jsp"/>
+                <%
+            }
+            request.setAttribute("user",request.getUserPrincipal().getName());
+            request.setAttribute("storeId",dish.storeId);
+        }
+    } else {
+        RequestUtils.resetAction(request);
+        RequestUtils.removeEdits(request);
+        %>
+        <jsp:forward page="/dishesRedirect.jsp"/>
+        <%
+    }
+
+    // Process based on action
+    if (!StringUtils.isEmpty(action) && isSignedIn) {
+        if (action.equals(bundle.getString("likeLabel"))) {
+            if (!RequestUtils.hasEdits(request)) {
+                new DishUpdateYesNo().execute(request);
+            }
+            if (!RequestUtils.hasEdits(request)) {
+                %>
+                <jsp:forward page="/dishesRedirect.jsp"/>
+                <%
+            }
+        } else if (action.equals(bundle.getString("unlikeLabel"))) {		
+            if (!RequestUtils.hasEdits(request)) {
+                new DishUpdateUndoYesNo().execute(request);
+            }
+            if (!RequestUtils.hasEdits(request)) {
+                %>
+                <jsp:forward page="/dishesRedirect.jsp"/>
+                <%
+            }
         }
     }
 %>
-</result>
+<%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
+<%@ include file="/WEB-INF/pages/components/docType.jsp" %>
+<title><%=bundle.getString("dishLabel")%></title>
+<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+</head>
+<body>
+<jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
+<form id="dish" method="post" action="dishVote.jsp" autocomplete="off">
+<input type="hidden" name="dishId" value="<%=new Long(dish.getKey().getId()).toString()%>"/>
+<input type="hidden" name="vote" value="yes"/>
+<input class="button" type="submit" name="action" value="<%=bundle.getString("likeLabel")%>"/>
+<input class="button" type="submit" name="action" value="<%=bundle.getString("unlikeLabel")%>"/>
+</form>
+<jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
+</body>
+</html>

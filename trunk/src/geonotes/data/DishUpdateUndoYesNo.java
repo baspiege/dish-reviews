@@ -13,11 +13,11 @@ import geonotes.utils.DisplayUtils;
 import geonotes.utils.RequestUtils;
 
 /**
- * Update a vote.
+ * Update a dish vote.
  *
  * @author Brian Spiegel
  */
-public class DishUpdateYesNo {
+public class DishUpdateUndoYesNo {
 
     /**
      * Update vote.
@@ -37,14 +37,14 @@ public class DishUpdateYesNo {
         try {
             pm=PMF.get().getPersistenceManager();
 
-            // If user has voted, create edit and return
+            // If user hasn't voted, create edit and return
             query = pm.newQuery(DishVote.class);
             query.setFilter("(dishId == dishIdParam && user==userParam)");
             query.declareParameters("long dishIdParam, String userParam");
             query.setRange(0,1);
             List<DishVote> results = (List<DishVote>) query.execute(dishId, user);
-            if (!results.isEmpty()) {
-                RequestUtils.addEditUsingKey(aRequest,"alreadyVotedEditMessage");
+            if (results.isEmpty()) {
+                RequestUtils.addEditUsingKey(aRequest,"haventVotedEditMessage");
                 return;
             }
 
@@ -52,15 +52,12 @@ public class DishUpdateYesNo {
             Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
             if (dish!=null){
                 if (vote.equals("yes")){
-                  dish.setYesVote(dish.yesVote+1);
+                  dish.setYesVote(dish.yesVote-1);
                 }
             }
             
-            // Record vote
-            DishVote dishVote=new DishVote();
-            dishVote.setDishId(dishId);
-            dishVote.setUser(user);
-            pm.makePersistent(dishVote);
+            // Delete old votes
+            pm.deletePersistentAll(results);
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();

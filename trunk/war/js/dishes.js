@@ -159,11 +159,11 @@ function handleDishesDataRequest(req) {
       // Vote      
       if (isLoggedIn=="true") {
           var voteDisplay=document.createElement("td");
-          var voteButton=document.createElement("button");
-          voteDisplay.appendChild(voteButton);
-          voteButton.setAttribute("id","button"+dishId);
-          voteButton.setAttribute("onclick","sendYesVote("+dishId+")");
-          voteButton.appendChild(document.createTextNode(vote));
+          var voteLink=document.createElement("a");
+          voteLink.setAttribute("href","dishVote.jsp?dishId="+dishId);
+          voteLink.setAttribute("class","center");
+          voteLink.appendChild(document.createTextNode(vote));
+          voteDisplay.appendChild(voteLink);
           tr.appendChild(voteDisplay);
       } else {
           var voteDisplay=document.createElement("td");
@@ -221,30 +221,7 @@ function handleDishesDataRequest(req) {
 }
 
 ///////////////////
-// Votes
-///////////////////
-
-function handleYesVote(req) {
-  var xmlDoc=req.responseXML;
-  var error=xmlDoc.getElementsByTagName("error");
-  if (error.length>0){
-    var message=error[0].getAttribute("message");
-    alert(message);
-  } else {
-    var success=xmlDoc.getElementsByTagName("success");
-    var dishId=success[0].getAttribute("dishId");
-    var button=document.getElementById("button" + dishId);
-    var yes=parseInt(button.innerHTML);
-    button.innerHTML=yes+1;
-  }
-}
-
-function sendYesVote(id) {
-  sendRequest('dishVote.jsp?vote=yes&dishId='+id,handleYesVote);
-}
-
-///////////////////
-// Display
+// Sort
 ///////////////////
 
 function sortDishesBy(fieldToSortBy) {
