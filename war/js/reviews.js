@@ -136,14 +136,16 @@ function handleReviewsDataRequest(req) {
     
       // Review
       var descReview=document.createElement("td");
+      descReview.appendChild(document.createTextNode(reviewText));      
       if (usersOwn) {
-        var descReviewLink=document.createElement("a");
-        descReviewLink.setAttribute("href","reviewUpdate.jsp?reviewId="+reviewId);
-        descReviewLink.appendChild(document.createTextNode(reviewText));
-        descReview.appendChild(descReviewLink);
-      } else {
-        descReview.appendChild(document.createTextNode(reviewText));
+        var editLink=document.createElement("a");
+        editLink.setAttribute("href","reviewUpdate.jsp?reviewId="+reviewId);
+        editLink.setAttribute("class","edit");
+        editLink.appendChild(document.createTextNode("edit"));
+        descReview.appendChild(document.createTextNode(' '));
+        descReview.appendChild(editLink);
       }
+      
       tr.appendChild(descReview);
       
       // Time Ago
