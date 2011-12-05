@@ -31,7 +31,7 @@
             // Add attributes
             out.write("<review");
             out.write(" reviewId=\"" + reviewId + "\"");
-            out.write(" yes=\"" + review.yes + "\"");
+            out.write(" yes=\"" + review.yesVote + "\"");
             out.write(" time=\"" + review.lastUpdateTime.getTime()/1000 + "\"");
             out.write(" text=\"" + HtmlUtils.escapeChars(review.note) + "\"");
             

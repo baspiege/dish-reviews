@@ -52,7 +52,7 @@ public class ReviewUpdateYesNo {
             Review review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
             if (review!=null){
                 if (vote.equals("yes")){
-                  review.setYes(review.yesVote+1);
+                  review.setYesVote(review.yesVote+1);
                 }
             }
             
