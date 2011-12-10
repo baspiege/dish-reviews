@@ -27,16 +27,31 @@ public class ReviewImageRemove {
         Long reviewId=(Long)aRequest.getAttribute("reviewId");
         
         PersistenceManager pm=null;
+        Review review=null;
         try {
             pm=PMF.get().getPersistenceManager();
-            
-            Review review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
+            review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
             
             if (review!=null){
                 review.setImage(null);
                 review.setImageThumbnail(null);
                 review.setHasImage(Boolean.FALSE);
-                
+            }
+        } catch (Exception e) {
+            System.err.println(this.getClass().getName() + ": " + e);
+            e.printStackTrace();
+            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            return;
+        } finally {
+            if (pm!=null) {
+                pm.close();
+            }
+        }
+        
+        try {
+            pm=PMF.get().getPersistenceManager();
+                        
+            if (review!=null){
                 // Set last image
                 Review reviewImage=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,review.dishId);
                 Dish dish=DishGetSingle.getDish(aRequest,pm,review.dishId);
