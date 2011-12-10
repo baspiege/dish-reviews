@@ -61,6 +61,8 @@ public class ReviewDelete {
                 Review reviewImage=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,dish.getKey().getId());
                 if (reviewImage!=null) {
                     dish.setLastReviewImageId(reviewImage.getKey().getId());
+                } else {
+                    dish.setLastReviewImageId(0l);
                 }
             }
         } catch (Exception e) {

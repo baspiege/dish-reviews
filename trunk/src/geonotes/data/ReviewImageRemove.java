@@ -39,9 +39,11 @@ public class ReviewImageRemove {
                 
                 // Set last image
                 Review reviewImage=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,review.dishId);
+                Dish dish=DishGetSingle.getDish(aRequest,pm,review.dishId);
                 if (reviewImage!=null) {
-                    Dish dish=DishGetSingle.getDish(aRequest,pm,review.dishId);
                     dish.setLastReviewImageId(reviewImage.getKey().getId());
+                } else {
+                    dish.setLastReviewImageId(0l);
                 }
             }
         } catch (Exception e) {
