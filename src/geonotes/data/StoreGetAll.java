@@ -88,7 +88,7 @@ public class StoreGetAll {
 
                 // Long dec
                 // Examples: rounded (center), actual, need to check, increment
-                // a.) -8.00, -8.008, -8.01, -1
+                // a.) -8.00, -8.008, -8.01, -.01
                 // b.) 8.00, 8.001, 7.99, -.01
                 boolean longDec=false;
                 if ((longNeg && longitudeCenter-longitude>.0075) || 
