@@ -49,22 +49,26 @@ public class StoreGetAll {
                 List<Store> resultsTemp = (List<Store>) query.execute(latitudeCenter, longitudeCenter);
                 transferResults(results,resultsTemp);
 
-                // Left
-                boolean left=false;
-                if (latitude-latitudeCenter<.0025) {
-                    System.out.println("left");
-                    resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,-.01), longitudeCenter);
-                    transferResults(results,resultsTemp);
-                    left=true;
-                }
-
-                // Right
-                boolean right=false;
-                if (latitude-latitudeCenter>.0075) {
-                    System.out.println("right");
+                boolean latNeg=(latitude<0);
+                
+                // Lat inc
+                boolean latInc=false;
+                if ((latNeg && latitudeCenter-latitude<.0025) ||
+                   (!latNeg && latitude-latitudeCenter>.0075)) {
+                    System.out.println("latInc");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,.01), longitudeCenter);
                     transferResults(results,resultsTemp);
-                    right=true;
+                    latInc=true;
+                }
+                
+                // Lat dec
+                boolean latDec=false;
+                if ((latNeg && latitudeCenter-latitude>.0075) || 
+                   (!latNeg && latitude-latitudeCenter<.0025)) {
+                    System.out.println("latDec");
+                    resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,-.01), longitudeCenter);
+                    transferResults(results,resultsTemp);
+                    latDec=true;
                 }
 
                 boolean longNeg=(longitude<0);
@@ -96,20 +100,20 @@ public class StoreGetAll {
                 }
 
                 // Corners
-                if (left && longDec) {
-                    System.out.println("left longDec");
+                if (latDec && longDec) {
+                    System.out.println("latDec longDec");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,-.01), NumberUtils.addNumber2DecimalPrecision(longitudeCenter,-.01));
                     transferResults(results,resultsTemp);
-                } else if (left && longInc) {
-                    System.out.println("left longInc");
+                } else if (latDec && longInc) {
+                    System.out.println("latDec longInc");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,-.01), NumberUtils.addNumber2DecimalPrecision(longitudeCenter,.01));
                     transferResults(results,resultsTemp);
-                } else if (right && longDec) {
-                    System.out.println("right longDec");
+                } else if (latInc && longDec) {
+                    System.out.println("latInc longDec");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,.01), NumberUtils.addNumber2DecimalPrecision(longitudeCenter,-.01));
                     transferResults(results,resultsTemp);
-                } else if (right && longInc) {
-                    System.out.println("right longInc");
+                } else if (latInc && longInc) {
+                    System.out.println("latInc longInc");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,.01), NumberUtils.addNumber2DecimalPrecision(longitudeCenter,.01));
                     transferResults(results,resultsTemp);
                 }
