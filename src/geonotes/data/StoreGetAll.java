@@ -65,41 +65,51 @@ public class StoreGetAll {
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,.01), longitudeCenter);
                     transferResults(results,resultsTemp);
                     right=true;
-               }
-
-                // Down
-                boolean down=false;
-                if (longitudeCenter-longitude<.0025) {
-                    System.out.println("down");
-                    resultsTemp = (List<Store>) query.execute(latitudeCenter, NumberUtils.addNumber2DecimalPrecision(longitudeCenter,.01));
-                    transferResults(results,resultsTemp);
-                    down=true;
                 }
 
-                // Up
-                boolean up=false;
-                if (longitudeCenter-longitude>.0075) {
-                    System.out.println("up");
+                boolean longNeg=(longitude<0);
+                
+                // Long inc
+                // Examples: rounded (center), actual, need to check, increment
+                // a.) -8.00, -8.001, -7.99, +.01
+                // b.) 8.00, 8.008, 8.01, +.01
+                boolean longInc=false;
+                if ((longNeg && longitudeCenter-longitude<.0025) ||
+                   (!longNeg && longitude-longitudeCenter>.0075)) {
+                    System.out.println("longInc");
+                    resultsTemp = (List<Store>) query.execute(latitudeCenter, NumberUtils.addNumber2DecimalPrecision(longitudeCenter,.01));
+                    transferResults(results,resultsTemp);
+                    longInc=true;
+                }
+
+                // Long dec
+                // Examples: rounded (center), actual, need to check, increment
+                // a.) -8.00, -8.008, -8.01, -1
+                // b.) 8.00, 8.001, 7.99, -.01
+                boolean longDec=false;
+                if ((longNeg && longitudeCenter-longitude>.0075) || 
+                   (!longNeg && longitude-longitudeCenter<.0025)) {
+                    System.out.println("longDec");
                     resultsTemp = (List<Store>) query.execute(latitudeCenter, NumberUtils.addNumber2DecimalPrecision(longitudeCenter,-.01));
                     transferResults(results,resultsTemp);
-                    up=true;
+                    longDec=true;
                 }
 
                 // Corners
-                if (left && up) {
-                    System.out.println("left up");
+                if (left && longDec) {
+                    System.out.println("left longDec");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,-.01), NumberUtils.addNumber2DecimalPrecision(longitudeCenter,-.01));
                     transferResults(results,resultsTemp);
-                } else if (left && down) {
-                    System.out.println("left down");
+                } else if (left && longInc) {
+                    System.out.println("left longInc");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,-.01), NumberUtils.addNumber2DecimalPrecision(longitudeCenter,.01));
                     transferResults(results,resultsTemp);
-                } else if (right && up) {
-                    System.out.println("right up");
+                } else if (right && longDec) {
+                    System.out.println("right longDec");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,.01), NumberUtils.addNumber2DecimalPrecision(longitudeCenter,-.01));
                     transferResults(results,resultsTemp);
-                } else if (right && down) {
-                    System.out.println("right down");
+                } else if (right && longInc) {
+                    System.out.println("right longInc");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,.01), NumberUtils.addNumber2DecimalPrecision(longitudeCenter,.01));
                     transferResults(results,resultsTemp);
                 }
