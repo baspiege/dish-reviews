@@ -23,6 +23,28 @@ var isLoggedIn='<%=isSignedIn%>';
 </head>
 <body onload="getCoordinates();">
 
+<%-- Facebook login --%>
+<div id="fb-root"></div>
+<script>
+  var dishRevAppId = "334986003195790";
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : dishRevAppId,
+      channelUrl : '//dishrev.appspot.com/channel.html', // Channel File
+      status     : true, 
+      cookie     : true,
+      xfbml      : true,
+      oauth      : true,
+    });
+  };
+  (function(d){
+     var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     d.getElementsByTagName('head')[0].appendChild(js);
+   }(document));
+</script>
+
 <nav>
 <ul id="navlist" style="margin:0;padding:0;">
 <% if (isSignedIn) { %>
@@ -31,7 +53,15 @@ var isLoggedIn='<%=isSignedIn%>';
 <li>
 <% } %>
 
-<li>    
+<li>
+<fb:login-button autologoutlink="true"></fb:login-button>
+</li>
+
+<li>
+<fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name>
+</li>
+
+<li>
 <% if (!isSignedIn) { %>
 <a href='<%=userService.createLoginURL("../stores.jsp")%>'><%=bundle.getString("logonLabel")%></a>
 <% } else { %>
