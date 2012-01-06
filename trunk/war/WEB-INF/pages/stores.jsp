@@ -36,13 +36,25 @@ var isLoggedIn='<%=isSignedIn%>';
       xfbml      : true,
       oauth      : true,
     });
+    
+    FB.Event.subscribe('auth.login', function(response) {
+      // TODO - Put user id in cookie...
+      alert("logging in" + response);
+    });
+
+    FB.Event.subscribe('auth.logout', function(response) {
+      // TODO - Remove cookie with user Id
+      alert("logging out" + response);
+    });
   };
+  
   (function(d){
-     var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "//connect.facebook.net/en_US/all.js";
-     d.getElementsByTagName('head')[0].appendChild(js);
-   }(document));
+    var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+    js = d.createElement('script'); js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    d.getElementsByTagName('head')[0].appendChild(js);
+  }(document));
+      
 </script>
 
 <nav>
