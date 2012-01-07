@@ -5,7 +5,7 @@
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
 <%
     // Check if signed in
-    boolean isSignedIn=request.getUserPrincipal()!=null;
+    boolean isSignedIn=request.getUserPrincipal().getName()!=null;
     if (!isSignedIn) {
         %>
         <jsp:forward page="/storesRedirect.jsp"/>

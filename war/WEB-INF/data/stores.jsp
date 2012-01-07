@@ -28,7 +28,7 @@
     }
     
     String user=null;
-    if (request.getUserPrincipal()!=null) {
+    if (request.getUserPrincipal().getName()!=null) {
         user=request.getUserPrincipal().getName();
     }
 %>

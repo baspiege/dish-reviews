@@ -7,7 +7,7 @@
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     UserService userService = UserServiceFactory.getUserService();
-    boolean isSignedIn=request.getUserPrincipal()!= null;    
+    boolean isSignedIn=request.getUserPrincipal().getName()!= null;    
     if (!isSignedIn) {
         %>
         <jsp:forward page="/storesRedirect.jsp"/>

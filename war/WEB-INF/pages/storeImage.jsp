@@ -21,7 +21,7 @@
 <%@ page import="com.google.appengine.api.images.Transform" %>
 <%
     // Check if signed in
-    boolean isSignedIn=request.getUserPrincipal()!=null;
+    boolean isSignedIn=request.getUserPrincipal().getName()!=null;
 
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");

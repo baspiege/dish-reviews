@@ -18,7 +18,7 @@
     List<Review> reviews=(List<Review>)request.getAttribute("reviews");
     
     String user=null;
-    if (request.getUserPrincipal()!=null) {
+    if (request.getUserPrincipal().getName()!=null) {
         user=request.getUserPrincipal().getName();
     }
 %>

@@ -7,13 +7,14 @@
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     UserService userService = UserServiceFactory.getUserService();
-    boolean isSignedIn=request.getUserPrincipal()!= null;    
+    boolean isSignedIn=request.getUserPrincipal().getName()!= null;    
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
 <title><%=bundle.getString("storesLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+<script type="text/javascript" src="/js/stores.js" ></script>
 <script type="text/javascript">
 var waitingForCoordinatesMessage="<%=bundle.getString("waitingForCoordinatesMessage")%>";
 var locationNotAvailableMessage="<%=bundle.getString("locationNotAvailableMessage")%>";
@@ -38,13 +39,11 @@ var isLoggedIn='<%=isSignedIn%>';
     });
     
     FB.Event.subscribe('auth.login', function(response) {
-      // TODO - Put user id in cookie...
-      alert("logging in" + response);
+      setCookie("dishRevUser",response.userID);
     });
 
     FB.Event.subscribe('auth.logout', function(response) {
-      // TODO - Remove cookie with user Id
-      alert("logging out" + response);
+      setCookie("dishRevUser","");
     });
   };
   
@@ -91,6 +90,5 @@ var isLoggedIn='<%=isSignedIn%>';
 <p> <%=bundle.getString("waitingForDataLabel")%> </p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
-<script type="text/javascript" src="/js/stores.js" ></script>
 </body>
 </html>
