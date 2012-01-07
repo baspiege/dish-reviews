@@ -11,7 +11,7 @@
 <%@ page import="geonotes.utils.StringUtils" %>
 <%
     // Check if signed in
-    boolean isSignedIn=request.getUserPrincipal()!=null;
+    boolean isSignedIn=request.getUserPrincipal().getName()!=null;
 
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);

@@ -11,7 +11,7 @@
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     UserService userService = UserServiceFactory.getUserService();
-    boolean isSignedIn=request.getUserPrincipal()!= null; 
+    boolean isSignedIn=request.getUserPrincipal().getName()!= null; 
     
     Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
     Store store=null;
