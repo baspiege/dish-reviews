@@ -21,11 +21,13 @@ public class UserFilter implements Filter {
         HttpServletRequest httpServletRequest=(HttpServletRequest)servletRequest;
 
         String user=null;
-        for (Cookie cookie: httpServletRequest.getCookies()) {
-            if (cookie.getName().equals("dishRevUser")) {
-                user=cookie.getValue();
-                break;
-            }
+        if (httpServletRequest.getCookies()!=null) {
+          for (Cookie cookie: httpServletRequest.getCookies()) {
+              if (cookie.getName().equals("dishRevUser")) {
+                  user=cookie.getValue();
+                  break;
+              }
+          }
         }
         
         filterChain.doFilter(new UserRoleRequestWrapper(user, httpServletRequest), servletResponse);
