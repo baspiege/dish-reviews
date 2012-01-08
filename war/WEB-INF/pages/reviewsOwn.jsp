@@ -35,6 +35,7 @@
     
     FB.Event.subscribe('auth.login', function(response) {
       setCookie("dishRevUser",response.authResponse.userID);
+      window.location.reload();
     });
 
     FB.Event.subscribe('auth.logout', function(response) {

@@ -53,7 +53,6 @@ function getDishesData() {
 
 function handleDishesDataRequest(req) {
   var tableDiv=document.getElementById("data");
-  tableDiv.isLoggedIn=isLoggedIn;
 
   var tableOrig=document.getElementById("dishes");
   var table;
