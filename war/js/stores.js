@@ -146,7 +146,6 @@ function handleStoresDataRequest(req) {
     td.appendChild(document.createTextNode("No nearby restaurants."));
     tr.appendChild(td);
     table.appendChild(tr);
-    var tableDiv=document.getElementById("data");
     removeChildrenFromElement(tableDiv);
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
