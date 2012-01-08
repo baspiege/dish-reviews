@@ -27,6 +27,7 @@
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
 <title><%=bundle.getString("reviewsLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+<script type="text/javascript" src="/js/reviews.js" ></script>
 <script type="text/javascript">
 var dishId=<%=dishId%>;
 var isLoggedIn=<%=isSignedIn%>;
@@ -54,7 +55,7 @@ var isLoggedIn=<%=isSignedIn%>;
       // If data retrieved without login, get again.
       var data=document.getElementById("data");
       if (data && !data.isLoggedIn){
-        getStoresData();
+        getReviewsData();
       }
     });
 
@@ -104,6 +105,5 @@ var isLoggedIn=<%=isSignedIn%>;
 <p> <%=bundle.getString("waitingForDataLabel")%> </p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
-<script type="text/javascript" src="/js/reviews.js" ></script>
 </body>
 </html>

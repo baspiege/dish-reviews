@@ -20,6 +20,7 @@
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
 <title><%=bundle.getString("dishesLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+<script type="text/javascript" src="/js/dishes.js" ></script>
 <script type="text/javascript">
 var storeId=<%=storeId%>;
 var isLoggedIn=<%=isSignedIn%>;
@@ -47,7 +48,7 @@ var isLoggedIn=<%=isSignedIn%>;
       // If data retrieved without login, get again.
       var data=document.getElementById("data");
       if (data && !data.isLoggedIn){
-        getStoresData();
+        getDishesData();
       }
     });
 
@@ -94,6 +95,5 @@ var isLoggedIn=<%=isSignedIn%>;
 <p> <%=bundle.getString("waitingForDataLabel")%> </p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
-<script type="text/javascript" src="/js/dishes.js" ></script>
 </body>
 </html>
