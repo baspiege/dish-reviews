@@ -24,6 +24,31 @@ function setCookie(name,value,daysToExpire) {
 }
 
 ///////////////////
+// Cookies
+///////////////////
+
+function getCookie(name) {
+  if (document.cookie.length>0) {
+    var start=document.cookie.indexOf(name+"=");
+    if (start!=-1) {
+      start+=name.length+1;
+      var end=document.cookie.indexOf(";",start);
+      if (end==-1) {
+        end=document.cookie.length;
+      }
+      return unescape(document.cookie.substring(start,end));
+    }
+  }
+  return "";
+}
+
+function setCookie(name,value,daysToExpire) {
+  var date=new Date();
+  date.setDate(date.getDate()+daysToExpire);
+  document.cookie=name+"="+escape(value)+((daysToExpire==null)?"":";expires="+date.toUTCString());
+}
+
+///////////////////
 // Asynch
 ///////////////////
 
@@ -67,6 +92,9 @@ function getStoresDataById(storeId) {
 }
 
 function handleStoresDataRequest(req) {
+  var tableDiv=document.getElementById("data");
+  tableDiv.isLoggedIn=isLoggedIn;
+  
   var table=document.createElement("table");
   table.setAttribute("id","stores");
   var tr=document.createElement("tr");
@@ -91,7 +119,7 @@ function handleStoresDataRequest(req) {
   thName.appendChild(nameLink);
 
   // Show Add link if logged in
-  if (isLoggedIn=="true") {
+  if (isLoggedIn) {
     var addLink=document.createElement("a");
     addLink.setAttribute("href","storeAddLocation.jsp");
     addLink.setAttribute("class","add addTh");
@@ -146,7 +174,7 @@ function handleStoresDataRequest(req) {
       var text=store.getAttribute("text");
       descLink.appendChild(document.createTextNode(text));
       desc.appendChild(descLink);
-      if (isLoggedIn=="true") {
+      if (isLoggedIn) {
         var editLink=document.createElement("a");
         editLink.setAttribute("href","storeUpdate.jsp?storeId="+storeId);
         editLink.setAttribute("class","edit");
@@ -166,7 +194,6 @@ function handleStoresDataRequest(req) {
       type.appendChild(typeLink);
       tr.appendChild(type);
     }
-    var tableDiv=document.getElementById("data");
     removeChildrenFromElement(tableDiv);
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other

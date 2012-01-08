@@ -29,10 +29,55 @@
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript">
 var dishId=<%=dishId%>;
-var isLoggedIn='<%=isSignedIn%>';
+var isLoggedIn=<%=isSignedIn%>;
 </script>
 </head>
 <body onload="getReviewsData();">
+
+<%-- Facebook login --%>
+<div id="fb-root"></div>
+<script>
+  var dishRevAppId = "334986003195790";
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : dishRevAppId,
+      channelUrl : '//dishrev.appspot.com/channel.html', // Channel File
+      status     : true, 
+      cookie     : true,
+      xfbml      : true,
+      oauth      : true,
+    });
+    
+    FB.Event.subscribe('auth.login', function(response) {
+      setCookie("dishRevUser",response.authResponse.userID);
+      isLoggedIn=true;
+      // If data retrieved without login, get again.
+      var data=document.getElementById("data");
+      if (data && !data.isLoggedIn){
+        getStoresData();
+      }
+    });
+
+    FB.Event.subscribe('auth.logout', function(response) {
+      setCookie("dishRevUser","",-1);
+      isLoggedIn=false;
+      // If data retrieved with login, get again.
+      var data=document.getElementById("data");
+      if (data && data.isLoggedIn){
+        getReviewsData();
+      }
+    });
+  };
+  
+  (function(d){
+    var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+    js = d.createElement('script'); js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    d.getElementsByTagName('head')[0].appendChild(js);
+  }(document));
+      
+</script>
+
 <nav>
 <ul id="navlist" style="margin:0;padding:0;">
 <li><a href="stores.jsp">Main</a></li>

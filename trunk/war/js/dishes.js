@@ -52,6 +52,9 @@ function getDishesData() {
 }
 
 function handleDishesDataRequest(req) {
+  var tableDiv=document.getElementById("data");
+  tableDiv.isLoggedIn=isLoggedIn;
+
   var tableOrig=document.getElementById("dishes");
   var table;
   var newTable=false;
@@ -72,7 +75,7 @@ function handleDishesDataRequest(req) {
     thName.appendChild(nameLink);
     
     // Show Add link if logged in
-    if (isLoggedIn=="true") {
+    if (isLoggedIn) {
       var addLink=document.createElement("a");
       addLink.setAttribute("href","dishAdd.jsp?storeId="+storeId);
       addLink.setAttribute("class","add addTh");
@@ -145,7 +148,7 @@ function handleDishesDataRequest(req) {
       dishDescLink.appendChild(document.createTextNode(dishText));
       dishDesc.appendChild(dishDescLink);
       
-      if (isLoggedIn=="true") {
+      if (isLoggedIn) {
         var editLink=document.createElement("a");
         editLink.setAttribute("href","dishUpdate.jsp?dishId="+dishId);
         editLink.setAttribute("class","edit");
@@ -157,7 +160,7 @@ function handleDishesDataRequest(req) {
       tr.appendChild(dishDesc);
       
       // Vote      
-      if (isLoggedIn=="true") {
+      if (isLoggedIn) {
           var voteDisplay=document.createElement("td");
           var voteLink=document.createElement("a");
           voteLink.setAttribute("href","dishVote.jsp?dishId="+dishId);
@@ -179,7 +182,7 @@ function handleDishesDataRequest(req) {
         reviewLink.setAttribute("href","reviews.jsp?dishId="+dishId);
         reviewLink.appendChild(document.createTextNode(lastReviewText));
         lastReview.appendChild(reviewLink);
-      } else if (isLoggedIn=="true") {
+      } else if (isLoggedIn) {
         var addLink=document.createElement("a");
         addLink.setAttribute("class","add");
         addLink.setAttribute("href","reviewAdd.jsp?dishId="+dishId);
@@ -207,7 +210,6 @@ function handleDishesDataRequest(req) {
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
     tableDiv.appendChild(table);
-    //updateNotesDispay();
     
     if (moreDishes) {
       var moreIndicator=document.createElement("p");

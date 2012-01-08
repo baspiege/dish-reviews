@@ -1,3 +1,27 @@
+///////////////////
+// Cookies
+///////////////////
+
+function getCookie(name) {
+  if (document.cookie.length>0) {
+    var start=document.cookie.indexOf(name+"=");
+    if (start!=-1) {
+      start+=name.length+1;
+      var end=document.cookie.indexOf(";",start);
+      if (end==-1) {
+        end=document.cookie.length;
+      }
+      return unescape(document.cookie.substring(start,end));
+    }
+  }
+  return "";
+}
+
+function setCookie(name,value,daysToExpire) {
+  var date=new Date();
+  date.setDate(date.getDate()+daysToExpire);
+  document.cookie=name+"="+escape(value)+((daysToExpire==null)?"":";expires="+date.toUTCString());
+}
 
 ///////////////////
 // Asynch
@@ -51,6 +75,9 @@ function getReviewsData() {
 }
 
 function handleReviewsDataRequest(req) {
+  var tableDiv=document.getElementById("data");
+  tableDiv.isLoggedIn=isLoggedIn;
+
   var tableOrig=document.getElementById("reviews");
   var table;
   var newTable=false;
@@ -68,7 +95,7 @@ function handleReviewsDataRequest(req) {
     thReview.appendChild(document.createTextNode("Review"));
     
     // Show Add link if logged in
-    if (isLoggedIn=="true") {
+    if (isLoggedIn) {
       var addLink=document.createElement("a");
       addLink.setAttribute("href","reviewAdd.jsp?dishId="+dishId);
       addLink.setAttribute("class","add addTh");
@@ -108,7 +135,6 @@ function handleReviewsDataRequest(req) {
       td.appendChild(document.createTextNode("No reviews."));
       tr.appendChild(td);
       table.appendChild(tr);
-      var tableDiv=document.getElementById("data");
       removeChildrenFromElement(tableDiv);
       // Update tableDiv with new table at end of processing to prevent multiple
       // requests from interfering with each other
@@ -155,7 +181,7 @@ function handleReviewsDataRequest(req) {
       tr.appendChild(timeReview);
       
       // Vote      
-      if (isLoggedIn=="true") {
+      if (isLoggedIn) {
           var voteDisplay=document.createElement("td");
           var voteLink=document.createElement("a");
           voteLink.setAttribute("href","reviewVote.jsp?reviewId="+reviewId);
@@ -191,12 +217,10 @@ function handleReviewsDataRequest(req) {
       table.appendChild(tr);
    
     }
-    var tableDiv=document.getElementById("data");
     removeChildrenFromElement(tableDiv);
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
     tableDiv.appendChild(table);
-    //updateNotesDispay();
     
     if (moreReviews) {
       var moreIndicator=document.createElement("p");

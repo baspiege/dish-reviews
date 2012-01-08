@@ -16,7 +16,7 @@
 var waitingForCoordinatesMessage="<%=bundle.getString("waitingForCoordinatesMessage")%>";
 var locationNotAvailableMessage="<%=bundle.getString("locationNotAvailableMessage")%>";
 var locationNotFoundMessage="<%=bundle.getString("locationNotFoundMessage")%>";
-var isLoggedIn='<%=isSignedIn%>';
+var isLoggedIn=<%=isSignedIn%>;
 </script>
 </head>
 <body onload="getCoordinates();">
@@ -36,11 +36,23 @@ var isLoggedIn='<%=isSignedIn%>';
     });
     
     FB.Event.subscribe('auth.login', function(response) {
-      setCookie("dishRevUser",response.userID);
+      setCookie("dishRevUser",response.authResponse.userID);
+      isLoggedIn=true;
+      // If data retrieved without login, get again.
+      var data=document.getElementById("data");
+      if (data && !data.isLoggedIn){
+        getStoresData();
+      }
     });
 
     FB.Event.subscribe('auth.logout', function(response) {
-      setCookie("dishRevUser","");
+      setCookie("dishRevUser","",-1);
+      isLoggedIn=false;
+      // If data retrieved with login, get again.
+      var data=document.getElementById("data");
+      if (data && data.isLoggedIn){
+        getStoresData();
+      }
     });
   };
   
