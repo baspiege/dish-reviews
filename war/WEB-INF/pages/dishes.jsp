@@ -2,15 +2,12 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="com.google.appengine.api.users.UserService" %>
-<%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 <%@ page import="geonotes.data.StoreGetSingle" %>
 <%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    UserService userService = UserServiceFactory.getUserService();
     boolean isSignedIn=request.getUserPrincipal().getName()!= null; 
     
     Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
@@ -33,13 +30,15 @@ var isLoggedIn='<%=isSignedIn%>';
 <nav>
 <ul id="navlist" style="margin:0;padding:0;">
 <li><a href="stores.jsp">Main</a></li>
-<li>    
-<% if (!isSignedIn) { %>
-<a href='<%=userService.createLoginURL("../stores.jsp")%>'><%=bundle.getString("logonLabel")%></a>
-<% } else { %>
-<a href='<%=userService.createLogoutURL("../stores.jsp")%>'><%=bundle.getString("logoffLabel")%></a>
-<% } %>
+
+<li>
+<fb:login-button autologoutlink="true"></fb:login-button>
 </li>
+
+<li>
+<fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name>
+</li>
+
 <ul>
 </nav>
 

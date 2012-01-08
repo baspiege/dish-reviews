@@ -2,11 +2,8 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="com.google.appengine.api.users.UserService" %>
-<%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    UserService userService = UserServiceFactory.getUserService();
     boolean isSignedIn=request.getUserPrincipal().getName()!= null;    
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
@@ -72,13 +69,6 @@ var isLoggedIn='<%=isSignedIn%>';
 <fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name>
 </li>
 
-<li>
-<% if (!isSignedIn) { %>
-<a href='<%=userService.createLoginURL("../stores.jsp")%>'><%=bundle.getString("logonLabel")%></a>
-<% } else { %>
-<a href='<%=userService.createLogoutURL("../stores.jsp")%>'><%=bundle.getString("logoffLabel")%></a>
-<% } %>
-</li>
 <ul>
 </nav>
 
