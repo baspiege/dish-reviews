@@ -93,7 +93,6 @@ function getStoresDataById(storeId) {
 
 function handleStoresDataRequest(req) {
   var tableDiv=document.getElementById("data");
-  tableDiv.isLoggedIn=isLoggedIn;
   
   var table=document.createElement("table");
   table.setAttribute("id","stores");

@@ -76,7 +76,6 @@ function getReviewsData() {
 
 function handleReviewsDataRequest(req) {
   var tableDiv=document.getElementById("data");
-  tableDiv.isLoggedIn=isLoggedIn;
 
   var tableOrig=document.getElementById("reviews");
   var table;
