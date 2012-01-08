@@ -15,6 +15,7 @@
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
 <title><%=bundle.getString("myReviewsLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+<script type="text/javascript" src="/js/reviewsOwn.js" ></script>
 </head>
 <body onload="getReviewsData();">
 
@@ -72,6 +73,5 @@
 <p> <%=bundle.getString("waitingForDataLabel")%> </p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
-<script type="text/javascript" src="/js/reviewsOwn.js" ></script>
 </body>
 </html>
