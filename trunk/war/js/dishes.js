@@ -117,7 +117,6 @@ function handleDishesDataRequest(req) {
       td.appendChild(document.createTextNode("No dishes."));
       tr.appendChild(td);
       table.appendChild(tr);
-      var tableDiv=document.getElementById("data");
       removeChildrenFromElement(tableDiv);
       // Update tableDiv with new table at end of processing to prevent multiple
       // requests from interfering with each other
@@ -205,7 +204,6 @@ function handleDishesDataRequest(req) {
       
       table.appendChild(tr);
     }
-    var tableDiv=document.getElementById("data");
     removeChildrenFromElement(tableDiv);
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
