@@ -47,7 +47,7 @@ public class ReviewsUpdateAllUtil {
         
         try {            
             for (Review review:results) {
-                review.setYesVote(0l);                
+                review.setUser("621566318");                
             }            
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
