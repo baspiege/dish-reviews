@@ -25,6 +25,9 @@ public class UserFilter implements Filter {
           for (Cookie cookie: httpServletRequest.getCookies()) {
               if (cookie.getName().equals("dishRevUser")) {
                   user=cookie.getValue();
+                  if (user!=null && user.trim().length()==0) {
+                      user=null;
+                  }
                   break;
               }
           }
