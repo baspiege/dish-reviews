@@ -44,12 +44,17 @@ var isLoggedIn=<%=isSignedIn%>;
     
     FB.Event.subscribe('auth.login', function(response) {
       setCookie("dishRevUser",response.authResponse.userID);
-      window.location.reload();
+      if (!isLoggedIn){
+        window.location.reload();
+      }
     });
 
     FB.Event.subscribe('auth.logout', function(response) {
       setCookie("dishRevUser","",-1);
-      window.location.reload();
+      if (isLoggedIn){
+        // Commenting out because some browsers fire this event even when logged in.
+        //window.location.reload();
+      }
     });
   };
   
@@ -65,15 +70,8 @@ var isLoggedIn=<%=isSignedIn%>;
 <nav>
 <ul id="navlist" style="margin:0;padding:0;">
 <li><a href="stores.jsp">Main</a></li>
-
-<li>
-<fb:login-button autologoutlink="true"></fb:login-button>
-</li>
-
-<li>
-<fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name>
-</li>
-
+<li><fb:login-button autologoutlink="true"></fb:login-button></li>
+<li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
 <ul>
 </nav>
 
