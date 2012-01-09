@@ -23,7 +23,7 @@
     Dish dish=null;
     if (dishId!=null) {
         new DishGetSingle().execute(request);
-        // If note is null, forward to main page
+        // If dish is null, forward to main page
         dish=(Dish)request.getAttribute("dish");
         if (dish==null) {
         
