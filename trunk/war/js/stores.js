@@ -172,6 +172,7 @@ function handleStoresDataRequest(req) {
       var text=store.getAttribute("text");
       descLink.appendChild(document.createTextNode(text));
       desc.appendChild(descLink);
+      /*
       if (isLoggedIn) {
         var editLink=document.createElement("a");
         editLink.setAttribute("href","storeUpdate.jsp?storeId="+storeId);
@@ -179,7 +180,7 @@ function handleStoresDataRequest(req) {
         editLink.appendChild(document.createTextNode("edit"));
         desc.appendChild(document.createTextNode(' '));
         desc.appendChild(editLink);
-      }
+      }*/
       tr.appendChild(desc);
       table.appendChild(tr);
       

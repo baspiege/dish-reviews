@@ -170,6 +170,7 @@ function handleDishesDataRequest(req) {
       dishDescLink.appendChild(document.createTextNode(dishText));
       dishDesc.appendChild(dishDescLink);
       
+      /*
       if (isLoggedIn) {
         var editLink=document.createElement("a");
         editLink.setAttribute("href","dishUpdate.jsp?dishId="+dishId);
@@ -178,6 +179,7 @@ function handleDishesDataRequest(req) {
         dishDesc.appendChild(document.createTextNode(' '));
         dishDesc.appendChild(editLink);
       }
+      */
       
       tr.appendChild(dishDesc);
       
