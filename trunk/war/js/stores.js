@@ -168,7 +168,7 @@ function handleStoresDataRequest(req) {
       // Desc
       var desc=document.createElement("td");
       var descLink=document.createElement("a");
-      descLink.setAttribute("href","dishes.jsp?storeId="+storeId);
+      descLink.setAttribute("href","store.jsp?storeId="+storeId);
       var text=store.getAttribute("text");
       descLink.appendChild(document.createTextNode(text));
       desc.appendChild(descLink);
@@ -187,7 +187,7 @@ function handleStoresDataRequest(req) {
       var type=document.createElement("td");
       type.setAttribute("class","center");
       var typeLink=document.createElement("a");
-      typeLink.setAttribute("href","dishes.jsp?storeId="+storeId);
+      typeLink.setAttribute("href","store.jsp?storeId="+storeId);
       typeLink.appendChild(document.createTextNode(store.getAttribute("dishCount")));
       type.appendChild(typeLink);
       tr.appendChild(type);
