@@ -18,7 +18,7 @@
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<title><%=bundle.getString("dishesLabel")%></title>
+<title><%= HtmlUtils.escapeChars(store.note) %></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="/js/store.js" ></script>
 <script type="text/javascript">
@@ -76,8 +76,7 @@ var isLoggedIn=<%=isSignedIn%>;
 </nav>
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-<div style="margin-top:1.5em"><%= HtmlUtils.escapeChars(store.note) %></div>
-
+<div style="margin-top:1.5em"><a href="storeUpdate.jsp?storeId=<%=storeId%>"><%= HtmlUtils.escapeChars(store.note) %></a> <a href="storeUpdateLocation.jsp?storeId=<%=storeId%>" class="edit">location</a></div>
 <%-- Data --%>
 <div class="data" id="data">
 <p> <%=bundle.getString("waitingForDataLabel")%> </p>

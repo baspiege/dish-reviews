@@ -25,7 +25,7 @@
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<title><%=bundle.getString("reviewsLabel")%></title>
+<title><%= HtmlUtils.escapeChars(dish.note) %></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="/js/dish.js" ></script>
 <script type="text/javascript">
@@ -86,7 +86,7 @@ var isLoggedIn=<%=isSignedIn%>;
 </nav>
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-<div style="margin-top:1.5em"><%= HtmlUtils.escapeChars(dish.note) %></div>
+<div style="margin-top:1.5em"><a href="dishUpdate.jsp?dishId=<%=dishId%>"><%= HtmlUtils.escapeChars(dish.note) %></a></div>
 
 <%-- Data --%>
 <div class="data" id="data">
