@@ -20,7 +20,7 @@
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
 <title><%=bundle.getString("dishesLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-<script type="text/javascript" src="/js/dishes.js" ></script>
+<script type="text/javascript" src="/js/store.js" ></script>
 <script type="text/javascript">
 var storeId=<%=storeId%>;
 var isLoggedIn=<%=isSignedIn%>;

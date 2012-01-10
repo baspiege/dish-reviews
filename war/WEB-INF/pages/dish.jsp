@@ -27,7 +27,7 @@
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
 <title><%=bundle.getString("reviewsLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-<script type="text/javascript" src="/js/reviews.js" ></script>
+<script type="text/javascript" src="/js/dish.js" ></script>
 <script type="text/javascript">
 var dishId=<%=dishId%>;
 var isLoggedIn=<%=isSignedIn%>;
@@ -78,7 +78,7 @@ var isLoggedIn=<%=isSignedIn%>;
 <ul id="navlist" style="margin:0;padding:0;">
 <li><a href="stores.jsp">Main</a></li>
 <%
-    out.write("<li><a href=\"dishes.jsp?storeId=" + store.getKey().getId() + "\">" + HtmlUtils.escapeChars(store.note) + "</a></li>");
+    out.write("<li><a href=\"store.jsp?storeId=" + store.getKey().getId() + "\">" + HtmlUtils.escapeChars(store.note) + "</a></li>");
 %>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>

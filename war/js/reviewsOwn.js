@@ -158,7 +158,7 @@ function handleReviewsDataRequest(req) {
       // Store
       var storeDesc=document.createElement("td");
       var storeDescLink=document.createElement("a");
-      storeDescLink.setAttribute("href","dishes.jsp?storeId="+storeId);
+      storeDescLink.setAttribute("href","store.jsp?storeId="+storeId);
       storeDescLink.appendChild(document.createTextNode(storeText));
       storeDesc.appendChild(storeDescLink);
       tr.appendChild(storeDesc);
@@ -166,7 +166,7 @@ function handleReviewsDataRequest(req) {
       // Dish
       var dishDesc=document.createElement("td");
       var dishDescLink=document.createElement("a");
-      dishDescLink.setAttribute("href","reviews.jsp?dishId="+dishId);
+      dishDescLink.setAttribute("href","dish.jsp?dishId="+dishId);
       dishDescLink.appendChild(document.createTextNode(dishText));
       dishDesc.appendChild(dishDescLink);
       tr.appendChild(dishDesc);

@@ -166,7 +166,7 @@ function handleDishesDataRequest(req) {
       // Dish
       var dishDesc=document.createElement("td");
       var dishDescLink=document.createElement("a");
-      dishDescLink.setAttribute("href","reviews.jsp?dishId="+dishId);
+      dishDescLink.setAttribute("href","dish.jsp?dishId="+dishId);
       dishDescLink.appendChild(document.createTextNode(dishText));
       dishDesc.appendChild(dishDescLink);
       
@@ -201,7 +201,7 @@ function handleDishesDataRequest(req) {
       var lastReview=document.createElement("td");
       if (lastReviewText) {
         var reviewLink=document.createElement("a");
-        reviewLink.setAttribute("href","reviews.jsp?dishId="+dishId);
+        reviewLink.setAttribute("href","dish.jsp?dishId="+dishId);
         reviewLink.appendChild(document.createTextNode(lastReviewText));
         lastReview.appendChild(reviewLink);
       } else if (isLoggedIn) {
