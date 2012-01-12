@@ -48,7 +48,7 @@
             }
             if (!RequestUtils.hasEdits(request)) {
                 %>
-                <jsp:forward page="/storesRedirect.jsp"/>
+                <jsp:forward page="/storeRedirect.jsp"/>
                 <%
             }
         } else {

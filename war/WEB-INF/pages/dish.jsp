@@ -86,7 +86,13 @@ var isLoggedIn=<%=isSignedIn%>;
 </nav>
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-<div style="margin-top:1.5em"><a href="dishUpdate.jsp?dishId=<%=dishId%>"><%= HtmlUtils.escapeChars(dish.note) %></a></div>
+<div style="margin-top:1.5em">
+<% if (isSignedIn) { %>
+  <a href="dishUpdate.jsp?dishId=<%=dishId%>"><%= HtmlUtils.escapeChars(dish.note) %></a>
+<% } else { %>
+  <%= HtmlUtils.escapeChars(dish.note) %>
+<% } %>
+</div>
 
 <%-- Data --%>
 <div class="data" id="data">
