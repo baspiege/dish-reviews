@@ -3,6 +3,7 @@
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="geonotes.data.DishAdd" %>
+<%@ page import="geonotes.data.model.Dish" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%@ page import="geonotes.utils.StringUtils" %>
 <%

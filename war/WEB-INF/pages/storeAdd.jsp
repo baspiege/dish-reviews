@@ -3,6 +3,7 @@
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="geonotes.data.StoreAdd" %>
+<%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%@ page import="geonotes.utils.StringUtils" %>
 <%
@@ -34,8 +35,10 @@
             if (!RequestUtils.hasEdits(request)) {
                 new StoreAdd().execute(request);
                 RequestUtils.resetAction(request);
+                Store store=(Store)request.getAttribute("store");
+                request.setAttribute("storeId",store.getKey().getId());
                 %>
-                <jsp:forward page="/storesRedirect.jsp"/>
+                <jsp:forward page="/storeRedirect.jsp"/>
                 <%
             }
         }
