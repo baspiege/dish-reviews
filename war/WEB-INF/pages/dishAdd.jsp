@@ -33,8 +33,10 @@
             if (!RequestUtils.hasEdits(request)) {
                 new DishAdd().execute(request);
                 RequestUtils.resetAction(request);
+                Dish dish=(Dish)request.getAttribute("dish");
+                request.setAttribute("dishId",dish.getKey().getId());
                 %>
-                <jsp:forward page="/dishesRedirect.jsp"/>
+                <jsp:forward page="/dishRedirect.jsp"/>
                 <%
             }
         }
