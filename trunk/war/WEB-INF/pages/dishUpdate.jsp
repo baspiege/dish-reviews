@@ -30,7 +30,7 @@
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
             %>
-            <jsp:forward page="/stores.jsp"/>
+            <jsp:forward page="/storesRedirect.jsp"/>
             <%
         } else {
             if (!isSignedIn) {
@@ -46,7 +46,7 @@
         RequestUtils.resetAction(request);
         RequestUtils.removeEdits(request);
         %>
-        <jsp:forward page="/stores.jsp"/>
+        <jsp:forward page="/storesRedirect.jsp"/>
         <%
     }
 

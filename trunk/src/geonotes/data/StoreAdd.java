@@ -56,6 +56,8 @@ public class StoreAdd {
             storeHistory.setYes(store.yes);
             storeHistory.setUser(store.user);
             pm.makePersistent(storeHistory);
+            
+            aRequest.setAttribute("store",store);
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();
