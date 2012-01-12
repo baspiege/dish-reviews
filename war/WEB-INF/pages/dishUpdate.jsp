@@ -30,13 +30,13 @@
             RequestUtils.resetAction(request);
             RequestUtils.removeEdits(request);
             %>
-            <jsp:forward page="/dishesRedirect.jsp"/>
+            <jsp:forward page="/stores.jsp"/>
             <%
         } else {
             if (!isSignedIn) {
             
                 %>
-                <jsp:forward page="/dishesRedirect.jsp"/>
+                <jsp:forward page="/dishRedirect.jsp"/>
                 <%
             }
             request.setAttribute("user",request.getUserPrincipal().getName());
@@ -46,7 +46,7 @@
         RequestUtils.resetAction(request);
         RequestUtils.removeEdits(request);
         %>
-        <jsp:forward page="/dishesRedirect.jsp"/>
+        <jsp:forward page="/stores.jsp"/>
         <%
     }
 
@@ -60,7 +60,7 @@
             }
             if (!RequestUtils.hasEdits(request)) {
                 %>
-                <jsp:forward page="/dishesRedirect.jsp"/>
+                <jsp:forward page="/dishRedirect.jsp"/>
                 <%
             }
         } else if (action.equals(bundle.getString("deleteLabel"))) {		
@@ -69,7 +69,7 @@
             }
             if (!RequestUtils.hasEdits(request)) {
                 %>
-                <jsp:forward page="/dishesRedirect.jsp"/>
+                <jsp:forward page="/storeRedirect.jsp"/>
                 <%
             }
         }
