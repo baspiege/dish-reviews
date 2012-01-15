@@ -56,18 +56,15 @@ function sendRequest(url,callback,postData) {
 ///////////////////
 
 function postReviewToFacebook(reviewId) {
-  var reviewLink="http://dishrev.appspot.com/dish.jsp?dishId=" + dishId + "&reviewId=" + reviewId;  
-  //var reviewMessage=document.getElementById("reviewId" + reviewId).getAttribute("reviewText");
-  //var reviewImageLink="http://dishrev.appspot.com/reviewThumbNailImage?reviewId" + reviewId;
-  // TODO - add picture?
-  // picture: reviewImage  
-  
+  var reviewLink="http://dishrev.appspot.com/dish.jsp?dishId=" + dishId + "&reviewId=" + reviewId;
+  var reviewImageLink="http://dishrev.appspot.com/reviewThumbNailImage?reviewId" + reviewId;
   var publish = {
     method: 'feed',
     name: dishName + " at " + storeName,
-    link: reviewLink
+    link: reviewLink,
+    picture: reviewImageLink
   };
-
+  FB.init();
   FB.ui(publish);
 }
 
