@@ -52,6 +52,29 @@ function sendRequest(url,callback,postData) {
 }
 
 ///////////////////
+// Facebook
+///////////////////
+
+function postReviewToFacebook(store, dish, review, reviewLink, reviewImage) {
+
+  // TODO - add picture?
+  // picture: reviewImage,
+
+  var publish = {
+    method: 'feed',
+    message: 'Dish Reviews',
+    name: dish + " at " + store,
+    link: reviewLink,
+    actions: [
+      { name: dish, link: reviewLink }
+    ],
+    user_message_prompt: review
+  };
+
+  FB.ui(publish);
+}
+
+///////////////////
 // Data
 ///////////////////
 
@@ -177,10 +200,12 @@ function handleReviewsDataRequest(req) {
       tr.appendChild(descReview);
        
       if (usersOwn) {
-        var fbShare=document.createElement("span");
-        descReview.appendChild(fbShare);
-        fbShare.innerHTML=' <fb:share-button href="http://dishrev.appspot.com/dish.jsp?dishId='
-          + dishId + '&reviewId=' + reviewId + '" type="button"></fb:share-button>';
+        var reviewLink="http://dishrev.appspot.com/dish.jsp?dishId=" + dishId + "&reviewId=" + reviewId;
+        var reviewImageLink="http://dishrev.appspot.com/reviewThumbNailImage?reviewId" + reviewId;
+        var postButton=document.createElement("button");
+        postButton.setAttribute("onclick","postReviewToFacebook('" + storeName + "','" + dishName + "','" + reviewText + "','" + reviewLink + "','" + reviewImageLink + "');return false;");
+        postButton.appendChild(document.createTextNode("Share on Facebook"));
+        descReview.appendChild(postButton);
       } else {
         // Add name from Facebook id.
         // Note, adding with createElementNS didn't work.  So using innerHTML.
