@@ -57,10 +57,7 @@ var isLoggedIn=<%=isSignedIn%>;
     js.src = "//connect.facebook.net/en_US/all.js";
     d.getElementsByTagName('head')[0].appendChild(js);
   }(document));
-      
-      
-      setCookie("dishRevUser","1");
-      
+  
 </script>
 
 <nav>
