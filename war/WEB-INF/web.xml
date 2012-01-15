@@ -14,22 +14,6 @@
             <role-name>admin</role-name> 
         </auth-constraint> 
     </security-constraint>
-    <servlet>
-      <servlet-name>storeImage</servlet-name>
-      <servlet-class>geonotes.StoreImage</servlet-class>
-    </servlet>
-    <servlet>
-      <servlet-name>storeThumbNailImage</servlet-name>
-      <servlet-class>geonotes.StoreThumbNailImage</servlet-class>
-    </servlet>
-    <servlet-mapping>
-      <servlet-name>storeThumbNailImage</servlet-name>
-      <url-pattern>/storeThumbNailImage</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-      <servlet-name>storeImage</servlet-name>
-      <url-pattern>/storeImage</url-pattern>
-    </servlet-mapping>
     <!-- Review images -->
     <servlet>
       <servlet-name>reviewImage</servlet-name>
@@ -55,14 +39,12 @@
       <servlet-name>reviewImage</servlet-name>
       <url-pattern>/reviewImage</url-pattern>
     </servlet-mapping>
-    
     <filter>
       <filter-name>UserFilter</filter-name>
       <display-name>UserFilter</display-name>
       <description></description>
       <filter-class>geonotes.utils.UserFilter</filter-class>
-    </filter>
-    
+    </filter>    
     <filter-mapping>
       <filter-name>UserFilter</filter-name>
       <url-pattern>/*</url-pattern>
