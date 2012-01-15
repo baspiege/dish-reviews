@@ -87,10 +87,6 @@ function getStoresData() {
   sendRequest('../data/stores.jsp?latitude='+lat+'&longitude='+lon, handleStoresDataRequest);
 }
 
-function getStoresDataById(storeId) {
-  sendRequest('storesTable.jsp?storeId='+storeId, handleStoresDataRequest);
-}
-
 function handleStoresDataRequest(req) {
   var tableDiv=document.getElementById("data");
   

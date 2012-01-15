@@ -11,6 +11,7 @@
     boolean isSignedIn=request.getUserPrincipal().getName()!= null;
     
     Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",false);
+    Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",false);
     
     Dish dish=null;
     Store store=null;
@@ -30,10 +31,16 @@
 <script type="text/javascript" src="/js/dish.js" ></script>
 <script type="text/javascript">
 var dishId=<%=dishId%>;
+var reviewId=<%=reviewId%>;
 var isLoggedIn=<%=isSignedIn%>;
 </script>
 </head>
+
+<% if (reviewId!=null) { %>
+<body onload="getReviewsDataById();">
+<% } else { %>
 <body onload="getReviewsData();">
+<% } %>
 
 <%-- Facebook login --%>
 <div id="fb-root"></div>
@@ -91,6 +98,10 @@ var isLoggedIn=<%=isSignedIn%>;
   <a href="dishUpdate.jsp?dishId=<%=dishId%>"><%= HtmlUtils.escapeChars(dish.note) %></a>
 <% } else { %>
   <%= HtmlUtils.escapeChars(dish.note) %>
+<% } %>
+
+<% if (reviewId!=null) { %>
+  <a class="add" href="#" onclick="window.location='dish.jsp?dishId=<%=dishId%>';return false;">All reviews</a>
 <% } %>
 </div>
 
