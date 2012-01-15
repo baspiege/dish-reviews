@@ -179,7 +179,7 @@ function handleReviewsDataRequest(req) {
       if (usersOwn) {
         var fbShare=document.createElement("span");
         descReview.appendChild(fbShare);
-        fbShare.innerHTML=' <fb:share-button href="http://dishrev.appspot.com/dishes.jsp?dishId'
+        fbShare.innerHTML=' <fb:share-button href="http://dishrev.appspot.com/dishes.jsp?dishId='
           + dishId + '&reviewId=' + reviewId + '" type="button"></fb:share-button>';
       } else {
         // Add name from Facebook id.
