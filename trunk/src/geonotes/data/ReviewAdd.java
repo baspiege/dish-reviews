@@ -51,6 +51,7 @@ public class ReviewAdd {
             
             // Last review
             dish.setLastReview(note);
+            dish.setLastReviewUserId(user);
             
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

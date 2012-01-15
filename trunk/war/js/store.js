@@ -160,6 +160,7 @@ function handleDishesDataRequest(req) {
       var dishText=dish.getAttribute("dishText");
       var vote=dish.getAttribute("yes");
       var lastReviewText=dish.getAttribute("lastReviewText");
+      var lastReviewUserId=dish.getAttribute("lastReviewUserId");
       var lastReviewImageId=dish.getAttribute("lastReviewImageId");
       tr.setAttribute("dishName",dishText);
 
@@ -213,6 +214,13 @@ function handleDishesDataRequest(req) {
         addLink.appendChild(document.createTextNode("Add"));
         lastReview.appendChild(addLink);
       }
+      
+      // Add name from Facebook id.
+      // Note, adding with createElementNS didn't work.  So using innerHTML.
+      var fbSpan=document.createElement("span");
+      lastReview.appendChild(fbSpan);
+      fbSpan.innerHTML='  - <fb:name uid="' + lastReviewUserId + '" useyou="true" linked="true"></fb:name>';
+      
       tr.appendChild(lastReview);
       
       // Last Image
@@ -233,6 +241,9 @@ function handleDishesDataRequest(req) {
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
     tableDiv.appendChild(table);
+    
+    // Parse for Facebook tags
+    FB.XFBML.parse(tableDiv);
     
     if (moreDishes) {
       var moreIndicator=document.createElement("p");

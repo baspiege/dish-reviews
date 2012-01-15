@@ -31,6 +31,7 @@ public class ReviewUpdate {
         
         // Fields
         String note=(String)aRequest.getAttribute("note");
+        String user=(String)aRequest.getAttribute("user");
         
         PersistenceManager pm=null;
         try {
@@ -46,6 +47,7 @@ public class ReviewUpdate {
                     // Last review
                     Dish dish=DishGetSingle.getDish(aRequest,pm,review.dishId);
                     dish.setLastReview(note);
+                    dish.setLastReviewUserId(user);
                     
                     review.setLastUpdateTime(new Date());
                 }
