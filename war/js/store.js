@@ -216,10 +216,12 @@ function handleDishesDataRequest(req) {
       }
       
       // Add name from Facebook id.
-      // Note, adding with createElementNS didn't work.  So using innerHTML.
-      var fbSpan=document.createElement("span");
-      lastReview.appendChild(fbSpan);
-      fbSpan.innerHTML='  - <fb:name uid="' + lastReviewUserId + '" useyou="true" linked="true"></fb:name>';
+      // Note, adding with createElementNS didn't work.  So using innerHTML.\
+      if (lastReviewUserId!='null') {
+        var fbSpan=document.createElement("span");
+        lastReview.appendChild(fbSpan);
+        fbSpan.innerHTML='  - <fb:name uid="' + lastReviewUserId + '" useyou="true" linked="true"></fb:name>';
+      }
       
       tr.appendChild(lastReview);
       
