@@ -58,6 +58,9 @@ var isLoggedIn=<%=isSignedIn%>;
     d.getElementsByTagName('head')[0].appendChild(js);
   }(document));
       
+      
+      setCookie("dishRevUser","1");
+      
 </script>
 
 <nav>

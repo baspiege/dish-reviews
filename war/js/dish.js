@@ -157,6 +157,7 @@ function handleReviewsDataRequest(req) {
       var vote=review.getAttribute("yes");
       var time=review.getAttribute("time");
       var usersOwn=review.getAttribute("user")=="true";
+      var userId=review.getAttribute("userId");
       tr.setAttribute("reviewId",reviewId);
     
       // Review
@@ -170,9 +171,14 @@ function handleReviewsDataRequest(req) {
         descReview.appendChild(document.createTextNode(' '));
         descReview.appendChild(editLink);
       }
-      
       tr.appendChild(descReview);
-      
+       
+      // Add name from Facebook id.
+      // Note, adding with createElementNS didn't work.  So using innerHTML.
+      var fbSpan=document.createElement("span");
+      descReview.appendChild(fbSpan);
+      fbSpan.innerHTML='  - <fb:name uid="' + userId + '" useyou="true" linked="true"></fb:name>';
+
       // Time Ago
       var timeReview=document.createElement("td");
       var elapsedTime=getElapsedTime(parseInt(review.getAttribute("time")),currentSeconds);
@@ -220,6 +226,9 @@ function handleReviewsDataRequest(req) {
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
     tableDiv.appendChild(table);
+    
+    // Parse for Facebook tags
+    FB.XFBML.parse(tableDiv);
     
     if (moreReviews) {
       var moreIndicator=document.createElement("p");

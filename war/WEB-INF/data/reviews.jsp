@@ -34,7 +34,8 @@
             out.write(" yes=\"" + review.yesVote + "\"");
             out.write(" time=\"" + review.lastUpdateTime.getTime()/1000 + "\"");
             out.write(" text=\"" + HtmlUtils.escapeChars(review.note) + "\"");
-            
+            out.write(" userId=\"" + review.user + "\"");
+                        
             // User
             if (user!=null && user.equalsIgnoreCase(review.user)) {
                 out.write(" user=\"true\"");
