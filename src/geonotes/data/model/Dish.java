@@ -33,6 +33,9 @@ public class Dish implements Serializable {
     public String lastReview;	
     
     @Persistent 
+    public String lastReviewUserId;	
+    
+    @Persistent 
     public Long lastReviewImageId;
         
     @Persistent 
@@ -83,6 +86,11 @@ public class Dish implements Serializable {
     public void setLastReview(String aLastReview)
     { 
         lastReview=aLastReview; 
+    }
+    
+    public void setLastReviewUserId(String aLastReviewUserId)
+    { 
+        lastReviewUserId=aLastReviewUserId; 
     }
     
     public void setLastReviewImageId(long aId)

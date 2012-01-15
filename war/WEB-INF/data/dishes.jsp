@@ -33,6 +33,7 @@
             out.write(" yes=\"" + dish.yesVote + "\""); 
             out.write(" dishText=\"" + HtmlUtils.escapeChars(dish.note) + "\"");
             out.write(" lastReviewText=\"" + HtmlUtils.escapeChars(dish.lastReview) + "\"");
+            out.write(" lastReviewUserId=\"" + dish.lastReviewUserId + "\"");
             out.write(" lastReviewImageId=\"" + dish.lastReviewImageId + "\"");
             
             // Thumbnail

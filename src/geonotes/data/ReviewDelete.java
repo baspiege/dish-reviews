@@ -53,8 +53,10 @@ public class ReviewDelete {
                 if (!results.isEmpty()) {
                     review=(Review)results.get(0);
                     dish.setLastReview(review.note);
+                    dish.setLastReviewUserId(review.user);
                 } else {
                     dish.setLastReview(null);                
+                    dish.setLastReviewUserId(null);
                 }
                 
                 // Set last image
