@@ -176,11 +176,18 @@ function handleReviewsDataRequest(req) {
       }
       tr.appendChild(descReview);
        
-      // Add name from Facebook id.
-      // Note, adding with createElementNS didn't work.  So using innerHTML.
-      var fbSpan=document.createElement("span");
-      descReview.appendChild(fbSpan);
-      fbSpan.innerHTML='  - <fb:name uid="' + userId + '" useyou="true" linked="true"></fb:name>';
+      if (usersOwn) {
+        var fbShare=document.createElement("span");
+        descReview.appendChild(fbShare);
+        fbShare.innerHTML=' <fb:share-button href="http://dishrev.appspot.com/dishes.jsp?dishId'
+          + dishId + '&reviewId=' + reviewId + '" type="button"></fb:share-button>';
+      } else {
+        // Add name from Facebook id.
+        // Note, adding with createElementNS didn't work.  So using innerHTML.
+        var fbName=document.createElement("span");
+        descReview.appendChild(fbName);
+        fbName.innerHTML=' - <fb:name uid="' + userId + '" useyou="true" linked="true"></fb:name>';
+      }
 
       // Time Ago
       var timeReview=document.createElement("td");
