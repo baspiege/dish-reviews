@@ -55,20 +55,24 @@ function sendRequest(url,callback,postData) {
 // Facebook
 ///////////////////
 
-function postReviewToFacebook(store, dish, review, reviewLink, reviewImage) {
+function postReviewToFacebook(reviewId) {
 
+  var reviewLink="http://dishrev.appspot.com/dish.jsp?dishId=" + dishId + "&reviewId=" + reviewId;
+  var reviewMessage=document.getElementById("reviewId" + reviewId).getAttribute("reviewText");
+  
   // TODO - add picture?
-  // picture: reviewImage,
-
+  // picture: reviewImage  
+  //var reviewImageLink="http://dishrev.appspot.com/reviewThumbNailImage?reviewId" + reviewId;
+  
   var publish = {
     method: 'feed',
     message: 'Dish Reviews',
-    name: dish + " at " + store,
+    name: dishName + " at " + storeName,
     link: reviewLink,
     actions: [
-      { name: dish, link: reviewLink }
+      { name: dishName, link: reviewLink }
     ],
-    user_message_prompt: review
+    user_message: reviewMessage
   };
 
   FB.ui(publish);
@@ -185,7 +189,8 @@ function handleReviewsDataRequest(req) {
       var time=review.getAttribute("time");
       var usersOwn=review.getAttribute("user")=="true";
       var userId=review.getAttribute("userId");
-      tr.setAttribute("reviewId",reviewId);
+      tr.setAttribute("id","reviewId"+reviewId);
+      tr.setAttribute("reviewText",reviewText);
     
       // Review
       var descReview=document.createElement("td");
@@ -200,10 +205,8 @@ function handleReviewsDataRequest(req) {
       tr.appendChild(descReview);
        
       if (usersOwn) {
-        var reviewLink="http://dishrev.appspot.com/dish.jsp?dishId=" + dishId + "&reviewId=" + reviewId;
-        var reviewImageLink="http://dishrev.appspot.com/reviewThumbNailImage?reviewId" + reviewId;
         var postButton=document.createElement("button");
-        postButton.setAttribute("onclick","postReviewToFacebook('" + storeName + "','" + dishName + "','" + reviewText + "','" + reviewLink + "','" + reviewImageLink + "');return false;");
+        postButton.setAttribute("onclick","postReviewToFacebook(\"" + reviewId + "\");return false;");
         postButton.appendChild(document.createTextNode("Share on Facebook"));
         descReview.appendChild(postButton);
       } else {
