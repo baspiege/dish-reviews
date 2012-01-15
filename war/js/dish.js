@@ -74,6 +74,10 @@ function getReviewsData() {
   sendRequest('../data/reviews.jsp?dishId='+dishId+'&start=' + startIndexReview, handleReviewsDataRequest);
 }
 
+function getReviewsDataById() {
+  sendRequest('../data/reviews.jsp?reviewId='+reviewId, handleReviewsDataRequest);
+}
+
 function handleReviewsDataRequest(req) {
   var tableDiv=document.getElementById("data");
 
@@ -162,14 +166,13 @@ function handleReviewsDataRequest(req) {
     
       // Review
       var descReview=document.createElement("td");
-      descReview.appendChild(document.createTextNode(reviewText));      
       if (usersOwn) {
         var editLink=document.createElement("a");
         editLink.setAttribute("href","reviewUpdate.jsp?reviewId="+reviewId);
-        editLink.setAttribute("class","edit");
-        editLink.appendChild(document.createTextNode("edit"));
-        descReview.appendChild(document.createTextNode(' '));
+        editLink.appendChild(document.createTextNode(reviewText));
         descReview.appendChild(editLink);
+      } else {
+        descReview.appendChild(document.createTextNode(reviewText));      
       }
       tr.appendChild(descReview);
        

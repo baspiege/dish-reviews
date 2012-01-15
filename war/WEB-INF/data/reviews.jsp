@@ -6,6 +6,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="geonotes.data.ReviewsGetAll" %>
+<%@ page import="geonotes.data.ReviewGetSingle" %>
 <%@ page import="geonotes.data.model.Review" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
@@ -13,9 +14,18 @@
     ResourceBundle bundle = ResourceBundle.getBundle("Text");    
     RequestUtils.getNumericInput(request,"dishId",bundle.getString("dishId"),true);
     RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
+    Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",false);
     
-    new ReviewsGetAll().execute(request);
-    List<Review> reviews=(List<Review>)request.getAttribute("reviews");
+    List<Review> reviews=null;
+    if (reviewId!=null) {
+       new ReviewGetSingle().execute(request);
+       // Add to list.
+       reviews=new ArrayList<Review>();
+       reviews.add((Review)request.getAttribute("review"));
+    } else {   
+        new ReviewsGetAll().execute(request);
+        reviews=(List<Review>)request.getAttribute("reviews");
+    }
     
     String user=null;
     if (request.getUserPrincipal().getName()!=null) {
@@ -27,10 +37,10 @@
 <%
     if (reviews!=null && reviews.size()>0) {
         for (Review review:reviews) {
-            long reviewId=review.getKey().getId();
+            long reviewIdTemp=review.getKey().getId();
             // Add attributes
             out.write("<review");
-            out.write(" reviewId=\"" + reviewId + "\"");
+            out.write(" reviewId=\"" + reviewIdTemp + "\"");
             out.write(" yes=\"" + review.yesVote + "\"");
             out.write(" time=\"" + review.lastUpdateTime.getTime()/1000 + "\"");
             out.write(" text=\"" + HtmlUtils.escapeChars(review.note) + "\"");
