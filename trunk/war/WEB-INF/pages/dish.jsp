@@ -5,6 +5,7 @@
 <%@ page import="geonotes.data.model.Dish" %>
 <%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
+<%@ page import="geonotes.utils.JSUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -31,6 +32,8 @@
 <script type="text/javascript" src="/js/dish.js" ></script>
 <script type="text/javascript">
 var dishId=<%=dishId%>;
+var dishName="<%= JSUtils.escapeChars(dish.note) %>";
+var storeName="<%= JSUtils.escapeChars(store.note) %>";
 var reviewId=<%=reviewId%>;
 var isLoggedIn=<%=isSignedIn%>;
 </script>
