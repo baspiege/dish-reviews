@@ -51,6 +51,7 @@ public class ReviewsUpdateAllUtil {
                 //review.setUser("621566318");                
                 
                 // History
+                /*
                 ReviewHistory reviewHistory=new ReviewHistory();
                 reviewHistory.setNote(review.note);
                 reviewHistory.setLastUpdateTime(review.lastUpdateTime);
@@ -61,6 +62,7 @@ public class ReviewsUpdateAllUtil {
                 reviewHistory.setImageThumbnail(review.imageThumbnail);
                 reviewHistory.setHasImage(review.hasImage);
                 pm.makePersistent(reviewHistory);
+                */
             }            
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
