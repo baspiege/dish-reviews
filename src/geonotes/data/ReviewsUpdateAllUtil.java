@@ -7,6 +7,7 @@ import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Review;
+import geonotes.data.model.ReviewHistory;
 import geonotes.utils.RequestUtils;
 
 /**
@@ -47,7 +48,19 @@ public class ReviewsUpdateAllUtil {
         
         try {            
             for (Review review:results) {
-                review.setUser("621566318");                
+                //review.setUser("621566318");                
+                
+                // History
+                ReviewHistory reviewHistory=new ReviewHistory();
+                reviewHistory.setNote(review.note);
+                reviewHistory.setLastUpdateTime(review.lastUpdateTime);
+                reviewHistory.setDishId(review.dishId);
+                reviewHistory.setYesVote(review.yesVote);
+                reviewHistory.setUser(review.user);
+                reviewHistory.setImage(review.image);
+                reviewHistory.setImageThumbnail(review.imageThumbnail);
+                reviewHistory.setHasImage(review.hasImage);
+                pm.makePersistent(reviewHistory);
             }            
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
