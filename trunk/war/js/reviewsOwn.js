@@ -174,7 +174,7 @@ function handleReviewsDataRequest(req) {
       // Review
       var descReview=document.createElement("td");
       var descReviewLink=document.createElement("a");
-      descReviewLink.setAttribute("href","reviewUpdate.jsp?reviewId="+reviewId);
+      descReviewLink.setAttribute("href","dish.jsp?dishId="+dishId+"&reviewId="+reviewId);
       descReviewLink.appendChild(document.createTextNode(reviewText));
       descReview.appendChild(descReviewLink);
       tr.appendChild(descReview);
