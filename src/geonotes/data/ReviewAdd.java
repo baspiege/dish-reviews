@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
+import geonotes.data.model.ReviewHistory;
 import geonotes.utils.RequestUtils;
 
 /**
@@ -35,15 +36,23 @@ public class ReviewAdd {
         try {
             pm=PMF.get().getPersistenceManager();
 
+            // Review
             Review review=new Review();
             review.setNote(note);
             review.setLastUpdateTime(new Date());
             review.setDishId(dishId);
             review.setYesVote(0);
             review.setUser(user);
-            
-            // Save
             pm.makePersistent(review);
+            
+            // History
+            ReviewHistory reviewHistory=new ReviewHistory();
+            reviewHistory.setNote(review.note);
+            reviewHistory.setLastUpdateTime(review.lastUpdateTime);
+            reviewHistory.setDishId(review.dishId);
+            reviewHistory.setYesVote(review.yesVote);
+            reviewHistory.setUser(review.user);
+            pm.makePersistent(reviewHistory);
             
             // Update review count
             Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
