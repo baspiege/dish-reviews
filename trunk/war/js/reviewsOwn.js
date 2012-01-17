@@ -88,20 +88,12 @@ function handleReviewsDataRequest(req) {
     // Store
     var thStore=document.createElement("th");
     tr.appendChild(thStore);
-    var storeLink=document.createElement("a");
-    storeLink.setAttribute("href","#");
-    storeLink.setAttribute("onclick","reorderReviewsByStoreNameAscending();return false;");
-    storeLink.appendChild(document.createTextNode("Restaurant"));  
-    thStore.appendChild(storeLink);
+    thStore.appendChild(document.createTextNode("Restaurant"));
     
     // Dish
     var thDish=document.createElement("th");
     tr.appendChild(thDish);
-    var dishLink=document.createElement("a");
-    dishLink.setAttribute("href","#");
-    dishLink.setAttribute("onclick","reorderReviewsByDishNameAscending();return false;");
-    dishLink.appendChild(document.createTextNode("Dish"));  
-    thDish.appendChild(dishLink);
+    thDish.appendChild(document.createTextNode("Dish"));  
     
     // Review
     var thReview=document.createElement("th");
@@ -151,9 +143,6 @@ function handleReviewsDataRequest(req) {
       var storeText=review.getAttribute("storeText");
       var dishText=review.getAttribute("dishText");
       var reviewText=review.getAttribute("text");
-      tr.setAttribute("reviewId",reviewId);
-      tr.setAttribute("dishName",dishText);
-      tr.setAttribute("storeName",storeText);
       
       // Store
       var storeDesc=document.createElement("td");
@@ -209,43 +198,6 @@ function handleReviewsDataRequest(req) {
     gettingReviews=false;
     checkForMoreReviews();
   }
-}
-
-///////////////////
-// Sorting
-///////////////////
-
-function reorderReviews(sortFunction) {
-  var reviews=document.getElementById("reviews");
-  var notes=reviews.getElementsByTagName("tr");
-  var notesTemp=new Array();
-  for (var i=1; i<notes.length; i++) {
-    notesTemp.push(notes[i]);
-  }
-  notesTemp.sort(sortFunction);
-  for (var i=0; i<notesTemp.length; i++) {
-    reviews.appendChild(notesTemp[i]);
-  }
-}
-
-function sortByDishNameAscending(note1,note2) {
-  var name1=note1.getAttribute("dishName");
-  var name2=note2.getAttribute("dishName");
-  return name1.localeCompare(name2);
-}
-
-function sortByStoreNameAscending(note1,note2) {
-  var name1=note1.getAttribute("storeName");
-  var name2=note2.getAttribute("storeName");
-  return name1.localeCompare(name2);
-}
-
-function reorderReviewsByDishNameAscending() {
-  reorderReviews(sortByDishNameAscending);
-}
-
-function reorderReviewsByStoreNameAscending() {
-  reorderReviews(sortByStoreNameAscending);
 }
 
 ///////////////////
