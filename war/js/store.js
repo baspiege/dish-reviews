@@ -162,7 +162,6 @@ function handleDishesDataRequest(req) {
       var lastReviewText=dish.getAttribute("lastReviewText");
       var lastReviewUserId=dish.getAttribute("lastReviewUserId");
       var lastReviewImageId=dish.getAttribute("lastReviewImageId");
-      tr.setAttribute("dishName",dishText);
 
       // Dish
       var dishDesc=document.createElement("td");
