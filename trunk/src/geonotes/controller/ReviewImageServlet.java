@@ -118,7 +118,6 @@ public class ReviewImageServlet extends HttpServlet {
         
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
-            Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
             request.setAttribute("dishId",review.dishId);
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
