@@ -7,9 +7,7 @@
     // Check if signed in
     boolean isSignedIn=request.getUserPrincipal().getName()!=null;
     if (!isSignedIn) {
-        %>
-        <jsp:forward page="/storesRedirect.jsp"/>
-        <%    
+        pageContext.forward("/storesRedirect.jsp");
     }
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
 %>

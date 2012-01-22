@@ -22,19 +22,10 @@
         // If note is null, forward to main page
         store=(Store)request.getAttribute("store");
         if (store==null) {
-            RequestUtils.resetAction(request);
-            RequestUtils.removeEdits(request);
-            %>
-            <jsp:forward page="/storesRedirect.jsp"/>
-            <%
+            pageContext.forward("/storesRedirect.jsp");
         }
-        request.setAttribute("user",request.getUserPrincipal().getName());
     } else {
-        RequestUtils.resetAction(request);
-        RequestUtils.removeEdits(request);
-        %>
-        <jsp:forward page="/storesRedirect.jsp"/>
-        <%
+        pageContext.forward("/storesRedirect.jsp");
     }
 
     // Process based on action
@@ -47,16 +38,10 @@
                 new StoreUpdate().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
-                %>
-                <jsp:forward page="/storeRedirect.jsp"/>
-                <%
+                pageContext.forward("/storeRedirect.jsp");
             }
         } else {
-            RequestUtils.resetAction(request);
-            RequestUtils.removeEdits(request);
-            %>
-            <jsp:forward page="/storesRedirect.jsp"/>
-            <%
+            pageContext.forward("/storesRedirect.jsp");
         }
     }
 %>

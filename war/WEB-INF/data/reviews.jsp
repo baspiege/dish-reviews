@@ -21,16 +21,13 @@
        new ReviewGetSingle().execute(request);
        // Add to list.
        reviews=new ArrayList<Review>();
-       reviews.add((Review)request.getAttribute("review"));
+       reviews.add((Review)request.getAttribute(RequestUtils.REVIEW));
     } else {   
         new ReviewsGetAll().execute(request);
         reviews=(List<Review>)request.getAttribute("reviews");
     }
     
-    String user=null;
-    if (request.getUserPrincipal().getName()!=null) {
-        user=request.getUserPrincipal().getName();
-    }
+    String user=(String)request.getAttribute("user");
 %>
 <reviews>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>

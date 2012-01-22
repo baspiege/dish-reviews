@@ -20,9 +20,7 @@
         dish=RequestUtils.getDish(request,dishId);
         store=RequestUtils.getStore(request,dish.storeId);
     } else {
-          %>
-          <jsp:forward page="/storesRedirect.jsp"/>
-          <%
+        pageContext.forward("/storesRedirect.jsp");
     }    
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>

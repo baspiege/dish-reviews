@@ -15,7 +15,10 @@
 <%
     // Check if signed in
     boolean isSignedIn=request.getUserPrincipal().getName()!=null;
-
+    if (!isSignedIn) {
+        pageContext.forward("/storesRedirect.jsp");
+    }
+    
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
@@ -26,25 +29,10 @@
         // If note is null, forward to main page
         store=(Store)request.getAttribute("store");
         if (store==null) {
-            RequestUtils.resetAction(request);
-            RequestUtils.removeEdits(request);
-            %>
-            <jsp:forward page="/storesRedirect.jsp"/>
-            <%
-        } else {
-            if (!isSignedIn) {
-                %>
-                <jsp:forward page="/storesRedirect.jsp"/>
-                <%
-            }
-            request.setAttribute("user",request.getUserPrincipal().getName());
+            pageContext.forward("/storesRedirect.jsp");
         }
     } else {
-        RequestUtils.resetAction(request);
-        RequestUtils.removeEdits(request);
-        %>
-        <jsp:forward page="/storesRedirect.jsp"/>
-        <%
+        pageContext.forward("/storesRedirect.jsp");
     }
 
     // Process based on action
@@ -56,18 +44,14 @@
                 new StoreUpdate().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
-                %>
-                <jsp:forward page="/storeRedirect.jsp"/>
-                <%
+                pageContext.forward("/storeRedirect.jsp");
             }
         } else if (action.equals(bundle.getString("deleteLabel"))) {		
             if (!RequestUtils.hasEdits(request)) {
                 new StoreDelete().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
-                %>
-                <jsp:forward page="/storesRedirect.jsp"/>
-                <%
+                pageContext.forward("/storesRedirect.jsp");
             }
         }
     }

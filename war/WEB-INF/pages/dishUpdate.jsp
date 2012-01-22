@@ -26,28 +26,15 @@
         // If dish is null, forward to main page
         dish=(Dish)request.getAttribute("dish");
         if (dish==null) {
-        
-            RequestUtils.resetAction(request);
-            RequestUtils.removeEdits(request);
-            %>
-            <jsp:forward page="/storesRedirect.jsp"/>
-            <%
+            pageContext.forward("/storesRedirect.jsp");
         } else {
             if (!isSignedIn) {
-            
-                %>
-                <jsp:forward page="/dishRedirect.jsp"/>
-                <%
+                pageContext.forward("/dishRedirect.jsp");
             }
-            request.setAttribute("user",request.getUserPrincipal().getName());
             request.setAttribute("storeId",dish.storeId);
         }
     } else {
-        RequestUtils.resetAction(request);
-        RequestUtils.removeEdits(request);
-        %>
-        <jsp:forward page="/storesRedirect.jsp"/>
-        <%
+        pageContext.forward("/storesRedirect.jsp");
     }
 
     // Process based on action
@@ -59,18 +46,14 @@
                 new DishUpdate().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
-                %>
-                <jsp:forward page="/dishRedirect.jsp"/>
-                <%
+                pageContext.forward("/dishRedirect.jsp");
             }
         } else if (action.equals(bundle.getString("deleteLabel"))) {		
             if (!RequestUtils.hasEdits(request)) {
                 new DishDelete().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
-                %>
-                <jsp:forward page="/storeRedirect.jsp"/>
-                <%
+                pageContext.forward("/storeRedirect.jsp");
             }
         }
     }

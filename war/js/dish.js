@@ -117,7 +117,7 @@ function handleReviewsDataRequest(req) {
     // Show Add link if logged in
     if (isLoggedIn) {
       var addLink=document.createElement("a");
-      addLink.setAttribute("href","reviewAdd.jsp?dishId="+dishId);
+      addLink.setAttribute("href","reviewAdd?dishId="+dishId);
       addLink.setAttribute("class","add addTh");
       addLink.appendChild(document.createTextNode("Add"));
       thReview.appendChild(addLink);
@@ -185,10 +185,32 @@ function handleReviewsDataRequest(req) {
       // Review
       var descReview=document.createElement("td");
       if (usersOwn) {
+      
+        var moreWrapper=document.createElement("span");
+        moreWrapper.setAttribute("text",reviewText);
+        descReview.appendChild(moreWrapper);
+      
+        // Create span... put text in attribute 'text'
+        var hasMore=false;
+        if (reviewText.length>20){
+          reviewText=reviewText.substr(0,20);
+          hasMore=true;
+        }
+      
         var editLink=document.createElement("a");
-        editLink.setAttribute("href","reviewUpdate.jsp?reviewId="+reviewId);
+        editLink.setAttribute("href","reviewUpdate?reviewId="+reviewId);
         editLink.appendChild(document.createTextNode(reviewText));
-        descReview.appendChild(editLink);
+        moreWrapper.appendChild(editLink);
+        
+        if (hasMore){
+          var moreLink=document.createElement("a");
+          moreLink.setAttribute("href","#");
+          moreLink.setAttribute("class","more");
+          moreLink.setAttribute("onclick","alert(this.parentNode.getAttribute('text'));return false;");
+          moreLink.appendChild(document.createTextNode("more..."));
+          moreWrapper.appendChild(document.createTextNode(" "));
+          moreWrapper.appendChild(moreLink);
+        }
       } else {
         descReview.appendChild(document.createTextNode(reviewText));      
       }
@@ -233,7 +255,7 @@ function handleReviewsDataRequest(req) {
       var imageCell=document.createElement("td");
       if (review.getAttribute("img")=="true") {
         var imageLink=document.createElement("a");
-        imageLink.setAttribute("href","reviewImage.jsp?reviewId="+reviewId);
+        imageLink.setAttribute("href","reviewImageUpdate?reviewId="+reviewId);
         var image=document.createElement("img");
         image.setAttribute("src","reviewThumbNailImage?reviewId="+reviewId);
         imageLink.appendChild(image);
@@ -241,7 +263,7 @@ function handleReviewsDataRequest(req) {
       } else if (usersOwn) {
         var imageLink=document.createElement("a");
         imageLink.setAttribute("class","add");
-        imageLink.setAttribute("href","reviewImage.jsp?reviewId="+reviewId);
+        imageLink.setAttribute("href","reviewImageUpdate?reviewId="+reviewId);
         imageLink.appendChild(document.createTextNode("Add"));
         imageCell.appendChild(imageLink)      
       }

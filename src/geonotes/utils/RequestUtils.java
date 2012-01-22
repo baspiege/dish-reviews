@@ -10,6 +10,8 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,10 +27,10 @@ import geonotes.data.model.Store;
  */
 public class RequestUtils
 {
-    public static String FORWARDED="forwarded";
     public static String EDITS="edits";
     public static String DISH="dish";
     public static String STORE="store";
+    public static String REVIEW="review";
 
     // These are thread-safe.
     private static Pattern mNumbersPattern=Pattern.compile("[-]?[\\d]*[\\.]?[\\d]*");
@@ -39,8 +41,7 @@ public class RequestUtils
     * @param aRequest Servlet Request
     * @param aEditMessage edit message
     */
-    public static void addEdit(HttpServletRequest aRequest, String aEditMessage)
-    {
+    public static void addEdit(HttpServletRequest aRequest, String aEditMessage) {
         getEdits(aRequest).add(aEditMessage);
     }
 
@@ -50,8 +51,7 @@ public class RequestUtils
     * @param aRequest Servlet Request
     * @param aKey key in Text ResourceBundle
     */
-    public static void addEditUsingKey(HttpServletRequest aRequest, String aKey)
-    {
+    public static void addEditUsingKey(HttpServletRequest aRequest, String aKey) {
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
         getEdits(aRequest).add(bundle.getString(aKey));
     }
@@ -65,76 +65,40 @@ public class RequestUtils
     * @param aRequired Indicates if required
     * @return the field if no edits
     */
-    public static String getAlphaInput(HttpServletRequest aRequest, String aFieldToCheck, String aDescription, boolean aRequired)
-    {
+    public static String getAlphaInput(HttpServletRequest aRequest, String aFieldToCheck, String aDescription, boolean aRequired) {
         String value=aRequest.getParameter(aFieldToCheck);
-        if (isFieldEmpty(aRequest, value, aFieldToCheck, aDescription, aRequired))
-        {
+        if (isFieldEmpty(aRequest, value, aFieldToCheck, aDescription, aRequired)) {
             value="";
             aRequest.setAttribute(aFieldToCheck,value);
-        }
-        else if (value.length()>500)
-        {
+        } else if (value.length()>500) {
             value=value.substring(0,500);
             aRequest.setAttribute(aFieldToCheck,value);
 
             ResourceBundle bundle = ResourceBundle.getBundle("Text");
             String editMessage=aDescription + ": " + bundle.getString("alphaFieldMaxLengthEdit");
             addEdit(aRequest,editMessage);
-        }
-        else
-        {
+        } else {
             value=value.trim();
             aRequest.setAttribute(aFieldToCheck,value);
         }
 
         return value;
     }
-    
-    /**
-    * Get a String input and store into the request if there are no edits.
-    *
-    * @param aRequest Servlet Request to get input from
-    * @param aFieldToCheck Field to check
-    * @param aDescription Description of field for edit message
-    * @param aRequired Indicates if required
-    * @return the field if no edits
-    */
-    public static String getBulkAlphaInput(HttpServletRequest aRequest, String aFieldToCheck, String aDescription, boolean aRequired)
-    {
-        String value=aRequest.getParameter(aFieldToCheck);
-        if (isFieldEmpty(aRequest, value, aFieldToCheck, aDescription, aRequired))
-        {
-            value="";
-            aRequest.setAttribute(aFieldToCheck,value);
-        }
-        else
-        {
-            value=value.trim();
-            aRequest.setAttribute(aFieldToCheck,value);
-        }
-
-        return value;
-    }
-    
+        
     /**
     * Get dish.
     *
     * @param aRequest Servlet Request
     */
-    public static Dish getDish(HttpServletRequest aRequest, long aDishId)
-    {
+    public static Dish getDish(HttpServletRequest aRequest, long aDishId) {
         Dish dish=null;
         
         // Try cache.
         dish=MemCacheUtils.getDish(aRequest, aDishId);
-        if (dish!=null)
-        {
+        if (dish!=null) {
             // Set into request.
             aRequest.setAttribute(DISH,dish);
-        }
-        else
-        {
+        } else {
             // Get from the datastore which sets into the request.
             // And put into the cache.
             aRequest.setAttribute("dishId",aDishId);
@@ -151,11 +115,9 @@ public class RequestUtils
     *
     * @return a list of edits
     */
-    public static List<String> getEdits(HttpServletRequest aRequest)
-    {
+    public static List<String> getEdits(HttpServletRequest aRequest) {
         List<String> edits=(List<String>)aRequest.getAttribute(EDITS);
-        if (edits==null)
-        {
+        if (edits==null) {
             edits=new ArrayList<String>();
             aRequest.setAttribute(EDITS,edits);
         }
@@ -172,33 +134,23 @@ public class RequestUtils
     * @param aRequired Indicates if required
     * @return the field if no edits
     */
-    public static Long getNumericInput(HttpServletRequest aRequest, String aFieldToCheck, String aDescription, boolean aRequired)
-    {
+    public static Long getNumericInput(HttpServletRequest aRequest, String aFieldToCheck, String aDescription, boolean aRequired) {
         Long retValue=null;
         String value=aRequest.getParameter(aFieldToCheck);
-        if (isFieldEmpty(aRequest, value, aFieldToCheck, aDescription, aRequired))
-        {
+        if (isFieldEmpty(aRequest, value, aFieldToCheck, aDescription, aRequired)) {
             // Do nothing
-        }
-        else if (!mNumbersPattern.matcher(value).matches())
-        {
+        } else if (!mNumbersPattern.matcher(value).matches()) {
             retValue=null;
 
             ResourceBundle bundle = ResourceBundle.getBundle("Text");
             String editMessage=aDescription + ": " + bundle.getString("numberFieldValidCharsEdit");
             addEdit(aRequest,editMessage);
-        }
-        else
-        {
-            try
-            {
+        } else {
+            try {
                 retValue=new Long(value);
                 aRequest.setAttribute(aFieldToCheck,retValue);
-            }
-            catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 retValue=null;
-
                 ResourceBundle bundle = ResourceBundle.getBundle("Text");
                 String editMessage=aDescription + ": " + bundle.getString("numberFieldNotValidEdit");
                 addEdit(aRequest,editMessage);
@@ -217,33 +169,22 @@ public class RequestUtils
     * @param aRequired Indicates if required
     * @return the field if no edits
     */
-    public static Double getNumericInputAsDouble(HttpServletRequest aRequest, String aFieldToCheck, String aDescription, boolean aRequired)
-    {
+    public static Double getNumericInputAsDouble(HttpServletRequest aRequest, String aFieldToCheck, String aDescription, boolean aRequired) {
         Double retValue=null;
         String value=aRequest.getParameter(aFieldToCheck);
-        if (isFieldEmpty(aRequest, value, aFieldToCheck, aDescription, aRequired))
-        {
+        if (isFieldEmpty(aRequest, value, aFieldToCheck, aDescription, aRequired)) {
             // Do nothing
-        }
-        else if (!mNumbersPattern.matcher(value).matches())
-        {
+        } else if (!mNumbersPattern.matcher(value).matches()) {
             retValue=null;
-
             ResourceBundle bundle = ResourceBundle.getBundle("Text");
             String editMessage=aDescription + ": " + bundle.getString("numberFieldValidCharsEdit");
             addEdit(aRequest,editMessage);
-        }
-        else
-        {
-            try
-            {
+        } else {
+            try {
                 retValue=new Double(value);
                 aRequest.setAttribute(aFieldToCheck,retValue);
-            }
-            catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 retValue=null;
-
                 ResourceBundle bundle = ResourceBundle.getBundle("Text");
                 String editMessage=aDescription + ": " + bundle.getString("numberFieldNotValidEdit");
                 addEdit(aRequest,editMessage);
@@ -258,19 +199,15 @@ public class RequestUtils
     *
     * @param aRequest Servlet Request
     */
-    public static Store getStore(HttpServletRequest aRequest, long aStoreId)
-    {
+    public static Store getStore(HttpServletRequest aRequest, long aStoreId) {
         Store store=null;
         
         // Try cache.
         store=MemCacheUtils.getStore(aRequest, aStoreId);
-        if (store!=null)
-        {
+        if (store!=null) {
             // Set into request.
             aRequest.setAttribute(STORE,store);
-        }
-        else
-        {
+        } else {
             // Get from the datastore which sets into the request.
             // And put into the cache.
             aRequest.setAttribute("storeId",aStoreId);
@@ -282,18 +219,27 @@ public class RequestUtils
         return store;
     }
     
+   /**
+    * Forward to.
+    *
+    * @param aRequest Servlet Request
+    * @param aResponse Servlet Response
+    */
+    public static void forwardTo(HttpServletRequest aRequest, HttpServletResponse aResponse, String target) throws IOException, ServletException {
+        RequestDispatcher rd=aRequest.getRequestDispatcher(target);
+        rd.forward(aRequest, aResponse);
+    }
+    
     /**
     * Has edits.
     *
     * @param aRequest Servlet Request
     * @return a boolean indicating if there are edits
     */
-    public static boolean hasEdits(HttpServletRequest aRequest)
-    {
+    public static boolean hasEdits(HttpServletRequest aRequest) {
         boolean hasEdits=false;
         List<String> edits=(List<String>)aRequest.getAttribute(EDITS);
-        if (edits!=null && edits.size()>0)
-        {
+        if (edits!=null && edits.size()>0) {
             hasEdits=true;
         }
 
@@ -309,67 +255,32 @@ public class RequestUtils
     * @param aRequired Indicates if required
     * @return a boolean indicating if the field is empty
     */
-    private static boolean isFieldEmpty(HttpServletRequest aRequest, String aValue, String aFieldToCheck, String aDescription, boolean aRequired)
-    {
+    private static boolean isFieldEmpty(HttpServletRequest aRequest, String aValue, String aFieldToCheck, String aDescription, boolean aRequired) {
         boolean isEmpty=false;
 
-        if (aValue==null || aValue.trim().length()==0)
-        {
+        if (aValue==null || aValue.trim().length()==0) {
             isEmpty=true;
-
-            if (aRequired)
-            {
+            if (aRequired) {
                 ResourceBundle bundle = ResourceBundle.getBundle("Text");
                 String editMessage=aDescription + ": " + bundle.getString("fieldRequiredEdit");
                 addEdit(aRequest,editMessage);
-            }
-            else
-            {
+            } else {
                 aRequest.setAttribute(aFieldToCheck,null);
             }
         }
 
         return isEmpty;
     }
-    
-    /**
-    * Check if forwarded.
-    *
-    * @param aRequest Servlet Request
-    */
-    public static boolean isForwarded(HttpServletRequest aRequest)
-    {
-        Boolean value=(Boolean)aRequest.getAttribute(FORWARDED);
-
-        if (value!=null && value.booleanValue())
-        {
-            return true;
-        }
-        return false;
-    }
-    
+        
     /**
     * Remove edits.
     *
     * @param aRequest Servlet Request
     */
-    public static void removeEdits(HttpServletRequest aRequest)
-    {
+    public static void removeEdits(HttpServletRequest aRequest) {
         List<String> edits=(List<String>)aRequest.getAttribute(EDITS);
-        if (edits!=null && edits.size()>0)
-        {
+        if (edits!=null && edits.size()>0) {
             edits.clear();
         }
-    }
-
-    
-    /**
-    * Reset action.
-    *
-    * @param aRequest Servlet Request
-    */
-    public static void resetAction(HttpServletRequest aRequest)
-    {
-        aRequest.setAttribute(FORWARDED,new Boolean(true));
     }
 }
