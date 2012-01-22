@@ -22,30 +22,17 @@
     if (reviewId!=null) {
         new ReviewGetSingle().execute(request);
         // If note is null, forward to main page
-        review=(Review)request.getAttribute("review");
+        review=(Review)request.getAttribute(RequestUtils.REVIEW);
         if (review==null) {
-        
-            RequestUtils.resetAction(request);
-            RequestUtils.removeEdits(request);
-            %>
-            <jsp:forward page="/reviewsRedirect.jsp"/>
-            <%
+            pageContext.forward("/reviewsRedirect.jsp");
         } else {
             if (!isSignedIn) {
-            
-                %>
-                <jsp:forward page="/reviewsRedirect.jsp"/>
-                <%
+                pageContext.forward("/reviewsRedirect.jsp");
             }
-            request.setAttribute("user",request.getUserPrincipal().getName());
             request.setAttribute("dishId",review.dishId);
         }
     } else {
-        RequestUtils.resetAction(request);
-        RequestUtils.removeEdits(request);
-        %>
-        <jsp:forward page="/reviewsRedirect.jsp"/>
-        <%
+        pageContext.forward("/reviewsRedirect.jsp");
     }
 
     // Process based on action
@@ -55,18 +42,14 @@
                 new ReviewUpdateYesNo().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
-                %>
-                <jsp:forward page="/reviewsRedirect.jsp"/>
-                <%
+                pageContext.forward("/reviewsRedirect.jsp");
             }
         } else if (action.equals(bundle.getString("removeAgreeLabel"))) {		
             if (!RequestUtils.hasEdits(request)) {
                 new ReviewUpdateUndoYesNo().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
-                %>
-                <jsp:forward page="/reviewsRedirect.jsp"/>
-                <%
+                pageContext.forward("/reviewsRedirect.jsp");
             }
         }
     }

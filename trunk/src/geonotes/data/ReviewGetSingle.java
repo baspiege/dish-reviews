@@ -33,7 +33,7 @@ public class ReviewGetSingle {
             Review review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
 
             // Set into request
-            aRequest.setAttribute("review", review);
+            aRequest.setAttribute(RequestUtils.REVIEW, review);
 
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

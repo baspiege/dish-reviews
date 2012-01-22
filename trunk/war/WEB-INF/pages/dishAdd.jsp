@@ -10,12 +10,8 @@
     // Check if signed in
     boolean isSignedIn=request.getUserPrincipal().getName()!= null;
     if (!isSignedIn) {
-        %>
-        <jsp:forward page="/storesRedirect.jsp"/>
-        <%    
+        pageContext.forward("/storesRedirect.jsp");
     }
-    
-    request.setAttribute("user",request.getUserPrincipal().getName());
     
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -26,19 +22,16 @@
     Long storeId=RequestUtils.getNumericInput(request,"storeId",bundle.getString("storeId"),true);
 
     // Process based on action
-    if (!RequestUtils.isForwarded(request) && !StringUtils.isEmpty(action)) {
+    if (!StringUtils.isEmpty(action)) {
         if (action.equals(bundle.getString("addLabel"))) {		
             // Get fields
             note=RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
             //RequestUtils.getNumericInput(request,"type",bundle.getString("typeLabel"),true);		
             if (!RequestUtils.hasEdits(request)) {
                 new DishAdd().execute(request);
-                RequestUtils.resetAction(request);
                 Dish dish=(Dish)request.getAttribute("dish");
                 request.setAttribute("dishId",dish.getKey().getId());
-                %>
-                <jsp:forward page="/dishRedirect.jsp"/>
-                <%
+                pageContext.forward("/dishRedirect.jsp");
             }
         }
     }

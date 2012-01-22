@@ -26,11 +26,6 @@
         new StoreGetAll().execute(request);
         stores=(List<Store>)request.getAttribute("stores");
     }
-    
-    String user=null;
-    if (request.getUserPrincipal().getName()!=null) {
-        user=request.getUserPrincipal().getName();
-    }
 %>
 <stores>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
@@ -43,18 +38,8 @@
             out.write(" storeId=\"" + storeIdTemp + "\"");
             out.write(" lat=\"" + store.latitude + "\"");
             out.write(" lon=\"" + store.longitude + "\"");
-            //out.write(" yes=\"" + store.yes + "\""); 
             out.write(" text=\"" + HtmlUtils.escapeChars(store.note) + "\"");
             out.write(" dishCount=\"" + store.dishCount + "\"");
-            
-            // Thumbnail
-            /*
-            if (store.imageThumbnail!=null) {
-                out.write(" img=\"true\"");
-            } else {
-                out.write(" img=\"false\"");
-            }
-            */
             out.write("/>");
         }
     }

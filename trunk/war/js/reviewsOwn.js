@@ -95,6 +95,11 @@ function handleReviewsDataRequest(req) {
     tr.appendChild(thDish);
     thDish.appendChild(document.createTextNode("Dish"));  
     
+    // Time
+    var thTime=document.createElement("th");
+    tr.appendChild(thTime);  
+    thTime.appendChild(document.createTextNode("Time Ago"));
+    
     // Review
     var thReview=document.createElement("th");
     tr.appendChild(thReview);  
@@ -116,7 +121,7 @@ function handleReviewsDataRequest(req) {
     if (newTable) {
       var tr=document.createElement("tr");
       var td=document.createElement("td");
-      td.setAttribute("colspan","4");
+      td.setAttribute("colspan","5");
       td.appendChild(document.createTextNode("No reviews."));
       tr.appendChild(td);
       table.appendChild(tr);
@@ -133,6 +138,7 @@ function handleReviewsDataRequest(req) {
       moreReviews=false;
     }
     // Make HTML for each review
+    var currentSeconds=new Date().getTime()/1000;
     for (var i=0;i<reviews.length;i++) {
       var review=reviews[i];
       var tr=document.createElement("tr");
@@ -160,6 +166,12 @@ function handleReviewsDataRequest(req) {
       dishDesc.appendChild(dishDescLink);
       tr.appendChild(dishDesc);
       
+      // Time Ago
+      var timeReview=document.createElement("td");
+      var elapsedTime=getElapsedTime(parseInt(review.getAttribute("time")),currentSeconds);
+      timeReview.appendChild(document.createTextNode(elapsedTime));
+      tr.appendChild(timeReview);
+      
       // Review
       var descReview=document.createElement("td");
       var descReviewLink=document.createElement("a");
@@ -172,7 +184,7 @@ function handleReviewsDataRequest(req) {
       var imageCell=document.createElement("td");
       if (review.getAttribute("img")=="true") {
         var imageLink=document.createElement("a");
-        imageLink.setAttribute("href","reviewImage.jsp?reviewId="+reviewId);
+        imageLink.setAttribute("href","reviewImageUpdate?reviewId="+reviewId);
         var image=document.createElement("img");
         image.setAttribute("src","reviewThumbNailImage?reviewId="+reviewId);
         imageLink.appendChild(image);
@@ -203,6 +215,32 @@ function handleReviewsDataRequest(req) {
 ///////////////////
 // Display
 ///////////////////
+
+///////////////////
+// Display
+///////////////////
+
+function getElapsedTime(oldSeconds,newSeconds){
+  var display="";
+  var seconds=newSeconds-oldSeconds;
+  if (seconds<60){
+    display=Math.round(seconds)+" sec";
+  } else {
+    var minutes=seconds/60;
+    if (minutes<60) {
+      display=Math.round(minutes)+" min";
+    } else {
+      var hours=minutes/60;
+      if (hours<24) {
+        display=Math.round(hours)+" hr";
+      } else {
+        var days=hours/24;
+        display=Math.round(days)+" days";
+      }
+    }
+  }
+  return display;
+}
 
 function removeChildrenFromElement(element) {
   if (element.hasChildNodes()) {

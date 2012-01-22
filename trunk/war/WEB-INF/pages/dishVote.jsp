@@ -24,28 +24,15 @@
         // If note is null, forward to main page
         dish=(Dish)request.getAttribute("dish");
         if (dish==null) {
-        
-            RequestUtils.resetAction(request);
-            RequestUtils.removeEdits(request);
-            %>
-            <jsp:forward page="/storesRedirect.jsp"/>
-            <%
+            pageContext.forward("/storesRedirect.jsp");
         } else {
             if (!isSignedIn) {
-            
-                %>
-                <jsp:forward page="/storesRedirect.jsp"/>
-                <%
+                pageContext.forward("/storesRedirect.jsp");
             }
-            request.setAttribute("user",request.getUserPrincipal().getName());
             request.setAttribute("storeId",dish.storeId);
         }
     } else {
-        RequestUtils.resetAction(request);
-        RequestUtils.removeEdits(request);
-        %>
-        <jsp:forward page="/storesRedirect.jsp"/>
-        <%
+        pageContext.forward("/storesRedirect.jsp");
     }
 
     // Process based on action
@@ -55,18 +42,14 @@
                 new DishUpdateYesNo().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
-                %>
-                <jsp:forward page="/storeRedirect.jsp"/>
-                <%
+                pageContext.forward("/storeRedirect.jsp");
             }
         } else if (action.equals(bundle.getString("unlikeLabel"))) {		
             if (!RequestUtils.hasEdits(request)) {
                 new DishUpdateUndoYesNo().execute(request);
             }
             if (!RequestUtils.hasEdits(request)) {
-                %>
-                <jsp:forward page="/storeRedirect.jsp"/>
-                <%
+                pageContext.forward("/storeRedirect.jsp");
             }
         }
     }

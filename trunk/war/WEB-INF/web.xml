@@ -14,6 +14,33 @@
             <role-name>admin</role-name> 
         </auth-constraint> 
     </security-constraint>
+    
+    <!-- Review Updates -->
+    <servlet>
+      <servlet-name>reviewAdd</servlet-name>
+      <servlet-class>geonotes.controller.ReviewAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+      <servlet-name>reviewImageUpdate</servlet-name>
+      <servlet-class>geonotes.controller.ReviewImageServlet</servlet-class>
+    </servlet>
+    <servlet>
+      <servlet-name>reviewUpdate</servlet-name>
+      <servlet-class>geonotes.controller.ReviewUpdateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>reviewAdd</servlet-name>
+      <url-pattern>/reviewAdd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>reviewImageUpdate</servlet-name>
+      <url-pattern>/reviewImageUpdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>reviewUpdate</servlet-name>
+      <url-pattern>/reviewUpdate</url-pattern>
+    </servlet-mapping>
+
     <!-- Review images -->
     <servlet>
       <servlet-name>reviewImage</servlet-name>
@@ -39,6 +66,8 @@
       <servlet-name>reviewImage</servlet-name>
       <url-pattern>/reviewImage</url-pattern>
     </servlet-mapping>
+    
+    <!-- User filter -->
     <filter>
       <filter-name>UserFilter</filter-name>
       <display-name>UserFilter</display-name>

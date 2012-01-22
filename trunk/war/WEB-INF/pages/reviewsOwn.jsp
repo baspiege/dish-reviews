@@ -6,9 +6,7 @@
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     boolean isSignedIn=request.getUserPrincipal().getName()!= null;    
     if (!isSignedIn) {
-        %>
-        <jsp:forward page="/storesRedirect.jsp"/>
-        <%    
+        pageContext.forward("/storesRedirect.jsp");
     }
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>

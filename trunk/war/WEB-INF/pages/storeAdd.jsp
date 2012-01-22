@@ -10,12 +10,8 @@
     // Check if signed in
     boolean isSignedIn=request.getUserPrincipal().getName()!= null;
     if (!isSignedIn) {
-        %>
-        <jsp:forward page="/storesRedirect.jsp"/>
-        <%    
+        pageContext.forward("/storesRedirect.jsp");
     }
-    
-    request.setAttribute("user",request.getUserPrincipal().getName());
     
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -26,7 +22,7 @@
     Double longitude=RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);		
 
     // Process based on action
-    if (!RequestUtils.isForwarded(request) && !StringUtils.isEmpty(action)) {
+    if (!StringUtils.isEmpty(action)) {
         if (action.equals(bundle.getString("addLabel"))) {		
             // Get fields
             note=RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
@@ -34,12 +30,9 @@
             RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
             if (!RequestUtils.hasEdits(request)) {
                 new StoreAdd().execute(request);
-                RequestUtils.resetAction(request);
                 Store store=(Store)request.getAttribute("store");
                 request.setAttribute("storeId",store.getKey().getId());
-                %>
-                <jsp:forward page="/storeRedirect.jsp"/>
-                <%
+                pageContext.forward("/storeRedirect.jsp");
             }
         }
     }

@@ -12,15 +12,9 @@
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%
-    ResourceBundle bundle = ResourceBundle.getBundle("Text");    
-    String user=null;
-    if (request.getUserPrincipal().getName()!=null) {
-        user=request.getUserPrincipal().getName();
-        request.setAttribute("user",request.getUserPrincipal().getName());
-    } else {
-        %>
-        <jsp:forward page="/storesRedirect.jsp"/>
-        <%
+    ResourceBundle bundle = ResourceBundle.getBundle("Text");
+    if (request.getUserPrincipal().getName()==null) {
+        pageContext.forward("/storesRedirect.jsp");
     }
     
     RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
@@ -40,6 +34,7 @@
             out.write(" reviewId=\"" + reviewId + "\"");
             out.write(" yes=\"" + review.yes + "\""); 
             out.write(" text=\"" + HtmlUtils.escapeChars(review.note) + "\"");
+            out.write(" time=\"" + review.lastUpdateTime.getTime()/1000 + "\"");
             
             // Dish attributes
             Dish dish=RequestUtils.getDish(request,review.dishId);

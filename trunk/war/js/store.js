@@ -116,9 +116,11 @@ function handleDishesDataRequest(req) {
     thVote.appendChild(voteLink);
     
     // Last Review
+    /*
     var thReview=document.createElement("th");
     tr.appendChild(thReview);  
     thReview.appendChild(document.createTextNode("Last Review"));
+    */
     
     // Last Image
     var thLastImage=document.createElement("th");
@@ -136,7 +138,7 @@ function handleDishesDataRequest(req) {
     if (newTable) {
       var tr=document.createElement("tr");
       var td=document.createElement("td");
-      td.setAttribute("colspan","4");
+      td.setAttribute("colspan","3");
       td.appendChild(document.createTextNode("No dishes."));
       tr.appendChild(td);
       table.appendChild(tr);
@@ -200,6 +202,7 @@ function handleDishesDataRequest(req) {
       }
       
       // Last Review
+      /*
       var lastReview=document.createElement("td");
       if (lastReviewText) {
         var reviewLink=document.createElement("a");
@@ -209,26 +212,29 @@ function handleDishesDataRequest(req) {
       } else if (isLoggedIn) {
         var addLink=document.createElement("a");
         addLink.setAttribute("class","add");
-        addLink.setAttribute("href","reviewAdd.jsp?dishId="+dishId);
+        addLink.setAttribute("href","reviewAdd?dishId="+dishId);
         addLink.appendChild(document.createTextNode("Add"));
         lastReview.appendChild(addLink);
       }
+      */
       
       // Add name from Facebook id.
-      // Note, adding with createElementNS didn't work.  So using innerHTML.\
+      // Note, adding with createElementNS didn't work.  So using innerHTML.
+      /*
       if (lastReviewUserId!='null') {
         var fbSpan=document.createElement("span");
         lastReview.appendChild(fbSpan);
-        fbSpan.innerHTML='  - <fb:name uid="' + lastReviewUserId + '" useyou="true" linked="true"></fb:name>';
+        fbSpan.innerHTML='  - <fb:name uid="' + lastReviewUserId + '" useyou="false" linked="true"></fb:name>';
       }
       
       tr.appendChild(lastReview);
+      */
       
       // Last Image
       var imageCell=document.createElement("td");
       if (dish.getAttribute("img")=="true") {
         var imageLink=document.createElement("a");
-        imageLink.setAttribute("href","reviewImage.jsp?reviewId="+lastReviewImageId);
+        imageLink.setAttribute("href","reviewImageUpdate?reviewId="+lastReviewImageId);
         var image=document.createElement("img");
         image.setAttribute("src","reviewThumbNailImage?reviewId="+lastReviewImageId);
         imageLink.appendChild(image);

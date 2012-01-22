@@ -33,6 +33,9 @@ public class UserFilter implements Filter {
           }
         }
         
+        // Set in request.
+        servletRequest.setAttribute("user",user);
+        
         filterChain.doFilter(new UserRoleRequestWrapper(user, httpServletRequest), servletResponse);
     }
     
