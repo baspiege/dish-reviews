@@ -54,7 +54,7 @@
     </servlet-mapping>
     <servlet-mapping>
       <servlet-name>reviewsOwn</servlet-name>
-      <url-pattern>/reviewOwn</url-pattern>
+      <url-pattern>/reviewsOwn</url-pattern>
     </servlet-mapping>
     
     <!-- Review Actions -->
