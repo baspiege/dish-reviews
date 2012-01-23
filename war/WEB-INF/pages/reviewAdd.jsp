@@ -2,9 +2,7 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="geonotes.utils.RequestUtils" %>
 <%
-    String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
