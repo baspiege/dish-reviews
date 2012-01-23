@@ -2,13 +2,6 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
-<%
-    ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    boolean isSignedIn=request.getUserPrincipal().getName()!= null;    
-    if (!isSignedIn) {
-        pageContext.forward("/storesRedirect.jsp");
-    }
-%>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
 <title><%=bundle.getString("myReviewsLabel")%></title>
