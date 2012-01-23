@@ -32,6 +32,10 @@
       <servlet-name>reviewVote</servlet-name>
       <servlet-class>geonotes.controller.ReviewVoteServlet</servlet-class>
     </servlet>
+    <servlet>
+      <servlet-name>reviewsOwn</servlet-name>
+      <servlet-class>geonotes.controller.ReviewsOwnServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
       <servlet-name>reviewAdd</servlet-name>
       <url-pattern>/reviewAdd</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
       <servlet-name>reviewVote</servlet-name>
       <url-pattern>/reviewVote</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>reviewsOwn</servlet-name>
+      <url-pattern>/reviewOwn</url-pattern>
     </servlet-mapping>
 
     <!-- Review images -->

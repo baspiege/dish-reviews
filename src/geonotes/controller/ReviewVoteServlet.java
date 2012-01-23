@@ -1,6 +1,5 @@
 package geonotes.controller;
 
-import geonotes.data.PMF;
 import geonotes.data.ReviewGetSingle;
 import geonotes.data.ReviewUpdateYesNo;
 import geonotes.data.ReviewUpdateUndoYesNo;
@@ -9,7 +8,6 @@ import geonotes.utils.RequestUtils;
 import geonotes.utils.StringUtils;
 import java.io.IOException;
 import java.util.ResourceBundle;
-import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
