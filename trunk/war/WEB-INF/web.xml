@@ -28,6 +28,10 @@
       <servlet-name>reviewUpdate</servlet-name>
       <servlet-class>geonotes.controller.ReviewUpdateServlet</servlet-class>
     </servlet>
+    <servlet>
+      <servlet-name>reviewVote</servlet-name>
+      <servlet-class>geonotes.controller.ReviewVoteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
       <servlet-name>reviewAdd</servlet-name>
       <url-pattern>/reviewAdd</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
       <servlet-name>reviewUpdate</servlet-name>
       <url-pattern>/reviewUpdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>reviewVote</servlet-name>
+      <url-pattern>/reviewVote</url-pattern>
     </servlet-mapping>
 
     <!-- Review images -->
