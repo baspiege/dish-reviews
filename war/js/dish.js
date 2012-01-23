@@ -239,7 +239,7 @@ function handleReviewsDataRequest(req) {
       if (isLoggedIn) {
           var voteDisplay=document.createElement("td");
           var voteLink=document.createElement("a");
-          voteLink.setAttribute("href","reviewVote.jsp?reviewId="+reviewId);
+          voteLink.setAttribute("href","reviewVote?reviewId="+reviewId);
           voteLink.setAttribute("class","center");
           voteLink.appendChild(document.createTextNode(vote));
           voteDisplay.appendChild(voteLink);

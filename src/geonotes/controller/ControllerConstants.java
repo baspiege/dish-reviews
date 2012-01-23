@@ -15,4 +15,5 @@ public class ControllerConstants {
     public static String REVIEW_ADD="/reviewAdd.jsp";
     public static String REVIEW_IMAGE="/reviewImage.jsp";
     public static String REVIEW_UPDATE="/reviewUpdate.jsp";
+    public static String REVIEW_VOTE="/reviewVote.jsp";
 }
