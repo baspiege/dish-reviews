@@ -1,9 +1,9 @@
 package geonotes.controller;
 
-import geonotes.data.DishGetSingle;
-import geonotes.data.ReviewAdd;
+import geonotes.data.DishAdd;
+import geonotes.data.StoreGetSingle;
 import geonotes.data.model.Dish;
-import geonotes.data.model.Review;
+import geonotes.data.model.Store;
 import geonotes.utils.RequestUtils;
 import geonotes.utils.StringUtils;
 import java.io.IOException;
@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
-* Process review adds.
+* Process dish adds.
 */
-public class ReviewAddServlet extends HttpServlet {
+public class DishAddServlet extends HttpServlet {
 
     /**
     * Display page.
@@ -27,12 +27,12 @@ public class ReviewAddServlet extends HttpServlet {
         } else {
             // Default note
             request.setAttribute("note","");
-            RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_ADD);
+            RequestUtils.forwardTo(request,response,ControllerConstants.DISH_ADD);
         }
     }
     
     /**
-    * Add review.
+    * Add dish.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     
@@ -50,16 +50,17 @@ public class ReviewAddServlet extends HttpServlet {
                 // Fields
                 RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
                 if (!RequestUtils.hasEdits(request)) {
-                    new ReviewAdd().execute(request);
+                    new DishAdd().execute(request);
                 }
             }
         }
         
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
+        
+            RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
         } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_ADD);
+            RequestUtils.forwardTo(request,response,ControllerConstants.DISH_ADD);
         }
     }    
     
@@ -76,14 +77,14 @@ public class ReviewAddServlet extends HttpServlet {
             return false;
         }
         
-        // Check dish       
-        Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
-        Dish dish=null;
-        if (dishId!=null) {
-            new DishGetSingle().execute(request);
-            dish=(Dish)request.getAttribute(RequestUtils.DISH);
+        // Check store       
+        Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
+        Store store=null;
+        if (storeId!=null) {
+            new StoreGetSingle().execute(request);
+            store=(Store)request.getAttribute(RequestUtils.STORE);
         }
-        if (dish==null) {
+        if (store==null) {
             return false;
         }
         

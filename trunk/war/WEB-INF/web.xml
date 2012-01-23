@@ -15,7 +15,7 @@
         </auth-constraint> 
     </security-constraint>
     
-    <!-- Review Updates -->
+    <!-- Review Actions -->
     <servlet>
       <servlet-name>reviewAdd</servlet-name>
       <servlet-class>geonotes.controller.ReviewAddServlet</servlet-class>
@@ -56,6 +56,17 @@
       <servlet-name>reviewsOwn</servlet-name>
       <url-pattern>/reviewOwn</url-pattern>
     </servlet-mapping>
+    
+    <!-- Review Actions -->
+    <servlet>
+      <servlet-name>dishAdd</servlet-name>
+      <servlet-class>geonotes.controller.DishAddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>dishAdd</servlet-name>
+      <url-pattern>/dishAdd</url-pattern>
+    </servlet-mapping>
+
 
     <!-- Review images -->
     <servlet>
