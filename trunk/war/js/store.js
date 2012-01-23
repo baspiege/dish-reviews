@@ -100,7 +100,7 @@ function handleDishesDataRequest(req) {
     // Show Add link if logged in
     if (isLoggedIn) {
       var addLink=document.createElement("a");
-      addLink.setAttribute("href","dishAdd.jsp?storeId="+storeId);
+      addLink.setAttribute("href","dishAdd?storeId="+storeId);
       addLink.setAttribute("class","add addTh");
       addLink.appendChild(document.createTextNode("Add"));
       thName.appendChild(addLink);
