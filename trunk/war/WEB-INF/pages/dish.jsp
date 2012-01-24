@@ -10,18 +10,14 @@
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     boolean isSignedIn=request.getUserPrincipal().getName()!= null;
-    
-    Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",false);
-    Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",false);
-    
-    Dish dish=null;
-    Store store=null;
-    if (dishId!=null) {
-        dish=RequestUtils.getDish(request,dishId);
-        store=RequestUtils.getStore(request,dish.storeId);
-    } else {
-        pageContext.forward("/storesRedirect.jsp");
-    }    
+    Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
+    Store store=(Store)request.getAttribute(RequestUtils.STORE);
+    String dishId=new Long(dish.getKey().getId()).toString();
+    Long reviewId=(Long)request.getAttribute("reviewId");
+    String reviewIdString="";
+    if (reviewId!=null) {
+        reviewIdString=new Long(reviewId).toString();
+    }
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
@@ -85,9 +81,7 @@ var isLoggedIn=<%=isSignedIn%>;
 <nav>
 <ul id="navlist" style="margin:0;padding:0;">
 <li><a href="stores.jsp">Main</a></li>
-<%
-    out.write("<li><a href=\"store.jsp?storeId=" + store.getKey().getId() + "\">" + HtmlUtils.escapeChars(store.note) + "</a></li>");
-%>
+<li><a href="store.jsp?storeId=<%=store.getKey().getId()%>"><%=HtmlUtils.escapeChars(store.note)%></a></li>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
 <ul>
@@ -102,7 +96,7 @@ var isLoggedIn=<%=isSignedIn%>;
 <% } %>
 
 <% if (reviewId!=null) { %>
-  <a class="add" href="#" onclick="window.location='dish.jsp?dishId=<%=dishId%>';return false;">All reviews</a>
+  <a class="add" href="#" onclick="window.location='dish?dishId=<%=dishId%>';return false;">All reviews</a>
 <% } %>
 </div>
 

@@ -161,7 +161,7 @@ function handleReviewsDataRequest(req) {
       // Dish
       var dishDesc=document.createElement("td");
       var dishDescLink=document.createElement("a");
-      dishDescLink.setAttribute("href","dish.jsp?dishId="+dishId);
+      dishDescLink.setAttribute("href","dish?dishId="+dishId);
       dishDescLink.appendChild(document.createTextNode(dishText));
       dishDesc.appendChild(dishDescLink);
       tr.appendChild(dishDesc);
@@ -175,7 +175,7 @@ function handleReviewsDataRequest(req) {
       // Review
       var descReview=document.createElement("td");
       var descReviewLink=document.createElement("a");
-      descReviewLink.setAttribute("href","dish.jsp?dishId="+dishId+"&reviewId="+reviewId);
+      descReviewLink.setAttribute("href","dish?dishId="+dishId+"&reviewId="+reviewId);
       descReviewLink.appendChild(document.createTextNode(reviewText));
       descReview.appendChild(descReviewLink);
       tr.appendChild(descReview);

@@ -51,6 +51,8 @@ var isLoggedIn=<%=isSignedIn%>;
     });
   };
   
+  setCookie("dishRevUser","1");
+  
   (function(d){
     var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
     js = d.createElement('script'); js.id = id; js.async = true;
@@ -63,7 +65,7 @@ var isLoggedIn=<%=isSignedIn%>;
 <nav>
 <ul id="navlist" style="margin:0;padding:0;">
 <% if (isSignedIn) { %>
-<li><a href='reviewsOwn.jsp'>My Reviews</a><li>
+<li><a href='reviewsOwn'>My Reviews</a><li>
 <% } %>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
