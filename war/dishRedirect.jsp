@@ -1,4 +1,4 @@
 <%@ page language="java"%>
 <% 
-    response.sendRedirect("dish.jsp?dishId=" + request.getAttribute("dishId"));
+    response.sendRedirect("dish?dishId=" + request.getAttribute("dishId"));
 %>
