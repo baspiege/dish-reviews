@@ -16,7 +16,7 @@ public class ControllerConstants {
     public static String REVIEW_IMAGE="/WEB-INF/pages/reviewImage.jsp";
     public static String REVIEW_UPDATE="/WEB-INF/pages/reviewUpdate.jsp";
     public static String REVIEW_VOTE="/WEB-INF/pages/reviewVote.jsp";
-    public static String REVIEWS_OWN="/WEB-INF/pages/reviewOwn.jsp";
+    public static String REVIEWS_OWN="/WEB-INF/pages/reviewsOwn.jsp";
     
     // Dish pages
     public static String DISH="/WEB-INF/pages/dish.jsp";
