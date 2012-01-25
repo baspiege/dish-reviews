@@ -59,22 +59,38 @@
     
     <!-- Dish Actions -->
     <servlet>
+      <servlet-name>dish</servlet-name>
+      <servlet-class>geonotes.controller.DishServlet</servlet-class>
+    </servlet>
+    <servlet>
       <servlet-name>dishAdd</servlet-name>
       <servlet-class>geonotes.controller.DishAddServlet</servlet-class>
     </servlet>
     <servlet>
-      <servlet-name>dish</servlet-name>
-      <servlet-class>geonotes.controller.DishServlet</servlet-class>
+      <servlet-name>dishUpdate</servlet-name>
+      <servlet-class>geonotes.controller.DishUpdateServlet</servlet-class>
     </servlet>
+    <servlet>
+      <servlet-name>dishVote</servlet-name>
+      <servlet-class>geonotes.controller.DishVoteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>dish</servlet-name>
+      <url-pattern>/dish</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
       <servlet-name>dishAdd</servlet-name>
       <url-pattern>/dishAdd</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-      <servlet-name>dish</servlet-name>
-      <url-pattern>/dish</url-pattern>
+      <servlet-name>dishUpdate</servlet-name>
+      <url-pattern>/dishUpdate</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+      <servlet-name>dishView</servlet-name>
+      <url-pattern>/dishView</url-pattern>
+    </servlet-mapping>
+    
     <!-- Review images -->
     <servlet>
       <servlet-name>reviewImage</servlet-name>

@@ -2,57 +2,11 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="geonotes.data.DishGetSingle" %>
-<%@ page import="geonotes.data.DishUpdateYesNo" %>
-<%@ page import="geonotes.data.DishUpdateUndoYesNo" %>
 <%@ page import="geonotes.data.model.Dish" %>
-<%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
-<%@ page import="geonotes.utils.StringUtils" %>
 <%
-    // Check if signed in
-    boolean isSignedIn=request.getUserPrincipal().getName()!=null;
-
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    String action=RequestUtils.getAlphaInput(request,"action","Action",false);
-    Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
-    RequestUtils.getAlphaInput(request,"vote","vote",false);
-
-    Dish dish=null;
-    if (dishId!=null) {
-        new DishGetSingle().execute(request);
-        // If note is null, forward to main page
-        dish=(Dish)request.getAttribute("dish");
-        if (dish==null) {
-            pageContext.forward("/storesRedirect.jsp");
-        } else {
-            if (!isSignedIn) {
-                pageContext.forward("/storesRedirect.jsp");
-            }
-            request.setAttribute("storeId",dish.storeId);
-        }
-    } else {
-        pageContext.forward("/storesRedirect.jsp");
-    }
-
-    // Process based on action
-    if (!StringUtils.isEmpty(action) && isSignedIn) {
-        if (action.equals(bundle.getString("likeLabel"))) {
-            if (!RequestUtils.hasEdits(request)) {
-                new DishUpdateYesNo().execute(request);
-            }
-            if (!RequestUtils.hasEdits(request)) {
-                pageContext.forward("/storeRedirect.jsp");
-            }
-        } else if (action.equals(bundle.getString("unlikeLabel"))) {		
-            if (!RequestUtils.hasEdits(request)) {
-                new DishUpdateUndoYesNo().execute(request);
-            }
-            if (!RequestUtils.hasEdits(request)) {
-                pageContext.forward("/storeRedirect.jsp");
-            }
-        }
-    }
+    Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>

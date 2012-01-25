@@ -2,64 +2,15 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="java.util.TimeZone" %>
-<%@ page import="geonotes.data.DishDelete" %>
-<%@ page import="geonotes.data.DishGetSingle" %>
-<%@ page import="geonotes.data.DishUpdate" %>
 <%@ page import="geonotes.data.model.Dish" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
-<%@ page import="geonotes.utils.StringUtils" %>
 <%
-    // Check if signed in
-    boolean isSignedIn=request.getUserPrincipal().getName()!=null;
-
-    String action=RequestUtils.getAlphaInput(request,"action","Action",false);
-    ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
-
-    Dish dish=null;
-    if (dishId!=null) {
-        new DishGetSingle().execute(request);
-        // If dish is null, forward to main page
-        dish=(Dish)request.getAttribute("dish");
-        if (dish==null) {
-            pageContext.forward("/storesRedirect.jsp");
-        } else {
-            if (!isSignedIn) {
-                pageContext.forward("/dishRedirect.jsp");
-            }
-            request.setAttribute("storeId",dish.storeId);
-        }
-    } else {
-        pageContext.forward("/storesRedirect.jsp");
-    }
-
-    // Process based on action
-    if (!StringUtils.isEmpty(action) && isSignedIn) {
-        if (action.equals(bundle.getString("updateLabel"))) {		
-            // Fields
-            RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
-            if (!RequestUtils.hasEdits(request)) {
-                new DishUpdate().execute(request);
-            }
-            if (!RequestUtils.hasEdits(request)) {
-                pageContext.forward("/dishRedirect.jsp");
-            }
-        } else if (action.equals(bundle.getString("deleteLabel"))) {		
-            if (!RequestUtils.hasEdits(request)) {
-                new DishDelete().execute(request);
-            }
-            if (!RequestUtils.hasEdits(request)) {
-                pageContext.forward("/storeRedirect.jsp");
-            }
-        }
-    }
-
     SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy MMM dd h:mm aa zzz");
     dateFormat.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+    Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>

@@ -12,7 +12,7 @@
     boolean isSignedIn=request.getUserPrincipal().getName()!= null;
     Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
     Store store=(Store)request.getAttribute(RequestUtils.STORE);
-    String dishId=new Long(dish.getKey().getId()).toString();
+    String dishIdString=new Long(dish.getKey().getId()).toString();
     Long reviewId=(Long)request.getAttribute("reviewId");
     String reviewIdString="";
     if (reviewId!=null) {
@@ -25,7 +25,7 @@
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="/js/dish.js" ></script>
 <script type="text/javascript">
-var dishId=<%=dishId%>;
+var dishId=<%=dishIdString%>;
 var dishName="<%= JSUtils.escapeChars(dish.note) %>";
 var storeName="<%= JSUtils.escapeChars(store.note) %>";
 var reviewId=<%=reviewId%>;
@@ -90,13 +90,13 @@ var isLoggedIn=<%=isSignedIn%>;
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <div style="margin-top:1.5em">
 <% if (isSignedIn) { %>
-  <a href="dishUpdate.jsp?dishId=<%=dishId%>"><%= HtmlUtils.escapeChars(dish.note) %></a>
+  <a href="dishUpdate.jsp?dishId=<%=dishIdString%>"><%= HtmlUtils.escapeChars(dish.note) %></a>
 <% } else { %>
   <%= HtmlUtils.escapeChars(dish.note) %>
 <% } %>
 
 <% if (reviewId!=null) { %>
-  <a class="add" href="#" onclick="window.location='dish?dishId=<%=dishId%>';return false;">All reviews</a>
+  <a class="add" href="#" onclick="window.location='dish?dishId=<%=dishIdString%>';return false;">All reviews</a>
 <% } %>
 </div>
 
