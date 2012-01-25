@@ -53,6 +53,9 @@ public class DishServlet extends HttpServlet {
 
         // Optional - reviewId
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",false);
+        if (RequestUtils.hasEdits(request)){
+            return false;
+        }
     
         return true;
     }
