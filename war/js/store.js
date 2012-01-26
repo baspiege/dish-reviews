@@ -72,7 +72,7 @@ function checkForMoreDishes() {
 }
 
 function getDishesData() {
-  sendRequest('../data/dishes.jsp?storeId='+storeId+'&start='+startIndexReview+'&sortBy='+sortBy, handleDishesDataRequest);
+  sendRequest('dishesXml?storeId='+storeId+'&start='+startIndexReview+'&sortBy='+sortBy, handleDishesDataRequest);
 }
 
 function handleDishesDataRequest(req) {

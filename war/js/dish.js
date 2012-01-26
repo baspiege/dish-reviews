@@ -88,11 +88,11 @@ function checkForMoreReviews() {
 }
 
 function getReviewsData() {
-  sendRequest('../data/reviews.jsp?dishId='+dishId+'&start=' + startIndexReview, handleReviewsDataRequest);
+  sendRequest('reviewsXml?dishId='+dishId+'&start=' + startIndexReview, handleReviewsDataRequest);
 }
 
 function getReviewsDataById() {
-  sendRequest('../data/reviews.jsp?reviewId='+reviewId, handleReviewsDataRequest);
+  sendRequest('reviewsXml?reviewId='+reviewId, handleReviewsDataRequest);
 }
 
 function handleReviewsDataRequest(req) {
