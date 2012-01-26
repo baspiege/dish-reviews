@@ -116,7 +116,7 @@ function handleStoresDataRequest(req) {
   // Show Add link if logged in
   if (isLoggedIn) {
     var addLink=document.createElement("a");
-    addLink.setAttribute("href","storeAddLocation.jsp");
+    addLink.setAttribute("href","storeAddLocation");
     addLink.setAttribute("class","add addTh");
     addLink.appendChild(document.createTextNode("Add"));
     thName.appendChild(addLink);
@@ -164,14 +164,14 @@ function handleStoresDataRequest(req) {
       // Desc
       var desc=document.createElement("td");
       var descLink=document.createElement("a");
-      descLink.setAttribute("href","store.jsp?storeId="+storeId);
+      descLink.setAttribute("href","store?storeId="+storeId);
       var text=store.getAttribute("text");
       descLink.appendChild(document.createTextNode(text));
       desc.appendChild(descLink);
       /*
       if (isLoggedIn) {
         var editLink=document.createElement("a");
-        editLink.setAttribute("href","storeUpdate.jsp?storeId="+storeId);
+        editLink.setAttribute("href","storeUpdate?storeId="+storeId);
         editLink.setAttribute("class","edit");
         editLink.appendChild(document.createTextNode("edit"));
         desc.appendChild(document.createTextNode(' '));
@@ -184,7 +184,7 @@ function handleStoresDataRequest(req) {
       var type=document.createElement("td");
       type.setAttribute("class","center");
       var typeLink=document.createElement("a");
-      typeLink.setAttribute("href","store.jsp?storeId="+storeId);
+      typeLink.setAttribute("href","store?storeId="+storeId);
       typeLink.appendChild(document.createTextNode(store.getAttribute("dishCount")));
       type.appendChild(typeLink);
       tr.appendChild(type);
@@ -195,19 +195,6 @@ function handleStoresDataRequest(req) {
     tableDiv.appendChild(table);
     updateNotesDispay();
   }
-}
-
-///////////////////
-// Votes
-///////////////////
-
-function sendYesVote(elem) {
-  var tr=elem.parentNode.parentNode;
-  var yes=parseInt(tr.getAttribute("yes"));
-  var storeId=parseInt(tr.getAttribute("storeId"));
-  tr.setAttribute("yes",yes+1);
-  elem.innerHTML=yes+1;
-  sendRequest('storeVote.jsp?vote=yes&storeId='+storeId);
 }
 
 ///////////////////
@@ -440,7 +427,7 @@ function updateNotesDispay() {
     // Bearing
     var bearingDegrees=calculateBearing(latitude, longitude, noteLat, noteLon);
     display+=" " + getCardinalDirection(bearingDegrees);
-    display="<a href='storeUpdateLocation.jsp?storeId=" + note.getAttribute("storeId") + "'>"+display+"</a>";
+    display="<a href='storeUpdateLocation?storeId=" + note.getAttribute("storeId") + "'>"+display+"</a>";
     // Update direction display
     note.getElementsByTagName("td")[0].innerHTML=display;
   }

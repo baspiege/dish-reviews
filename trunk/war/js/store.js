@@ -168,14 +168,14 @@ function handleDishesDataRequest(req) {
       // Dish
       var dishDesc=document.createElement("td");
       var dishDescLink=document.createElement("a");
-      dishDescLink.setAttribute("href","dish.jsp?dishId="+dishId);
+      dishDescLink.setAttribute("href","dish?dishId="+dishId);
       dishDescLink.appendChild(document.createTextNode(dishText));
       dishDesc.appendChild(dishDescLink);
       
       /*
       if (isLoggedIn) {
         var editLink=document.createElement("a");
-        editLink.setAttribute("href","dishUpdate.jsp?dishId="+dishId);
+        editLink.setAttribute("href","dishUpdate?dishId="+dishId);
         editLink.setAttribute("class","edit");
         editLink.appendChild(document.createTextNode("edit"));
         dishDesc.appendChild(document.createTextNode(' '));
@@ -189,7 +189,7 @@ function handleDishesDataRequest(req) {
       if (isLoggedIn) {
           var voteDisplay=document.createElement("td");
           var voteLink=document.createElement("a");
-          voteLink.setAttribute("href","dishVote.jsp?dishId="+dishId);
+          voteLink.setAttribute("href","dishVote?dishId="+dishId);
           voteLink.setAttribute("class","center");
           voteLink.appendChild(document.createTextNode(vote));
           voteDisplay.appendChild(voteLink);
@@ -206,7 +206,7 @@ function handleDishesDataRequest(req) {
       var lastReview=document.createElement("td");
       if (lastReviewText) {
         var reviewLink=document.createElement("a");
-        reviewLink.setAttribute("href","dish.jsp?dishId="+dishId);
+        reviewLink.setAttribute("href","dish?dishId="+dishId);
         reviewLink.appendChild(document.createTextNode(lastReviewText));
         lastReview.appendChild(reviewLink);
       } else if (isLoggedIn) {
