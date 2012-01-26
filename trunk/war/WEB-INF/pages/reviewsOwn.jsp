@@ -4,6 +4,9 @@
 <%@ page import="java.util.ResourceBundle" %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
+<%
+    ResourceBundle bundle = ResourceBundle.getBundle("Text");
+%>
 <title><%=bundle.getString("myReviewsLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="/js/reviewsOwn.js" ></script>

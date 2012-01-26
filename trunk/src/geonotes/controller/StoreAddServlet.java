@@ -26,6 +26,10 @@ public class StoreAddServlet extends HttpServlet {
         } else {
             // Default note
             request.setAttribute("note","");
+            // Get fields passed in
+            ResourceBundle bundle = ResourceBundle.getBundle("Text");
+            RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
+            RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_ADD);
         }
     }

@@ -33,30 +33,34 @@ public class DishUpdateServlet extends HttpServlet {
     * Update or delete dish.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
         if (!setUpData(request)) {
             RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
             return;
         }
-        
+
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-     
+        
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("updateLabel"))) {		
-                // Fields
                 RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
-                if (!RequestUtils.hasEdits(request)) {
-                    new DishUpdate().execute(request);
-                }
+                updateAction(request,response);
             } else if (action.equals(bundle.getString("deleteLabel"))) {		
-                if (!RequestUtils.hasEdits(request)) {
-                    new DishDelete().execute(request);
-                }
+                deleteAction(request,response);
             }
+        } else {
+            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);        
         }
-        
+    }    
+    
+    /**
+    * Update action.
+    */
+    private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+        if (!RequestUtils.hasEdits(request)) {
+            new DishUpdate().execute(request);
+        }
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
             Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
@@ -65,7 +69,24 @@ public class DishUpdateServlet extends HttpServlet {
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_UPDATE);
         }
-    }    
+    }
+
+    /**
+    * Delete action.
+    */
+    private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+        if (!RequestUtils.hasEdits(request)) {
+            new DishDelete().execute(request);
+        }    
+        // If no edits, forward to store.
+        if (!RequestUtils.hasEdits(request)) {
+            Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
+            request.setAttribute("storeId",dish.storeId);
+            RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
+        } else {
+            RequestUtils.forwardTo(request,response,ControllerConstants.DISH_UPDATE);
+        }
+    }
     
     /**
     * Set-up the data.

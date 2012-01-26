@@ -32,8 +32,7 @@ public class ReviewUpdateServlet extends HttpServlet {
     /**
     * Update or delete review.
     */
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
         if (!setUpData(request)) {
             RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
             return;
@@ -41,22 +40,27 @@ public class ReviewUpdateServlet extends HttpServlet {
         
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-     
+        
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("updateLabel"))) {		
-                // Fields
-                RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
-                if (!RequestUtils.hasEdits(request)) {
-                    new ReviewUpdate().execute(request);
-                }
+                RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
+                updateAction(request,response);
             } else if (action.equals(bundle.getString("deleteLabel"))) {		
-                if (!RequestUtils.hasEdits(request)) {
-                    new ReviewDelete().execute(request);
-                }
+                deleteAction(request,response);
             }
+        } else {
+            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);        
         }
-        
+    }    
+    
+    /**
+    * Update action.
+    */
+    private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!RequestUtils.hasEdits(request)) {
+            new ReviewUpdate().execute(request);
+        }
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
             Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
@@ -65,7 +69,24 @@ public class ReviewUpdateServlet extends HttpServlet {
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_UPDATE);
         }
-    }    
+    }
+
+    /**
+    * Delete action.
+    */
+    private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+        if (!RequestUtils.hasEdits(request)) {
+            new ReviewDelete().execute(request);
+        }    
+        // If no edits, forward to dish.
+        if (!RequestUtils.hasEdits(request)) {
+            Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
+            request.setAttribute("dishId",review.dishId);
+            RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
+        } else {
+            RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_UPDATE);
+        }
+    }
     
     /**
     * Set-up the data.
