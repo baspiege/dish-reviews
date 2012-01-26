@@ -33,7 +33,7 @@ public class StoreGetSingle {
             Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
 
             // Set into request
-            aRequest.setAttribute("store", store);
+            aRequest.setAttribute(RequestUtils.STORE, store);
 
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

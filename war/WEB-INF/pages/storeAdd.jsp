@@ -1,41 +1,15 @@
-<%-- This JSP has the HTML for stores page. --%>
+<%-- This JSP has the HTML for store add page. --%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="geonotes.data.StoreAdd" %>
 <%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
-<%@ page import="geonotes.utils.StringUtils" %>
-<%
-    // Check if signed in
-    boolean isSignedIn=request.getUserPrincipal().getName()!= null;
-    if (!isSignedIn) {
-        pageContext.forward("/storesRedirect.jsp");
-    }
-    
+<%    
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-
-    // Fields
-    String note="";
-    Double latitude=RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
-    Double longitude=RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);		
-
-    // Process based on action
-    if (!StringUtils.isEmpty(action)) {
-        if (action.equals(bundle.getString("addLabel"))) {		
-            // Get fields
-            note=RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
-            RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
-            RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
-            if (!RequestUtils.hasEdits(request)) {
-                new StoreAdd().execute(request);
-                Store store=(Store)request.getAttribute("store");
-                request.setAttribute("storeId",store.getKey().getId());
-                pageContext.forward("/storeRedirect.jsp");
-            }
-        }
-    }
+    String note=(String)request.getAttribute("note");
+    String latitude=((Double)request.getAttribute("note")).toString();
+    String longitude=((Double)request.getAttribute("note")).toString();
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
@@ -45,13 +19,13 @@
 <body>
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <%-- Fields --%>
-<form id="store" method="post" action="storeAdd.jsp" autocomplete="off">
+<form id="store" method="post" action="storeAdd" autocomplete="off">
 <table>
 <tr><td><%=bundle.getString("nameLabel")%>:</td><td><input type="text" name="note" value="<%=note%>" id="note" title="<%=bundle.getString("nameLabel")%>" maxlength="500"/></td></tr>
 </table>
 <p>
 <%-- Cancel --%>
-<input class="button" type="button" name="action" value="<%=bundle.getString("cancelLabel")%>" onclick="window.location='stores.jsp';return false;"/>
+<input class="button" type="button" name="action" value="<%=bundle.getString("cancelLabel")%>" onclick="window.location='stores';return false;"/>
 <%-- Add --%>
 <input id="latitude" type="hidden" name="latitude" value="<%=latitude%>" />
 <input id="longitude" type="hidden" name="longitude" value="<%=longitude%>" />

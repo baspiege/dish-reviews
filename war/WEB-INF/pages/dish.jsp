@@ -80,8 +80,8 @@ var isLoggedIn=<%=isSignedIn%>;
 
 <nav>
 <ul id="navlist" style="margin:0;padding:0;">
-<li><a href="stores.jsp">Main</a></li>
-<li><a href="store.jsp?storeId=<%=store.getKey().getId()%>"><%=HtmlUtils.escapeChars(store.note)%></a></li>
+<li><a href="stores">Main</a></li>
+<li><a href="store?storeId=<%=store.getKey().getId()%>"><%=HtmlUtils.escapeChars(store.note)%></a></li>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
 <ul>
@@ -90,7 +90,7 @@ var isLoggedIn=<%=isSignedIn%>;
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <div style="margin-top:1.5em">
 <% if (isSignedIn) { %>
-  <a href="dishUpdate.jsp?dishId=<%=dishIdString%>"><%= HtmlUtils.escapeChars(dish.note) %></a>
+  <a href="dishUpdate?dishId=<%=dishIdString%>"><%= HtmlUtils.escapeChars(dish.note) %></a>
 <% } else { %>
   <%= HtmlUtils.escapeChars(dish.note) %>
 <% } %>

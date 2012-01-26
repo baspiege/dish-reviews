@@ -9,41 +9,8 @@
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%@ page import="geonotes.utils.StringUtils" %>
 <%
-    // Check if signed in
-    boolean isSignedIn=request.getUserPrincipal().getName()!=null;
-
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
-
-    Store store=null;
-    if (storeId!=null) {
-        new StoreGetSingle().execute(request);
-        // If note is null, forward to main page
-        store=(Store)request.getAttribute("store");
-        if (store==null) {
-            pageContext.forward("/storesRedirect.jsp");
-        }
-    } else {
-        pageContext.forward("/storesRedirect.jsp");
-    }
-
-    // Process based on action
-    if (!StringUtils.isEmpty(action) && isSignedIn) {
-        if (action.equals(bundle.getString("updateLabel"))) {		
-            // Fields
-            RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
-            RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);		
-            if (!RequestUtils.hasEdits(request)) {
-                new StoreUpdate().execute(request);
-            }
-            if (!RequestUtils.hasEdits(request)) {
-                pageContext.forward("/storeRedirect.jsp");
-            }
-        } else {
-            pageContext.forward("/storesRedirect.jsp");
-        }
-    }
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>

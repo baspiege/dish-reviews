@@ -1,4 +1,4 @@
 <%@ page language="java"%>
 <% 
-    response.sendRedirect("stores.jsp");
+    response.sendRedirect("stores");
 %>

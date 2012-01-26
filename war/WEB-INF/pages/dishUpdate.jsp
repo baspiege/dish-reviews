@@ -19,7 +19,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-<form id="dish" method="post" action="dishUpdate.jsp" autocomplete="off">
+<form id="dish" method="post" action="dishUpdate" autocomplete="off">
 <table>
 <tr><td><%=bundle.getString("nameLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(dish.note)%>" id="note" title="<%=bundle.getString("nameLabel")%>" maxlength="500"/></td></tr>
 <tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(dish.lastUpdateTime)%></td></tr>

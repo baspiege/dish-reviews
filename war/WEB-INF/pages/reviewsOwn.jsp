@@ -34,7 +34,7 @@
     FB.Event.subscribe('auth.logout', function(response) {
       setCookie("dishRevUser","",-1);
       // Commenting out because some browsers fire this event even when logged in.
-      //window.location="stores.jsp";
+      //window.location="stores";
     });
   };
   
@@ -49,7 +49,7 @@
 
 <nav>
 <ul id="navlist" style="margin:0;padding:0;">
-<li><a href="stores.jsp">Main</a></li>
+<li><a href="stores">Main</a></li>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
 <ul>

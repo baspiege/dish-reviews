@@ -60,7 +60,7 @@ public class DishAdd {
             dishHistory.setUser(dish.user);
             pm.makePersistent(dishHistory);
 
-            aRequest.setAttribute("dish", dish);
+            aRequest.setAttribute(RequestUtils.DISH, dish);
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();

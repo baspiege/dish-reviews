@@ -27,7 +27,9 @@ public class ControllerConstants {
     // Store pages
     public static String STORE="/WEB-INF/pages/store.jsp";
     public static String STORE_ADD="/WEB-INF/pages/storeAdd.jsp";
+    public static String STORE_ADD_LOCATION="/WEB-INF/pages/storeAddLocation.jsp";  
     public static String STORE_UPDATE="/WEB-INF/pages/storeUpdate.jsp";
+    public static String STORE_UPDATE_LOCATION="/WEB-INF/pages/storeUpdateLocation.jsp";
     
     // Main page
     public static String STORES="/WEB-INF/pages/stores.jsp";

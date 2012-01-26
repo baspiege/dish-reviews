@@ -1,8 +1,7 @@
-<%-- This JSP has the HTML for dishes page. --%>
+<%-- This JSP has the HTML for store page. --%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="geonotes.data.StoreGetSingle" %>
 <%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
@@ -11,10 +10,7 @@
     boolean isSignedIn=request.getUserPrincipal().getName()!= null; 
     
     Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
-    Store store=null;
-    if (storeId!=null) {
-        store=RequestUtils.getStore(request,storeId);
-    }
+    Store store=(Store)request.getAttribute(RequestUtils.STORE);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
@@ -69,7 +65,7 @@ var isLoggedIn=<%=isSignedIn%>;
 
 <nav>
 <ul id="navlist" style="margin:0;padding:0;">
-<li><a href="stores.jsp">Main</a></li>
+<li><a href="stores">Main</a></li>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
 <ul>
@@ -78,11 +74,11 @@ var isLoggedIn=<%=isSignedIn%>;
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <div style="margin-top:1.5em">
 <% if (isSignedIn) { %>
-  <a href="storeUpdate.jsp?storeId=<%=storeId%>"><%= HtmlUtils.escapeChars(store.note) %></a>
+  <a href="storeUpdate?storeId=<%=storeId%>"><%= HtmlUtils.escapeChars(store.note) %></a>
 <% } else { %>
   <%= HtmlUtils.escapeChars(store.note) %>
 <% } %>
-<a href="storeUpdateLocation.jsp?storeId=<%=storeId%>" class="edit">location</a>
+<a href="storeUpdateLocation?storeId=<%=storeId%>" class="edit">location</a>
 </div>
 <%-- Data --%>
 <div class="data" id="data">
