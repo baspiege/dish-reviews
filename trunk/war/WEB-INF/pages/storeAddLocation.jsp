@@ -16,7 +16,7 @@
   <tr><td><%=bundle.getString("addressLabel")%>:</td><td><span id="address"></span></td></tr>
 </table>
 <div style="margin-top:1em;margin-bottom:1em;">
-<form id="store" method="post" action="storeAdd" autocomplete="off">
+<form id="store" method="get" action="storeAdd" autocomplete="off">
 <%-- Update --%>
 <input id="latitude" type="hidden" name="latitude" value="" />
 <input id="longitude" type="hidden" name="longitude" value="" />

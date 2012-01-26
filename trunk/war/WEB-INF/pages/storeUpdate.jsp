@@ -21,7 +21,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-<form id="store" method="post" action="storeUpdate.jsp" autocomplete="off">
+<form id="store" method="post" action="storeUpdate" autocomplete="off">
 <table>
 <tr><td><%=bundle.getString("nameLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(store.note)%>" id="note" title="<%=bundle.getString("nameLabel")%>" maxlength="500"/></td></tr>
 <tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(store.lastUpdateTime)%></td></tr>
