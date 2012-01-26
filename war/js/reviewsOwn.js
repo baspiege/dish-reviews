@@ -153,7 +153,7 @@ function handleReviewsDataRequest(req) {
       // Store
       var storeDesc=document.createElement("td");
       var storeDescLink=document.createElement("a");
-      storeDescLink.setAttribute("href","store.jsp?storeId="+storeId);
+      storeDescLink.setAttribute("href","store?storeId="+storeId);
       storeDescLink.appendChild(document.createTextNode(storeText));
       storeDesc.appendChild(storeDescLink);
       tr.appendChild(storeDesc);
