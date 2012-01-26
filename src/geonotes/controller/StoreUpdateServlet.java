@@ -45,23 +45,43 @@ public class StoreUpdateServlet extends HttpServlet {
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("updateLabel"))) {		
-                // Fields
                 RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
-                if (!RequestUtils.hasEdits(request)) {
-                    new StoreUpdate().execute(request);
-                }
+                updateAction(request,response);
             } else if (action.equals(bundle.getString("deleteLabel"))) {		
-                if (!RequestUtils.hasEdits(request)) {
-                    new StoreDelete().execute(request);
-                }
+                deleteAction(request,response);
             }
+        } else {
+            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);        
         }
-        
-        // If no edits, forward to dish.
+    }    
+    
+    /**
+    * Update action.
+    */
+    private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!RequestUtils.hasEdits(request)) {
+            new StoreUpdate().execute(request);
+        }
+        // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
             Store store=(Store)request.getAttribute(RequestUtils.STORE);
             request.setAttribute("storeId",store.getKey().getId());
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
+        } else {
+            RequestUtils.forwardTo(request,response,ControllerConstants.STORE_UPDATE);
+        }
+    }
+
+    /**
+    * Delete action.
+    */
+    private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+        if (!RequestUtils.hasEdits(request)) {
+            new StoreDelete().execute(request);
+        }    
+        // If no edits, forward to stores.
+        if (!RequestUtils.hasEdits(request)) {
+            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_UPDATE);
         }
@@ -90,7 +110,6 @@ public class StoreUpdateServlet extends HttpServlet {
         if (store==null) {
             return false;
         }
-        
         
         return true;
     }

@@ -56,8 +56,7 @@ public class DishAddServlet extends HttpServlet {
         }
         
         // If no edits, forward to dish.
-        if (!RequestUtils.hasEdits(request)) {
-        
+        if (!RequestUtils.hasEdits(request)) {        
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_ADD);

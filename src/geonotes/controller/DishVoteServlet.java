@@ -56,11 +56,11 @@ public class DishVoteServlet extends HttpServlet {
             }
         }
         
-        // If no edits, forward to dish.
+        // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
             Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
-            request.setAttribute("dishId",dish.getKey().getId());
-            RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
+            request.setAttribute("storeId",dish.storeId);
+            RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_VOTE);
         }
