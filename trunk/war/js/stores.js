@@ -84,7 +84,7 @@ function getStoresData() {
   // Get position and send request
   var lat=getCookie("latitude");
   var lon=getCookie("longitude");
-  sendRequest('../data/stores.jsp?latitude='+lat+'&longitude='+lon, handleStoresDataRequest);
+  sendRequest('storesXml?latitude='+lat+'&longitude='+lon, handleStoresDataRequest);
 }
 
 function handleStoresDataRequest(req) {

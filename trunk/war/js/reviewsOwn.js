@@ -71,7 +71,7 @@ function checkForMoreReviews() {
 }
 
 function getReviewsData() {
-  sendRequest('../data/reviewsOwn.jsp?start=' + startIndexReview, handleReviewsDataRequest);
+  sendRequest('reviewsOwnXml?start=' + startIndexReview, handleReviewsDataRequest);
 }
 
 function handleReviewsDataRequest(req) {

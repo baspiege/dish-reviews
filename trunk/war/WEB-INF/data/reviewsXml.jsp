@@ -1,32 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<%-- This JSP has the HTML for reviews own table. --%>
+<%-- This JSP has the HTML for reviews table. --%>
 <%@page pageEncoding="UTF-8" contentType="text/xml; charset=UTF-8" %>
 <%@ page language="java"%>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.ResourceBundle" %>
-<%@ page import="geonotes.data.ReviewsGetAll" %>
-<%@ page import="geonotes.data.ReviewGetSingle" %>
 <%@ page import="geonotes.data.model.Review" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
-<%@ page import="geonotes.utils.RequestUtils" %>
-<%
-    ResourceBundle bundle = ResourceBundle.getBundle("Text");    
-    RequestUtils.getNumericInput(request,"dishId",bundle.getString("dishId"),true);
-    RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
-    Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",false);
-    
-    List<Review> reviews=null;
-    if (reviewId!=null) {
-       new ReviewGetSingle().execute(request);
-       // Add to list.
-       reviews=new ArrayList<Review>();
-       reviews.add((Review)request.getAttribute(RequestUtils.REVIEW));
-    } else {   
-        new ReviewsGetAll().execute(request);
-        reviews=(List<Review>)request.getAttribute("reviews");
-    }
-    
+<%    
+    List<Review> reviews=(List<Review>)request.getAttribute("reviews");
     String user=(String)request.getAttribute("user");
 %>
 <reviews>

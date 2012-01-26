@@ -179,6 +179,41 @@
       <url-pattern>/locationChange</url-pattern>
     </servlet-mapping>
     
+    <!-- Xml -->
+    <servlet>
+      <servlet-name>storesXml</servlet-name>
+      <servlet-class>geonotes.controller.StoresXmlServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>storesXml</servlet-name>
+      <url-pattern>/storesXml</url-pattern>
+    </servlet-mapping>
+    <servlet>
+      <servlet-name>dishesXml</servlet-name>
+      <servlet-class>geonotes.controller.DishesXmlServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>dishesXml</servlet-name>
+      <url-pattern>/dishesXml</url-pattern>
+    </servlet-mapping>
+    <servlet>
+      <servlet-name>reviewsXml</servlet-name>
+      <servlet-class>geonotes.controller.ReviewsXmlServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>reviewsXml</servlet-name>
+      <url-pattern>/reviewsXml</url-pattern>
+    </servlet-mapping>
+    <servlet>
+      <servlet-name>reviewsOwnXml</servlet-name>
+      <servlet-class>geonotes.controller.ReviewsOwnXmlServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>reviewsOwnXml</servlet-name>
+      <url-pattern>/reviewsOwnXml</url-pattern>
+    </servlet-mapping>
+    
+    
     <!-- User filter -->
     <filter>
       <filter-name>UserFilter</filter-name>
