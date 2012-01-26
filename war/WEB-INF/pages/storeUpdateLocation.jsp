@@ -3,14 +3,12 @@
 <%@ page language="java"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
-<%@ page import="geonotes.data.StoreGetSingle" %>
-<%@ page import="geonotes.data.StoreUpdate" %>
 <%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
-<%@ page import="geonotes.utils.StringUtils" %>
 <%
-    String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
+    boolean isSignedIn=request.getUserPrincipal().getName()!= null;
+    Store store=(Store)request.getAttribute(RequestUtils.STORE);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
@@ -27,7 +25,7 @@
 <div style="margin-top:1em;margin-bottom:1em;">
 <%-- Signed In --%>
 <% if (isSignedIn) { %>
-<form id="store" method="post" action="storeUpdateLocation.jsp" autocomplete="off">
+<form id="store" method="post" action="storeUpdateLocation" autocomplete="off">
 <%-- Update --%>
 <input class="button" type="submit" name="action" onclick="setFieldsFromLocalStorage();" value="<%=bundle.getString("updateLabel")%>"/>
 <input id="latitude" type="hidden" name="latitude" value="" />

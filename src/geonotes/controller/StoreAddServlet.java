@@ -26,8 +26,6 @@ public class StoreAddServlet extends HttpServlet {
         } else {
             // Default note
             request.setAttribute("note","");
-            request.setAttribute("latitude",new Double(0));
-            request.setAttribute("longitude",new Double(0));
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_ADD);
         }
     }

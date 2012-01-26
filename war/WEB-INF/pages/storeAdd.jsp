@@ -5,11 +5,10 @@
 <%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%    
-    String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     String note=(String)request.getAttribute("note");
-    String latitude=((Double)request.getAttribute("note")).toString();
-    String longitude=((Double)request.getAttribute("note")).toString();
+    String latitude=((Double)request.getAttribute("latitude")).toString();
+    String longitude=((Double)request.getAttribute("longitude")).toString();
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
