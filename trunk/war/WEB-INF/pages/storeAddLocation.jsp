@@ -4,11 +4,6 @@
 <%@ page import="java.util.ResourceBundle" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
 <%
-    // Check if signed in
-    boolean isSignedIn=request.getUserPrincipal().getName()!=null;
-    if (!isSignedIn) {
-        pageContext.forward("/storesRedirect.jsp");
-    }
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
 %>
 <title><%=bundle.getString("adjustLocationLabel")%></title>
@@ -21,7 +16,7 @@
   <tr><td><%=bundle.getString("addressLabel")%>:</td><td><span id="address"></span></td></tr>
 </table>
 <div style="margin-top:1em;margin-bottom:1em;">
-<form id="store" method="post" action="storeAdd.jsp" autocomplete="off">
+<form id="store" method="post" action="storeAdd" autocomplete="off">
 <%-- Update --%>
 <input id="latitude" type="hidden" name="latitude" value="" />
 <input id="longitude" type="hidden" name="longitude" value="" />

@@ -1,4 +1,4 @@
 <%@ page language="java"%>
 <% 
-    response.sendRedirect("store.jsp?storeId=" + request.getAttribute("storeId"));
+    response.sendRedirect("store?storeId=" + request.getAttribute("storeId"));
 %>

@@ -2,62 +2,17 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="java.util.TimeZone" %>
-<%@ page import="geonotes.data.StoreDelete" %>
-<%@ page import="geonotes.data.StoreGetSingle" %>
-<%@ page import="geonotes.data.StoreUpdate" %>
 <%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
-<%@ page import="geonotes.utils.StringUtils" %>
-<%
-    // Check if signed in
-    boolean isSignedIn=request.getUserPrincipal().getName()!=null;
-    if (!isSignedIn) {
-        pageContext.forward("/storesRedirect.jsp");
-    }
-    
+<%    
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
-
-    Store store=null;
-    if (storeId!=null) {
-        new StoreGetSingle().execute(request);
-        // If note is null, forward to main page
-        store=(Store)request.getAttribute("store");
-        if (store==null) {
-            pageContext.forward("/storesRedirect.jsp");
-        }
-    } else {
-        pageContext.forward("/storesRedirect.jsp");
-    }
-
-    // Process based on action
-    if (!StringUtils.isEmpty(action) && isSignedIn) {
-        if (action.equals(bundle.getString("updateLabel"))) {		
-            // Fields
-            RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
-            if (!RequestUtils.hasEdits(request)) {
-                new StoreUpdate().execute(request);
-            }
-            if (!RequestUtils.hasEdits(request)) {
-                pageContext.forward("/storeRedirect.jsp");
-            }
-        } else if (action.equals(bundle.getString("deleteLabel"))) {		
-            if (!RequestUtils.hasEdits(request)) {
-                new StoreDelete().execute(request);
-            }
-            if (!RequestUtils.hasEdits(request)) {
-                pageContext.forward("/storesRedirect.jsp");
-            }
-        }
-    }
-
     SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy MMM dd h:mm aa zzz");
     dateFormat.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+    Store store=(Store)request.getAttribute(RequestUtils.STORE);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>

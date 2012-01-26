@@ -33,7 +33,7 @@ public class DishGetSingle {
             Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
 
             // Set into request
-            aRequest.setAttribute("dish", dish);
+            aRequest.setAttribute(RequestUtils.DISH, dish);
 
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

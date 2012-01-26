@@ -4,7 +4,7 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
     <welcome-file-list>
-        <welcome-file>stores.jsp</welcome-file>
+        <welcome-file>stores</welcome-file>
     </welcome-file-list>
     <security-constraint> 
         <web-resource-collection> 
@@ -87,8 +87,8 @@
       <url-pattern>/dishUpdate</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-      <servlet-name>dishView</servlet-name>
-      <url-pattern>/dishView</url-pattern>
+      <servlet-name>dishVote</servlet-name>
+      <url-pattern>/dishVote</url-pattern>
     </servlet-mapping>
     
     <!-- Review images -->
@@ -115,6 +115,58 @@
     <servlet-mapping>
       <servlet-name>reviewImage</servlet-name>
       <url-pattern>/reviewImage</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Store Actions -->
+    <servlet>
+      <servlet-name>store</servlet-name>
+      <servlet-class>geonotes.controller.StoreServlet</servlet-class>
+    </servlet>
+    <servlet>
+      <servlet-name>storeAdd</servlet-name>
+      <servlet-class>geonotes.controller.StoreAddServlet</servlet-class>
+    </servlet>
+    <servlet>
+      <servlet-name>storeAddLocation</servlet-name>
+      <servlet-class>geonotes.controller.StoreAddLocationServlet</servlet-class>
+    </servlet>
+    <servlet>
+      <servlet-name>storeUpdateLocation</servlet-name>
+      <servlet-class>geonotes.controller.StoreUpdateLocationServlet</servlet-class>
+    </servlet>
+    <servlet>
+      <servlet-name>storeUpdate</servlet-name>
+      <servlet-class>geonotes.controller.StoreUpdateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>store</servlet-name>
+      <url-pattern>/store</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>storeAdd</servlet-name>
+      <url-pattern>/storeAdd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>storeAddLocation</servlet-name>
+      <url-pattern>/storeAddLocation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>storeUpdate</servlet-name>
+      <url-pattern>/storeUpdate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+      <servlet-name>storeUpdateLocation</servlet-name>
+      <url-pattern>/storeUpdateLocation</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Stores -->
+    <servlet>
+      <servlet-name>stores</servlet-name>
+      <jsp-file>/WEB-INF/pages/stores.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>stores</servlet-name>
+      <url-pattern>/stores</url-pattern>
     </servlet-mapping>
     
     <!-- User filter -->

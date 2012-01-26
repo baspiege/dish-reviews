@@ -40,7 +40,7 @@ function setFieldsIntoLocalStorage() {
 </table>
 <div style="margin-top:1em;margin-bottom:1em;">
 <%-- Update --%>
-<input class="button" type="button" name="action" onclick="setFieldsIntoLocalStorage();window.location='stores.jsp';return false;" value="<%=bundle.getString("updateLabel")%>"/>
+<input class="button" type="button" name="action" onclick="setFieldsIntoLocalStorage();window.location='stores';return false;" value="<%=bundle.getString("updateLabel")%>"/>
 </div>
 <script type="text/javascript">
 function getCookie(name) {

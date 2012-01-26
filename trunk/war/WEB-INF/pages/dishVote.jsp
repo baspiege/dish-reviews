@@ -15,7 +15,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-<form id="dish" method="post" action="dishVote.jsp" autocomplete="off">
+<form id="dish" method="post" action="dishVote" autocomplete="off">
 <input type="hidden" name="dishId" value="<%=new Long(dish.getKey().getId()).toString()%>"/>
 <input type="hidden" name="vote" value="yes"/>
 <input class="button" type="submit" name="action" value="<%=bundle.getString("likeLabel")%>"/>
