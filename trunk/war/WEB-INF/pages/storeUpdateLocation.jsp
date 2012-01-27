@@ -27,10 +27,10 @@
 <% if (isSignedIn) { %>
 <form id="store" method="post" action="storeUpdateLocation" autocomplete="off">
 <%-- Update --%>
-<input class="button" type="submit" name="action" onclick="setFieldsFromLocalStorage();" value="<%=bundle.getString("updateLabel")%>"/>
 <input id="latitude" type="hidden" name="latitude" value="" />
 <input id="longitude" type="hidden" name="longitude" value="" />
-<input type="hidden" name="storeId" value="<%=new Long(store.getKey().getId()).toString()%>"/>
+<input type="hidden" name="storeId" value="<%=store.getKey().getId()%>"/>
+<input class="button" type="submit" name="action" onclick="setFieldsFromLocalStorage();" value="<%=bundle.getString("updateLabel")%>"/>
 </form>
 <% } %>
 </div>

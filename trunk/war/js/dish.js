@@ -226,7 +226,7 @@ function handleReviewsDataRequest(req) {
         // Note, adding with createElementNS didn't work.  So using innerHTML.
         var fbName=document.createElement("span");
         descReview.appendChild(fbName);
-        fbName.innerHTML=' - <fb:name uid="' + userId + '" useyou="true" linked="true"></fb:name>';
+        fbName.innerHTML=' - <fb:name uid="' + userId + '" useyou="false" linked="true"></fb:name>';
       }
 
       // Time Ago

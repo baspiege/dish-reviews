@@ -18,9 +18,9 @@
 <tr><td><%=bundle.getString("nameLabel")%>:</td><td><input type="text" name="note" value="<%=request.getAttribute("note")%>" id="note" title="<%=bundle.getString("nameLabel")%>" maxlength="500"/></td></tr>
 </table>
 <p>
+<input id="storeId" type="hidden" name="storeId" value="<%=request.getAttribute("storeId")%>" />
 <input class="button" type="submit" style="display:none" id="addButtonDisabled" disabled="disabled" value="<%=bundle.getString("addLabel")%>"/>
 <input class="button" type="submit" style="display:inline" id="addButtonEnabled" name="action" onclick="this.style.display='none';document.getElementById('addButtonDisabled').style.display='inline';" value="<%=bundle.getString("addLabel")%>"/>
-<input id="storeId" type="hidden" name="storeId" value="<%=request.getAttribute("storeId")%>" />
 </p>
 </form>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
