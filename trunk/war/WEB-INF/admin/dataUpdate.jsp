@@ -4,7 +4,7 @@
 <%@ page import="geonotes.data.ReviewsUpdateAllUtil" %>
 <%
     //new DishesUpdateAllUtil().execute(request);
-    new ReviewsUpdateAllUtil().execute(request);
+    //new ReviewsUpdateAllUtil().execute(request);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>

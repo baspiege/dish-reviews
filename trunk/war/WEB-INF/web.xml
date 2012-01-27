@@ -220,6 +220,16 @@
       <servlet-name>reviewsOwnXml</servlet-name>
       <url-pattern>/reviewsOwnXml</url-pattern>
     </servlet-mapping>
+    
+    <!-- Change location -->
+    <servlet>
+      <servlet-name>admin/dataUpdate</servlet-name>
+      <jsp-file>/WEB-INF/admin/dataUpdate.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>admin/dataUpdate</servlet-name>
+      <url-pattern>/admin/dataUpdate</url-pattern>
+    </servlet-mapping>
 
     <!-- User filter -->
     <filter>
