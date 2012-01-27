@@ -16,7 +16,7 @@
 <body>
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <form id="review" method="post" action="reviewVote" autocomplete="off">
-<input type="hidden" name="reviewId" value="<%=new Long(review.getKey().getId()).toString()%>"/>
+<input type="hidden" name="reviewId" value="<%=review.getKey().getId()%>"/>
 <input type="hidden" name="vote" value="yes"/>
 <input class="button" type="submit" name="action" value="<%=bundle.getString("agreeLabel")%>"/>
 <input class="button" type="submit" name="action" value="<%=bundle.getString("removeAgreeLabel")%>"/>
