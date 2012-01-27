@@ -1,4 +1,4 @@
-package geonotes;
+package geonotes.images;
 
 import java.io.IOException;
 import javax.jdo.PersistenceManager;
@@ -13,9 +13,9 @@ import geonotes.data.model.Review;
 import geonotes.utils.RequestUtils;
 
 /**
-* Return the thumbnail image of the last review for a dish.
+* Return an image.
 */
-public class ReviewLastThumbNailImage extends HttpServlet {
+public class ReviewImage extends HttpServlet {
 
     /**
     * Process the request.
@@ -23,20 +23,20 @@ public class ReviewLastThumbNailImage extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
      
         // Get Id.
-        Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
+        Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
                         
-            Review review=ReviewGetSingle.getLastReviewWithImage(request,pm,dishId.longValue());
+            Review review=ReviewGetSingle.getReview(request,pm,reviewId.longValue());
             
-            if (review!=null && review.imageThumbnail!=null){
+            if (review!=null){
                 response.setContentType("image/jpeg");
-                response.getOutputStream().write(review.imageThumbnail.getBytes());
+                response.getOutputStream().write(review.image.getBytes());
             }
         } catch (Exception e) {
-            System.err.println(ReviewThumbNailImage.class.getName() + ": " + e);
+            System.err.println(ReviewImage.class.getName() + ": " + e);
             e.printStackTrace();
         } finally {
             if (pm!=null) {

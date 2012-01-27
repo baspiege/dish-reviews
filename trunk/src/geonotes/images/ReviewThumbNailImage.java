@@ -1,4 +1,4 @@
-package geonotes;
+package geonotes.images;
 
 import java.io.IOException;
 import javax.jdo.PersistenceManager;
