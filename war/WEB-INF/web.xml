@@ -14,6 +14,14 @@
             <role-name>admin</role-name> 
         </auth-constraint> 
     </security-constraint>
+    <security-constraint> 
+        <web-resource-collection> 
+            <url-pattern>/admin/*</url-pattern> 
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name> 
+        </auth-constraint> 
+    </security-constraint>
     
     <!-- Review Actions -->
     <servlet>
@@ -91,18 +99,18 @@
       <url-pattern>/dishVote</url-pattern>
     </servlet-mapping>
     
-    <!-- Review images -->
+    <!-- Images -->
     <servlet>
       <servlet-name>reviewImage</servlet-name>
-      <servlet-class>geonotes.ReviewImage</servlet-class>
+      <servlet-class>geonotes.images.ReviewImage</servlet-class>
     </servlet>
     <servlet>
       <servlet-name>reviewThumbNailImage</servlet-name>
-      <servlet-class>geonotes.ReviewThumbNailImage</servlet-class>
+      <servlet-class>geonotes.images.ReviewThumbNailImage</servlet-class>
     </servlet>
     <servlet>
       <servlet-name>reviewLastThumbNailImage</servlet-name>
-      <servlet-class>geonotes.ReviewLastThumbNailImage</servlet-class>
+      <servlet-class>geonotes.images.ReviewLastThumbNailImage</servlet-class>
     </servlet>
     <servlet-mapping>
       <servlet-name>reviewThumbNailImage</servlet-name>
@@ -179,7 +187,7 @@
       <url-pattern>/locationChange</url-pattern>
     </servlet-mapping>
     
-    <!-- Xml -->
+    <!-- Xml Data -->
     <servlet>
       <servlet-name>storesXml</servlet-name>
       <servlet-class>geonotes.controller.StoresXmlServlet</servlet-class>
@@ -212,8 +220,7 @@
       <servlet-name>reviewsOwnXml</servlet-name>
       <url-pattern>/reviewsOwnXml</url-pattern>
     </servlet-mapping>
-    
-    
+
     <!-- User filter -->
     <filter>
       <filter-name>UserFilter</filter-name>
