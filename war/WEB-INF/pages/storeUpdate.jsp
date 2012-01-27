@@ -8,7 +8,6 @@
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%    
-    String action=RequestUtils.getAlphaInput(request,"action","Action",false);
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy MMM dd h:mm aa zzz");
     dateFormat.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
@@ -27,7 +26,7 @@
 <tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(store.lastUpdateTime)%></td></tr>
 </table>
 <div style="margin-top:1.5em">
-<input type="hidden" name="storeId" value="<%=new Long(store.getKey().getId()).toString()%>"/>
+<input type="hidden" name="storeId" value="<%=store.getKey().getId()%>"/>
 <%-- Update --%>
 <input class="button" type="submit" name="action" value="<%=bundle.getString("updateLabel")%>"/>
 <%-- Delete --%>

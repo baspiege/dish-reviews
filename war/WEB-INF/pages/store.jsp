@@ -8,9 +8,8 @@
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     boolean isSignedIn=request.getUserPrincipal().getName()!= null; 
-    
-    Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
     Store store=(Store)request.getAttribute(RequestUtils.STORE);
+    Long storeId=store.getKey().getId();
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>

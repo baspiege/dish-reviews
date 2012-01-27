@@ -26,7 +26,7 @@
 <tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(dish.lastUpdateTime)%></td></tr>
 </table>
 <div style="margin-top:1.5em">
-<input type="hidden" name="dishId" value="<%=new Long(dish.getKey().getId()).toString()%>"/>
+<input type="hidden" name="dishId" value="<%=dish.getKey().getId()%>"/>
 <%-- Update --%>
 <input class="button" type="submit" name="action" value="<%=bundle.getString("updateLabel")%>"/>
 <%-- Delete --%>

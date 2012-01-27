@@ -26,9 +26,9 @@
 <tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(review.lastUpdateTime)%></td></tr>
 </table>
 <div style="margin-top:1.5em">
+<input type="hidden" name="reviewId" value="<%=review.getKey().getId()%>"/>
 <input class="button" type="submit" name="action" value="<%=bundle.getString("updateLabel")%>"/>
 <input class="button" type="submit" name="action" value="<%=bundle.getString("deleteLabel")%>"/>
-<input type="hidden" name="reviewId" value="<%=new Long(review.getKey().getId()).toString()%>"/>
 </div>
 </form>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>

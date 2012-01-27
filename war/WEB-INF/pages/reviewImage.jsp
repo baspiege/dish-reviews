@@ -20,16 +20,16 @@ form {margin: 0px 0px 0px 0px; display: inline;}
 </head>
 <body>
 <% if (review!=null && review.image!=null) { %>
-<img src="reviewImage?reviewId=<%=new Long(review.getKey().getId()).toString()%>" alt="<%=bundle.getString("altPictureLabel")%>"/> <br/>
+<img src="reviewImage?reviewId=<%=review.getKey().getId()%>" alt="<%=bundle.getString("altPictureLabel")%>"/> <br/>
 <% } %>
 <% if (usersOwnReview) { %>
-<form method="post" enctype="multipart/form-data" action="reviewImageUpdate?action=Upload&reviewId=<%=new Long(review.getKey().getId()).toString()%>"> 
+<form method="post" enctype="multipart/form-data" action="reviewImageUpdate?action=Upload&reviewId=<%=review.getKey().getId()%>"> 
 <input style="margin-bottom:1.5em" type="file" name="imageFile">
 <br/>
 <%-- Upload --%>
 <input class="button" type="submit" name="action" value="Upload">
 </form>
-<form method="post" action="reviewImageUpdate?reviewId=<%=new Long(review.getKey().getId()).toString()%>" autocomplete="off">
+<form method="post" action="reviewImageUpdate?reviewId=<%=review.getKey().getId()%>" autocomplete="off">
 <%-- Remove --%>
 <input type="submit" name="action" value="Remove">
 </form>
