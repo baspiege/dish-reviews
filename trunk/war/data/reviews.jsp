@@ -1,1 +1,0 @@
-<%@ include file="/WEB-INF/data/reviews.jsp" %>
