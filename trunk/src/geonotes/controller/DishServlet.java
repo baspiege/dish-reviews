@@ -39,15 +39,19 @@ public class DishServlet extends HttpServlet {
     */
     private boolean setUpData(HttpServletRequest request) {
         
-        // Get dish and store
+        // Get dish
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
-        Store store=null;
         if (dishId!=null) {
             dish=RequestUtils.getDish(request,dishId);
-            store=RequestUtils.getStore(request,dish.storeId);
         }
-        if (dish==null || store==null) {
+        if (dish==null) {
+            return false;
+        }
+        
+        // Get store
+        Store store=RequestUtils.getStore(request,dish.storeId);
+        if (store==null) {
             return false;
         }
 
