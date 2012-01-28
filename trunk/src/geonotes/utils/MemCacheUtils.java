@@ -16,8 +16,8 @@ import geonotes.data.model.Store;
  */
 public class MemCacheUtils
 {
-    public static String DISH="dish";
-    public static String STORE="store";
+    private static String DISH="dish";
+    private static String STORE="store";
 
     /**
     * Get the dish from cache.
@@ -55,8 +55,10 @@ public class MemCacheUtils
     */
     public static void setDish(HttpServletRequest aRequest, Dish aDish)
     {
-        MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
-        memcache.put(aDish.getKey().getId() + DISH, aDish);
+        if (aDish!=null) {
+            MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
+            memcache.put(aDish.getKey().getId() + DISH, aDish);
+        }
     }
     
     /**
@@ -67,7 +69,9 @@ public class MemCacheUtils
     */
     public static void setStore(HttpServletRequest aRequest, Store aStore)
     {
-        MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
-        memcache.put(aStore.getKey().getId() + STORE, aStore);
+        if (aStore!=null) {
+            MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
+            memcache.put(aStore.getKey().getId() + STORE, aStore);
+        }
     }
 }
