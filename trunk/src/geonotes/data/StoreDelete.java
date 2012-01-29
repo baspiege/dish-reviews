@@ -27,6 +27,8 @@ public class StoreDelete {
         try {
             pm=PMF.get().getPersistenceManager();
             
+            aStore=StoreGetSingle.getStore(aRequest,pm,aStore.getKey().getId());
+            
             // TODO - Move this to controller?
             if (aStore.dishCount>0) {
                 RequestUtils.addEditUsingKey(aRequest,"storesWithDishesCantBeDeletedEditMessage");
