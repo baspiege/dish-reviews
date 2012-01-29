@@ -66,7 +66,6 @@ public class StoreAddServlet extends HttpServlet {
 
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
-            Store store=(Store)request.getAttribute(RequestUtils.STORE);
             request.setAttribute("storeId",store.getKey().getId());
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
         } else {
