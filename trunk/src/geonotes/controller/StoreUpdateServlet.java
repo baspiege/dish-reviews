@@ -112,7 +112,6 @@ public class StoreUpdateServlet extends HttpServlet {
         if (store==null) {
             return false;
         }
-        
         request.setAttribute(RequestUtils.STORE, store);
         
         return true;

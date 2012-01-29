@@ -95,10 +95,7 @@ public class RequestUtils
         
         // Try cache.
         dish=MemCacheUtils.getDish(aRequest, aDishId);
-        if (dish!=null) {
-            // Set into request.
-            aRequest.setAttribute(DISH,dish);
-        } else {
+        if (dish==null) {
             dish=new DishGetSingle().execute(aRequest, aDishId);
             MemCacheUtils.setDish(aRequest,dish);
         }
@@ -200,10 +197,7 @@ public class RequestUtils
         
         // Try cache.
         store=MemCacheUtils.getStore(aRequest, aStoreId);
-        if (store!=null) {
-            // Set into request.
-            aRequest.setAttribute(STORE,store);
-        } else {
+        if (store==null) {
             store=new StoreGetSingle().execute(aRequest, aStoreId);
             MemCacheUtils.setStore(aRequest,store);
         }
