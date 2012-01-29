@@ -21,24 +21,20 @@ public class StoreDelete {
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
-
-        // Get Id.
-        Long storeId=(Long)aRequest.getAttribute("storeId");
+    public void execute(HttpServletRequest aRequest, Store aStore) {
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
             
-            Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
-            
-            if (store.dishCount>0) {
+            // TODO - Move this to controller?
+            if (aStore.dishCount>0) {
                 RequestUtils.addEditUsingKey(aRequest,"storesWithDishesCantBeDeletedEditMessage");
                 return;
             }
             
-            if (store!=null){
-                pm.deletePersistent(store);
+            if (aStore!=null){
+                pm.deletePersistent(aStore);
             }
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);

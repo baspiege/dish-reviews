@@ -26,7 +26,8 @@ public class DishAddServlet extends HttpServlet {
             RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
         } else {
             // Default note
-            request.setAttribute("note","");
+            Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
+            dish.setNote("");
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_ADD);
         }
     }
@@ -43,21 +44,22 @@ public class DishAddServlet extends HttpServlet {
         
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-     
+        Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
+
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("addLabel"))) {		
                 // Fields
-                RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
+                String note=RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
+                dish.setNote(note);
                 if (!RequestUtils.hasEdits(request)) {
-                    new DishAdd().execute(request);
+                    dish=new DishAdd().execute(request, dish);
                 }
             }
         }
         
         // If no edits, forward to store.
-        if (!RequestUtils.hasEdits(request)) {        
-            Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
+        if (!RequestUtils.hasEdits(request)) {
             request.setAttribute("dishId",dish.getKey().getId());   
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
@@ -75,19 +77,24 @@ public class DishAddServlet extends HttpServlet {
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
-            return false;
+            throw new RuntimeException("User principal not found");
         }
-        
+                
         // Check store       
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;
         if (storeId!=null) {
-            new StoreGetSingle().execute(request);
-            store=(Store)request.getAttribute(RequestUtils.STORE);
+            store=new StoreGetSingle().execute(request, storeId);
         }
         if (store==null) {
-            return false;
+            throw new RuntimeException("Store not found:" + storeId);
         }
+        
+        // Set dish
+        Dish dish=new Dish();
+        dish.setStoreId(storeId);
+        dish.setUser(request.getUserPrincipal().getName());
+        request.setAttribute(RequestUtils.DISH, dish);
         
         return true;
     }

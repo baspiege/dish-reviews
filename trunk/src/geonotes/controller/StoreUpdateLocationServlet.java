@@ -39,6 +39,7 @@ public class StoreUpdateLocationServlet extends HttpServlet {
             return;
         }
         
+        Store store=(Store)request.getAttribute(RequestUtils.STORE);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
      
@@ -46,21 +47,18 @@ public class StoreUpdateLocationServlet extends HttpServlet {
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("updateLabel"))) {		
                 // Fields
-                RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
-                RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
+                Double latitude=RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
+                Double longitude=RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
+                store.setLatitude(latitude);
+                store.setLongitude(longitude);                
                 if (!RequestUtils.hasEdits(request)) {
-                    new StoreUpdate().execute(request);
-                }
-            } else if (action.equals(bundle.getString("deleteLabel"))) {		
-                if (!RequestUtils.hasEdits(request)) {
-                    new StoreDelete().execute(request);
+                    store=new StoreUpdate().execute(request, store);
                 }
             }
         }
         
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
-            Store store=(Store)request.getAttribute(RequestUtils.STORE);
             request.setAttribute("storeId",store.getKey().getId());
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
         } else {
@@ -85,11 +83,10 @@ public class StoreUpdateLocationServlet extends HttpServlet {
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;
         if (storeId!=null) {
-            new StoreGetSingle().execute(request);
-            store=(Store)request.getAttribute(RequestUtils.STORE);
+            store=new StoreGetSingle().execute(request, storeId);
         }
         if (store==null) {
-            return false;
+            throw new RuntimeException("Store not found: " + storeId);
         }
         
         

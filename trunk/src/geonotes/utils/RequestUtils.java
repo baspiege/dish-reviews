@@ -99,11 +99,7 @@ public class RequestUtils
             // Set into request.
             aRequest.setAttribute(DISH,dish);
         } else {
-            // Get from the datastore which sets into the request.
-            // And put into the cache.
-            aRequest.setAttribute("dishId",aDishId);
-            new DishGetSingle().execute(aRequest);
-            dish=(Dish)aRequest.getAttribute(DISH);
+            dish=new DishGetSingle().execute(aRequest, aDishId);
             MemCacheUtils.setDish(aRequest,dish);
         }
 
@@ -208,11 +204,7 @@ public class RequestUtils
             // Set into request.
             aRequest.setAttribute(STORE,store);
         } else {
-            // Get from the datastore which sets into the request.
-            // And put into the cache.
-            aRequest.setAttribute("storeId",aStoreId);
-            new StoreGetSingle().execute(aRequest);
-            store=(Store)aRequest.getAttribute(STORE);
+            store=new StoreGetSingle().execute(aRequest, aStoreId);
             MemCacheUtils.setStore(aRequest,store);
         }
 

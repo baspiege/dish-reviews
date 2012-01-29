@@ -28,10 +28,10 @@ public class StoresXmlServlet extends HttpServlet {
         
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
         if (storeId!=null) {
-             new StoreGetSingle().execute(request);
+             Store store=new StoreGetSingle().execute(request, storeId);
              // Add to list.
              stores=new ArrayList<Store>();
-             stores.add((Store)request.getAttribute("store"));
+             stores.add(store);
              request.setAttribute("stores",stores);
         } else { 
             RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);

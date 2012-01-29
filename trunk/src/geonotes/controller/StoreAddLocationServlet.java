@@ -44,7 +44,7 @@ public class StoreAddLocationServlet extends HttpServlet {
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
-            return false;
+            throw new RuntimeException("User principal not found");
         }
         
         return true;

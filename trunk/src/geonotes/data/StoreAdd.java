@@ -24,40 +24,28 @@ public class StoreAdd {
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
-
-        String note=(String)aRequest.getAttribute("note");
-        Double longitude=(Double)aRequest.getAttribute("longitude");
-        Double latitude=(Double)aRequest.getAttribute("latitude");
-        String user=(String)aRequest.getAttribute("user");
+    public Store execute(HttpServletRequest aRequest, Store aStore) {
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
 
-            Store store=new Store();
-            store.setNote(note);
-            store.setLastUpdateTime(new Date());
-            store.setLongitude(longitude.doubleValue());
-            store.setLatitude(latitude.doubleValue());
-            store.setYes(0);
-            store.setUser(user);
+            aStore.setLastUpdateTime(new Date());
+            aStore.setYes(0);
             
             // Save
-            pm.makePersistent(store);
+            aStore=pm.makePersistent(aStore);
             
             // History
             StoreHistory storeHistory=new StoreHistory();
-            storeHistory.setStoreId(store.getKey().getId());
-            storeHistory.setNote(store.note);
-            storeHistory.setLastUpdateTime(store.lastUpdateTime);
-            storeHistory.setLongitude(store.longitude);
-            storeHistory.setLatitude(store.latitude);
-            storeHistory.setYes(store.yes);
-            storeHistory.setUser(store.user);
+            storeHistory.setStoreId(aStore.getKey().getId());
+            storeHistory.setNote(aStore.note);
+            storeHistory.setLastUpdateTime(aStore.lastUpdateTime);
+            storeHistory.setLongitude(aStore.longitude);
+            storeHistory.setLatitude(aStore.latitude);
+            storeHistory.setYes(aStore.yes);
+            storeHistory.setUser(aStore.user);
             pm.makePersistent(storeHistory);
-            
-            aRequest.setAttribute(RequestUtils.STORE,store);
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();
@@ -67,5 +55,6 @@ public class StoreAdd {
                 pm.close();
             }
         }
+        return aStore;
     }
 }

@@ -80,8 +80,7 @@ public class ReviewAddServlet extends HttpServlet {
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
         if (dishId!=null) {
-            new DishGetSingle().execute(request);
-            dish=(Dish)request.getAttribute(RequestUtils.DISH);
+            dish=new DishGetSingle().execute(request, dishId);
         }
         if (dish==null) {
             return false;

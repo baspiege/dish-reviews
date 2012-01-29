@@ -22,27 +22,22 @@ public class DishDelete {
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
-
-        // Get Id.
-        Long dishId=(Long)aRequest.getAttribute("dishId");
+    public void execute(HttpServletRequest aRequest, Dish aDish) {
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
             
-            Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
-            
-            if (dish.reviewCount>0) {
+            if (aDish.reviewCount>0) {
                 RequestUtils.addEditUsingKey(aRequest,"dishesWithReviewsCantBeDeletedEditMessage");
                 return;
             }
             
-            if (dish!=null){
-                pm.deletePersistent(dish);
+            if (aDish!=null){
+                pm.deletePersistent(aDish);
                 
                 // Update count
-                Store store=StoreGetSingle.getStore(aRequest,pm,dish.storeId);
+                Store store=StoreGetSingle.getStore(aRequest,pm,aDish.storeId);
                 store.setDishCount(store.dishCount-1);
             }
         } catch (Exception e) {
