@@ -45,10 +45,10 @@ public class Store implements Serializable {
     public String note; 
     
     @Persistent 
-    public double latitude;
+    public Double latitude;
     
     @Persistent 
-    public double longitude;
+    public Double longitude;
     
     @Persistent 
     public double longitude2Decimal;

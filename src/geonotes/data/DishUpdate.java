@@ -25,36 +25,22 @@ public class DishUpdate {
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
-
-        // Get Id.
-        Long dishId=(Long)aRequest.getAttribute("dishId");
+    public Dish execute(HttpServletRequest aRequest, Dish aDish) {
         
-        // Fields
-        String note=(String)aRequest.getAttribute("note");
-        String user=(String)aRequest.getAttribute("user");
-        
+        Dish dish=null;
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
                         
-            Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
-            
-            /*
-            if (dish.reviewCount>0) {
-                RequestUtils.addEditUsingKey(aRequest,"dishesWithReviewsCantBeUpdatedEditMessage");
-                return;
-            }
-            */
-            
+            dish=DishGetSingle.getDish(aRequest,pm,aDish.getKey().getId());
+                        
             if (dish!=null){
             
-                if (note!=null) {
-                    dish.setNote(note);
+                if (aDish.note!=null) {
+                    dish.setNote(aDish.note);
                 }
                     
                 dish.setLastUpdateTime(new Date());
-                dish.setUser(user);
                 
                 // Reset cache
                 MemCacheUtils.setDish(aRequest,dish);
@@ -78,5 +64,6 @@ public class DishUpdate {
                 pm.close();
             }
         }
+        return dish;
     }
 }

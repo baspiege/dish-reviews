@@ -21,20 +21,12 @@ public class DishGetSingle {
      * @param aRequest The request
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
+    public Dish execute(HttpServletRequest aRequest, Long aDishId) {
         PersistenceManager pm=null;
-        
-        // Get Id.
-        Long dishId=(Long)aRequest.getAttribute("dishId");
-        
+        Dish dish=null;
         try {
             pm=PMF.get().getPersistenceManager();
-
-            Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
-
-            // Set into request
-            aRequest.setAttribute(RequestUtils.DISH, dish);
-
+            dish=DishGetSingle.getDish(aRequest,pm,aDishId);
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();
@@ -44,6 +36,7 @@ public class DishGetSingle {
                 pm.close();
             }
         }
+        return dish;
     }
     
     /**

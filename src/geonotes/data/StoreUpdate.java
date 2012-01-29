@@ -25,46 +25,30 @@ public class StoreUpdate {
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
-
-        // Get Id.
-        Long storeId=(Long)aRequest.getAttribute("storeId");
+    public Store execute(HttpServletRequest aRequest, Store aStore) {
         
-        // Fields
-        String note=(String)aRequest.getAttribute("note");
-        Double longitude=(Double)aRequest.getAttribute("longitude");
-        Double latitude=(Double)aRequest.getAttribute("latitude");
-        String user=(String)aRequest.getAttribute("user");
-        
+        Store store=null;
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
                         
-            Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
+            store=StoreGetSingle.getStore(aRequest,pm,aStore.getKey().getId());
             
             if (store!=null){
-
-                /*
-                if (store.dishCount>0) {
-                    RequestUtils.addEditUsingKey(aRequest,"storesWithDishesCantBeUpdatedEditMessage");
-                    return;
-                }
-                */
             
-                if (note!=null) {
-                    store.setNote(note);
+                if (aStore.note!=null) {
+                    store.setNote(aStore.note);
                 }
                     
-                if (longitude!=null) {
-                    store.setLongitude(longitude.doubleValue());
+                if (aStore.longitude!=null) {
+                    store.setLongitude(aStore.longitude);
                 }
                 
-                if (latitude!=null) {
-                    store.setLatitude(latitude.doubleValue());
+                if (aStore.latitude!=null) {
+                    store.setLatitude(aStore.latitude);
                 }
                 
                 store.setLastUpdateTime(new Date());
-                store.setUser(user);
                 
                 // Reset cache
                 MemCacheUtils.setStore(aRequest,store);
@@ -89,5 +73,7 @@ public class StoreUpdate {
                 pm.close();
             }
         }
+        
+        return store;
     }
 }

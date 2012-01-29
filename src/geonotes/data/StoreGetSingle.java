@@ -21,20 +21,12 @@ public class StoreGetSingle {
      * @param aRequest The request
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
+    public Store execute(HttpServletRequest aRequest, Long aStoreId) {
         PersistenceManager pm=null;
-        
-        // Get Id.
-        Long storeId=(Long)aRequest.getAttribute("storeId");
-        
+        Store store=null;
         try {
             pm=PMF.get().getPersistenceManager();
-
-            Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
-
-            // Set into request
-            aRequest.setAttribute(RequestUtils.STORE, store);
-
+            store=StoreGetSingle.getStore(aRequest,pm,aStoreId);
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();
@@ -44,6 +36,7 @@ public class StoreGetSingle {
                 pm.close();
             }
         }
+        return store;
     }
     
     /**
@@ -58,17 +51,13 @@ public class StoreGetSingle {
      */
     public static Store getStore(HttpServletRequest aRequest, PersistenceManager aPm, long aStoreId) {
         Store store=null;
-
         Query query=null;
         try {
-            // Get appts.
             query = aPm.newQuery(Store.class); 
             query.setFilter("(key == storeIdParam)"); 
             query.declareParameters("long storeIdParam");
             query.setRange(0,1);
-
             List<Store> results = (List<Store>) query.execute(aStoreId); 
-
             if (!results.isEmpty()) {
                 store=(Store)results.get(0);
             }
@@ -77,7 +66,6 @@ public class StoreGetSingle {
                 query.closeAll(); 
             }
         }
-
         return store;
     }    
 }

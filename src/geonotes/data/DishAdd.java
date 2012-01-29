@@ -25,42 +25,31 @@ public class DishAdd {
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
-
-        // Note
-        String note=(String)aRequest.getAttribute("note");
-        Long storeId=(Long)aRequest.getAttribute("storeId");
-        String user=(String)aRequest.getAttribute("user");
+    public Dish execute(HttpServletRequest aRequest, Dish aDish) {
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
 
-            Dish dish=new Dish();
-            dish.setNote(note);
-            dish.setLastUpdateTime(new Date());
-            dish.setStoreId(storeId);
-            dish.setYesVote(0);
-            dish.setUser(user);
+            aDish.setLastUpdateTime(new Date());
+            aDish.setYesVote(0);
             
             // Save
-            pm.makePersistent(dish);
+            pm.makePersistent(aDish);
                         
             // Update count
-            Store store=StoreGetSingle.getStore(aRequest,pm,storeId.longValue());
+            Store store=StoreGetSingle.getStore(aRequest,pm,aDish.storeId);
             store.setDishCount(store.dishCount+1);
             
             // History
             DishHistory dishHistory=new DishHistory();
-            dishHistory.setDishId(dish.getKey().getId());
-            dishHistory.setNote(dish.note);
-            dishHistory.setLastUpdateTime(dish.lastUpdateTime);
-            dishHistory.setStoreId(dish.storeId);
-            dishHistory.setYesVote(dish.yesVote);
-            dishHistory.setUser(dish.user);
+            dishHistory.setDishId(aDish.getKey().getId());
+            dishHistory.setNote(aDish.note);
+            dishHistory.setLastUpdateTime(aDish.lastUpdateTime);
+            dishHistory.setStoreId(aDish.storeId);
+            dishHistory.setYesVote(aDish.yesVote);
+            dishHistory.setUser(aDish.user);
             pm.makePersistent(dishHistory);
-
-            aRequest.setAttribute(RequestUtils.DISH, dish);
         } catch (Exception e) {
             System.err.println(this.getClass().getName() + ": " + e);
             e.printStackTrace();
@@ -70,5 +59,6 @@ public class DishAdd {
                 pm.close();
             }
         }
+        return aDish;
     }
 }

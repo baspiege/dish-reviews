@@ -38,14 +38,16 @@ public class StoreUpdateServlet extends HttpServlet {
             RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
             return;
         }
-        
+
+        Store store=(Store)request.getAttribute(RequestUtils.STORE);        
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
      
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("updateLabel"))) {		
-                RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
+                String name=RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
+                store.setNote(name);
                 updateAction(request,response);
             } else if (action.equals(bundle.getString("deleteLabel"))) {		
                 deleteAction(request,response);
@@ -59,12 +61,12 @@ public class StoreUpdateServlet extends HttpServlet {
     * Update action.
     */
     private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Store store=(Store)request.getAttribute(RequestUtils.STORE);
         if (!RequestUtils.hasEdits(request)) {
-            new StoreUpdate().execute(request);
+            store=new StoreUpdate().execute(request, store);
         }
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
-            Store store=(Store)request.getAttribute(RequestUtils.STORE);
             request.setAttribute("storeId",store.getKey().getId());
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
         } else {
@@ -76,8 +78,9 @@ public class StoreUpdateServlet extends HttpServlet {
     * Delete action.
     */
     private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+        Store store=(Store)request.getAttribute(RequestUtils.STORE);
         if (!RequestUtils.hasEdits(request)) {
-            new StoreDelete().execute(request);
+            new StoreDelete().execute(request, store);
         }    
         // If no edits, forward to stores.
         if (!RequestUtils.hasEdits(request)) {
@@ -104,8 +107,7 @@ public class StoreUpdateServlet extends HttpServlet {
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;
         if (storeId!=null) {
-            new StoreGetSingle().execute(request);
-            store=(Store)request.getAttribute(RequestUtils.STORE);
+            store=new StoreGetSingle().execute(request, storeId);
         }
         if (store==null) {
             return false;

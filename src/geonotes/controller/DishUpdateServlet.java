@@ -38,13 +38,15 @@ public class DishUpdateServlet extends HttpServlet {
             return;
         }
 
+        Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-        
+      
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("updateLabel"))) {		
-                RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
+                String note=RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
+                dish.setNote(note);
                 updateAction(request,response);
             } else if (action.equals(bundle.getString("deleteLabel"))) {		
                 deleteAction(request,response);
@@ -53,17 +55,17 @@ public class DishUpdateServlet extends HttpServlet {
             RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);        
         }
     }    
-    
+
     /**
     * Update action.
     */
-    private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+    private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
         if (!RequestUtils.hasEdits(request)) {
-            new DishUpdate().execute(request);
+            dish=new DishUpdate().execute(request, dish);
         }
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
-            Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
             request.setAttribute("dishId",dish.getKey().getId());
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
@@ -75,12 +77,12 @@ public class DishUpdateServlet extends HttpServlet {
     * Delete action.
     */
     private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+        Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
         if (!RequestUtils.hasEdits(request)) {
-            new DishDelete().execute(request);
+            new DishDelete().execute(request, dish);
         }    
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
-            Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
             request.setAttribute("storeId",dish.storeId);
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
         } else {
@@ -98,20 +100,22 @@ public class DishUpdateServlet extends HttpServlet {
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
-            return false;
+            throw new RuntimeException("User principal not found");
         }
            
         // Get dish
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
         if (dishId!=null) {
-            new DishGetSingle().execute(request);
-            dish=(Dish)request.getAttribute(RequestUtils.DISH);
+            dish=new DishGetSingle().execute(request, dishId);
         }
         if (dish==null) {
-            return false;
+            throw new RuntimeException("Dish not found: " + dishId);
         }
-        
+
+        dish.setUser(request.getUserPrincipal().getName());        
+        request.setAttribute(RequestUtils.DISH, dish);
+
         return true;
     }
 }

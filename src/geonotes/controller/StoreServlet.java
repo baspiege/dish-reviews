@@ -45,7 +45,7 @@ public class StoreServlet extends HttpServlet {
             store=RequestUtils.getStore(request,storeId);
         }
         if (store==null) {
-            return false;
+            throw new RuntimeException("Store not found: " + storeId);
         }
     
         return true;
