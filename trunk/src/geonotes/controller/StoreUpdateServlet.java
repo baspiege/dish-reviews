@@ -22,23 +22,15 @@ public class StoreUpdateServlet extends HttpServlet {
     * Display page.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORE_UPDATE);
-        }
+        setUpData(request);
+        RequestUtils.forwardTo(request,response,ControllerConstants.STORE_UPDATE);
     }
     
     /**
     * Update or delete Store.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-            return;
-        }
-
+        setUpData(request);
         Store store=(Store)request.getAttribute(RequestUtils.STORE);        
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -79,8 +71,11 @@ public class StoreUpdateServlet extends HttpServlet {
     */
     private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
+        if (aStore.dishCount>0) {
+            RequestUtils.addEditUsingKey(aRequest,"storesWithDishesCantBeDeletedEditMessage");
+        }
         if (!RequestUtils.hasEdits(request)) {
-            new StoreDelete().execute(request, store);
+            new StoreDelete().execute(store);
         }    
         // If no edits, forward to stores.
         if (!RequestUtils.hasEdits(request)) {
@@ -92,15 +87,13 @@ public class StoreUpdateServlet extends HttpServlet {
     
     /**
     * Set-up the data.
-    *
-    * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
+    private void setUpData(HttpServletRequest request) {
     
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
-            return false;
+            throw new RuntimeException("User principal not found");
         }
            
         // Get Store
@@ -110,10 +103,8 @@ public class StoreUpdateServlet extends HttpServlet {
             store=new StoreGetSingle().execute(request, storeId);
         }
         if (store==null) {
-            return false;
+            throw new RuntimeException("Store not found");
         }
         request.setAttribute(RequestUtils.STORE, store);
-        
-        return true;
     }
 }

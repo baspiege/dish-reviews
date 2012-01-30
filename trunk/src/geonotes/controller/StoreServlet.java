@@ -42,7 +42,7 @@ public class StoreServlet extends HttpServlet {
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;
         if (storeId!=null) {
-            store=RequestUtils.getStore(request,storeId);
+            store=RequestUtils.getStore(storeId);
             request.setAttribute(RequestUtils.STORE,store);
         }
         if (store==null) {

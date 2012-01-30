@@ -1,14 +1,13 @@
 package geonotes.data;
 
+import geonotes.data.model.Store;
+import geonotes.utils.NumberUtils;
+import geonotes.utils.RequestUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
-
-import geonotes.data.model.Store;
-import geonotes.utils.NumberUtils;
-import geonotes.utils.RequestUtils;
 
 /**
  * Get stores.
@@ -126,9 +125,7 @@ public class StoreGetAll {
                 }
             }
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

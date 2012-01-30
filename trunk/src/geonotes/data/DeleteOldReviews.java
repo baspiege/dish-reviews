@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Review;
 import geonotes.data.model.Store;
@@ -24,7 +23,7 @@ public class DeleteOldReviews {
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
+    public void execute() {
         PersistenceManager pm=null;
         Query query=null;
         try {
@@ -43,9 +42,7 @@ public class DeleteOldReviews {
             query.deletePersistentAll( calendar.getTime() );
         }
         catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

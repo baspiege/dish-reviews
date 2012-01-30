@@ -1,12 +1,12 @@
 package geonotes.utils;
 
+import geonotes.data.DishGetSingle;
+import geonotes.data.StoreGetSingle;
+import geonotes.data.model.Dish;
+import geonotes.data.model.Store;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,18 +15,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import geonotes.data.DishGetSingle;
-import geonotes.data.StoreGetSingle;
-import geonotes.data.model.Dish;
-import geonotes.data.model.Store;
-
 /**
  * Request utilities.
  *
  * @author Brian Spiegel
  */
-public class RequestUtils
-{
+public class RequestUtils {
+
     public static String EDITS="edits";
     public static String DISH="dish";
     public static String STORE="store";
@@ -88,18 +83,17 @@ public class RequestUtils
     /**
     * Get dish.
     *
-    * @param aRequest Servlet Request
+    * @param aDishId dish Id
+    * @return a dish
     */
-    public static Dish getDish(HttpServletRequest aRequest, long aDishId) {
+    public static Dish getDish(long aDishId) {
         Dish dish=null;
-        
         // Try cache.
-        dish=MemCacheUtils.getDish(aRequest, aDishId);
+        dish=MemCacheUtils.getDish(aDishId);
         if (dish==null) {
-            dish=new DishGetSingle().execute(aRequest, aDishId);
-            MemCacheUtils.setDish(aRequest,dish);
+            dish=new DishGetSingle().execute(aDishId);
+            MemCacheUtils.setDish(dish);
         }
-
         return dish;
     }
     
@@ -190,18 +184,17 @@ public class RequestUtils
     /**
     * Get store.
     *
-    * @param aRequest Servlet Request
+    * @param aStoreId store Id
+    * @return a store
     */
-    public static Store getStore(HttpServletRequest aRequest, long aStoreId) {
+    public static Store getStore(long aStoreId) {
         Store store=null;
-        
         // Try cache.
-        store=MemCacheUtils.getStore(aRequest, aStoreId);
+        store=MemCacheUtils.getStore(aStoreId);
         if (store==null) {
-            store=new StoreGetSingle().execute(aRequest, aStoreId);
-            MemCacheUtils.setStore(aRequest,store);
+            store=new StoreGetSingle().execute(aStoreId);
+            MemCacheUtils.setStore(store);
         }
-
         return store;
     }
     

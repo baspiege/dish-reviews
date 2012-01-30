@@ -1,16 +1,12 @@
 package geonotes.data;
 
+import geonotes.data.model.Dish;
+import geonotes.data.model.DishVote;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
-
-import geonotes.data.model.Dish;
-import geonotes.data.model.DishVote;
-import geonotes.utils.DisplayUtils;
-import geonotes.utils.RequestUtils;
 
 /**
  * Update a dish vote.
@@ -22,21 +18,20 @@ public class DishUpdateUndoYesNo {
     /**
      * Update vote.
 	   *
-     * @param aRequest The request
+     * @param aDish to update
+     * @param aVote yes or no
+     * @param aUser
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
-
-        Long dishId=(Long)aRequest.getAttribute("dishId");
-        String vote=(String)aRequest.getAttribute("vote");
-        String user=(String)aRequest.getAttribute("user");
+    public void execute(Dish aDish, String aVote, String aUser) {
 
         PersistenceManager pm=null;
         Query query=null;
         try {
             pm=PMF.get().getPersistenceManager();
 
+            /* TODO - Move this to separate method and call in controller.
             // If user hasn't voted, create edit and return
             query = pm.newQuery(DishVote.class);
             query.setFilter("(dishId == dishIdParam && user==userParam)");
@@ -47,21 +42,20 @@ public class DishUpdateUndoYesNo {
                 RequestUtils.addEditUsingKey(aRequest,"haventVotedEditMessage");
                 return;
             }
+            */
 
             // Update vote
-            Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
+            Dish dish=DishGetSingle.getDish(pm,aDish.getKey().getId());
             if (dish!=null){
-                if (vote.equals("yes")){
+                if (aVote.equals("yes")){
                   dish.setYesVote(dish.yesVote-1);
                 }
             }
             
             // Delete old votes
-            pm.deletePersistentAll(results);
+            //pm.deletePersistentAll(results);
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

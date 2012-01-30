@@ -55,7 +55,7 @@ public class ReviewAdd {
             pm.makePersistent(reviewHistory);
             
             // Update review count
-            Dish dish=DishGetSingle.getDish(aRequest,pm,dishId.longValue());
+            Dish dish=DishGetSingle.getDish(pm,dishId.longValue());
             dish.setReviewCount(dish.reviewCount+1);
             
             // Last review

@@ -1,6 +1,5 @@
 package geonotes.controller;
 
-import geonotes.data.StoreDelete;
 import geonotes.data.StoreGetSingle;
 import geonotes.data.StoreUpdate;
 import geonotes.data.model.Store;
@@ -22,23 +21,15 @@ public class StoreUpdateLocationServlet extends HttpServlet {
     * Display page.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORE_UPDATE_LOCATION);
-        }
+        setUpData(request);
+        RequestUtils.forwardTo(request,response,ControllerConstants.STORE_UPDATE_LOCATION);
     }
     
     /**
     * Update or delete Store.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-            return;
-        }
-        
+        setUpData(request);
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -68,15 +59,13 @@ public class StoreUpdateLocationServlet extends HttpServlet {
     
     /**
     * Set-up the data.
-    *
-    * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
+    private void setUpData(HttpServletRequest request) {
     
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
-            return false;
+            throw new RuntimeException("User principal not found");
         }
            
         // Get Store
@@ -89,7 +78,5 @@ public class StoreUpdateLocationServlet extends HttpServlet {
             throw new RuntimeException("Store not found: " + storeId);
         }
         request.setAttribute(RequestUtils.STORE, store);
-        
-        return true;
     }
 }

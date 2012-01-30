@@ -67,7 +67,7 @@ public class ReviewImageRemove {
             if (review!=null){
                 // Set last image
                 Review reviewImage=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,review.dishId);
-                Dish dish=DishGetSingle.getDish(aRequest,pm,review.dishId);
+                Dish dish=DishGetSingle.getDish(pm,review.dishId);
                 if (reviewImage!=null) {
                     //System.out.println(review.dishId + ": " + reviewImage.getKey().getId());
                     dish.setLastReviewImageId(reviewImage.getKey().getId());

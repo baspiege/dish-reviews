@@ -1,11 +1,9 @@
 package geonotes.data;
 
-import javax.jdo.PersistenceManager;
-import javax.servlet.http.HttpServletRequest;
-
 import geonotes.data.model.Store;
 import geonotes.utils.DisplayUtils;
 import geonotes.utils.RequestUtils;
+import javax.jdo.PersistenceManager;
 
 /**
  * Delete store
@@ -17,31 +15,20 @@ public class StoreDelete {
     /**
      * Delete store.
 	   *
-     * @param aRequest The request
+     * @param aStore The store to delete
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest, Store aStore) {
-
+    public void execute(Store aStore) {
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
-            
-            aStore=StoreGetSingle.getStore(aRequest,pm,aStore.getKey().getId());
-            
-            // TODO - Move this to controller?
-            if (aStore.dishCount>0) {
-                RequestUtils.addEditUsingKey(aRequest,"storesWithDishesCantBeDeletedEditMessage");
-                return;
-            }
-            
+            aStore=StoreGetSingle.getStore(pm,aStore.getKey().getId());            
             if (aStore!=null){
                 pm.deletePersistent(aStore);
             }
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

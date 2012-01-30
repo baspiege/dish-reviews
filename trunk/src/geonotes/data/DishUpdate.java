@@ -3,13 +3,11 @@ package geonotes.data;
 import java.util.Date;
 import java.util.Map;
 import javax.jdo.PersistenceManager;
-import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Dish;
 import geonotes.data.model.DishHistory;
 import geonotes.utils.DisplayUtils;
 import geonotes.utils.MemCacheUtils;
-import geonotes.utils.RequestUtils;
 
 /**
  * Update a dish.
@@ -21,18 +19,19 @@ public class DishUpdate {
     /**
      * Update a dish.
 	   *
-     * @param aRequest The request
+     * @param aDish dish
+     * @return an updated dish
      *
      * @since 1.0
      */
-    public Dish execute(HttpServletRequest aRequest, Dish aDish) {
+    public Dish execute(Dish aDish) {
         
         Dish dish=null;
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
                         
-            dish=DishGetSingle.getDish(aRequest,pm,aDish.getKey().getId());
+            dish=DishGetSingle.getDish(pm,aDish.getKey().getId());
                         
             if (dish!=null){
             
@@ -43,7 +42,7 @@ public class DishUpdate {
                 dish.setLastUpdateTime(new Date());
                 
                 // Reset cache
-                MemCacheUtils.setDish(aRequest,dish);
+                MemCacheUtils.setDish(dish);
                 
                 // History
                 DishHistory dishHistory=new DishHistory();
@@ -56,9 +55,7 @@ public class DishUpdate {
                 pm.makePersistent(dishHistory);
             }
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

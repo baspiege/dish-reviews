@@ -18,11 +18,8 @@ public class DishServlet extends HttpServlet {
     * Display page.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.DISH);
-        }
+        setUpData(request);
+        RequestUtils.forwardTo(request,response,ControllerConstants.DISH);
     }
     
     /**
@@ -37,30 +34,28 @@ public class DishServlet extends HttpServlet {
     *
     * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
+    private void setUpData(HttpServletRequest request) {
         
         // Get dish
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
         if (dishId!=null) {
-            dish=RequestUtils.getDish(request,dishId);
+            dish=RequestUtils.getDish(dishId);
         }
         if (dish==null) {
             throw new RuntimeException("Dish not found: " + dishId);
         }
         
         // Get store
-        Store store=RequestUtils.getStore(request,dish.storeId);
+        Store store=RequestUtils.getStore(dish.storeId);
         if (store==null) {
             throw new RuntimeException("Store not found: " + dish.storeId);
         }
 
         // Optional - reviewId
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",false);
-        if (RequestUtils.hasEdits(request)){
-            return false;  // TODO - Throw exception here?
-        }
-    
-        return true;
+        //if (RequestUtils.hasEdits(request)){
+        // TODO - Throw exception here?
+        //}
     }
 }
