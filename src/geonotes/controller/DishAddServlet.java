@@ -22,26 +22,19 @@ public class DishAddServlet extends HttpServlet {
     * Display page.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            // Default note
-            Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
-            dish.setNote("");
-            RequestUtils.forwardTo(request,response,ControllerConstants.DISH_ADD);
-        }
+        setUpData(request);
+        
+        // Default note
+        Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
+        dish.setNote("");
+        RequestUtils.forwardTo(request,response,ControllerConstants.DISH_ADD);
     }
     
     /**
     * Add dish.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-            return;
-        }
-        
+        setUpData(request);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
         Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
@@ -53,7 +46,7 @@ public class DishAddServlet extends HttpServlet {
                 String note=RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
                 dish.setNote(note);
                 if (!RequestUtils.hasEdits(request)) {
-                    dish=new DishAdd().execute(request, dish);
+                    dish=new DishAdd().execute(dish);
                 }
             }
         }
@@ -69,10 +62,8 @@ public class DishAddServlet extends HttpServlet {
     
     /**
     * Set-up the data.
-    *
-    * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
+    private void setUpData(HttpServletRequest request) {
     
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
@@ -84,7 +75,7 @@ public class DishAddServlet extends HttpServlet {
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;
         if (storeId!=null) {
-            store=new StoreGetSingle().execute(request, storeId);
+            store=new StoreGetSingle().execute(storeId);
         }
         if (store==null) {
             throw new RuntimeException("Store not found:" + storeId);
@@ -95,7 +86,5 @@ public class DishAddServlet extends HttpServlet {
         dish.setStoreId(storeId);
         dish.setUser(request.getUserPrincipal().getName());
         request.setAttribute(RequestUtils.DISH, dish);
-        
-        return true;
     }
 }

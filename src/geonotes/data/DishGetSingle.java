@@ -1,12 +1,9 @@
 package geonotes.data;
 
+import geonotes.data.model.Dish;
 import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
-
-import geonotes.data.model.Dish;
-import geonotes.utils.RequestUtils;
 
 /**
  * Get dish.
@@ -18,19 +15,18 @@ public class DishGetSingle {
     /**
      * Get dish.
      *
-     * @param aRequest The request
+     * @param aDishId dish Id
+     * @return a dish
      * @since 1.0
      */
-    public Dish execute(HttpServletRequest aRequest, Long aDishId) {
+    public Dish execute(Long aDishId) {
         PersistenceManager pm=null;
         Dish dish=null;
         try {
             pm=PMF.get().getPersistenceManager();
-            dish=DishGetSingle.getDish(aRequest,pm,aDishId);
+            dish=DishGetSingle.getDish(pm,aDishId);
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();
@@ -42,14 +38,13 @@ public class DishGetSingle {
     /**
      * Get a dish.
      *
-     * @param aRequest The request
      * @param aPm PersistenceManager
      * @param aDishId dish Id
      * @return a dish null if not found
      *
      * @since 1.0
      */
-    public static Dish getDish(HttpServletRequest aRequest, PersistenceManager aPm, long aDishId) {
+    public static Dish getDish(PersistenceManager aPm, long aDishId) {
         Dish dish=null;
 
         Query query=null;

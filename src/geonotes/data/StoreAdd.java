@@ -1,14 +1,10 @@
 package geonotes.data;
 
-import java.util.Date;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
-
 import geonotes.data.model.Store;
 import geonotes.data.model.StoreHistory;
-import geonotes.utils.RequestUtils;
+import java.util.Date;
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 /**
  * Add a store.
@@ -20,11 +16,12 @@ public class StoreAdd {
     /**
      * Add a store.
      *
-     * @param aRequest The request
+     * @param aStore store to add
+     * @return the added store
      *
      * @since 1.0
      */
-    public Store execute(HttpServletRequest aRequest, Store aStore) {
+    public Store execute(Store aStore) {
 
         PersistenceManager pm=null;
         try {
@@ -47,9 +44,7 @@ public class StoreAdd {
             storeHistory.setUser(aStore.user);
             pm.makePersistent(storeHistory);
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

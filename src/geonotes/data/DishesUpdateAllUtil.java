@@ -1,13 +1,10 @@
 package geonotes.data;
 
+import geonotes.data.model.Dish;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
-
-import geonotes.data.model.Dish;
-import geonotes.utils.RequestUtils;
 
 /**
  * Update all dishes.
@@ -19,10 +16,9 @@ public class DishesUpdateAllUtil {
     /**
      * Update all dishes.
      *
-     * @param aRequest The request
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
+    public void execute() {
         PersistenceManager pm=null;
         List<Dish> results=null;
         try {
@@ -40,9 +36,7 @@ public class DishesUpdateAllUtil {
                 }
             }
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         }
         
         try {            
@@ -51,9 +45,7 @@ public class DishesUpdateAllUtil {
                 dish.setYesVote(0l);                
             }            
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

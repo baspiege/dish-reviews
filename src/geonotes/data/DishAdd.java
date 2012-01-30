@@ -1,15 +1,10 @@
 package geonotes.data;
 
-import java.util.Date;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
-
 import geonotes.data.model.Dish;
 import geonotes.data.model.DishHistory;
 import geonotes.data.model.Store;
-import geonotes.utils.RequestUtils;
+import java.util.Date;
+import javax.jdo.PersistenceManager;
 
 /**
  * Add a dish.
@@ -21,11 +16,12 @@ public class DishAdd {
     /**
      * Add a dish.
      *
-     * @param aRequest The request
+     * @param aDish a dish to add
+     * @return the added dish
      *
      * @since 1.0
      */
-    public Dish execute(HttpServletRequest aRequest, Dish aDish) {
+    public Dish execute(Dish aDish) {
 
         PersistenceManager pm=null;
         try {
@@ -38,7 +34,7 @@ public class DishAdd {
             pm.makePersistent(aDish);
                         
             // Update count
-            Store store=StoreGetSingle.getStore(aRequest,pm,aDish.storeId);
+            Store store=StoreGetSingle.getStore(pm,aDish.storeId);
             store.setDishCount(store.dishCount+1);
             
             // History
@@ -51,9 +47,7 @@ public class DishAdd {
             dishHistory.setUser(aDish.user);
             pm.makePersistent(dishHistory);
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

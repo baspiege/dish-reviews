@@ -2,10 +2,6 @@ package geonotes.utils;
 
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
-
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-
 import geonotes.data.model.Dish;
 import geonotes.data.model.Store;
 
@@ -14,47 +10,37 @@ import geonotes.data.model.Store;
  *
  * @author Brian Spiegel
  */
-public class MemCacheUtils
-{
+public class MemCacheUtils {
+
     private static String DISH="dish";
     private static String STORE="store";
 
     /**
     * Get the dish from cache.
     *
-    * @param aRequest Servlet Request
+    * @param aDishId dish Id
     */
-    public static Dish getDish(HttpServletRequest aRequest, long aDishId)
-    {
-        Dish dish=null;
+    public static Dish getDish(long aDishId) {
         MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
-        dish=(Dish)memcache.get(aDishId + DISH);
-
-        return dish;
+        return (Dish)memcache.get(aDishId + DISH);
     }
     
     /**
     * Get the store from cache.
     *
-    * @param aRequest Servlet Request
+    * @param aStoreId
     */
-    public static Store getStore(HttpServletRequest aRequest, long aStoreId)
-    {
-        Store store=null;
+    public static Store getStore(long aStoreId) {
         MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
-        store=(Store)memcache.get(aStoreId + STORE);
-
-        return store;
+        return (Store)memcache.get(aStoreId + STORE);
     }
 
     /**
     * Set the dish into cache.
     *
-    * @param aRequest Servlet Request
     * @param aDish dish
     */
-    public static void setDish(HttpServletRequest aRequest, Dish aDish)
-    {
+    public static void setDish(Dish aDish) {
         if (aDish!=null) {
             MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
             memcache.put(aDish.getKey().getId() + DISH, aDish);
@@ -64,11 +50,9 @@ public class MemCacheUtils
     /**
     * Set the store into cache.
     *
-    * @param aRequest Servlet Request
     * @param aStore store
     */
-    public static void setStore(HttpServletRequest aRequest, Store aStore)
-    {
+    public static void setStore(Store aStore) {
         if (aStore!=null) {
             MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
             memcache.put(aStore.getKey().getId() + STORE, aStore);

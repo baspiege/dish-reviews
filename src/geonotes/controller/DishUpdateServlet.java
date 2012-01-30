@@ -22,21 +22,15 @@ public class DishUpdateServlet extends HttpServlet {
     * Display page.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.DISH_UPDATE);
-        }
+        setUpData(request);
+        RequestUtils.forwardTo(request,response,ControllerConstants.DISH_UPDATE);
     }
     
     /**
     * Update or delete dish.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-            return;
-        }
+        setUpData(request);
 
         Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
@@ -78,6 +72,9 @@ public class DishUpdateServlet extends HttpServlet {
     */
     private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
         Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
+        if (dish.reviewCount>0) {
+            RequestUtils.addEditUsingKey(aRequest,"dishesWithReviewsCantBeDeletedEditMessage");
+        }
         if (!RequestUtils.hasEdits(request)) {
             new DishDelete().execute(request, dish);
         }    
@@ -95,7 +92,7 @@ public class DishUpdateServlet extends HttpServlet {
     *
     * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
+    private void setUpData(HttpServletRequest request) {
     
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
@@ -115,7 +112,5 @@ public class DishUpdateServlet extends HttpServlet {
 
         dish.setUser(request.getUserPrincipal().getName());        
         request.setAttribute(RequestUtils.DISH, dish);
-
-        return true;
     }
 }

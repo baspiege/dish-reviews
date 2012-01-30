@@ -40,7 +40,7 @@ public class ReviewDelete {
                 pm.deletePersistent(review);
                   
                 // Update count
-                Dish dish=DishGetSingle.getDish(aRequest,pm,review.dishId);
+                Dish dish=DishGetSingle.getDish(pm,review.dishId);
                 dish.setReviewCount(dish.reviewCount-1);
                 
                 // Reset last review

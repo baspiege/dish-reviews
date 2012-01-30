@@ -1,14 +1,13 @@
 package geonotes.data;
 
+import geonotes.data.model.Dish;
+import geonotes.utils.NumberUtils;
+import geonotes.utils.RequestUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.servlet.http.HttpServletRequest;
-
-import geonotes.data.model.Dish;
-import geonotes.utils.NumberUtils;
-import geonotes.utils.RequestUtils;
 
 /**
  * Get dishes.
