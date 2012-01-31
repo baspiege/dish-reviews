@@ -1,14 +1,12 @@
 package geonotes.data;
 
+import geonotes.data.model.Review;
+import geonotes.data.model.ReviewHistory;
+import geonotes.utils.RequestUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
-
-import geonotes.data.model.Review;
-import geonotes.data.model.ReviewHistory;
-import geonotes.utils.RequestUtils;
 
 /**
  * Update all reviews.
@@ -20,10 +18,9 @@ public class ReviewsUpdateAllUtil {
     /**
      * Update all reviews.
      *
-     * @param aRequest The request
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
+    public void execute() {
         PersistenceManager pm=null;
         List<Review> results=null;
         try {
