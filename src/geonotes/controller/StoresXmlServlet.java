@@ -28,7 +28,7 @@ public class StoresXmlServlet extends HttpServlet {
         
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
         if (storeId!=null) {
-             Store store=new StoreGetSingle().execute(request, storeId);
+             Store store=new StoreGetSingle().execute(storeId);
              // Add to list.
              stores=new ArrayList<Store>();
              stores.add(store);

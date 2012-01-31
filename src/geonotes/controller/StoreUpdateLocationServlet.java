@@ -43,7 +43,7 @@ public class StoreUpdateLocationServlet extends HttpServlet {
                 store.setLatitude(latitude);
                 store.setLongitude(longitude);                
                 if (!RequestUtils.hasEdits(request)) {
-                    store=new StoreUpdate().execute(request, store);
+                    store=new StoreUpdate().execute(store);
                 }
             }
         }
@@ -72,7 +72,7 @@ public class StoreUpdateLocationServlet extends HttpServlet {
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;
         if (storeId!=null) {
-            store=new StoreGetSingle().execute(request, storeId);
+            store=new StoreGetSingle().execute(storeId);
         }
         if (store==null) {
             throw new RuntimeException("Store not found: " + storeId);
