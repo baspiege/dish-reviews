@@ -56,7 +56,7 @@ public class DishUpdateServlet extends HttpServlet {
     private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
         if (!RequestUtils.hasEdits(request)) {
-            dish=new DishUpdate().execute(request, dish);
+            dish=new DishUpdate().execute(dish);
         }
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
@@ -73,10 +73,10 @@ public class DishUpdateServlet extends HttpServlet {
     private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
         Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
         if (dish.reviewCount>0) {
-            RequestUtils.addEditUsingKey(aRequest,"dishesWithReviewsCantBeDeletedEditMessage");
+            RequestUtils.addEditUsingKey(request,"dishesWithReviewsCantBeDeletedEditMessage");
         }
         if (!RequestUtils.hasEdits(request)) {
-            new DishDelete().execute(request, dish);
+            new DishDelete().execute(dish);
         }    
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
@@ -104,7 +104,7 @@ public class DishUpdateServlet extends HttpServlet {
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
         if (dishId!=null) {
-            dish=new DishGetSingle().execute(request, dishId);
+            dish=new DishGetSingle().execute(dishId);
         }
         if (dish==null) {
             throw new RuntimeException("Dish not found: " + dishId);

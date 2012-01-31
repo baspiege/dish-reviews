@@ -55,7 +55,7 @@ public class StoreUpdateServlet extends HttpServlet {
     private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
         if (!RequestUtils.hasEdits(request)) {
-            store=new StoreUpdate().execute(request, store);
+            store=new StoreUpdate().execute(store);
         }
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
@@ -71,8 +71,8 @@ public class StoreUpdateServlet extends HttpServlet {
     */
     private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
-        if (aStore.dishCount>0) {
-            RequestUtils.addEditUsingKey(aRequest,"storesWithDishesCantBeDeletedEditMessage");
+        if (store.dishCount>0) {
+            RequestUtils.addEditUsingKey(request,"storesWithDishesCantBeDeletedEditMessage");
         }
         if (!RequestUtils.hasEdits(request)) {
             new StoreDelete().execute(store);
@@ -100,7 +100,7 @@ public class StoreUpdateServlet extends HttpServlet {
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;
         if (storeId!=null) {
-            store=new StoreGetSingle().execute(request, storeId);
+            store=new StoreGetSingle().execute(storeId);
         }
         if (store==null) {
             throw new RuntimeException("Store not found");
