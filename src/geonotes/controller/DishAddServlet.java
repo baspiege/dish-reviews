@@ -76,6 +76,7 @@ public class DishAddServlet extends HttpServlet {
         Store store=null;
         if (storeId!=null) {
             store=new StoreGetSingle().execute(storeId);
+            request.setAttribute(RequestUtils.STORE, store);
         }
         if (store==null) {
             throw new RuntimeException("Store not found:" + storeId);

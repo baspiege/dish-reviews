@@ -10,10 +10,10 @@
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     boolean isSignedIn=request.getUserPrincipal().getName()!= null;
-    Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
+    Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);    
     Store store=(Store)request.getAttribute(RequestUtils.STORE);
     Long dishId=dish.getKey().getId();
-    Long reviewId=(Long)request.getAttribute("reviewId");
+    Long reviewId=(Long)request.getAttribute("reviewId");    
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>

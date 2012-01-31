@@ -26,6 +26,7 @@ public class DishDelete {
                         
             if (aDish!=null){
                 pm.deletePersistent(aDish);
+                aDish=DishGetSingle.getDish(pm,aDish.getKey().getId());            
                 
                 // Update count
                 Store store=StoreGetSingle.getStore(pm,aDish.storeId);
