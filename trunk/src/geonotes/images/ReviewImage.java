@@ -29,7 +29,7 @@ public class ReviewImage extends HttpServlet {
         try {
             pm=PMF.get().getPersistenceManager();
                         
-            Review review=ReviewGetSingle.getReview(request,pm,reviewId.longValue());
+            Review review=ReviewGetSingle.getReview(pm,reviewId.longValue());
             
             if (review!=null){
                 response.setContentType("image/jpeg");

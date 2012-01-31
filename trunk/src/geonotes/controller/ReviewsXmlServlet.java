@@ -30,7 +30,7 @@ public class ReviewsXmlServlet extends HttpServlet {
         
         List<Review> reviews=null;
         if (reviewId!=null) {
-           new ReviewGetSingle().execute(request);
+           new ReviewGetSingle().execute(reviewId);
            // Add to list.
            reviews=new ArrayList<Review>();
            reviews.add((Review)request.getAttribute(RequestUtils.REVIEW));

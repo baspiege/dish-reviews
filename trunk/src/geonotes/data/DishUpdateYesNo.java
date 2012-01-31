@@ -29,7 +29,7 @@ public class DishUpdateYesNo {
         try {
             pm=PMF.get().getPersistenceManager();
 
-            /*
+            /* TODO Move this
             // If user has voted, create edit and return
             query = pm.newQuery(DishVote.class);
             query.setFilter("(dishId == dishIdParam && user==userParam)");

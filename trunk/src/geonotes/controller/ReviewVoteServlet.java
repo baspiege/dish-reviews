@@ -31,13 +31,15 @@ public class ReviewVoteServlet extends HttpServlet {
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
-        
+
+        Review review=(Review)request.getAttribute(RequestUtils.REVIEW);        
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
      
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
-            RequestUtils.getAlphaInput(request,"vote","vote",true);
+            String vote=RequestUtils.getAlphaInput(request,"vote","vote",true);
+            String user=request.getUserPrincipal().getName();
             if (action.equals(bundle.getString("agreeLabel"))) {
                 if (!RequestUtils.hasEdits(request)) {
                     new ReviewUpdateYesNo().execute(review,vote,user);
@@ -51,7 +53,6 @@ public class ReviewVoteServlet extends HttpServlet {
         
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
-            Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
             request.setAttribute("dishId",review.dishId);
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
@@ -74,7 +75,7 @@ public class ReviewVoteServlet extends HttpServlet {
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
         Review review=null;
         if (reviewId!=null) {
-            new ReviewGetSingle().execute(request);
+            new ReviewGetSingle().execute(reviewId);
             review=(Review)request.getAttribute(RequestUtils.REVIEW);
         }
         if (review==null) {
