@@ -36,6 +36,7 @@ public class ReviewAddServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
         
+        Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
      
@@ -43,9 +44,10 @@ public class ReviewAddServlet extends HttpServlet {
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("addLabel"))) {		
                 // Fields
-                RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
+                String note=RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
+                review.setNote(note);
                 if (!RequestUtils.hasEdits(request)) {
-                    new ReviewAdd().execute();
+                    new ReviewAdd().execute(review);
                 }
             }
         }

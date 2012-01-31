@@ -52,12 +52,12 @@ public class ReviewUpdateServlet extends HttpServlet {
     * Update action.
     */
     private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         if (!RequestUtils.hasEdits(request)) {
-            new ReviewUpdate().execute(request);
+            new ReviewUpdate().execute(review);
         }
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
-            Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
             request.setAttribute("dishId",review.dishId);
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
@@ -69,12 +69,12 @@ public class ReviewUpdateServlet extends HttpServlet {
     * Delete action.
     */
     private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+        Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         if (!RequestUtils.hasEdits(request)) {
-            new ReviewDelete().execute(request);
+            new ReviewDelete().execute(review);
         }    
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
-            Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
             request.setAttribute("dishId",review.dishId);
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
@@ -97,7 +97,7 @@ public class ReviewUpdateServlet extends HttpServlet {
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
         Review review=null;
         if (reviewId!=null) {
-            new ReviewGetSingle().execute(request);
+            new ReviewGetSingle().execute(reviewId);
             review=(Review)request.getAttribute(RequestUtils.REVIEW);
         }
         if (review==null) {

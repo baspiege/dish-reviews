@@ -36,7 +36,7 @@ public class ReviewUpdateUndoYesNo {
             query.declareParameters("long reviewIdParam, String userParam");
             query.setRange(0,1);
             
-            /*
+            /* TODO Update this
             List<ReviewVote> results = (List<ReviewVote>) query.execute(aReview.getKey().getId(), aUser);
             if (results.isEmpty()) {
                 RequestUtils.addEditUsingKey(aRequest,"haventVotedEditMessage");

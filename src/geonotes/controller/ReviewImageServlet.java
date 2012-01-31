@@ -91,9 +91,7 @@ public class ReviewImageServlet extends HttpServlet {
                         request.setAttribute("imageThumbnail",imageBlobThumbnail);
                     }
                 } catch (Exception e) {
-                    System.err.println(this.getClass().getName() + ": " + e);
-                    e.printStackTrace();
-                    RequestUtils.addEditUsingKey(request,"requestNotProcessedEditMsssage");
+                    throw new RuntimeException(e);
                 }
                 // Process if no edits
                 if (!RequestUtils.hasEdits(request)) {
@@ -125,7 +123,7 @@ public class ReviewImageServlet extends HttpServlet {
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
         Review review=null;
         if (reviewId!=null) {
-            new ReviewGetSingle().execute(request);
+            new ReviewGetSingle().execute(reviewId);
             review=(Review)request.getAttribute(RequestUtils.REVIEW);
         }
         if (review==null) {
