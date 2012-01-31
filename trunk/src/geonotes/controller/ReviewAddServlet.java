@@ -22,24 +22,19 @@ public class ReviewAddServlet extends HttpServlet {
     * Display page.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            // Default note
-            request.setAttribute("note","");
-            RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_ADD);
-        }
+        setUpData(request);
+
+        Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
+        // Default note
+        request.setAttribute("note","");
+        RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_ADD);
     }
     
     /**
     * Add review.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-            return;
-        }
+        setUpData(request);
         
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -50,7 +45,7 @@ public class ReviewAddServlet extends HttpServlet {
                 // Fields
                 RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
                 if (!RequestUtils.hasEdits(request)) {
-                    new ReviewAdd().execute(request);
+                    new ReviewAdd().execute();
                 }
             }
         }
@@ -65,15 +60,13 @@ public class ReviewAddServlet extends HttpServlet {
     
     /**
     * Set-up the data.
-    *
-    * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
+    private void setUpData(HttpServletRequest request) {
     
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
-            return false;
+            throw new RuntimeException("User principal not found");
         }
         
         // Check dish       
@@ -83,9 +76,8 @@ public class ReviewAddServlet extends HttpServlet {
             dish=new DishGetSingle().execute(dishId);
         }
         if (dish==null) {
-            return false;
+            throw new RuntimeException("Dish not found: " + dishId);
         }
-        
-        return true;
+        request.setAttribute(RequestUtils.DISH, dish);
     }
 }

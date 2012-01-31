@@ -59,9 +59,7 @@ public class DishesGetAll {
                 }
             }
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

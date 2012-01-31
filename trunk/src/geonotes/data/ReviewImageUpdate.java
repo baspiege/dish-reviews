@@ -37,7 +37,7 @@ public class ReviewImageUpdate {
         try {
             pm=PMF.get().getPersistenceManager();
             
-            Review review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
+            Review review=ReviewGetSingle.getReview(pm,reviewId.longValue());
             
             if (review!=null){
                 review.setImage(image);
@@ -61,9 +61,7 @@ public class ReviewImageUpdate {
                 dish.setLastReviewImageId(review.getKey().getId());
             }
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

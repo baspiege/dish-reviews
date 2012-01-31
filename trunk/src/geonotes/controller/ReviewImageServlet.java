@@ -33,22 +33,15 @@ public class ReviewImageServlet extends HttpServlet {
     * Display the page.  Everyone can see images.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_IMAGE);
-        }
+        setUpData(request);
+        RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_IMAGE);
     }
     
     /**
     * Update or delete images. Only review owners can update their own images.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-            return;
-        }
+        setUpData(request);
         
         // Check ownerhip
         Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
@@ -125,16 +118,8 @@ public class ReviewImageServlet extends HttpServlet {
     
     /**
     * Set-up the data.
-    *
-    * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
-    
-        // Check if signed in
-        boolean isSignedIn=request.getUserPrincipal().getName()!=null;
-        if (!isSignedIn) {
-            return false;
-        }
+    private void setUpData(HttpServletRequest request) {
         
         // Get review
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
@@ -144,9 +129,9 @@ public class ReviewImageServlet extends HttpServlet {
             review=(Review)request.getAttribute(RequestUtils.REVIEW);
         }
         if (review==null) {
-            return false;
+            throw new RuntimeException("Review not found: " + reviewId);
         }
         
-        return true;
+        request.setAttribute(RequestUtils.REVIEW, review);
     }
 }

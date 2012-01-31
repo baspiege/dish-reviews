@@ -16,11 +16,8 @@ public class ReviewsOwnServlet extends HttpServlet {
     * Display page.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_OWN);
-        }
+        setUpData(request);
+        RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_OWN);
     }
     
     /**
@@ -32,17 +29,13 @@ public class ReviewsOwnServlet extends HttpServlet {
     
     /**
     * Set-up the data.
-    *
-    * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
+    private void setUpData(HttpServletRequest request) {
     
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
-            return false;
+            throw new RuntimeException("User principal not found");
         }
-        
-        return true;
     }
 }
