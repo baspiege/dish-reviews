@@ -1,14 +1,10 @@
 package geonotes.data;
 
 import com.google.appengine.api.datastore.Blob;
-
-import javax.jdo.PersistenceManager;
-import javax.servlet.http.HttpServletRequest;
-
 import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
 import geonotes.data.model.ReviewHistory;
-import geonotes.utils.RequestUtils;
+import javax.jdo.PersistenceManager;
 
 /**
  * Update an image.
@@ -20,16 +16,14 @@ public class ReviewImageUpdate {
     /**
      * Update an image.
 	   *
-     * @param aRequest The request
+     * @param aReview the review which will have an updated image
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
+    public void execute(Review aReview) {
 
-        // Get Id.
-        Long reviewId=(Long)aRequest.getAttribute("reviewId");
-        
         // Fields
+        // TODO - input into parameters
         Blob image=(Blob)aRequest.getAttribute("image");
         Blob imageThumbnail=(Blob)aRequest.getAttribute("imageThumbnail");
         
@@ -37,7 +31,7 @@ public class ReviewImageUpdate {
         try {
             pm=PMF.get().getPersistenceManager();
             
-            Review review=ReviewGetSingle.getReview(pm,reviewId.longValue());
+            Review review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
             
             if (review!=null){
                 review.setImage(image);

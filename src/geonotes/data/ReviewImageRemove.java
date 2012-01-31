@@ -1,12 +1,9 @@
 package geonotes.data;
 
-import javax.jdo.PersistenceManager;
-import javax.servlet.http.HttpServletRequest;
-
 import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
 import geonotes.data.model.ReviewHistory;
-import geonotes.utils.RequestUtils;
+import javax.jdo.PersistenceManager;
 
 /**
  * Remove an image.
@@ -18,20 +15,17 @@ public class ReviewImageRemove {
     /**
      * Remove an image.
 	   *
-     * @param aRequest The request
+     * @param aReview the review which the image will be removed from
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
-
-        // Get Id.
-        Long reviewId=(Long)aRequest.getAttribute("reviewId");
+    public void execute(Review aReview) {
         
         PersistenceManager pm=null;
         Review review=null;
         try {
             pm=PMF.get().getPersistenceManager();
-            review=ReviewGetSingle.getReview(pm,reviewId.longValue());
+            review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
             
             if (review!=null){
                 review.setImage(null);

@@ -95,12 +95,12 @@ public class ReviewImageServlet extends HttpServlet {
                 }
                 // Process if no edits
                 if (!RequestUtils.hasEdits(request)) {
-                    new ReviewImageUpdate().execute(request);
+                    new ReviewImageUpdate().execute(review);
                 }
             } else if (action.equals(bundle.getString("removeLabel"))) {		
                 // Remove an image
                 if (!RequestUtils.hasEdits(request)) {
-                    new ReviewImageRemove().execute(request);
+                    new ReviewImageRemove().execute(review);
                 }
             }
         }
