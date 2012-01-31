@@ -32,6 +32,7 @@ public class DishAdd {
             
             // Save
             pm.makePersistent(aDish);
+            aDish=DishGetSingle.getDish(pm,aDish.getKey().getId());  // Get again so key is set
                         
             // Update count
             Store store=StoreGetSingle.getStore(pm,aDish.storeId);

@@ -44,12 +44,16 @@ public class DishServlet extends HttpServlet {
         }
         if (dish==null) {
             throw new RuntimeException("Dish not found: " + dishId);
+        } else {
+            request.setAttribute(RequestUtils.DISH,dish);
         }
         
         // Get store
         Store store=RequestUtils.getStore(dish.storeId);
         if (store==null) {
             throw new RuntimeException("Store not found: " + dish.storeId);
+        } else {
+            request.setAttribute(RequestUtils.STORE,store);
         }
 
         // Optional - reviewId
