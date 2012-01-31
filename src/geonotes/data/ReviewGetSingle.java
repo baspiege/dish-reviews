@@ -1,12 +1,9 @@
 package geonotes.data;
 
+import geonotes.data.model.Review;
 import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
-
-import geonotes.data.model.Review;
-import geonotes.utils.RequestUtils;
 
 /**
  * Get review.
@@ -21,42 +18,33 @@ public class ReviewGetSingle {
      * @param aRequest The request
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
+    public Review execute(Long aReviewId) {
         PersistenceManager pm=null;
-        
-        // Get Id.
-        Long reviewId=(Long)aRequest.getAttribute("reviewId");
-        
+                
+        Review review=null;
         try {
             pm=PMF.get().getPersistenceManager();
-
-            Review review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
-
-            // Set into request
-            aRequest.setAttribute(RequestUtils.REVIEW, review);
-
+            review=ReviewGetSingle.getReview(pm,aReviewId);
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();
             }
         }
+        return review;
     }
     
     /**
      * Get a review.
      *
-     * @param aRequest The request
      * @param aPm PersistenceManager
      * @param aReviewId review Id
      * @return a review null if not found
      *
      * @since 1.0
      */
-    public static Review getReview(HttpServletRequest aRequest, PersistenceManager aPm, long aReviewId) {
+    public static Review getReview(PersistenceManager aPm, long aReviewId) {
         Review review=null;
 
         Query query=null;
@@ -83,14 +71,13 @@ public class ReviewGetSingle {
     /**
      * Get the last review.
      *
-     * @param aRequest The request
      * @param aPm PersistenceManager
      * @param aDishId dish Id
      * @return a review null if not found
      *
      * @since 1.0
      */
-    public static Review getLastReview(HttpServletRequest aRequest, PersistenceManager aPm, long aDishId) {
+    public static Review getLastReview(PersistenceManager aPm, long aDishId) {
         Review review=null;
 
         Query query=null;
@@ -118,14 +105,13 @@ public class ReviewGetSingle {
     /**
      * Get the last review with image.
      *
-     * @param aRequest The request
      * @param aPm PersistenceManager
      * @param aDishId dish Id
      * @return a review null if not found
      *
      * @since 1.0
      */
-    public static Review getLastReviewWithImage(HttpServletRequest aRequest, PersistenceManager aPm, long aDishId) {
+    public static Review getLastReviewWithImage(PersistenceManager aPm, long aDishId) {
         Review review=null;
 
         Query query=null;

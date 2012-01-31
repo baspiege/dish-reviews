@@ -1,15 +1,11 @@
 package geonotes.data;
 
-import java.util.Date;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
-
 import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
 import geonotes.data.model.ReviewHistory;
-import geonotes.utils.RequestUtils;
+import java.util.Date;
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 /**
  * Add a review.
@@ -25,51 +21,39 @@ public class ReviewAdd {
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
-
-        // Note
-        String note=(String)aRequest.getAttribute("note");
-        Long dishId=(Long)aRequest.getAttribute("dishId");
-        String user=(String)aRequest.getAttribute("user");
+    public Review execute(Review aReview) {
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
 
-            // Review
-            Review review=new Review();
-            review.setNote(note);
-            review.setLastUpdateTime(new Date());
-            review.setDishId(dishId);
-            review.setYesVote(0);
-            review.setUser(user);
-            pm.makePersistent(review);
+            aReview.setLastUpdateTime(new Date());
+            aReview.setYesVote(0);
+            pm.makePersistent(aReview);
             
             // History
             ReviewHistory reviewHistory=new ReviewHistory();
-            reviewHistory.setNote(review.note);
-            reviewHistory.setLastUpdateTime(review.lastUpdateTime);
-            reviewHistory.setDishId(review.dishId);
-            reviewHistory.setYesVote(review.yesVote);
-            reviewHistory.setUser(review.user);
+            reviewHistory.setNote(aReview.note);
+            reviewHistory.setLastUpdateTime(aReview.lastUpdateTime);
+            reviewHistory.setDishId(aReview.dishId);
+            reviewHistory.setYesVote(aReview.yesVote);
+            reviewHistory.setUser(aReview.user);
             pm.makePersistent(reviewHistory);
             
             // Update review count
-            Dish dish=DishGetSingle.getDish(pm,dishId.longValue());
+            Dish dish=DishGetSingle.getDish(pm,aReview.dishId);
             dish.setReviewCount(dish.reviewCount+1);
             
             // Last review
-            dish.setLastReview(note);
-            dish.setLastReviewUserId(user);
-            
+            dish.setLastReview(aReview.note);
+            dish.setLastReviewUserId(aReview.user);            
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();
             }
         }
+        return aReview;
     }
 }

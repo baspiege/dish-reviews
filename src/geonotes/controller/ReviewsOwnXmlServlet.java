@@ -21,14 +21,11 @@ public class ReviewsOwnXmlServlet extends HttpServlet {
     * Get data.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            ResourceBundle bundle = ResourceBundle.getBundle("Text");
-            RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
-            new ReviewsSingleUserGetAll().execute(request);
-            RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_OWN_XML);
-        }
+        setUpData(request);
+        ResourceBundle bundle = ResourceBundle.getBundle("Text");
+        RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
+        new ReviewsSingleUserGetAll().execute(request);
+        RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_OWN_XML);
     }
     
     /**
@@ -40,17 +37,13 @@ public class ReviewsOwnXmlServlet extends HttpServlet {
     
     /**
     * Set-up the data.
-    *
-    * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
+    private void setUpData(HttpServletRequest request) {
     
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
-            return false;
+           throw new RuntimeException("User principal not found");
         }
-        
-        return true;
     }
 }

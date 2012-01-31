@@ -31,8 +31,6 @@ public class DishServlet extends HttpServlet {
     
     /**
     * Set-up the data.
-    *
-    * @return a boolean indiciating success or failure.
     */
     private void setUpData(HttpServletRequest request) {
         

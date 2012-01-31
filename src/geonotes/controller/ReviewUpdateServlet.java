@@ -22,21 +22,15 @@ public class ReviewUpdateServlet extends HttpServlet {
     * Display page.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_UPDATE);
-        }
+        setUpData(request);
+        RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_UPDATE);
     }
     
     /**
     * Update or delete review.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-            return;
-        }
+        setUpData(request);
         
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -90,15 +84,13 @@ public class ReviewUpdateServlet extends HttpServlet {
     
     /**
     * Set-up the data.
-    *
-    * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
+    private void setUpData(HttpServletRequest request) {
     
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
-            return false;
+           throw new RuntimeException("User principal not found");
         }
            
         // Get review
@@ -109,15 +101,15 @@ public class ReviewUpdateServlet extends HttpServlet {
             review=(Review)request.getAttribute(RequestUtils.REVIEW);
         }
         if (review==null) {
-            return false;
+            throw new RuntimeException("Review not found: " + reviewId);
         }
-        
+                
         // Check ownerhip
         boolean usersOwnReview=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
         if (!usersOwnReview) {
-            return false;
+            throw new RuntimeException("Review not own: " + reviewId);
         }
         
-        return true;
+        request.setAttribute(RequestUtils.REVIEW, review);
     }
 }

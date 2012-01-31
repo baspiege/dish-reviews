@@ -3,7 +3,6 @@ package geonotes.data;
 import java.util.Date;
 import java.util.Map;
 import javax.jdo.PersistenceManager;
-import javax.servlet.http.HttpServletRequest;
 
 import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
@@ -25,25 +24,20 @@ public class ReviewUpdate {
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
-
-        // Get Id.
-        Long reviewId=(Long)aRequest.getAttribute("reviewId");
-        
-        // Fields
-        String note=(String)aRequest.getAttribute("note");
-        String user=(String)aRequest.getAttribute("user");
+    public Review execute(Review aReview) {
         
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
                         
-            Review review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
+            Review review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
             
             if (review!=null){
             
-                if (note!=null) {
-                    review.setNote(note);
+                if (aReview.note!=null) {
+                    review.setNote(aReview.note);
+                    review.setUser(aReview.user);
+                    review.setLastUpdateTime(new Date());
                     
                     // History
                     ReviewHistory reviewHistory=new ReviewHistory();
@@ -55,21 +49,18 @@ public class ReviewUpdate {
                     pm.makePersistent(reviewHistory);
                     
                     // Last review
-                    Dish dish=DishGetSingle.getDish(pm,review.dishId);
-                    dish.setLastReview(note);
-                    dish.setLastReviewUserId(user);
-                    
-                    review.setLastUpdateTime(new Date());
+                    Dish dish=DishGetSingle.getDish(pm,aReview.getKey().getId());
+                    dish.setLastReview(aReview.note);
+                    dish.setLastReviewUserId(aReview.user);
                 }
             }
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();
             }
         }
+        return aReview;
     }
 }

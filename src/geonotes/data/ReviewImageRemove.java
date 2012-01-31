@@ -31,7 +31,7 @@ public class ReviewImageRemove {
         Review review=null;
         try {
             pm=PMF.get().getPersistenceManager();
-            review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
+            review=ReviewGetSingle.getReview(pm,reviewId.longValue());
             
             if (review!=null){
                 review.setImage(null);
@@ -51,10 +51,7 @@ public class ReviewImageRemove {
                 pm.makePersistent(reviewHistory);
             }
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
-            return;
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();
@@ -66,7 +63,7 @@ public class ReviewImageRemove {
                         
             if (review!=null){
                 // Set last image
-                Review reviewImage=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,review.dishId);
+                Review reviewImage=ReviewGetSingle.getLastReviewWithImage(pm,review.dishId);
                 Dish dish=DishGetSingle.getDish(pm,review.dishId);
                 if (reviewImage!=null) {
                     //System.out.println(review.dishId + ": " + reviewImage.getKey().getId());
@@ -77,9 +74,7 @@ public class ReviewImageRemove {
                 }
             }
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

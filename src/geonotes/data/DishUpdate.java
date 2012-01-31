@@ -34,12 +34,13 @@ public class DishUpdate {
             dish=DishGetSingle.getDish(pm,aDish.getKey().getId());
                         
             if (dish!=null){
-            
+
                 if (aDish.note!=null) {
                     dish.setNote(aDish.note);
                 }
                     
                 dish.setLastUpdateTime(new Date());
+                dish.setUser(aDish.user);
                 
                 // Reset cache
                 MemCacheUtils.setDish(dish);

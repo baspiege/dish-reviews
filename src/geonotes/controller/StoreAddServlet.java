@@ -21,17 +21,15 @@ public class StoreAddServlet extends HttpServlet {
     * Display page.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            // Default note
-            request.setAttribute("note","");
-            // Get fields passed in
-            ResourceBundle bundle = ResourceBundle.getBundle("Text");
-            RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
-            RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORE_ADD);
-        }
+        setUpData(request);
+
+        // Default note
+        request.setAttribute("note","");
+        // Get fields passed in
+        ResourceBundle bundle = ResourceBundle.getBundle("Text");
+        RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
+        RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
+        RequestUtils.forwardTo(request,response,ControllerConstants.STORE_ADD);
     }
 
     /**
@@ -39,10 +37,7 @@ public class StoreAddServlet extends HttpServlet {
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-            return;
-        }
+        setUpData(request);
   
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
@@ -75,10 +70,8 @@ public class StoreAddServlet extends HttpServlet {
 
     /**
     * Set-up the data.
-    *
-    * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
+    private void setUpData(HttpServletRequest request) {
 
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
@@ -90,7 +83,5 @@ public class StoreAddServlet extends HttpServlet {
         Store store=new Store();
         store.setUser(request.getUserPrincipal().getName());
         request.setAttribute(RequestUtils.STORE, store);
-
-        return true;
     }
 }

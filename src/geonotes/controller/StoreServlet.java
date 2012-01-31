@@ -17,11 +17,8 @@ public class StoreServlet extends HttpServlet {
     * Display page.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!setUpData(request)) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-        } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORE);
-        }
+        setUpData(request);
+        RequestUtils.forwardTo(request,response,ControllerConstants.STORE);
     }
     
     /**
@@ -33,10 +30,8 @@ public class StoreServlet extends HttpServlet {
     
     /**
     * Set-up the data.
-    *
-    * @return a boolean indiciating success or failure.
     */
-    private boolean setUpData(HttpServletRequest request) {
+    private void setUpData(HttpServletRequest request) {
         
         // Get store
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
@@ -48,7 +43,5 @@ public class StoreServlet extends HttpServlet {
         if (store==null) {
             throw new RuntimeException("Store not found: " + storeId);
         }
-    
-        return true;
     }
 }

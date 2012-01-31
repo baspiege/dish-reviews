@@ -1,15 +1,10 @@
 package geonotes.data;
 
-import java.util.List;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
-
 import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
-import geonotes.utils.DisplayUtils;
-import geonotes.utils.RequestUtils;
+import java.util.List;
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 /**
  * Delete review
@@ -21,20 +16,17 @@ public class ReviewDelete {
     /**
      * Delete review.
 	   *
-     * @param aRequest The request
+     * @param aReview review to delete
      *
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
-
-        // Get Id.
-        Long reviewId=(Long)aRequest.getAttribute("reviewId");
+    public void execute(Review aReview) {
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
             
-            Review review=ReviewGetSingle.getReview(aRequest,pm,reviewId.longValue());
+            Review review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
             
             if (review!=null){
                 pm.deletePersistent(review);
@@ -60,7 +52,7 @@ public class ReviewDelete {
                 }
                 
                 // Set last image
-                Review reviewImage=ReviewGetSingle.getLastReviewWithImage(aRequest,pm,dish.getKey().getId());
+                Review reviewImage=ReviewGetSingle.getLastReviewWithImage(pm,dish.getKey().getId());
                 if (reviewImage!=null) {
                     dish.setLastReviewImageId(reviewImage.getKey().getId());
                 } else {
@@ -68,9 +60,7 @@ public class ReviewDelete {
                 }
             }
         } catch (Exception e) {
-            System.err.println(this.getClass().getName() + ": " + e);
-            e.printStackTrace();
-            RequestUtils.addEditUsingKey(aRequest,"requestNotProcessedEditMsssage");
+            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();
