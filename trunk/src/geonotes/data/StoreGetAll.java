@@ -2,12 +2,10 @@ package geonotes.data;
 
 import geonotes.data.model.Store;
 import geonotes.utils.NumberUtils;
-import geonotes.utils.RequestUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Get stores.
@@ -22,38 +20,37 @@ public class StoreGetAll {
     /**
      * Get stores.
      *
-     * @param aRequest The request
+     * @param aLatitude
+     * @param aLongitude
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
+    public List<Store> execute(double aLatitude, double aLongitude) {
         PersistenceManager pm=null;
+        List<Store> results=null;
         try {
             pm=PMF.get().getPersistenceManager();
             Query query=null;
             try {
-                Double latitude=(Double)aRequest.getAttribute("latitude");
-                Double longitude=(Double)aRequest.getAttribute("longitude");
-
-                double latitudeCenter=NumberUtils.getNumber2DecimalPrecision(latitude);
-                double longitudeCenter=NumberUtils.getNumber2DecimalPrecision(longitude);
+                double latitudeCenter=NumberUtils.getNumber2DecimalPrecision(aLatitude);
+                double longitudeCenter=NumberUtils.getNumber2DecimalPrecision(aLongitude);
 
                 query = pm.newQuery(Store.class);
                 query.setFilter(FILTER);
                 query.declareParameters(DECLARED_PARAMETERS);
                 
-                List<Store> results = new ArrayList<Store>();
+                results = new ArrayList<Store>();
 
                 // Center                
                 System.out.println("center");                
                 List<Store> resultsTemp = (List<Store>) query.execute(latitudeCenter, longitudeCenter);
                 transferResults(results,resultsTemp);
 
-                boolean latNeg=(latitude<0);
+                boolean latNeg=(aLatitude<0);
                 
                 // Lat inc
                 boolean latInc=false;
-                if ((latNeg && latitudeCenter-latitude<.0025) ||
-                   (!latNeg && latitude-latitudeCenter>.0075)) {
+                if ((latNeg && latitudeCenter-aLatitude<.0025) ||
+                   (!latNeg && aLatitude-latitudeCenter>.0075)) {
                     System.out.println("latInc");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,.01), longitudeCenter);
                     transferResults(results,resultsTemp);
@@ -62,23 +59,23 @@ public class StoreGetAll {
                 
                 // Lat dec
                 boolean latDec=false;
-                if ((latNeg && latitudeCenter-latitude>.0075) || 
-                   (!latNeg && latitude-latitudeCenter<.0025)) {
+                if ((latNeg && latitudeCenter-aLatitude>.0075) || 
+                   (!latNeg && aLatitude-latitudeCenter<.0025)) {
                     System.out.println("latDec");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,-.01), longitudeCenter);
                     transferResults(results,resultsTemp);
                     latDec=true;
                 }
 
-                boolean longNeg=(longitude<0);
+                boolean longNeg=(aLongitude<0);
                 
                 // Long inc
                 // Examples: rounded (center), actual, need to check, increment
                 // a.) -8.00, -8.001, -7.99, +.01
                 // b.) 8.00, 8.008, 8.01, +.01
                 boolean longInc=false;
-                if ((longNeg && longitudeCenter-longitude<.0025) ||
-                   (!longNeg && longitude-longitudeCenter>.0075)) {
+                if ((longNeg && longitudeCenter-aLongitude<.0025) ||
+                   (!longNeg && aLongitude-longitudeCenter>.0075)) {
                     System.out.println("longInc");
                     resultsTemp = (List<Store>) query.execute(latitudeCenter, NumberUtils.addNumber2DecimalPrecision(longitudeCenter,.01));
                     transferResults(results,resultsTemp);
@@ -90,8 +87,8 @@ public class StoreGetAll {
                 // a.) -8.00, -8.008, -8.01, -.01
                 // b.) 8.00, 8.001, 7.99, -.01
                 boolean longDec=false;
-                if ((longNeg && longitudeCenter-longitude>.0075) || 
-                   (!longNeg && longitude-longitudeCenter<.0025)) {
+                if ((longNeg && longitudeCenter-aLongitude>.0075) || 
+                   (!longNeg && aLongitude-longitudeCenter<.0025)) {
                     System.out.println("longDec");
                     resultsTemp = (List<Store>) query.execute(latitudeCenter, NumberUtils.addNumber2DecimalPrecision(longitudeCenter,-.01));
                     transferResults(results,resultsTemp);
@@ -116,9 +113,6 @@ public class StoreGetAll {
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,.01), NumberUtils.addNumber2DecimalPrecision(longitudeCenter,.01));
                     transferResults(results,resultsTemp);
                 }
-
-                // Set into request
-                aRequest.setAttribute("stores", results);
             } finally {
                 if (query!=null) {
                     query.closeAll();
@@ -129,6 +123,7 @@ public class StoreGetAll {
                 pm.close();
             }
         }
+        return results;
     }
     
     /**
