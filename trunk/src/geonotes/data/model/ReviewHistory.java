@@ -2,10 +2,8 @@ package geonotes.data.model;
 
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.Key; 
-
 import java.io.Serializable;  
 import java.util.Date;
-
 import javax.jdo.annotations.IdGeneratorStrategy; 
 import javax.jdo.annotations.IdentityType; 
 import javax.jdo.annotations.PersistenceCapable; 
@@ -57,14 +55,27 @@ public class ReviewHistory implements Serializable {
      * Constructor.
      * 
      */ 
-    public ReviewHistory()
-    {
+    public ReviewHistory() {
     } 
- 
+    
+    /**
+     * Constructor.
+     * 
+     */ 
+    public ReviewHistory(Review aReview) {
+        setNote(aReview.note);
+        setLastUpdateTime(aReview.lastUpdateTime);
+        setDishId(aReview.dishId);
+        setYesVote(aReview.yesVote);
+        setUser(aReview.user);
+        setImage(aReview.image);
+        setImageThumbnail(aReview.imageThumbnail);
+        setHasImage(aReview.hasImage);    
+    } 
+     
     // Accessors for the fields.  JDO doesn't use these, but the application does. 
     
-    public boolean getHasImage()
-    {
+    public boolean getHasImage() {
         if (hasImage==null) {
             return false;
         } else {
@@ -72,48 +83,39 @@ public class ReviewHistory implements Serializable {
         }
     }
 
-    public Key getKey()
-    { 
+    public Key getKey() { 
         return key; 
     }  
 
-    public void setDishId(long aDishId)
-    { 
+    public void setDishId(long aDishId) { 
         dishId=aDishId; 
     }
     
-    public void setHasImage(Boolean aHasImage)
-    {
+    public void setHasImage(Boolean aHasImage) {
         hasImage=aHasImage; 
     }
     
-    public void setNote(String aNote)
-    { 
+    public void setNote(String aNote) { 
         note=aNote; 
     }
     
-    public void setImage(Blob aImage)
-    { 
+    public void setImage(Blob aImage) { 
         image=aImage; 
     }
     
-    public void setImageThumbnail(Blob aImage)
-    { 
+    public void setImageThumbnail(Blob aImage) { 
         imageThumbnail=aImage; 
     }
     
-    public void setLastUpdateTime(Date aLastUpdateTime)
-    { 
+    public void setLastUpdateTime(Date aLastUpdateTime) { 
         lastUpdateTime=aLastUpdateTime; 
     }
         
-    public void setYesVote(long aYes)
-    { 
+    public void setYesVote(long aYes) { 
         yesVote=aYes; 
     }
     
-    public void setUser(String aUser)
-    { 
+    public void setUser(String aUser) { 
         user=aUser; 
     }
 }

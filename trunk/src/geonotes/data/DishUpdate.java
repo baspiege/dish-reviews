@@ -46,13 +46,7 @@ public class DishUpdate {
                 MemCacheUtils.setDish(dish);
                 
                 // History
-                DishHistory dishHistory=new DishHistory();
-                dishHistory.setDishId(dish.getKey().getId());
-                dishHistory.setNote(dish.note);
-                dishHistory.setLastUpdateTime(dish.lastUpdateTime);
-                dishHistory.setStoreId(dish.storeId);
-                dishHistory.setYesVote(dish.yesVote);
-                dishHistory.setUser(dish.user);
+                DishHistory dishHistory=new DishHistory(dish);
                 pm.makePersistent(dishHistory);
             }
         } catch (Exception e) {

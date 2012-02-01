@@ -32,12 +32,7 @@ public class ReviewAdd {
             pm.makePersistent(aReview);
             
             // History
-            ReviewHistory reviewHistory=new ReviewHistory();
-            reviewHistory.setNote(aReview.note);
-            reviewHistory.setLastUpdateTime(aReview.lastUpdateTime);
-            reviewHistory.setDishId(aReview.dishId);
-            reviewHistory.setYesVote(aReview.yesVote);
-            reviewHistory.setUser(aReview.user);
+            ReviewHistory reviewHistory=new ReviewHistory(aReview);
             pm.makePersistent(reviewHistory);
             
             // Update review count

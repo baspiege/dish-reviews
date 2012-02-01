@@ -38,13 +38,7 @@ public class DishAdd {
             store.setDishCount(store.dishCount+1);
             
             // History
-            DishHistory dishHistory=new DishHistory();
-            dishHistory.setDishId(aDish.getKey().getId());
-            dishHistory.setNote(aDish.note);
-            dishHistory.setLastUpdateTime(aDish.lastUpdateTime);
-            dishHistory.setStoreId(aDish.storeId);
-            dishHistory.setYesVote(aDish.yesVote);
-            dishHistory.setUser(aDish.user);
+            DishHistory dishHistory=new DishHistory(aDish);
             pm.makePersistent(dishHistory);
         } catch (Exception e) {
             throw new RuntimeException(e);

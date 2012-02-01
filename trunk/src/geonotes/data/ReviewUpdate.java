@@ -40,12 +40,7 @@ public class ReviewUpdate {
                     review.setLastUpdateTime(new Date());
                     
                     // History
-                    ReviewHistory reviewHistory=new ReviewHistory();
-                    reviewHistory.setNote(review.note);
-                    reviewHistory.setLastUpdateTime(review.lastUpdateTime);
-                    reviewHistory.setDishId(review.dishId);
-                    reviewHistory.setYesVote(review.yesVote);
-                    reviewHistory.setUser(review.user);
+                    ReviewHistory reviewHistory=new ReviewHistory(review);
                     pm.makePersistent(reviewHistory);
                     
                     // Last review
