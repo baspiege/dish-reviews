@@ -38,7 +38,6 @@ public class StoreGetSingle {
     /**
      * Get a Store.
      *
-     * @param aRequest The request
      * @param aPm PersistenceManager
      * @param aStoreId Id
      * @return a store or null if not found
@@ -46,22 +45,6 @@ public class StoreGetSingle {
      * @since 1.0
      */
     public static Store getStore(PersistenceManager aPm, long aStoreId) {
-        Store store=null;
-        Query query=null;
-        try {
-            query = aPm.newQuery(Store.class); 
-            query.setFilter("(key == storeIdParam)"); 
-            query.declareParameters("long storeIdParam");
-            query.setRange(0,1);
-            List<Store> results = (List<Store>) query.execute(aStoreId); 
-            if (!results.isEmpty()) {
-                store=(Store)results.get(0);
-            }
-        } finally {
-            if (query!=null) {   
-                query.closeAll(); 
-            }
-        }
-        return store;
+        return aPm.getObjectById(Store.class, aStoreId);
     }    
 }

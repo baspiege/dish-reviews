@@ -19,8 +19,6 @@ public class ReviewUpdate {
 
     /**
      * Update a review.
-	   *
-     * @param aRequest The request
      *
      * @since 1.0
      */

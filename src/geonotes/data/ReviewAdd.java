@@ -17,8 +17,6 @@ public class ReviewAdd {
     /**
      * Add a review.
      *
-     * @param aRequest The request
-     *
      * @since 1.0
      */
     public Review execute(Review aReview) {

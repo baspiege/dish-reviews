@@ -45,27 +45,6 @@ public class DishGetSingle {
      * @since 1.0
      */
     public static Dish getDish(PersistenceManager aPm, long aDishId) {
-        Dish dish=null;
-
-        Query query=null;
-        try {
-            // Get appts.
-            query = aPm.newQuery(Dish.class); 
-            query.setFilter("(key == dishIdParam)"); 
-            query.declareParameters("long dishIdParam");
-            query.setRange(0,1);
-
-            List<Dish> results = (List<Dish>) query.execute(aDishId); 
-
-            if (!results.isEmpty()) {
-                dish=(Dish)results.get(0);
-            }
-        } finally {
-            if (query!=null) {   
-                query.closeAll(); 
-            }
-        }
-
-        return dish;
+        return aPm.getObjectById(Dish.class, aDishId);
     }    
 }

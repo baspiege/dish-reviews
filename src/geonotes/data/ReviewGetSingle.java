@@ -15,7 +15,6 @@ public class ReviewGetSingle {
     /**
      * Get review.
      *
-     * @param aRequest The request
      * @since 1.0
      */
     public Review execute(Long aReviewId) {
@@ -45,27 +44,7 @@ public class ReviewGetSingle {
      * @since 1.0
      */
     public static Review getReview(PersistenceManager aPm, long aReviewId) {
-        Review review=null;
-
-        Query query=null;
-        try {
-            query = aPm.newQuery(Review.class); 
-            query.setFilter("(key == reviewIdParam)"); 
-            query.declareParameters("long reviewIdParam");
-            query.setRange(0,1);
-
-            List<Review> results = (List<Review>) query.execute(aReviewId); 
-
-            if (!results.isEmpty()) {
-                review=(Review)results.get(0);
-            }
-        } finally {
-            if (query!=null) {   
-                query.closeAll(); 
-            }
-        }
-
-        return review;
+        return aPm.getObjectById(Review.class, aReviewId);
     }    
     
     /**

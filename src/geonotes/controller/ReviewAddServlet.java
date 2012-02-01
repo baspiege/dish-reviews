@@ -81,5 +81,11 @@ public class ReviewAddServlet extends HttpServlet {
             throw new RuntimeException("Dish not found: " + dishId);
         }
         request.setAttribute(RequestUtils.DISH, dish);
+        
+        // Set review
+        Review review=new Review();
+        review.setDishId(dishId);
+        review.setUser(request.getUserPrincipal().getName());
+        request.setAttribute(RequestUtils.REVIEW, review);
     }
 }
