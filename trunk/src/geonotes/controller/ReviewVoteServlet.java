@@ -68,7 +68,7 @@ public class ReviewVoteServlet extends HttpServlet {
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
-            throw new RuntimeException("User principal not found");
+            throw new SecurityException("User principal not found");
         }
            
         // Get review
