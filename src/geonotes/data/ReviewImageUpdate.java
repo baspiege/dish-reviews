@@ -41,8 +41,6 @@ public class ReviewImageUpdate {
                 Dish dish=DishGetSingle.getDish(pm,review.dishId);
                 dish.setLastReviewImageId(review.getKey().getId());
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

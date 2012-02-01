@@ -54,8 +54,6 @@ public class DishUpdateUndoYesNo {
             
             // Delete old votes
             //pm.deletePersistentAll(results);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

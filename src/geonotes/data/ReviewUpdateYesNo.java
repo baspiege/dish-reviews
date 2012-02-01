@@ -57,8 +57,6 @@ public class ReviewUpdateYesNo {
             reviewVote.setReviewId(review.getKey().getId());
             reviewVote.setUser(review.user);
             pm.makePersistent(reviewVote);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

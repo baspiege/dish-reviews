@@ -124,8 +124,6 @@ public class StoreGetAll {
                     query.closeAll();
                 }
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

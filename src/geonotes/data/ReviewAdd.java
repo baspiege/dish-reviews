@@ -40,8 +40,6 @@ public class ReviewAdd {
             // Last review
             dish.setLastReview(aReview.note);
             dish.setLastReviewUserId(aReview.user);            
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

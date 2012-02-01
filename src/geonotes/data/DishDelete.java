@@ -32,8 +32,6 @@ public class DishDelete {
                 Store store=StoreGetSingle.getStore(pm,aDish.storeId);
                 store.setDishCount(store.dishCount-1);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

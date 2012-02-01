@@ -56,8 +56,6 @@ public class StoreUpdate {
                 storeHistory.setUser(store.user);
                 pm.makePersistent(storeHistory);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

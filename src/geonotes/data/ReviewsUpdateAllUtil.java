@@ -23,22 +23,18 @@ public class ReviewsUpdateAllUtil {
     public void execute() {
         PersistenceManager pm=null;
         List<Review> results=null;
-        try {
-            pm=PMF.get().getPersistenceManager();
+        pm=PMF.get().getPersistenceManager();
 
-            Query query=null;
-            try {
-                query = pm.newQuery(Review.class);
-                results = (List<Review>) query.execute();               
-                // Bug workaround.  Get size actually triggers the underlying database call.
-                results.size();
-            } finally {
-                if (query!=null) {
-                    query.closeAll();
-                }
+        Query query=null;
+        try {
+            query = pm.newQuery(Review.class);
+            results = (List<Review>) query.execute();               
+            // Bug workaround.  Get size actually triggers the underlying database call.
+            results.size();
+        } finally {
+            if (query!=null) {
+                query.closeAll();
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
         
         try {            
@@ -51,8 +47,6 @@ public class ReviewsUpdateAllUtil {
                 pm.makePersistent(reviewHistory);
                 */
             }            
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

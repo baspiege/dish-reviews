@@ -38,9 +38,6 @@ public class DeleteOldReviews {
             // TODO - Also decrement review count from dishes...
 
             query.deletePersistentAll( calendar.getTime() );
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

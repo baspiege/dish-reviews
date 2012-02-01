@@ -21,22 +21,19 @@ public class DishesUpdateAllUtil {
     public void execute() {
         PersistenceManager pm=null;
         List<Dish> results=null;
-        try {
-            pm=PMF.get().getPersistenceManager();
 
-            Query query=null;
-            try {
-                query = pm.newQuery(Dish.class);
-                results = (List<Dish>) query.execute();               
-                // Bug workaround.  Get size actually triggers the underlying database call.
-                results.size();
-            } finally {
-                if (query!=null) {
-                    query.closeAll();
-                }
+        pm=PMF.get().getPersistenceManager();
+
+        Query query=null;
+        try {
+            query = pm.newQuery(Dish.class);
+            results = (List<Dish>) query.execute();               
+            // Bug workaround.  Get size actually triggers the underlying database call.
+            results.size();
+        } finally {
+            if (query!=null) {
+                query.closeAll();
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
         
         try {            
@@ -44,8 +41,6 @@ public class DishesUpdateAllUtil {
                 //dish.setYesVote(dish.vote);
                 dish.setYesVote(0l);                
             }            
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();
