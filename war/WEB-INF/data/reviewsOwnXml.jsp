@@ -26,12 +26,12 @@
             out.write(" time=\"" + review.lastUpdateTime.getTime()/1000 + "\"");
             
             // Dish attributes
-            Dish dish=RequestUtils.getDish(request,review.dishId);
+            Dish dish=RequestUtils.getDish(review.dishId);
             out.write(" dishId=\"" + dish.getKey().getId() + "\"");
             out.write(" dishText=\"" + HtmlUtils.escapeChars(dish.note) + "\"");
             
             // Store attributes
-            Store store=RequestUtils.getStore(request,dish.storeId);
+            Store store=RequestUtils.getStore(dish.storeId);
             out.write(" storeId=\"" + store.getKey().getId() + "\"");
             out.write(" storeText=\"" + HtmlUtils.escapeChars(store.note) + "\"");
             

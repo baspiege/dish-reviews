@@ -13,10 +13,10 @@
 <%
     if (stores!=null && stores.size()>0) {
         for (Store store:stores) {
-            long storeIdTemp=store.getKey().getId();
+            long storeId=store.getKey().getId();
             // Add attributes
             out.write("<store");
-            out.write(" storeId=\"" + storeIdTemp + "\"");
+            out.write(" storeId=\"" + storeId + "\"");
             out.write(" lat=\"" + store.latitude + "\"");
             out.write(" lon=\"" + store.longitude + "\"");
             out.write(" text=\"" + HtmlUtils.escapeChars(store.note) + "\"");

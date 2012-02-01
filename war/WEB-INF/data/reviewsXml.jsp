@@ -14,10 +14,10 @@
 <%
     if (reviews!=null && reviews.size()>0) {
         for (Review review:reviews) {
-            long reviewIdTemp=review.getKey().getId();
+            long reviewId=review.getKey().getId();
             // Add attributes
             out.write("<review");
-            out.write(" reviewId=\"" + reviewIdTemp + "\"");
+            out.write(" reviewId=\"" + reviewId + "\"");
             out.write(" yes=\"" + review.yesVote + "\"");
             out.write(" time=\"" + review.lastUpdateTime.getTime()/1000 + "\"");
             out.write(" text=\"" + HtmlUtils.escapeChars(review.note) + "\"");
