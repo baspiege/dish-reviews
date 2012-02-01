@@ -32,12 +32,12 @@ public class StoresXmlServlet extends HttpServlet {
              // Add to list.
              stores=new ArrayList<Store>();
              stores.add(store);
-             request.setAttribute("stores",stores);
         } else { 
-            RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
-            RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
-            new StoreGetAll().execute(request);
+            Double latitude=RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
+            Double longitude=RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
+            stores=new StoreGetAll().execute(latitude,longitude);
         }
+        request.setAttribute("stores", stores);
 
         RequestUtils.forwardTo(request,response,ControllerConstants.STORES_XML);
     }

@@ -23,13 +23,14 @@ public class DishesXmlServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("Text");        
         
         // Fields
-        RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
-        RequestUtils.getNumericInput(request,"storeId",bundle.getString("storeId"),true);
-        RequestUtils.getAlphaInput(request,"sortBy",bundle.getString("sortByLabel"),false);
+        Long storeId=RequestUtils.getNumericInput(request,"storeId",bundle.getString("storeId"),true);
+        Long start=RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
+        String sortBy=RequestUtils.getAlphaInput(request,"sortBy",bundle.getString("sortByLabel"),false);
         
         // Get data
-        new DishesGetAll().execute(request);
-
+        List<Dish> dishes=new DishesGetAll().execute(storeId, start, sortBy);
+        request.setAttribute("dishes", dishes);
+        
         RequestUtils.forwardTo(request,response,ControllerConstants.DISHES_XML);
     }
     
