@@ -42,7 +42,7 @@ public class ReviewUpdate {
                     pm.makePersistent(reviewHistory);
                     
                     // Last review
-                    Dish dish=DishGetSingle.getDish(pm,aReview.getKey().getId());
+                    Dish dish=DishGetSingle.getDish(pm,aReview.dishId);
                     dish.setLastReview(aReview.note);
                     dish.setLastReviewUserId(aReview.user);
                 }
