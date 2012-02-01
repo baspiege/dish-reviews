@@ -20,12 +20,7 @@ public class ReviewImageUpdate {
      *
      * @since 1.0
      */
-    public void execute(Review aReview) {
-
-        // Fields
-        // TODO - input into parameters
-        Blob image=(Blob)aRequest.getAttribute("image");
-        Blob imageThumbnail=(Blob)aRequest.getAttribute("imageThumbnail");
+    public void execute(Review aReview, Blob aImage, Blob aImageThumbnail) {
         
         PersistenceManager pm=null;
         try {
@@ -34,20 +29,12 @@ public class ReviewImageUpdate {
             Review review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
             
             if (review!=null){
-                review.setImage(image);
-                review.setImageThumbnail(imageThumbnail);
+                review.setImage(aImage);
+                review.setImageThumbnail(aImageThumbnail);
                 review.setHasImage(Boolean.TRUE);
                 
                 // History
-                ReviewHistory reviewHistory=new ReviewHistory();
-                reviewHistory.setNote(review.note);
-                reviewHistory.setLastUpdateTime(review.lastUpdateTime);
-                reviewHistory.setDishId(review.dishId);
-                reviewHistory.setYesVote(review.yesVote);
-                reviewHistory.setUser(review.user);
-                reviewHistory.setImage(review.image);
-                reviewHistory.setImageThumbnail(review.imageThumbnail);
-                reviewHistory.setHasImage(review.hasImage);
+                ReviewHistory reviewHistory=new ReviewHistory(review);
                 pm.makePersistent(reviewHistory);
 
                 // Set last image

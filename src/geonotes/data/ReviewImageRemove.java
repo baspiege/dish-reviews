@@ -33,15 +33,7 @@ public class ReviewImageRemove {
                 review.setHasImage(Boolean.FALSE);
                 
                 // History
-                ReviewHistory reviewHistory=new ReviewHistory();
-                reviewHistory.setNote(review.note);
-                reviewHistory.setLastUpdateTime(review.lastUpdateTime);
-                reviewHistory.setDishId(review.dishId);
-                reviewHistory.setYesVote(review.yesVote);
-                reviewHistory.setUser(review.user);
-                reviewHistory.setImage(review.image);
-                reviewHistory.setImageThumbnail(review.imageThumbnail);
-                reviewHistory.setHasImage(review.hasImage);
+                ReviewHistory reviewHistory=new ReviewHistory(review);
                 pm.makePersistent(reviewHistory);
             }
         } catch (Exception e) {

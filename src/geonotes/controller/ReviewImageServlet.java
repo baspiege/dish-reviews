@@ -57,6 +57,8 @@ public class ReviewImageServlet extends HttpServlet {
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals("Upload") && ServletFileUpload.isMultipartContent(request)) {
+                Blob imageBlob=null;
+                Blob imageBlobThumbnail=null;
                 try {
                     ServletFileUpload upload = new ServletFileUpload();             
                     FileItemIterator iter = upload.getItemIterator(request);
@@ -78,8 +80,7 @@ public class ReviewImageServlet extends HttpServlet {
                         Transform resize = ImagesServiceFactory.makeResize(600, (oldImage.getWidth() * newPercent1)/100);
                         Image newImage = imagesService.applyTransform(resize, oldImage);
                         byte[] newImageData = newImage.getImageData();
-                        Blob imageBlob=new Blob(newImageData);
-                        request.setAttribute("image",imageBlob);
+                        imageBlob=new Blob(newImageData);
                         // Thumbnail
                         byte[] oldImageDataThumbnail=baos.toByteArray();
                         Image oldImageThumbnail = ImagesServiceFactory.makeImage(oldImageDataThumbnail);
@@ -87,15 +88,14 @@ public class ReviewImageServlet extends HttpServlet {
                         Transform resizeThumbnail = ImagesServiceFactory.makeResize(100, (oldImageThumbnail.getWidth() * newPercent)/100);
                         Image newImageThumbnail = imagesService.applyTransform(resizeThumbnail, oldImageThumbnail);
                         byte[] newImageDataThumbnail = newImageThumbnail.getImageData();
-                        Blob imageBlobThumbnail=new Blob(newImageDataThumbnail);
-                        request.setAttribute("imageThumbnail",imageBlobThumbnail);
+                        imageBlobThumbnail=new Blob(newImageDataThumbnail);
                     }
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
                 // Process if no edits
                 if (!RequestUtils.hasEdits(request)) {
-                    new ReviewImageUpdate().execute(review);
+                    new ReviewImageUpdate().execute(review, imageBlob, imageBlobThumbnail);
                 }
             } else if (action.equals(bundle.getString("removeLabel"))) {		
                 // Remove an image
