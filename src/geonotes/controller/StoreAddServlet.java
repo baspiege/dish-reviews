@@ -23,8 +23,11 @@ public class StoreAddServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
 
+        Store store=(Store)request.getAttribute(RequestUtils.STORE);
+        
         // Default note
-        request.setAttribute("note","");
+        store.setNote("");
+        
         // Get fields passed in
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
         RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);

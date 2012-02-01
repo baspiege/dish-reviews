@@ -9,6 +9,7 @@
     String note=(String)request.getAttribute("note");
     String latitude=((Double)request.getAttribute("latitude")).toString();
     String longitude=((Double)request.getAttribute("longitude")).toString();
+    Store store=(Store)request.getAttribute(RequestUtils.STORE);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
@@ -20,7 +21,7 @@
 <%-- Fields --%>
 <form id="store" method="post" action="storeAdd" autocomplete="off">
 <table>
-<tr><td><%=bundle.getString("nameLabel")%>:</td><td><input type="text" name="note" value="<%=note%>" id="note" title="<%=bundle.getString("nameLabel")%>" maxlength="500"/></td></tr>
+<tr><td><%=bundle.getString("nameLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(store.note)%>" id="note" title="<%=bundle.getString("nameLabel")%>" maxlength="500"/></td></tr>
 </table>
 <p>
 <%-- Cancel --%>

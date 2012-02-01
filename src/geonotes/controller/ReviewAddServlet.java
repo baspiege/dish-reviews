@@ -26,7 +26,7 @@ public class ReviewAddServlet extends HttpServlet {
 
         Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         // Default note
-        request.setAttribute("note","");
+        review.setNote("");
         RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_ADD);
     }
     

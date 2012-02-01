@@ -64,17 +64,13 @@ public class RequestUtils {
         String value=aRequest.getParameter(aFieldToCheck);
         if (isFieldEmpty(aRequest, value, aFieldToCheck, aDescription, aRequired)) {
             value="";
-            aRequest.setAttribute(aFieldToCheck,value);
         } else if (value.length()>500) {
             value=value.substring(0,500);
-            aRequest.setAttribute(aFieldToCheck,value);
-
             ResourceBundle bundle = ResourceBundle.getBundle("Text");
             String editMessage=aDescription + ": " + bundle.getString("alphaFieldMaxLengthEdit");
             addEdit(aRequest,editMessage);
         } else {
             value=value.trim();
-            aRequest.setAttribute(aFieldToCheck,value);
         }
 
         return value;
@@ -135,7 +131,6 @@ public class RequestUtils {
         } else {
             try {
                 retValue=new Long(value);
-                aRequest.setAttribute(aFieldToCheck,retValue);
             } catch (NumberFormatException e) {
                 retValue=null;
                 ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -169,7 +164,6 @@ public class RequestUtils {
         } else {
             try {
                 retValue=new Double(value);
-                aRequest.setAttribute(aFieldToCheck,retValue);
             } catch (NumberFormatException e) {
                 retValue=null;
                 ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -243,8 +237,6 @@ public class RequestUtils {
                 ResourceBundle bundle = ResourceBundle.getBundle("Text");
                 String editMessage=aDescription + ": " + bundle.getString("fieldRequiredEdit");
                 addEdit(aRequest,editMessage);
-            } else {
-                aRequest.setAttribute(aFieldToCheck,null);
             }
         }
 

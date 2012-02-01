@@ -4,6 +4,7 @@
 <%@ page import="java.util.ResourceBundle" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
+    Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
@@ -15,7 +16,7 @@
 <%-- Fields --%>
 <form id="store" method="post" action="reviewAdd" autocomplete="off">
 <table>
-<tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=request.getAttribute("note")%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
+<tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(review.note)%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
 </table>
 <p>
 <%-- Add --%>
