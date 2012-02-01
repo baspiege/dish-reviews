@@ -7,7 +7,6 @@ import javax.jdo.Query;
 
 import geonotes.data.model.Review;
 import geonotes.data.model.Store;
-import geonotes.utils.RequestUtils;
 
 /**
  * Delete old reviews.

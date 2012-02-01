@@ -7,8 +7,6 @@ import javax.jdo.PersistenceManager;
 import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
 import geonotes.data.model.ReviewHistory;
-import geonotes.utils.DisplayUtils;
-import geonotes.utils.RequestUtils;
 
 /**
  * Update a review.
