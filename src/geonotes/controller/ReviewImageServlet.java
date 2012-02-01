@@ -47,8 +47,7 @@ public class ReviewImageServlet extends HttpServlet {
         Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         boolean usersOwnReview=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
         if (!usersOwnReview) {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-            return;
+            throw new SecurityException("Review not own: " + review.getKey().getId());
         }
         
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
@@ -56,7 +55,7 @@ public class ReviewImageServlet extends HttpServlet {
      
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
-            if (action.equals("Upload") && ServletFileUpload.isMultipartContent(request)) {
+            if (action.equals(bundle.getString("uploadLabel")) && ServletFileUpload.isMultipartContent(request)) {
                 Blob imageBlob=null;
                 Blob imageBlobThumbnail=null;
                 try {

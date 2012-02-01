@@ -90,7 +90,7 @@ public class ReviewUpdateServlet extends HttpServlet {
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
-           throw new RuntimeException("User principal not found");
+           throw new SecurityException("User principal not found");
         }
            
         // Get review
@@ -107,7 +107,7 @@ public class ReviewUpdateServlet extends HttpServlet {
         // Check ownerhip
         boolean usersOwnReview=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
         if (!usersOwnReview) {
-            throw new RuntimeException("Review not own: " + reviewId);
+            throw new SecurityException("Review not own: " + reviewId);
         }
         
         request.setAttribute(RequestUtils.REVIEW, review);
