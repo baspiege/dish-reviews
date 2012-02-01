@@ -77,6 +77,7 @@ public class StoreUpdateLocationServlet extends HttpServlet {
         if (store==null) {
             throw new RuntimeException("Store not found: " + storeId);
         }
+        store.setUser(request.getUserPrincipal().getName());
         request.setAttribute(RequestUtils.STORE, store);
     }
 }
