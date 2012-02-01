@@ -1,8 +1,6 @@
 package geonotes.data;
 
 import geonotes.data.model.Store;
-import geonotes.utils.DisplayUtils;
-import geonotes.utils.RequestUtils;
 import javax.jdo.PersistenceManager;
 
 /**

@@ -2,7 +2,6 @@ package geonotes.data;
 
 import geonotes.data.model.Store;
 import geonotes.data.model.StoreHistory;
-import geonotes.utils.DisplayUtils;
 import geonotes.utils.MemCacheUtils;
 import java.util.Date;
 import java.util.Map;

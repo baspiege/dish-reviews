@@ -6,7 +6,6 @@ import javax.jdo.PersistenceManager;
 
 import geonotes.data.model.Dish;
 import geonotes.data.model.DishHistory;
-import geonotes.utils.DisplayUtils;
 import geonotes.utils.MemCacheUtils;
 
 /**

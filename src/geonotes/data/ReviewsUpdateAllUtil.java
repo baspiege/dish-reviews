@@ -2,7 +2,6 @@ package geonotes.data;
 
 import geonotes.data.model.Review;
 import geonotes.data.model.ReviewHistory;
-import geonotes.utils.RequestUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jdo.PersistenceManager;
