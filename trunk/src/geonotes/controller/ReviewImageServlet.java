@@ -122,8 +122,8 @@ public class ReviewImageServlet extends HttpServlet {
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
         Review review=null;
         if (reviewId!=null) {
-            new ReviewGetSingle().execute(reviewId);
-            review=(Review)request.getAttribute(RequestUtils.REVIEW);
+            review=new ReviewGetSingle().execute(reviewId);
+            request.setAttribute(RequestUtils.REVIEW, review);
         }
         if (review==null) {
             throw new RuntimeException("Review not found: " + reviewId);
