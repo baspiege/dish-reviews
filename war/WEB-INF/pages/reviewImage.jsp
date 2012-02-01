@@ -27,7 +27,7 @@ form {margin: 0px 0px 0px 0px; display: inline;}
 <input style="margin-bottom:1.5em" type="file" name="imageFile">
 <br/>
 <%-- Upload --%>
-<input class="button" type="submit" name="action" value="Upload">
+<input class="button" type="submit" name="action" value="<%=bundle.getString("uploadLabel")%>">
 </form>
 <form method="post" action="reviewImageUpdate?reviewId=<%=review.getKey().getId()%>" autocomplete="off">
 <%-- Remove --%>
