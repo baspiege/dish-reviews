@@ -19,8 +19,6 @@ public class DeleteOldReviews {
     /**
      * Delete reviews.
      *
-     * @param aRequest The request
-     *
      * @since 1.0
      */
     public void execute() {
