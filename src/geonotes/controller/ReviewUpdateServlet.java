@@ -32,13 +32,15 @@ public class ReviewUpdateServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
         setUpData(request);
         
+        Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
         
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("updateLabel"))) {		
-                RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
+                String note=RequestUtils.getAlphaInput(request,"note",bundle.getString("nameLabel"),true);
+                review.setNote(note);
                 updateAction(request,response);
             } else if (action.equals(bundle.getString("deleteLabel"))) {		
                 deleteAction(request,response);
@@ -97,8 +99,8 @@ public class ReviewUpdateServlet extends HttpServlet {
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
         Review review=null;
         if (reviewId!=null) {
-            new ReviewGetSingle().execute(reviewId);
-            review=(Review)request.getAttribute(RequestUtils.REVIEW);
+            review=new ReviewGetSingle().execute(reviewId);
+            request.setAttribute(RequestUtils.REVIEW, review);
         }
         if (review==null) {
             throw new RuntimeException("Review not found: " + reviewId);
