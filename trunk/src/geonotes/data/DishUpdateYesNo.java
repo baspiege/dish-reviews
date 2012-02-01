@@ -55,8 +55,6 @@ public class DishUpdateYesNo {
             dishVote.setDishId(aDish.getKey().getId());
             dishVote.setUser(aUser);
             pm.makePersistent(dishVote);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

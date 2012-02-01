@@ -43,8 +43,6 @@ public class StoreAdd {
             storeHistory.setYes(aStore.yes);
             storeHistory.setUser(aStore.user);
             pm.makePersistent(storeHistory);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

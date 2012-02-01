@@ -25,8 +25,6 @@ public class StoreGetSingle {
         try {
             pm=PMF.get().getPersistenceManager();
             store=StoreGetSingle.getStore(pm,aStoreId);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

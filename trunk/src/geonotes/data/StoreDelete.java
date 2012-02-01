@@ -27,8 +27,6 @@ public class StoreDelete {
             if (aStore!=null){
                 pm.deletePersistent(aStore);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

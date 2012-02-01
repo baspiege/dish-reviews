@@ -36,8 +36,6 @@ public class ReviewImageRemove {
                 ReviewHistory reviewHistory=new ReviewHistory(review);
                 pm.makePersistent(reviewHistory);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();
@@ -59,8 +57,6 @@ public class ReviewImageRemove {
                     dish.setLastReviewImageId(0l);
                 }
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

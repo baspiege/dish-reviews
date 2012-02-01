@@ -49,8 +49,6 @@ public class DishUpdate {
                 DishHistory dishHistory=new DishHistory(dish);
                 pm.makePersistent(dishHistory);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

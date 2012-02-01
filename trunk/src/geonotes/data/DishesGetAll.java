@@ -58,8 +58,6 @@ public class DishesGetAll {
                     query.closeAll();
                 }
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

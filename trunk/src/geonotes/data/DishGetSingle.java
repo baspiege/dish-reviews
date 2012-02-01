@@ -25,8 +25,6 @@ public class DishGetSingle {
         try {
             pm=PMF.get().getPersistenceManager();
             dish=DishGetSingle.getDish(pm,aDishId);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

@@ -40,8 +40,6 @@ public class DishAdd {
             // History
             DishHistory dishHistory=new DishHistory(aDish);
             pm.makePersistent(dishHistory);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();

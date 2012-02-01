@@ -24,8 +24,6 @@ public class ReviewGetSingle {
         try {
             pm=PMF.get().getPersistenceManager();
             review=ReviewGetSingle.getReview(pm,aReviewId);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } finally {
             if (pm!=null) {
                 pm.close();
