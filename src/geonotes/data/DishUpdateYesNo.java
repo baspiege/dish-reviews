@@ -16,7 +16,7 @@ public class DishUpdateYesNo {
 
     /**
      * Update vote.
-	   *
+     *
      * @param aDish a dish
      * @param aVote yes or no
      * @param aUser
@@ -29,7 +29,7 @@ public class DishUpdateYesNo {
         try {
             pm=PMF.get().getPersistenceManager();
 
-            /* TODO Move this
+            /* TODO - Move this to separate method and call in controller.
             // If user has voted, create edit and return
             query = pm.newQuery(DishVote.class);
             query.setFilter("(dishId == dishIdParam && user==userParam)");
@@ -49,7 +49,7 @@ public class DishUpdateYesNo {
                   dish.setYesVote(dish.yesVote+1);
                 }
             }
-            
+
             // Record vote
             DishVote dishVote=new DishVote();
             dishVote.setDishId(aDish.getKey().getId());

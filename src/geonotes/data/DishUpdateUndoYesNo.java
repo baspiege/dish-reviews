@@ -17,7 +17,7 @@ public class DishUpdateUndoYesNo {
 
     /**
      * Update vote.
-	   *
+     *
      * @param aDish to update
      * @param aVote yes or no
      * @param aUser
@@ -51,7 +51,7 @@ public class DishUpdateUndoYesNo {
                   dish.setYesVote(dish.yesVote-1);
                 }
             }
-            
+
             // Delete old votes
             //pm.deletePersistentAll(results);
         } finally {

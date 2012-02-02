@@ -16,18 +16,18 @@ public class StoreUpdate {
 
     /**
      * Update a store.
-	   *
+     *
      * @param aStore a store to update
      * @return the updated store
      *
      * @since 1.0
      */
     public Store execute(Store aStore) {
-        
+
         Store store=null;
         PersistenceManager pm=null;
         try {
-            pm=PMF.get().getPersistenceManager();                        
+            pm=PMF.get().getPersistenceManager();
             store=StoreGetSingle.getStore(pm,aStore.getKey().getId());
             if (store!=null){
                 if (aStore.note!=null) {
@@ -40,7 +40,7 @@ public class StoreUpdate {
                     store.setLatitude(aStore.latitude);
                 }
                 store.setLastUpdateTime(new Date());
-                
+
                 // Reset cache
                 MemCacheUtils.setStore(store);
 
@@ -60,7 +60,7 @@ public class StoreUpdate {
                 pm.close();
             }
         }
-        
+
         return store;
     }
 }

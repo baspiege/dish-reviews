@@ -29,10 +29,10 @@ public class StoreAdd {
 
             aStore.setLastUpdateTime(new Date());
             aStore.setYes(0);
-            
+
             // Save
             aStore=pm.makePersistent(aStore);
-            
+
             // History
             StoreHistory storeHistory=new StoreHistory();
             storeHistory.setStoreId(aStore.getKey().getId());

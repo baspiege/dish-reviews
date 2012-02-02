@@ -29,14 +29,14 @@ public class DishAdd {
 
             aDish.setLastUpdateTime(new Date());
             aDish.setYesVote(0);
-            
+
             // Save
             pm.makePersistent(aDish);
-                        
+
             // Update count
             Store store=StoreGetSingle.getStore(pm,aDish.storeId);
             store.setDishCount(store.dishCount+1);
-            
+
             // History
             DishHistory dishHistory=new DishHistory(aDish);
             pm.makePersistent(dishHistory);

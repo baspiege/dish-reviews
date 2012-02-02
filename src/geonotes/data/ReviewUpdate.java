@@ -21,24 +21,24 @@ public class ReviewUpdate {
      * @since 1.0
      */
     public Review execute(Review aReview) {
-        
+
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
-                        
+
             Review review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
-            
+
             if (review!=null){
-            
+
                 if (aReview.note!=null) {
                     review.setNote(aReview.note);
                     review.setUser(aReview.user);
                     review.setLastUpdateTime(new Date());
-                    
+
                     // History
                     ReviewHistory reviewHistory=new ReviewHistory(review);
                     pm.makePersistent(reviewHistory);
-                    
+
                     // Last review
                     Dish dish=DishGetSingle.getDish(pm,aReview.dishId);
                     dish.setLastReview(aReview.note);

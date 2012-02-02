@@ -19,7 +19,7 @@ public class ReviewGetSingle {
      */
     public Review execute(Long aReviewId) {
         PersistenceManager pm=null;
-                
+
         Review review=null;
         try {
             pm=PMF.get().getPersistenceManager();
@@ -31,7 +31,7 @@ public class ReviewGetSingle {
         }
         return review;
     }
-    
+
     /**
      * Get a review.
      *
@@ -43,8 +43,8 @@ public class ReviewGetSingle {
      */
     public static Review getReview(PersistenceManager aPm, long aReviewId) {
         return aPm.getObjectById(Review.class, aReviewId);
-    }    
-    
+    }
+
     /**
      * Get the last review.
      *
@@ -59,26 +59,26 @@ public class ReviewGetSingle {
 
         Query query=null;
         try {
-            query = aPm.newQuery(Review.class); 
-            query.setFilter("(dishId == dishIdParam)"); 
+            query = aPm.newQuery(Review.class);
+            query.setFilter("(dishId == dishIdParam)");
             query.declareParameters("long dishIdParam");
             query.setRange(0,1);
             query.setOrdering("lastUpdateTime DESC");
 
-            List<Review> results = (List<Review>) query.execute(aDishId); 
+            List<Review> results = (List<Review>) query.execute(aDishId);
 
             if (!results.isEmpty()) {
                 review=(Review)results.get(0);
             }
         } finally {
-            if (query!=null) {   
-                query.closeAll(); 
+            if (query!=null) {
+                query.closeAll();
             }
         }
 
         return review;
-    }    
-    
+    }
+
     /**
      * Get the last review with image.
      *
@@ -93,20 +93,20 @@ public class ReviewGetSingle {
 
         Query query=null;
         try {
-            query = aPm.newQuery(Review.class); 
-            query.setFilter("(dishId == dishIdParam) && (hasImage==true)"); 
+            query = aPm.newQuery(Review.class);
+            query.setFilter("(dishId == dishIdParam) && (hasImage==true)");
             query.declareParameters("long dishIdParam");
             query.setRange(0,1);
             query.setOrdering("lastUpdateTime DESC");
 
-            List<Review> results = (List<Review>) query.execute(aDishId); 
+            List<Review> results = (List<Review>) query.execute(aDishId);
 
             if (!results.isEmpty()) {
                 review=(Review)results.get(0);
             }
         } finally {
-            if (query!=null) {   
-                query.closeAll(); 
+            if (query!=null) {
+                query.closeAll();
             }
         }
 

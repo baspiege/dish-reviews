@@ -27,7 +27,7 @@ public class DishesUpdateAllUtil {
         Query query=null;
         try {
             query = pm.newQuery(Dish.class);
-            results = (List<Dish>) query.execute();               
+            results = (List<Dish>) query.execute();
             // Bug workaround.  Get size actually triggers the underlying database call.
             results.size();
         } finally {
@@ -35,12 +35,12 @@ public class DishesUpdateAllUtil {
                 query.closeAll();
             }
         }
-        
-        try {            
+
+        try {
             for (Dish dish:results) {
                 //dish.setYesVote(dish.vote);
-                dish.setYesVote(0l);                
-            }            
+                dish.setYesVote(0l);
+            }
         } finally {
             if (pm!=null) {
                 pm.close();

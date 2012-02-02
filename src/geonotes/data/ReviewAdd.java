@@ -28,18 +28,18 @@ public class ReviewAdd {
             aReview.setLastUpdateTime(new Date());
             aReview.setYesVote(0);
             pm.makePersistent(aReview);
-            
+
             // History
             ReviewHistory reviewHistory=new ReviewHistory(aReview);
             pm.makePersistent(reviewHistory);
-            
+
             // Update review count
             Dish dish=DishGetSingle.getDish(pm,aReview.dishId);
             dish.setReviewCount(dish.reviewCount+1);
-            
+
             // Last review
             dish.setLastReview(aReview.note);
-            dish.setLastReviewUserId(aReview.user);            
+            dish.setLastReviewUserId(aReview.user);
         } finally {
             if (pm!=null) {
                 pm.close();

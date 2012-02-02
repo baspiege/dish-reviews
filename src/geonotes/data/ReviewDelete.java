@@ -15,7 +15,7 @@ public class ReviewDelete {
 
     /**
      * Delete review.
-	   *
+     *
      * @param aReview review to delete
      *
      * @since 1.0
@@ -25,32 +25,32 @@ public class ReviewDelete {
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
-            
+
             Review review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
-            
+
             if (review!=null){
                 pm.deletePersistent(review);
-                  
+
                 // Update count
                 Dish dish=DishGetSingle.getDish(pm,review.dishId);
                 dish.setReviewCount(dish.reviewCount-1);
-                
+
                 // Reset last review
-                Query query = pm.newQuery(Review.class); 
-                query.setFilter("(dishId == dishIdParam)"); 
+                Query query = pm.newQuery(Review.class);
+                query.setFilter("(dishId == dishIdParam)");
                 query.declareParameters("long dishIdParam");
                 query.setRange(0,1);
                 query.setOrdering("lastUpdateTime DESC");
-                List<Review> results = (List<Review>) query.execute(dish.getKey().getId()); 
+                List<Review> results = (List<Review>) query.execute(dish.getKey().getId());
                 if (!results.isEmpty()) {
                     review=(Review)results.get(0);
                     dish.setLastReview(review.note);
                     dish.setLastReviewUserId(review.user);
                 } else {
-                    dish.setLastReview(null);                
+                    dish.setLastReview(null);
                     dish.setLastReviewUserId(null);
                 }
-                
+
                 // Set last image
                 Review reviewImage=ReviewGetSingle.getLastReviewWithImage(pm,dish.getKey().getId());
                 if (reviewImage!=null) {
