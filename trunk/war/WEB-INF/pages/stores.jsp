@@ -4,13 +4,13 @@
 <%@ page import="java.util.ResourceBundle" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    boolean isSignedIn=request.getUserPrincipal().getName()!= null;    
+    boolean isSignedIn=request.getUserPrincipal().getName()!= null;
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
 <title><%=bundle.getString("storesLabel")%></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="/js/stores.js" ></script>
 <script type="text/javascript">
 var waitingForCoordinatesMessage="<%=bundle.getString("waitingForCoordinatesMessage")%>";
