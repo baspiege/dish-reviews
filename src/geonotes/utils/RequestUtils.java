@@ -29,7 +29,7 @@ public class RequestUtils {
 
     // These are thread-safe.
     private static Pattern mNumbersPattern=Pattern.compile("[-]?[\\d]*[\\.]?[\\d]*");
-    
+
     /**
     * Add edit.
     *
@@ -75,7 +75,7 @@ public class RequestUtils {
 
         return value;
     }
-        
+
     /**
     * Get dish.
     *
@@ -92,7 +92,7 @@ public class RequestUtils {
         }
         return dish;
     }
-    
+
     /**
     * Get the edits.
     *
@@ -107,7 +107,7 @@ public class RequestUtils {
 
         return edits;
     }
-    
+
     /**
     * Get a numeric input and store into the request if there are no edits.
     *
@@ -141,7 +141,7 @@ public class RequestUtils {
 
         return retValue;
     }
-    
+
     /**
     * Get a numeric input and store into the request if there are no edits.
     *
@@ -173,8 +173,8 @@ public class RequestUtils {
         }
 
         return retValue;
-    }    
-    
+    }
+
     /**
     * Get store.
     *
@@ -191,7 +191,7 @@ public class RequestUtils {
         }
         return store;
     }
-    
+
    /**
     * Forward to.
     *
@@ -202,7 +202,7 @@ public class RequestUtils {
         RequestDispatcher rd=aRequest.getRequestDispatcher(target);
         rd.forward(aRequest, aResponse);
     }
-    
+
     /**
     * Has edits.
     *
@@ -242,7 +242,7 @@ public class RequestUtils {
 
         return isEmpty;
     }
-        
+
     /**
     * Remove edits.
     *
