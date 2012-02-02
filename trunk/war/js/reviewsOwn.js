@@ -43,7 +43,7 @@ function sendRequest(url,callback,postData) {
       // alert('HTTP error ' + req.status);
       return;
     }
-    if (callback){      
+    if (callback){
       callback(req);
     }
   }
@@ -81,30 +81,30 @@ function handleReviewsDataRequest(req) {
   if (tableOrig==null) {
     newTable=true;
     table=document.createElement("table");
-    table.setAttribute("id","reviews");    
+    table.setAttribute("id","reviews");
     var tr=document.createElement("tr");
     table.appendChild(tr);
-    
+
     // Store
     var thStore=document.createElement("th");
     tr.appendChild(thStore);
     thStore.appendChild(document.createTextNode("Restaurant"));
-    
+
     // Dish
     var thDish=document.createElement("th");
     tr.appendChild(thDish);
-    thDish.appendChild(document.createTextNode("Dish"));  
-    
+    thDish.appendChild(document.createTextNode("Dish"));
+
     // Time
     var thTime=document.createElement("th");
-    tr.appendChild(thTime);  
+    tr.appendChild(thTime);
     thTime.appendChild(document.createTextNode("Time Ago"));
-    
+
     // Review
     var thReview=document.createElement("th");
-    tr.appendChild(thReview);  
+    tr.appendChild(thReview);
     thReview.appendChild(document.createTextNode("Review"));
-    
+
     // Image
     var thImage=document.createElement("th");
     tr.appendChild(thImage);
@@ -112,7 +112,7 @@ function handleReviewsDataRequest(req) {
   } else {
     table=tableOrig.cloneNode(true);
   }
-  
+
   // Process request
   var xmlDoc=req.responseXML;
   var reviews=xmlDoc.getElementsByTagName("review");
@@ -149,7 +149,7 @@ function handleReviewsDataRequest(req) {
       var storeText=review.getAttribute("storeText");
       var dishText=review.getAttribute("dishText");
       var reviewText=review.getAttribute("text");
-      
+
       // Store
       var storeDesc=document.createElement("td");
       var storeDescLink=document.createElement("a");
@@ -165,13 +165,13 @@ function handleReviewsDataRequest(req) {
       dishDescLink.appendChild(document.createTextNode(dishText));
       dishDesc.appendChild(dishDescLink);
       tr.appendChild(dishDesc);
-      
+
       // Time Ago
       var timeReview=document.createElement("td");
       var elapsedTime=getElapsedTime(parseInt(review.getAttribute("time")),currentSeconds);
       timeReview.appendChild(document.createTextNode(elapsedTime));
       tr.appendChild(timeReview);
-      
+
       // Review
       var descReview=document.createElement("td");
       var descReviewLink=document.createElement("a");
@@ -179,7 +179,7 @@ function handleReviewsDataRequest(req) {
       descReviewLink.appendChild(document.createTextNode(reviewText));
       descReview.appendChild(descReviewLink);
       tr.appendChild(descReview);
-      
+
       // Image
       var imageCell=document.createElement("td");
       if (review.getAttribute("img")=="true") {
@@ -191,7 +191,7 @@ function handleReviewsDataRequest(req) {
         imageCell.appendChild(imageLink);
       }
       tr.appendChild(imageCell);
-      
+
       table.appendChild(tr);
     }
     var tableDiv=document.getElementById("data");
@@ -200,7 +200,7 @@ function handleReviewsDataRequest(req) {
     // requests from interfering with each other
     tableDiv.appendChild(table);
     //updateNotesDispay();
-    
+
     if (moreReviews) {
       var moreIndicator=document.createElement("p");
       moreIndicator.setAttribute("id","moreIndicator");

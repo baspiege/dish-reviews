@@ -24,7 +24,7 @@ public class DishUpdateServlet extends HttpServlet {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.DISH_UPDATE);
     }
-    
+
     /**
     * Update or delete dish.
     */
@@ -34,7 +34,7 @@ public class DishUpdateServlet extends HttpServlet {
         Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-      
+
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("updateLabel"))) {		
@@ -45,9 +45,9 @@ public class DishUpdateServlet extends HttpServlet {
                 deleteAction(request,response);
             }
         } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);        
+            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
         }
-    }    
+    }
 
     /**
     * Update action.
@@ -69,14 +69,14 @@ public class DishUpdateServlet extends HttpServlet {
     /**
     * Delete action.
     */
-    private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+    private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
         if (dish.reviewCount>0) {
             RequestUtils.addEditUsingKey(request,"dishesWithReviewsCantBeDeletedEditMessage");
         }
         if (!RequestUtils.hasEdits(request)) {
             new DishDelete().execute(dish);
-        }    
+        }
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
             request.setAttribute("storeId",dish.storeId);
@@ -85,18 +85,18 @@ public class DishUpdateServlet extends HttpServlet {
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_UPDATE);
         }
     }
-    
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-    
+
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
             throw new SecurityException("User principal not found");
         }
-           
+
         // Get dish
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
@@ -107,7 +107,7 @@ public class DishUpdateServlet extends HttpServlet {
             throw new RuntimeException("Dish not found: " + dishId);
         }
 
-        dish.setUser(request.getUserPrincipal().getName());        
+        dish.setUser(request.getUserPrincipal().getName());
         request.setAttribute(RequestUtils.DISH, dish);
     }
 }

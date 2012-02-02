@@ -19,10 +19,12 @@ public class ReviewsSingleUserGetAll {
      *
      * @param aUser user
      * @param aStart The start index
+     * @return the results
      * @since 1.0
      */
-    public void execute(String aUser, Long aStart) {
+    public List<Review> execute(String aUser, Long aStart) {
         PersistenceManager pm=null;
+        List<Review> results=null;
         try {
             pm=PMF.get().getPersistenceManager();
             Query query=null;
@@ -32,14 +34,10 @@ public class ReviewsSingleUserGetAll {
                 query.declareParameters("String userParam");
                 query.setOrdering("lastUpdateTime DESC");
                 query.setRange(aStart, aStart+10);
-
-                List<Review> results = (List<Review>) query.execute(aUser);
+                results = (List<Review>) query.execute(aUser);
 
                 // Bug workaround.  Get size actually triggers the underlying database call.
                 results.size();
-
-                // Set into request
-                aRequest.setAttribute("reviews", results);
             } finally {
                 if (query!=null) {
                     query.closeAll();
@@ -50,5 +48,6 @@ public class ReviewsSingleUserGetAll {
                 pm.close();
             }
         }
+        return results;
     }
 }

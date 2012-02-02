@@ -22,7 +22,7 @@ public class ReviewsXmlServlet extends HttpServlet {
     * Get data.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ResourceBundle bundle = ResourceBundle.getBundle("Text");    
+        ResourceBundle bundle = ResourceBundle.getBundle("Text");
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",false);
         List<Review> reviews=null;
         // If review Id, just get that.  Else, get all.
@@ -31,20 +31,20 @@ public class ReviewsXmlServlet extends HttpServlet {
            // Add to list.
            reviews=new ArrayList<Review>();
            reviews.add((Review)request.getAttribute(RequestUtils.REVIEW));
-           request.setAttribute("reviews",reviews);
         } else {
             Long dishId=RequestUtils.getNumericInput(request,"dishId",bundle.getString("dishId"),true);
             Long start=RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
-            new ReviewsGetAll().execute(dishId, start);
+            reviews=new ReviewsGetAll().execute(dishId, start);
         }
-        
+        request.setAttribute("reviews",reviews);
+
         RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_XML);
     }
-    
+
     /**
     * No post for now.  Route to main page.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-    }    
+    }
 }

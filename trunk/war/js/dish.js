@@ -43,7 +43,7 @@ function sendRequest(url,callback,postData) {
       // alert('HTTP error ' + req.status);
       return;
     }
-    if (callback){      
+    if (callback){
       callback(req);
     }
   }
@@ -102,18 +102,18 @@ function handleReviewsDataRequest(req) {
   var table;
   var newTable=false;
   if (tableOrig==null) {
- 
+
     newTable=true;
     table=document.createElement("table");
-    table.setAttribute("id","reviews");    
+    table.setAttribute("id","reviews");
     var tr=document.createElement("tr");
     table.appendChild(tr);
-    
+
     // Review
     var thReview=document.createElement("th");
     tr.appendChild(thReview);
     thReview.appendChild(document.createTextNode("Review"));
-    
+
     // Show Add link if logged in
     if (isLoggedIn) {
       var addLink=document.createElement("a");
@@ -125,23 +125,23 @@ function handleReviewsDataRequest(req) {
 
     // Time
     var thTime=document.createElement("th");
-    tr.appendChild(thTime);  
+    tr.appendChild(thTime);
     thTime.appendChild(document.createTextNode("Time Ago"));
-    
+
     // Agree
     var thVote=document.createElement("th");
-    tr.appendChild(thVote);  
-    thVote.appendChild(document.createTextNode("Agree"));   
-    
+    tr.appendChild(thVote);
+    thVote.appendChild(document.createTextNode("Agree"));
+
     // Image
     var thImage=document.createElement("th");
     tr.appendChild(thImage);
     thImage.appendChild(document.createTextNode("Image"));
-   
+
   } else {
     table=tableOrig.cloneNode(true);
   }
-  
+
   // Process request
   var xmlDoc=req.responseXML;
   var reviews=xmlDoc.getElementsByTagName("review");
@@ -181,27 +181,27 @@ function handleReviewsDataRequest(req) {
       var userId=review.getAttribute("userId");
       tr.setAttribute("id","reviewId"+reviewId);
       tr.setAttribute("reviewText",reviewText);
-    
+
       // Review
       var descReview=document.createElement("td");
       if (usersOwn) {
-      
+
         var moreWrapper=document.createElement("span");
         moreWrapper.setAttribute("text",reviewText);
         descReview.appendChild(moreWrapper);
-      
+
         // Create span... put text in attribute 'text'
         var hasMore=false;
         if (reviewText.length>20){
           reviewText=reviewText.substr(0,20);
           hasMore=true;
         }
-      
+
         var editLink=document.createElement("a");
         editLink.setAttribute("href","reviewUpdate?reviewId="+reviewId);
         editLink.appendChild(document.createTextNode(reviewText));
         moreWrapper.appendChild(editLink);
-        
+
         if (hasMore){
           var moreLink=document.createElement("a");
           moreLink.setAttribute("href","#");
@@ -212,10 +212,10 @@ function handleReviewsDataRequest(req) {
           moreWrapper.appendChild(moreLink);
         }
       } else {
-        descReview.appendChild(document.createTextNode(reviewText));      
+        descReview.appendChild(document.createTextNode(reviewText));
       }
       tr.appendChild(descReview);
-       
+
       if (usersOwn) {
         var postButton=document.createElement("button");
         postButton.setAttribute("onclick","postReviewToFacebook(\"" + reviewId + "\");return false;");
@@ -234,8 +234,8 @@ function handleReviewsDataRequest(req) {
       var elapsedTime=getElapsedTime(parseInt(review.getAttribute("time")),currentSeconds);
       timeReview.appendChild(document.createTextNode(elapsedTime));
       tr.appendChild(timeReview);
-      
-      // Vote      
+
+      // Vote
       if (isLoggedIn) {
           var voteDisplay=document.createElement("td");
           var voteLink=document.createElement("a");
@@ -246,11 +246,11 @@ function handleReviewsDataRequest(req) {
           tr.appendChild(voteDisplay);
       } else {
           var voteDisplay=document.createElement("td");
-          voteDisplay.setAttribute("class","center");          
+          voteDisplay.setAttribute("class","center");
           voteDisplay.appendChild(document.createTextNode(vote));
           tr.appendChild(voteDisplay);
       }
-      
+
       // Image
       var imageCell=document.createElement("td");
       if (review.getAttribute("img")=="true") {
@@ -265,21 +265,21 @@ function handleReviewsDataRequest(req) {
         imageLink.setAttribute("class","add");
         imageLink.setAttribute("href","reviewImageUpdate?reviewId="+reviewId);
         imageLink.appendChild(document.createTextNode("Add"));
-        imageCell.appendChild(imageLink)      
+        imageCell.appendChild(imageLink)
       }
       tr.appendChild(imageCell);
-      
+
       table.appendChild(tr);
-   
+
     }
     removeChildrenFromElement(tableDiv);
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
     tableDiv.appendChild(table);
-    
+
     // Parse for Facebook tags
     FB.XFBML.parse(tableDiv);
-    
+
     if (moreReviews) {
       var moreIndicator=document.createElement("p");
       moreIndicator.setAttribute("id","moreIndicator");

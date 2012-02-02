@@ -23,7 +23,7 @@ public class StoreUpdateLocationServlet extends HttpServlet {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.STORE_UPDATE_LOCATION);
     }
-    
+
     /**
     * Update or delete Store.
     */
@@ -32,7 +32,7 @@ public class StoreUpdateLocationServlet extends HttpServlet {
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-     
+
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("updateLabel"))) {		
@@ -40,13 +40,13 @@ public class StoreUpdateLocationServlet extends HttpServlet {
                 Double latitude=RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
                 Double longitude=RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
                 store.setLatitude(latitude);
-                store.setLongitude(longitude);                
+                store.setLongitude(longitude);
                 if (!RequestUtils.hasEdits(request)) {
                     store=new StoreUpdate().execute(store);
                 }
             }
         }
-        
+
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
             request.setAttribute("storeId",store.getKey().getId());
@@ -54,19 +54,19 @@ public class StoreUpdateLocationServlet extends HttpServlet {
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_UPDATE_LOCATION);
         }
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-    
+
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
             throw new SecurityException("User principal not found");
         }
-           
+
         // Get Store
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;

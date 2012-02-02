@@ -3,12 +3,12 @@ window.fbAsyncInit = function() {
   FB.init({
     appId      : dishRevAppId,
     channelUrl : '//dishrev.appspot.com/channel.html', // Channel File
-    status     : true, 
+    status     : true,
     cookie     : true,
     xfbml      : true,
     oauth      : true,
   });
-  
+
   FB.Event.subscribe('auth.login', function(response) {
     setCookie("dishRevUser",response.authResponse.userID);
     if (!isLoggedIn){

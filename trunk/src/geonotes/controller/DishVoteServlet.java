@@ -24,7 +24,7 @@ public class DishVoteServlet extends HttpServlet {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.DISH_VOTE);
     }
-    
+
     /**
     * Update or remove a vote.
     */
@@ -48,7 +48,7 @@ public class DishVoteServlet extends HttpServlet {
                 }
             }
         }
-        
+
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
             request.setAttribute("storeId",dish.storeId);
@@ -56,19 +56,19 @@ public class DishVoteServlet extends HttpServlet {
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_VOTE);
         }
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-    
+
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
            throw new SecurityException("User principal not found");
         }
-           
+
         // Get dish
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
@@ -78,7 +78,7 @@ public class DishVoteServlet extends HttpServlet {
         if (dish==null) {
             throw new RuntimeException("Dish not found: " + dishId);
         }
-        
+
         request.setAttribute(RequestUtils.DISH, dish);
     }
 }

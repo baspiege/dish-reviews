@@ -68,7 +68,7 @@ function sendRequest(url,callback,postData) {
       // alert('HTTP error ' + req.status);
       return;
     }
-    if (callback){      
+    if (callback){
       callback(req);
     }
   }
@@ -89,28 +89,28 @@ function getStoresData() {
 
 function handleStoresDataRequest(req) {
   var tableDiv=document.getElementById("data");
-  
+
   var table=document.createElement("table");
   table.setAttribute("id","stores");
   var tr=document.createElement("tr");
   table.appendChild(tr);
-  
+
   // Distance
   var thDistance=document.createElement("th");
   tr.appendChild(thDistance);
   var distanceLink=document.createElement("a");
   distanceLink.setAttribute("href","#");
   distanceLink.setAttribute("onclick","reorderStoresByDistanceAscending();return false;");
-  distanceLink.appendChild(document.createTextNode("Distance"));  
+  distanceLink.appendChild(document.createTextNode("Distance"));
   thDistance.appendChild(distanceLink);
-  
+
   // Note
   var thName=document.createElement("th");
   tr.appendChild(thName);
   var nameLink=document.createElement("a");
   nameLink.setAttribute("href","#");
   nameLink.setAttribute("onclick","reorderStoresByNameAscending();return false;");
-  nameLink.appendChild(document.createTextNode("Name"));  
+  nameLink.appendChild(document.createTextNode("Name"));
   thName.appendChild(nameLink);
 
   // Show Add link if logged in
@@ -121,16 +121,16 @@ function handleStoresDataRequest(req) {
     addLink.appendChild(document.createTextNode("Add"));
     thName.appendChild(addLink);
   }
-  
+
   // Reviews
   var thType=document.createElement("th");
   tr.appendChild(thType);
   var typeLink=document.createElement("a");
   typeLink.setAttribute("href","#");
   typeLink.setAttribute("onclick","reorderStoresByDishCountDescending();return false;");
-  typeLink.appendChild(document.createTextNode("Dishes"));  
-  thType.appendChild(typeLink);  
-  
+  typeLink.appendChild(document.createTextNode("Dishes"));
+  thType.appendChild(typeLink);
+
   // Process request
   var xmlDoc=req.responseXML;
   var stores=xmlDoc.getElementsByTagName("store");
@@ -160,7 +160,7 @@ function handleStoresDataRequest(req) {
       tr.setAttribute("dishCount",store.getAttribute("dishCount"));
       // Distance and bearing
       tr.appendChild(document.createElement("td"));
-      
+
       // Desc
       var desc=document.createElement("td");
       var descLink=document.createElement("a");
@@ -179,7 +179,7 @@ function handleStoresDataRequest(req) {
       }*/
       tr.appendChild(desc);
       table.appendChild(tr);
-      
+
       // Count
       var type=document.createElement("td");
       type.setAttribute("class","center");
@@ -218,7 +218,7 @@ function geocodePosition(pos) {
       }
     });
   }
-}  
+}
 
 function getCoordinates() {
   var useGeoLocation=getCookie("useGeoLocation");
@@ -231,7 +231,7 @@ function getCoordinates() {
     } else {
       updateGeoStatus(locationNotAvailableMessage);
     }
-  } else {      
+  } else {
     if (typeof(google)!="undefined") {
       var latLng = new google.maps.LatLng(getCookie("latitude"), getCookie("longitude"));
       geocodePosition(latLng);
