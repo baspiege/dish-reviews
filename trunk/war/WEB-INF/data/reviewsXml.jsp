@@ -7,7 +7,7 @@
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%
     List<Review> reviews=(List<Review>)request.getAttribute("reviews");
-    String user=(String)request.getAttribute("user");
+    String user=request..getUserPrincipal().getName();
 %>
 <reviews>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
