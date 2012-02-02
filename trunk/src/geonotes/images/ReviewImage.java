@@ -21,16 +21,16 @@ public class ReviewImage extends HttpServlet {
     * Process the request.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-     
+
         // Get Id.
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
-                        
+
             Review review=ReviewGetSingle.getReview(pm,reviewId.longValue());
-            
+
             if (review!=null){
                 response.setContentType("image/jpeg");
                 response.getOutputStream().write(review.image.getBytes());

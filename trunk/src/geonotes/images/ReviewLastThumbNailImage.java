@@ -21,16 +21,16 @@ public class ReviewLastThumbNailImage extends HttpServlet {
     * Process the request.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-     
+
         // Get Id.
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
 
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
-                        
+
             Review review=ReviewGetSingle.getLastReviewWithImage(pm,dishId.longValue());
-            
+
             if (review!=null && review.imageThumbnail!=null){
                 response.setContentType("image/jpeg");
                 response.getOutputStream().write(review.imageThumbnail.getBytes());
