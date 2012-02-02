@@ -1,7 +1,6 @@
 package geonotes.controller;
 
 import geonotes.data.StoreGetAll;
-import geonotes.data.StoreGetSingle;
 import geonotes.data.model.Store;
 import geonotes.utils.RequestUtils;
 import java.io.IOException;
@@ -28,7 +27,7 @@ public class StoresXmlServlet extends HttpServlet {
         
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
         if (storeId!=null) {
-             Store store=new StoreGetSingle().execute(storeId);
+             Store store=RequestUtils.getStore(storeId);;
              // Add to list.
              stores=new ArrayList<Store>();
              stores.add(store);

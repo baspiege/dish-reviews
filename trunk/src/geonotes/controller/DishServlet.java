@@ -21,19 +21,19 @@ public class DishServlet extends HttpServlet {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.DISH);
     }
-    
+
     /**
     * No post for now.  Route to main page.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-        
+
         // Get dish
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
@@ -45,7 +45,7 @@ public class DishServlet extends HttpServlet {
         } else {
             request.setAttribute(RequestUtils.DISH,dish);
         }
-        
+
         // Get store
         Store store=RequestUtils.getStore(dish.storeId);
         if (store==null) {
@@ -56,8 +56,8 @@ public class DishServlet extends HttpServlet {
 
         // Optional - reviewId
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",false);
-        //if (RequestUtils.hasEdits(request)){
-        // TODO - Throw exception here?
-        //}
+        if (reviewId!=null) {
+            request.setAttribute("reviewId",reviewId);
+        }
     }
 }

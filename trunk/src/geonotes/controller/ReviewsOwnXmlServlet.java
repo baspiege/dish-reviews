@@ -23,23 +23,24 @@ public class ReviewsOwnXmlServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-        RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
-        new ReviewsSingleUserGetAll().execute(request);
+        String user=request.getUserPrincipal().getName()
+        Long start=RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
+        new ReviewsSingleUserGetAll().execute(user, start);
         RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_OWN_XML);
     }
-    
+
     /**
     * No post for now.  Route to main page.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-    
+
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {

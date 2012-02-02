@@ -1,6 +1,5 @@
 package geonotes.controller;
 
-import geonotes.data.StoreGetSingle;
 import geonotes.data.StoreUpdate;
 import geonotes.data.model.Store;
 import geonotes.utils.RequestUtils;
@@ -72,7 +71,7 @@ public class StoreUpdateLocationServlet extends HttpServlet {
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;
         if (storeId!=null) {
-            store=new StoreGetSingle().execute(storeId);
+            store=RequestUtils.getStore(storeId);
         }
         if (store==null) {
             throw new RuntimeException("Store not found: " + storeId);

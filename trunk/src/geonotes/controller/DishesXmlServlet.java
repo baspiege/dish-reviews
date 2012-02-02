@@ -20,24 +20,24 @@ public class DishesXmlServlet extends HttpServlet {
     * Get data.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ResourceBundle bundle = ResourceBundle.getBundle("Text");        
-        
+        ResourceBundle bundle = ResourceBundle.getBundle("Text");
+
         // Fields
         Long storeId=RequestUtils.getNumericInput(request,"storeId",bundle.getString("storeId"),true);
         Long start=RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
         String sortBy=RequestUtils.getAlphaInput(request,"sortBy",bundle.getString("sortByLabel"),false);
-        
+
         // Get data
         List<Dish> dishes=new DishesGetAll().execute(storeId, start, sortBy);
         request.setAttribute("dishes", dishes);
-        
+
         RequestUtils.forwardTo(request,response,ControllerConstants.DISHES_XML);
     }
-    
+
     /**
     * No post for now.  Route to main page.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-    }    
+    }
 }
