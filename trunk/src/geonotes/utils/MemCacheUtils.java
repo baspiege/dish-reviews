@@ -24,7 +24,7 @@ public class MemCacheUtils {
         MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
         return (Dish)memcache.get(aDishId + DISH);
     }
-    
+
     /**
     * Get the store from cache.
     *
@@ -46,7 +46,7 @@ public class MemCacheUtils {
             memcache.put(aDish.getKey().getId() + DISH, aDish);
         }
     }
-    
+
     /**
     * Set the store into cache.
     *

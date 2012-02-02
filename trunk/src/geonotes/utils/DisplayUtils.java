@@ -22,7 +22,7 @@ public class DisplayUtils
             return HtmlUtils.escapeChars(aString);
         }
     }
-    
+
     /**
     * Display non breaking space if null or an HTML escaped string.
     */

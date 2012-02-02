@@ -14,7 +14,7 @@ public class UserRoleRequestWrapper extends HttpServletRequestWrapper {
 
     String user=null;
     HttpServletRequest realRequest;
-  
+
     public UserRoleRequestWrapper(String user, HttpServletRequest request) {
         super(request);
         this.user = user;
@@ -23,11 +23,11 @@ public class UserRoleRequestWrapper extends HttpServletRequestWrapper {
 
     @Override
     public Principal getUserPrincipal() {
-      
+
         // anonymous implementation to return user
         return new Principal() {
             @Override
-            public String getName() {     
+            public String getName() {
                 return user;
             }
         };

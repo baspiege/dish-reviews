@@ -32,17 +32,17 @@ public class UserFilter implements Filter {
               }
           }
         }
-        
+
         // Set in request.
         servletRequest.setAttribute("user",user);
-        
+
         filterChain.doFilter(new UserRoleRequestWrapper(user, httpServletRequest), servletResponse);
     }
-    
+
     public void init(FilterConfig filterConfig) throws ServletException {
-        // Nothing for now    
+        // Nothing for now
     }
-    
+
     public void destroy() {
         // Nothing for now
     }
