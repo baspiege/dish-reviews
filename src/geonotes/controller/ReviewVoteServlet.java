@@ -25,17 +25,17 @@ public class ReviewVoteServlet extends HttpServlet {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_VOTE);
     }
-    
+
     /**
     * Update or remove a vote.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
 
-        Review review=(Review)request.getAttribute(RequestUtils.REVIEW);        
+        Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-     
+
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             String vote=RequestUtils.getAlphaInput(request,"vote","vote",true);
@@ -50,7 +50,7 @@ public class ReviewVoteServlet extends HttpServlet {
                 }
             }
         }
-        
+
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
             request.setAttribute("dishId",review.dishId);
@@ -58,19 +58,19 @@ public class ReviewVoteServlet extends HttpServlet {
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_VOTE);
         }
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-    
+
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
             throw new SecurityException("User principal not found");
         }
-           
+
         // Get review
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
         Review review=null;
@@ -81,7 +81,7 @@ public class ReviewVoteServlet extends HttpServlet {
         if (review==null) {
             throw new RuntimeException("Review not found: " + reviewId);
         }
-        
+
         request.setAttribute(RequestUtils.REVIEW, review);
     }
 }

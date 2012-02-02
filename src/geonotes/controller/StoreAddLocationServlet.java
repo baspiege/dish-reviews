@@ -19,20 +19,20 @@ public class StoreAddLocationServlet extends HttpServlet {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.STORE_ADD_LOCATION);
     }
-    
+
     /**
     * Display page.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.STORE_ADD_LOCATION);
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-    
+
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {

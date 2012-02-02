@@ -25,17 +25,17 @@ public class ReviewUpdateServlet extends HttpServlet {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_UPDATE);
     }
-    
+
     /**
     * Update or delete review.
     */
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
-        
+
         Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-        
+
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("updateLabel"))) {		
@@ -46,10 +46,10 @@ public class ReviewUpdateServlet extends HttpServlet {
                 deleteAction(request,response);
             }
         } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);        
+            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
         }
-    }    
-    
+    }
+
     /**
     * Update action.
     */
@@ -70,11 +70,11 @@ public class ReviewUpdateServlet extends HttpServlet {
     /**
     * Delete action.
     */
-    private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+    private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         if (!RequestUtils.hasEdits(request)) {
             new ReviewDelete().execute(review);
-        }    
+        }
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
             request.setAttribute("dishId",review.dishId);
@@ -83,18 +83,18 @@ public class ReviewUpdateServlet extends HttpServlet {
             RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_UPDATE);
         }
     }
-    
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-    
+
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
            throw new SecurityException("User principal not found");
         }
-           
+
         // Get review
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
         Review review=null;
@@ -105,13 +105,13 @@ public class ReviewUpdateServlet extends HttpServlet {
         if (review==null) {
             throw new RuntimeException("Review not found: " + reviewId);
         }
-                
+
         // Check ownerhip
         boolean usersOwnReview=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
         if (!usersOwnReview) {
             throw new SecurityException("Review not own: " + reviewId);
         }
-        
+
         request.setAttribute(RequestUtils.REVIEW, review);
     }
 }

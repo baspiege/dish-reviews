@@ -23,10 +23,10 @@ public class StoreAddServlet extends HttpServlet {
         setUpData(request);
 
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
-        
+
         // Default note
         store.setNote("");
-        
+
         // Get fields passed in
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
         RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
@@ -40,7 +40,7 @@ public class StoreAddServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         setUpData(request);
-  
+
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -54,7 +54,7 @@ public class StoreAddServlet extends HttpServlet {
                 Double longitude=RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
                 store.setNote(name);
                 store.setLatitude(latitude);
-                store.setLongitude(longitude);              
+                store.setLongitude(longitude);
                 if (!RequestUtils.hasEdits(request)) {
                     store=new StoreAdd().execute(store);
                 }

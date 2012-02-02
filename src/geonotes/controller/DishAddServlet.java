@@ -22,13 +22,13 @@ public class DishAddServlet extends HttpServlet {
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
-        
+
         // Default note
         Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
         dish.setNote("");
         RequestUtils.forwardTo(request,response,ControllerConstants.DISH_ADD);
     }
-    
+
     /**
     * Add dish.
     */
@@ -49,28 +49,28 @@ public class DishAddServlet extends HttpServlet {
                 }
             }
         }
-        
+
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
-            request.setAttribute("dishId",dish.getKey().getId());   
+            request.setAttribute("dishId",dish.getKey().getId());
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_ADD);
         }
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-    
+
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
             throw new SecurityException("User principal not found");
         }
-                
-        // Check store       
+
+        // Check store
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;
         if (storeId!=null) {
@@ -80,7 +80,7 @@ public class DishAddServlet extends HttpServlet {
         if (store==null) {
             throw new RuntimeException("Store not found:" + storeId);
         }
-        
+
         // Set dish
         Dish dish=new Dish();
         dish.setStoreId(storeId);

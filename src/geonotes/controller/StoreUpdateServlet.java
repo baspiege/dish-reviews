@@ -24,16 +24,16 @@ public class StoreUpdateServlet extends HttpServlet {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.STORE_UPDATE);
     }
-    
+
     /**
     * Update or delete Store.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
-        Store store=(Store)request.getAttribute(RequestUtils.STORE);        
+        Store store=(Store)request.getAttribute(RequestUtils.STORE);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-     
+
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("updateLabel"))) {		
@@ -44,10 +44,10 @@ public class StoreUpdateServlet extends HttpServlet {
                 deleteAction(request,response);
             }
         } else {
-            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);        
+            RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
         }
-    }    
-    
+    }
+
     /**
     * Update action.
     */
@@ -68,33 +68,33 @@ public class StoreUpdateServlet extends HttpServlet {
     /**
     * Delete action.
     */
-    private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
+    private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
         if (store.dishCount>0) {
             RequestUtils.addEditUsingKey(request,"storesWithDishesCantBeDeletedEditMessage");
         }
         if (!RequestUtils.hasEdits(request)) {
             new StoreDelete().execute(store);
-        }    
+        }
         // If no edits, forward to stores.
         if (!RequestUtils.hasEdits(request)) {
             RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_UPDATE);
         }
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-    
+
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
             throw new SecurityException("User principal not found");
         }
-           
+
         // Get Store
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;

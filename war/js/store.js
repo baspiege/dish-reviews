@@ -43,7 +43,7 @@ function sendRequest(url,callback,postData) {
       // alert('HTTP error ' + req.status);
       return;
     }
-    if (callback){      
+    if (callback){
       callback(req);
     }
   }
@@ -84,19 +84,19 @@ function handleDishesDataRequest(req) {
   if (tableOrig==null) {
     newTable=true;
     table=document.createElement("table");
-    table.setAttribute("id","dishes");    
+    table.setAttribute("id","dishes");
     var tr=document.createElement("tr");
     table.appendChild(tr);
-      
+
     // Dish
     var thName=document.createElement("th");
     tr.appendChild(thName);
     var nameLink=document.createElement("a");
     nameLink.setAttribute("href","#");
     nameLink.setAttribute("onclick","sortDishesBy('name');return false;");
-    nameLink.appendChild(document.createTextNode("Dish"));  
+    nameLink.appendChild(document.createTextNode("Dish"));
     thName.appendChild(nameLink);
-    
+
     // Show Add link if logged in
     if (isLoggedIn) {
       var addLink=document.createElement("a");
@@ -105,23 +105,23 @@ function handleDishesDataRequest(req) {
       addLink.appendChild(document.createTextNode("Add"));
       thName.appendChild(addLink);
     }
-    
+
     // Vote
     var thVote=document.createElement("th");
     tr.appendChild(thVote);
     var voteLink=document.createElement("a");
     voteLink.setAttribute("href","#");
     voteLink.setAttribute("onclick","sortDishesBy('vote');return false;");
-    voteLink.appendChild(document.createTextNode("Like"));  
+    voteLink.appendChild(document.createTextNode("Like"));
     thVote.appendChild(voteLink);
-    
+
     // Last Review
     /*
     var thReview=document.createElement("th");
-    tr.appendChild(thReview);  
+    tr.appendChild(thReview);
     thReview.appendChild(document.createTextNode("Last Review"));
     */
-    
+
     // Last Image
     var thLastImage=document.createElement("th");
     tr.appendChild(thLastImage);
@@ -129,7 +129,7 @@ function handleDishesDataRequest(req) {
   } else {
     table=tableOrig.cloneNode(true);
   }
-  
+
   // Process request
   var xmlDoc=req.responseXML;
   var dishes=xmlDoc.getElementsByTagName("dish");
@@ -171,7 +171,7 @@ function handleDishesDataRequest(req) {
       dishDescLink.setAttribute("href","dish?dishId="+dishId);
       dishDescLink.appendChild(document.createTextNode(dishText));
       dishDesc.appendChild(dishDescLink);
-      
+
       /*
       if (isLoggedIn) {
         var editLink=document.createElement("a");
@@ -182,10 +182,10 @@ function handleDishesDataRequest(req) {
         dishDesc.appendChild(editLink);
       }
       */
-      
+
       tr.appendChild(dishDesc);
-      
-      // Vote      
+
+      // Vote
       if (isLoggedIn) {
           var voteDisplay=document.createElement("td");
           var voteLink=document.createElement("a");
@@ -196,11 +196,11 @@ function handleDishesDataRequest(req) {
           tr.appendChild(voteDisplay);
       } else {
           var voteDisplay=document.createElement("td");
-          voteDisplay.setAttribute("class","center");          
+          voteDisplay.setAttribute("class","center");
           voteDisplay.appendChild(document.createTextNode(vote));
           tr.appendChild(voteDisplay);
       }
-      
+
       // Last Review
       /*
       var lastReview=document.createElement("td");
@@ -217,7 +217,7 @@ function handleDishesDataRequest(req) {
         lastReview.appendChild(addLink);
       }
       */
-      
+
       // Add name from Facebook id.
       // Note, adding with createElementNS didn't work.  So using innerHTML.
       /*
@@ -226,10 +226,10 @@ function handleDishesDataRequest(req) {
         lastReview.appendChild(fbSpan);
         fbSpan.innerHTML='  - <fb:name uid="' + lastReviewUserId + '" useyou="false" linked="true"></fb:name>';
       }
-      
+
       tr.appendChild(lastReview);
       */
-      
+
       // Last Image
       var imageCell=document.createElement("td");
       if (dish.getAttribute("img")=="true") {
@@ -241,17 +241,17 @@ function handleDishesDataRequest(req) {
         imageCell.appendChild(imageLink);
       }
       tr.appendChild(imageCell);
-      
+
       table.appendChild(tr);
     }
     removeChildrenFromElement(tableDiv);
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
     tableDiv.appendChild(table);
-    
+
     // Parse for Facebook tags
     FB.XFBML.parse(tableDiv);
-    
+
     if (moreDishes) {
       var moreIndicator=document.createElement("p");
       moreIndicator.setAttribute("id","moreIndicator");

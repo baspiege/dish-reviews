@@ -36,30 +36,30 @@ public class ReviewImageServlet extends HttpServlet {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_IMAGE);
     }
-    
+
     /**
     * Update or delete images. Only review owners can update their own images.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
-        
+
         // Check ownerhip
         Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         boolean usersOwnReview=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
         if (!usersOwnReview) {
             throw new SecurityException("Review not own: " + review.getKey().getId());
         }
-        
+
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-     
+
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("uploadLabel")) && ServletFileUpload.isMultipartContent(request)) {
                 Blob imageBlob=null;
                 Blob imageBlobThumbnail=null;
                 try {
-                    ServletFileUpload upload = new ServletFileUpload();             
+                    ServletFileUpload upload = new ServletFileUpload();
                     FileItemIterator iter = upload.getItemIterator(request);
                     FileItemStream imageItem = iter.next();
                     InputStream imgStream = imageItem.openStream();
@@ -103,7 +103,7 @@ public class ReviewImageServlet extends HttpServlet {
                 }
             }
         }
-        
+
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
             request.setAttribute("dishId",review.dishId);
@@ -111,13 +111,13 @@ public class ReviewImageServlet extends HttpServlet {
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_IMAGE);
         }
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-        
+
         // Get review
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
         Review review=null;
@@ -128,7 +128,7 @@ public class ReviewImageServlet extends HttpServlet {
         if (review==null) {
             throw new RuntimeException("Review not found: " + reviewId);
         }
-        
+
         request.setAttribute(RequestUtils.REVIEW, review);
     }
 }

@@ -4,7 +4,6 @@ import geonotes.data.ReviewsSingleUserGetAll;
 import geonotes.data.model.Review;
 import geonotes.utils.RequestUtils;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
@@ -23,9 +22,10 @@ public class ReviewsOwnXmlServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-        String user=request.getUserPrincipal().getName()
+        String user=request.getUserPrincipal().getName();
         Long start=RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
-        new ReviewsSingleUserGetAll().execute(user, start);
+        List<Review> results=new ReviewsSingleUserGetAll().execute(user, start);
+        request.setAttribute("reviews", results);
         RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_OWN_XML);
     }
 

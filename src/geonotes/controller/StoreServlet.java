@@ -20,19 +20,19 @@ public class StoreServlet extends HttpServlet {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.STORE);
     }
-    
+
     /**
     * No post for now.  Route to main page.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-        
+
         // Get store
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;

@@ -19,19 +19,19 @@ public class ReviewsOwnServlet extends HttpServlet {
         setUpData(request);
         RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_OWN);
     }
-    
+
     /**
     * Post.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-    
+
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {

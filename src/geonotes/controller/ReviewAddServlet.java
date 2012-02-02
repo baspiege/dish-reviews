@@ -28,17 +28,17 @@ public class ReviewAddServlet extends HttpServlet {
         review.setNote("");
         RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_ADD);
     }
-    
+
     /**
     * Add review.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
-        
+
         Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-     
+
         // Process based on action
         if (!StringUtils.isEmpty(action)) {
             if (action.equals(bundle.getString("addLabel"))) {		
@@ -50,27 +50,27 @@ public class ReviewAddServlet extends HttpServlet {
                 }
             }
         }
-        
+
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_ADD);
         }
-    }    
-    
+    }
+
     /**
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-    
+
         // Check if signed in
         boolean isSignedIn=request.getUserPrincipal().getName()!=null;
         if (!isSignedIn) {
             throw new SecurityException("User principal not found");
         }
-        
-        // Check dish       
+
+        // Check dish
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
         if (dishId!=null) {
@@ -80,7 +80,7 @@ public class ReviewAddServlet extends HttpServlet {
             throw new RuntimeException("Dish not found: " + dishId);
         }
         request.setAttribute(RequestUtils.DISH, dish);
-        
+
         // Set review
         Review review=new Review();
         review.setDishId(dishId);

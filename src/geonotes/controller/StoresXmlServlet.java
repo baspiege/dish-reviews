@@ -21,17 +21,17 @@ public class StoresXmlServlet extends HttpServlet {
     * Get data.
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
+
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
         List<Store> stores = null;
-        
+
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",false);
         if (storeId!=null) {
              Store store=RequestUtils.getStore(storeId);;
              // Add to list.
              stores=new ArrayList<Store>();
              stores.add(store);
-        } else { 
+        } else {
             Double latitude=RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
             Double longitude=RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
             stores=new StoreGetAll().execute(latitude,longitude);
@@ -40,11 +40,11 @@ public class StoresXmlServlet extends HttpServlet {
 
         RequestUtils.forwardTo(request,response,ControllerConstants.STORES_XML);
     }
-    
+
     /**
     * No post for now.  Route to main page.
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestUtils.forwardTo(request,response,ControllerConstants.STORES_REDIRECT);
-    }    
+    }
 }
