@@ -13,7 +13,7 @@ a.add:link, a.add:visited, a.edit:link, a.edit:visited, a.more:link, a.more:visi
 
 .button {margin-right:30px;}
 
-.footer { font-size:small; }
+.footer { font-size:small; clear:both;padding-top:1em; }
 
 #navlist li {display: inline; list-style-type: none; padding-right: 20px;}
 
