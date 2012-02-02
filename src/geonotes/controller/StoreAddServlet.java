@@ -1,7 +1,6 @@
 package geonotes.controller;
 
 import geonotes.data.StoreAdd;
-import geonotes.data.StoreGetSingle;
 import geonotes.data.model.Store;
 import geonotes.utils.RequestUtils;
 import geonotes.utils.StringUtils;

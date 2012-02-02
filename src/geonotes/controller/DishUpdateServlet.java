@@ -1,7 +1,6 @@
 package geonotes.controller;
 
 import geonotes.data.DishDelete;
-import geonotes.data.DishGetSingle;
 import geonotes.data.DishUpdate;
 import geonotes.data.model.Dish;
 import geonotes.utils.RequestUtils;
@@ -102,7 +101,7 @@ public class DishUpdateServlet extends HttpServlet {
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
         if (dishId!=null) {
-            dish=new DishGetSingle().execute(dishId);
+            dish=RequestUtils.getDish(dishId);
         }
         if (dish==null) {
             throw new RuntimeException("Dish not found: " + dishId);
