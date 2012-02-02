@@ -1,12 +1,11 @@
 package geonotes.data;
 
+import geonotes.data.model.Review;
+import geonotes.utils.NumberUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-
-import geonotes.data.model.Review;
-import geonotes.utils.NumberUtils;
 
 /**
  * Get reviews.
@@ -18,30 +17,27 @@ public class ReviewsGetAll {
     /**
      * Get reviews.
      *
-     * @param aRequest The request
+     * @param aDishId Dish Id
+     * @param aStart The start index
      * @since 1.0
      */
-    public void execute(HttpServletRequest aRequest) {
+    public void execute(Long aDishId, Long aStart) {
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
             Query query=null;
             try {
-
-                Long dishId=(Long)aRequest.getAttribute("dishId");
-                Long start=(Long)aRequest.getAttribute("start");
-                
                 query = pm.newQuery(Review.class);
                 query.setFilter("dishId==dishIdParam");
                 query.declareParameters("long dishIdParam");
                 query.setOrdering("lastUpdateTime DESC");
-                query.setRange(start, start+10);
-                
-                List<Review> results = (List<Review>) query.execute(dishId);
-                
+                query.setRange(aStart, aStart+10);
+
+                List<Review> results = (List<Review>) query.execute(aDishId);
+
                 // Bug workaround.  Get size actually triggers the underlying database call.
                 results.size();
-                
+
                 // Set into request
                 aRequest.setAttribute("reviews", results);
             } finally {

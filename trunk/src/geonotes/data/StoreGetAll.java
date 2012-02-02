@@ -37,16 +37,16 @@ public class StoreGetAll {
                 query = pm.newQuery(Store.class);
                 query.setFilter(FILTER);
                 query.declareParameters(DECLARED_PARAMETERS);
-                
+
                 results = new ArrayList<Store>();
 
-                // Center                
-                System.out.println("center");                
+                // Center
+                System.out.println("center");
                 List<Store> resultsTemp = (List<Store>) query.execute(latitudeCenter, longitudeCenter);
                 transferResults(results,resultsTemp);
 
                 boolean latNeg=(aLatitude<0);
-                
+
                 // Lat inc
                 boolean latInc=false;
                 if ((latNeg && latitudeCenter-aLatitude<.0025) ||
@@ -56,10 +56,10 @@ public class StoreGetAll {
                     transferResults(results,resultsTemp);
                     latInc=true;
                 }
-                
+
                 // Lat dec
                 boolean latDec=false;
-                if ((latNeg && latitudeCenter-aLatitude>.0075) || 
+                if ((latNeg && latitudeCenter-aLatitude>.0075) ||
                    (!latNeg && aLatitude-latitudeCenter<.0025)) {
                     System.out.println("latDec");
                     resultsTemp = (List<Store>) query.execute(NumberUtils.addNumber2DecimalPrecision(latitudeCenter,-.01), longitudeCenter);
@@ -68,7 +68,7 @@ public class StoreGetAll {
                 }
 
                 boolean longNeg=(aLongitude<0);
-                
+
                 // Long inc
                 // Examples: rounded (center), actual, need to check, increment
                 // a.) -8.00, -8.001, -7.99, +.01
@@ -87,7 +87,7 @@ public class StoreGetAll {
                 // a.) -8.00, -8.008, -8.01, -.01
                 // b.) 8.00, 8.001, 7.99, -.01
                 boolean longDec=false;
-                if ((longNeg && longitudeCenter-aLongitude>.0075) || 
+                if ((longNeg && longitudeCenter-aLongitude>.0075) ||
                    (!longNeg && aLongitude-longitudeCenter<.0025)) {
                     System.out.println("longDec");
                     resultsTemp = (List<Store>) query.execute(latitudeCenter, NumberUtils.addNumber2DecimalPrecision(longitudeCenter,-.01));
@@ -125,7 +125,7 @@ public class StoreGetAll {
         }
         return results;
     }
-    
+
     /**
      * Transfer results
      *
@@ -133,7 +133,7 @@ public class StoreGetAll {
      * @param resultsTemp results temp
      * @since 1.0
      */
-    public void transferResults(List<Store> results, List<Store> resultsTemp) {    
+    public void transferResults(List<Store> results, List<Store> resultsTemp) {
         // Bug workaround.  Get size actually triggers the underlying database call.
         System.out.println( resultsTemp.size() );
         for (Store note: resultsTemp) {

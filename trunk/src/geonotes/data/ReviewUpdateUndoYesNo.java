@@ -16,7 +16,7 @@ public class ReviewUpdateUndoYesNo {
 
     /**
      * Update vote.
-	   *
+     *
      * @param aReview to update
      * @param aVote yes or no
      * @param aUser
@@ -35,8 +35,8 @@ public class ReviewUpdateUndoYesNo {
             query.setFilter("(reviewId == reviewIdParam && user==userParam)");
             query.declareParameters("long reviewIdParam, String userParam");
             query.setRange(0,1);
-            
-            /* TODO Update this
+
+            /* TODO - Move this to separate method and call in controller.
             List<ReviewVote> results = (List<ReviewVote>) query.execute(aReview.getKey().getId(), aUser);
             if (results.isEmpty()) {
                 RequestUtils.addEditUsingKey(aRequest,"haventVotedEditMessage");
@@ -51,7 +51,7 @@ public class ReviewUpdateUndoYesNo {
                   review.setYesVote(review.yesVote-1);
                 }
             }
-            
+
             // Delete old votes
             //pm.deletePersistentAll(results);
         } finally {

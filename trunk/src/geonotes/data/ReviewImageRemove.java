@@ -14,24 +14,24 @@ public class ReviewImageRemove {
 
     /**
      * Remove an image.
-	   *
+     *
      * @param aReview the review which the image will be removed from
      *
      * @since 1.0
      */
     public void execute(Review aReview) {
-        
+
         PersistenceManager pm=null;
         Review review=null;
         try {
             pm=PMF.get().getPersistenceManager();
             review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
-            
+
             if (review!=null){
                 review.setImage(null);
                 review.setImageThumbnail(null);
                 review.setHasImage(Boolean.FALSE);
-                
+
                 // History
                 ReviewHistory reviewHistory=new ReviewHistory(review);
                 pm.makePersistent(reviewHistory);
@@ -41,10 +41,10 @@ public class ReviewImageRemove {
                 pm.close();
             }
         }
-        
+
         try {
             pm=PMF.get().getPersistenceManager();
-                        
+
             if (review!=null){
                 // Set last image
                 Review reviewImage=ReviewGetSingle.getLastReviewWithImage(pm,review.dishId);

@@ -27,7 +27,7 @@ public class ReviewsUpdateAllUtil {
         Query query=null;
         try {
             query = pm.newQuery(Review.class);
-            results = (List<Review>) query.execute();               
+            results = (List<Review>) query.execute();
             // Bug workaround.  Get size actually triggers the underlying database call.
             results.size();
         } finally {
@@ -35,17 +35,17 @@ public class ReviewsUpdateAllUtil {
                 query.closeAll();
             }
         }
-        
-        try {            
+
+        try {
             for (Review review:results) {
-                //review.setUser("621566318");                
-                
+                //review.setUser("621566318");
+
                 // History
                 /*
                 ReviewHistory reviewHistory=new ReviewHistory(review);
                 pm.makePersistent(reviewHistory);
                 */
-            }            
+            }
         } finally {
             if (pm!=null) {
                 pm.close();

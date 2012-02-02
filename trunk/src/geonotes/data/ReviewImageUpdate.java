@@ -15,24 +15,24 @@ public class ReviewImageUpdate {
 
     /**
      * Update an image.
-	   *
+     *
      * @param aReview the review which will have an updated image
      *
      * @since 1.0
      */
     public void execute(Review aReview, Blob aImage, Blob aImageThumbnail) {
-        
+
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
-            
+
             Review review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
-            
+
             if (review!=null){
                 review.setImage(aImage);
                 review.setImageThumbnail(aImageThumbnail);
                 review.setHasImage(Boolean.TRUE);
-                
+
                 // History
                 ReviewHistory reviewHistory=new ReviewHistory(review);
                 pm.makePersistent(reviewHistory);

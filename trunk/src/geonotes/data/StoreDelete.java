@@ -12,7 +12,7 @@ public class StoreDelete {
 
     /**
      * Delete store.
-	   *
+     *
      * @param aStore The store to delete
      *
      * @since 1.0
@@ -21,7 +21,7 @@ public class StoreDelete {
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();
-            aStore=StoreGetSingle.getStore(pm,aStore.getKey().getId());            
+            aStore=StoreGetSingle.getStore(pm,aStore.getKey().getId());
             if (aStore!=null){
                 pm.deletePersistent(aStore);
             }

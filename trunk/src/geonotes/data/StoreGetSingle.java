@@ -32,7 +32,7 @@ public class StoreGetSingle {
         }
         return store;
     }
-    
+
     /**
      * Get a Store.
      *
@@ -44,5 +44,5 @@ public class StoreGetSingle {
      */
     public static Store getStore(PersistenceManager aPm, long aStoreId) {
         return aPm.getObjectById(Store.class, aStoreId);
-    }    
+    }
 }

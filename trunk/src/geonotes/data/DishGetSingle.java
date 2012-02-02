@@ -32,7 +32,7 @@ public class DishGetSingle {
         }
         return dish;
     }
-    
+
     /**
      * Get a dish.
      *
@@ -44,5 +44,5 @@ public class DishGetSingle {
      */
     public static Dish getDish(PersistenceManager aPm, long aDishId) {
         return aPm.getObjectById(Dish.class, aDishId);
-    }    
+    }
 }
