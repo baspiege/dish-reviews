@@ -1,123 +1,123 @@
 package geonotes.data.model;
 
 import com.google.appengine.api.datastore.Blob;
-import com.google.appengine.api.datastore.Key; 
-import java.io.Serializable;  
+import com.google.appengine.api.datastore.Key;
+import java.io.Serializable;
 import java.util.Date;
-import javax.jdo.annotations.IdGeneratorStrategy; 
-import javax.jdo.annotations.IdentityType; 
-import javax.jdo.annotations.PersistenceCapable; 
-import javax.jdo.annotations.Persistent; 
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import geonotes.utils.NumberUtils;
- 
+
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable="true")
 
 /**
  * Dish.
- * 
+ *
  * @author Brian Spiegel
  */
 public class Dish implements Serializable {
 
     private static final long serialVersionUID = 1L;
- 
-    @PrimaryKey 
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY) 
+
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
-    
-    @Persistent 
+
+    @Persistent
     public String lastReview;	
-    
-    @Persistent 
+
+    @Persistent
     public String lastReviewUserId;	
-    
-    @Persistent 
+
+    @Persistent
     public Long lastReviewImageId;
-        
-    @Persistent 
+
+    @Persistent
     public Date lastUpdateTime;	
 
-    @Persistent 
-    public String note; 
-    
-    @Persistent 
-    public String noteLowerCase; 
-    
-    @Persistent 
+    @Persistent
+    public String note;
+
+    @Persistent
+    public String noteLowerCase;
+
+    @Persistent
     public long reviewCount;
-    
-    @Persistent 
+
+    @Persistent
     public long storeId;
-    
-    @Persistent 
+
+    @Persistent
     public String user;
-    
-    @Persistent 
+
+    @Persistent
     public Long vote;
-    
-    @Persistent 
+
+    @Persistent
     public Long yesVote;
- 
+
     /**
      * Constructor.
-     * 
-     */ 
+     *
+     */
     public Dish()
     {
-    } 
- 
-    // Accessors for the fields.  JDO doesn't use these, but the application does. 
+    }
+
+    // Accessors for the fields.  JDO doesn't use these, but the application does.
 
     public Key getKey()
-    { 
-        return key; 
-    }  
-        
+    {
+        return key;
+    }
+
     public void setNote(String aNote)
-    { 
-        note=aNote; 
-        noteLowerCase=aNote.toLowerCase(); 
+    {
+        note=aNote;
+        noteLowerCase=aNote.toLowerCase();
     }
-    
+
     public void setLastReview(String aLastReview)
-    { 
-        lastReview=aLastReview; 
+    {
+        lastReview=aLastReview;
     }
-    
+
     public void setLastReviewUserId(String aLastReviewUserId)
-    { 
-        lastReviewUserId=aLastReviewUserId; 
+    {
+        lastReviewUserId=aLastReviewUserId;
     }
-    
+
     public void setLastReviewImageId(long aId)
-    { 
-        lastReviewImageId=aId; 
+    {
+        lastReviewImageId=aId;
     }
-        
+
     public void setLastUpdateTime(Date aLastUpdateTime)
-    { 
-        lastUpdateTime=aLastUpdateTime; 
+    {
+        lastUpdateTime=aLastUpdateTime;
     }
 
     public void setReviewCount(long aReviewCount)
-    { 
-        reviewCount=aReviewCount; 
+    {
+        reviewCount=aReviewCount;
     }
-    
+
     public void setStoreId(long aStoreId)
-    { 
-        storeId=aStoreId; 
+    {
+        storeId=aStoreId;
     }
-     
+
     public void setUser(String aUser)
-    { 
-        user=aUser; 
+    {
+        user=aUser;
     }
-    
+
     public void setYesVote(long aYes)
-    { 
-        yesVote=aYes; 
+    {
+        yesVote=aYes;
     }
 }
