@@ -94,12 +94,12 @@ function updateMarkerAddress(str) {
 function initialize() {
   var lat=getCookie("latitude");
   var lon=getCookie("longitude");
-  
+
   if (lat=="" || lon=="") {
     lat="41.87580845479022";
     lon="-87.6189722061157";
   }
-  
+
   // Temp variables
   changeLatitude=lat;
   changeLongitude=lon;

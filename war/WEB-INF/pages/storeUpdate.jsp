@@ -7,7 +7,7 @@
 <%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
-<%    
+<%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy MMM dd h:mm aa zzz");
     dateFormat.setTimeZone(TimeZone.getTimeZone("America/Chicago"));

@@ -7,7 +7,7 @@
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    boolean isSignedIn=request.getUserPrincipal().getName()!= null; 
+    boolean isSignedIn=request.getUserPrincipal().getName()!= null;
     Store store=(Store)request.getAttribute(RequestUtils.STORE);
     Long storeId=store.getKey().getId();
 %>

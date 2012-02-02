@@ -83,7 +83,7 @@ function initialize() {
   var lon=getCookie("longitude");
   addLatitude=lat;
   addLongitude=lon;
-    
+
   var latLng = new google.maps.LatLng(lat, lon);
   var map = new google.maps.Map(document.getElementById('mapCanvas'), {
     zoom: 16,

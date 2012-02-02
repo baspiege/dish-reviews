@@ -4,7 +4,7 @@
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="geonotes.data.model.Store" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
-<%    
+<%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     String note=(String)request.getAttribute("note");
     String latitude=((Double)request.getAttribute("latitude")).toString();
