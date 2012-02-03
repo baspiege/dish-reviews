@@ -10,8 +10,6 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import geonotes.utils.NumberUtils;
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable="true")
 
 /**
@@ -70,54 +68,80 @@ public class Dish implements Serializable {
 
     // Accessors for the fields.  JDO doesn't use these, but the application does.
 
-    public Key getKey()
-    {
+    public Key getKey() {
         return key;
     }
+    
+    public String getNote() {
+        return note;
+    }
 
-    public void setNote(String aNote)
-    {
+    public String getLastReview() {
+        return lastReview;
+    }
+
+    public String getLastReviewUserId() {
+        return lastReviewUserId;
+    }
+
+    public long getLastReviewImageId() {
+        return lastReviewImageId;
+    }
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public long getReviewCount() {
+        return reviewCount;
+    }
+
+    public long getStoreId() {
+        return storeId;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public long getYesVote() {
+        return yesVote;
+    }
+
+    public void setNote(String aNote) {
         note=aNote;
         noteLowerCase=aNote.toLowerCase();
     }
 
-    public void setLastReview(String aLastReview)
-    {
+    public void setLastReview(String aLastReview) {
         lastReview=aLastReview;
     }
 
-    public void setLastReviewUserId(String aLastReviewUserId)
-    {
+    public void setLastReviewUserId(String aLastReviewUserId) {
         lastReviewUserId=aLastReviewUserId;
     }
 
-    public void setLastReviewImageId(long aId)
-    {
+    public void setLastReviewImageId(long aId) {
         lastReviewImageId=aId;
     }
 
-    public void setLastUpdateTime(Date aLastUpdateTime)
-    {
+    public void setLastUpdateTime(Date aLastUpdateTime) {
         lastUpdateTime=aLastUpdateTime;
     }
 
-    public void setReviewCount(long aReviewCount)
-    {
+    public void setReviewCount(long aReviewCount) {
         reviewCount=aReviewCount;
     }
 
-    public void setStoreId(long aStoreId)
-    {
+    public void setStoreId(long aStoreId) {
         storeId=aStoreId;
     }
 
-    public void setUser(String aUser)
-    {
+    public void setUser(String aUser) {
         user=aUser;
     }
 
-    public void setYesVote(long aYes)
-    {
+    public void setYesVote(long aYes) {
         yesVote=aYes;
     }
 }
