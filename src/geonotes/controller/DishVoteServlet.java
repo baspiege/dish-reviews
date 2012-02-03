@@ -39,6 +39,11 @@ public class DishVoteServlet extends HttpServlet {
             String vote=RequestUtils.getAlphaInput(request,"vote","vote",true);
             String user=request.getUserPrincipal().getName();
             if (action.equals(bundle.getString("likeLabel"))) {
+            
+                //if (DishUpdateYesNo.hasVoted(dish,vote,user) {
+                //    RequestUtils.addEditUsingKey(aRequest,"alreadyVotedEditMessage");
+                //}
+            
                 if (!RequestUtils.hasEdits(request)) {
                     new DishUpdateYesNo().execute(dish,vote,user);
                 }
