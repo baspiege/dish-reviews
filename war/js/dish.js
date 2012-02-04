@@ -58,6 +58,8 @@ function sendRequest(url,callback,postData) {
 function postReviewToFacebook(reviewId) {
   var reviewLink="http://dishrev.appspot.com/dish?dishId=" + dishId + "&reviewId=" + reviewId;
   var reviewImageLink="http://dishrev.appspot.com/reviewThumbNailImage?reviewId" + reviewId;
+  var dishName=document.getElementById("dishName").innerHTML;
+  var storeName=document.getElementById("storeName").innerHTML;
   var publish = {
     method: 'feed',
     name: dishName + " at " + storeName,
