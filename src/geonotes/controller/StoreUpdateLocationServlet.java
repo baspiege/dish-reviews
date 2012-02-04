@@ -29,6 +29,13 @@ public class StoreUpdateLocationServlet extends HttpServlet {
     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setUpData(request);
+        
+        // Check if signed in
+        boolean isSignedIn=request.getUserPrincipal().getName()!=null;
+        if (!isSignedIn) {
+            throw new SecurityException("User principal not found");
+        }
+        
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
         String action=RequestUtils.getAlphaInput(request,"action","Action",true);
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
@@ -60,12 +67,6 @@ public class StoreUpdateLocationServlet extends HttpServlet {
     * Set-up the data.
     */
     private void setUpData(HttpServletRequest request) {
-
-        // Check if signed in
-        boolean isSignedIn=request.getUserPrincipal().getName()!=null;
-        if (!isSignedIn) {
-            throw new SecurityException("User principal not found");
-        }
 
         // Get Store
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
