@@ -24,7 +24,6 @@ public class ReviewUpdateUndoYesNo {
      * @since 1.0
      */
     public void execute(Review aReview, String aVote, String aUser) {
-
         PersistenceManager pm=null;
         Query query=null;
         try {
@@ -35,25 +34,17 @@ public class ReviewUpdateUndoYesNo {
             query.setFilter("(reviewId == reviewIdParam && user==userParam)");
             query.declareParameters("long reviewIdParam, String userParam");
             query.setRange(0,1);
-
-            /* TODO - Move this to separate method and call in controller.
             List<ReviewVote> results = (List<ReviewVote>) query.execute(aReview.getKey().getId(), aUser);
-            if (results.isEmpty()) {
-                RequestUtils.addEditUsingKey(aRequest,"haventVotedEditMessage");
-                return;
-            }
-            */
+            // Delete old votes
+            pm.deletePersistentAll(results);
 
-            // Update vote
+            // Update vote count
             Review review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
             if (review!=null){
                 if (aVote.equals("yes")){
                   review.setYesVote(review.yesVote-1);
                 }
             }
-
-            // Delete old votes
-            //pm.deletePersistentAll(results);
         } finally {
             if (pm!=null) {
                 pm.close();
