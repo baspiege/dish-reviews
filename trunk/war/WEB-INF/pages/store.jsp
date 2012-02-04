@@ -1,26 +1,26 @@
 <%-- This JSP has the HTML for store page. --%>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
-<%@ page language="java"%>
-<%@ page import="java.util.ResourceBundle" %>
-<%@ page import="geonotes.data.model.Store" %>
-<%@ page import="geonotes.utils.HtmlUtils" %>
-<%@ page import="geonotes.utils.RequestUtils" %>
-<%
-    ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    boolean isSignedIn=request.getUserPrincipal().getName()!= null;
-    Store store=(Store)request.getAttribute(RequestUtils.STORE);
-    Long storeId=store.getKey().getId();
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page isELIgnored="false" %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<title><%= HtmlUtils.escapeChars(store.note) %></title>
+<title><c:out value="${store.note}"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="/js/store.js" ></script>
 <script type="text/javascript">
-var storeId=<%=storeId%>;
-var isLoggedIn=<%=isSignedIn%>;
+var storeId=<c:out value="${store.key.id}"/>;
+<c:choose>
+  <c:when test="${pageContext.request.userPrincipal.name != null}">
+    var isLoggedIn=true;
+  </c:when>
+  <c:otherwise>
+    var isLoggedIn=false;
+  </c:otherwise>
+</c:choose>
 </script>
 </head>
+<fmt:bundle basename="Text">
 <body onload="getDishesData();">
 
 <%-- Facebook login --%>
@@ -36,18 +36,26 @@ var isLoggedIn=<%=isSignedIn%>;
 </nav>
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-<div style="margin-top:1.5em">
-<% if (isSignedIn) { %>
-  <a href="storeUpdate?storeId=<%=storeId%>"><%= HtmlUtils.escapeChars(store.note) %></a>
-<% } else { %>
-  <%= HtmlUtils.escapeChars(store.note) %>
-<% } %>
-<a href="storeUpdateLocation?storeId=<%=storeId%>" class="edit">location</a>
+
+<%-- Store name --%>
+<div class="section">
+<%-- If logged in, link to edit page. --%> 
+<c:choose>
+  <c:when test="${pageContext.request.userPrincipal.name != null}">
+    <a href="storeUpdate?storeId=<c:out value="${store.key.id}"/>"><c:out value="${store.note}"/></a>
+  </c:when>
+  <c:otherwise>
+    <c:out value="${store.note}"/>
+  </c:otherwise>
+</c:choose>
+<a href="storeUpdateLocation?storeId=<c:out value="${store.key.id}"/>" class="edit"><fmt:message key="locationLabel"/></a>
 </div>
+
 <%-- Data --%>
 <div class="data" id="data">
-<p> <%=bundle.getString("waitingForDataLabel")%> </p>
+<p><fmt:message key="waitingForDataLabel"/></p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
+</fmt:bundle>
 </body>
 </html>

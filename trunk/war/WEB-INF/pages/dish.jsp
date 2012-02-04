@@ -12,7 +12,7 @@
 var dishId=<c:out value="${dish.key.id}"/>;
 var reviewId=<c:out value="${requestScope.reviewId}">0</c:out>;
 <c:choose>
-  <c:when test="${pageContext.request.userPrincipal != null}">
+  <c:when test="${pageContext.request.userPrincipal.name != null}">
     var isLoggedIn=true;
   </c:when>
   <c:otherwise>
@@ -48,11 +48,11 @@ var reviewId=<c:out value="${requestScope.reviewId}">0</c:out>;
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 
-<%-- Dish name. --%>
+<%-- Dish name --%>
 <div class="section">
 <%-- If logged in, link to edit page. --%> 
 <c:choose>
-  <c:when test="${pageContext.request.userPrincipal != null}">
+  <c:when test="${pageContext.request.userPrincipal.name != null}">
     <a href="dishUpdate?dishId=<c:out value="${dish.key.id}"/>"><span id="dishName"><c:out value="${dish.note}"/></span></a>
   </c:when>
   <c:otherwise>
@@ -69,9 +69,7 @@ var reviewId=<c:out value="${requestScope.reviewId}">0</c:out>;
 
 <%-- Data --%>
 <div class="data" id="data">
-<p>
-<fmt:message key="waitingForDataLabel"/>
-</p>
+<p><fmt:message key="waitingForDataLabel"/></p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </fmt:bundle>
