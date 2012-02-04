@@ -69,38 +69,67 @@ public class Store implements Serializable {
 
     // Accessors for the fields.  JDO doesn't use these, but the application does.
 
-    public Key getKey()
-    {
+    public Key getKey() {
         return key;
     }
+    
+    public long getDishCount() {
+        return dishCount;
+    }
 
-    public void setDishCount(long aDishCount)
-    {
+    public String getNote() {
+        return note;
+    }
+
+    public Blob getImage() {
+        return image;
+    }
+
+    public Blob getImageThumbnail() {
+        return imageThumbnail;
+    }
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public long getYes() {
+        return yes;
+    }
+
+    public void setDishCount(long aDishCount) {
         dishCount=aDishCount;
     }
 
-    public void setNote(String aNote)
-    {
+    public void setNote(String aNote) {
         note=aNote;
     }
 
-    public void setImage(Blob aImage)
-    {
+    public void setImage(Blob aImage) {
         image=aImage;
     }
 
-    public void setImageThumbnail(Blob aImage)
-    {
+    public void setImageThumbnail(Blob aImage) {
         imageThumbnail=aImage;
     }
 
-    public void setLastUpdateTime(Date aLastUpdateTime)
-    {
+    public void setLastUpdateTime(Date aLastUpdateTime) {
         lastUpdateTime=aLastUpdateTime;
     }
 
-    public void setLatitude(double aLatitude)
-    {
+    public void setLatitude(double aLatitude) {
         latitude2Decimal=NumberUtils.getNumber2DecimalPrecision(aLatitude);
         latitude=aLatitude;
     }
@@ -111,13 +140,11 @@ public class Store implements Serializable {
         longitude=aLongitude;
     }
 
-    public void setUser(String aUser)
-    {
+    public void setUser(String aUser) {
         user=aUser;
     }
 
-    public void setYes(long aYes)
-    {
+    public void setYes(long aYes) {
         yes=aYes;
     }
 }

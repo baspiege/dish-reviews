@@ -11,11 +11,6 @@
 <script type="text/javascript">
 var dishId=<c:out value="${dish.key.id}"/>;
 var reviewId=<c:out value="${requestScope.reviewId}">0</c:out>;
-
-// TODO - Put these in hidden divs?
-var dishName="update this";
-var storeName="update this";
-
 <c:choose>
   <c:when test="${pageContext.request.userPrincipal != null}">
     var isLoggedIn=true;
@@ -24,7 +19,6 @@ var storeName="update this";
     var isLoggedIn=false;
   </c:otherwise>
 </c:choose>
-
 </script>
 </head>
 <fmt:bundle basename="Text">
@@ -44,25 +38,24 @@ var storeName="update this";
 <nav>
 <ul id="navlist" style="margin:0;padding:0;">
 <li><a href="stores">Main</a></li>
-<li><a href="store?storeId=<c:out value="${store.key.id}"/>"><c:out value="${store.key.id}"/></a></li>
+<li><a href="store?storeId=<c:out value="${store.key.id}"/>"><span id="storeName"><c:out value="${store.note}"/></span></a></li>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
 <ul>
 </nav>
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-<div style="margin-top:1.5em">
 
+<div style="margin-top:1.5em">
 <%-- If logged in, link to edit page. --%> 
 <c:choose>
   <c:when test="${pageContext.request.userPrincipal != null}">
-    <a href="dishUpdate?dishId=<c:out value="${dish.key.id}"/>"><c:out value="${dish.note}"/></a>
+    <a href="dishUpdate?dishId=<c:out value="${dish.key.id}"/>"><span id="dishName"><c:out value="${dish.note}"/></span></a>
   </c:when>
   <c:otherwise>
-    <c:out value="${dish.note}"/>
+    <span id="dishName"><c:out value="${dish.note}"/></span>
   </c:otherwise>
 </c:choose>
-
 <%-- All reviews. --%> 
 <c:choose>
   <c:when test="${requestScope.reviewId != null}">
