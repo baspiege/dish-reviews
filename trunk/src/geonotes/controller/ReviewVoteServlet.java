@@ -41,10 +41,18 @@ public class ReviewVoteServlet extends HttpServlet {
             String vote=RequestUtils.getAlphaInput(request,"vote","vote",true);
             String user=request.getUserPrincipal().getName();
             if (action.equals(bundle.getString("agreeLabel"))) {
+                // Check if already voted
+                if (ReviewUpdateYesNo.hasVoted(review,vote,user)) {
+                    RequestUtils.addEditUsingKey(request,"alreadyVotedEditMessage");
+                }
                 if (!RequestUtils.hasEdits(request)) {
                     new ReviewUpdateYesNo().execute(review,vote,user);
                 }
-            } else if (action.equals(bundle.getString("removeAgreeLabel"))) {		
+            } else if (action.equals(bundle.getString("removeAgreeLabel"))) {	
+                // Check if hasn't voted
+                if (!ReviewUpdateYesNo.hasVoted(review,vote,user)) {
+                    RequestUtils.addEditUsingKey(request,"haventVotedEditMessage");
+                }
                 if (!RequestUtils.hasEdits(request)) {
                     new ReviewUpdateUndoYesNo().execute(review,vote,user);
                 }

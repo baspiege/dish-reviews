@@ -25,24 +25,9 @@ public class ReviewUpdateYesNo {
      * @since 1.0
      */
     public void execute(Review aReview, String aVote, String aUser) {
-
         PersistenceManager pm=null;
-        Query query=null;
         try {
             pm=PMF.get().getPersistenceManager();
-
-            // If user has voted, create edit and return
-            query = pm.newQuery(ReviewVote.class);
-            query.setFilter("(reviewId == reviewIdParam && user==userParam)");
-            query.declareParameters("long reviewIdParam, String userParam");
-            query.setRange(0,1);
-            List<ReviewVote> results = (List<ReviewVote>) query.execute(aReview.getKey().getId(), aUser);
-
-            /* TODO - Move this to separate method and call in controller.
-            if (!results.isEmpty()) {
-                RequestUtils.addEditUsingKey(aRequest,"alreadyVotedEditMessage");
-                return;
-            }*/
 
             // Update vote
             Review review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
@@ -62,5 +47,36 @@ public class ReviewUpdateYesNo {
                 pm.close();
             }
         }
+    }
+    
+    /**
+     * Check if voted.
+     *
+     * @param aReview to update
+     * @param aVote yes or no
+     * @param aUser
+     * @return a boolean indicating if user has voted
+     *
+     * @since 1.0
+     */
+    public static boolean hasVoted(Review aReview, String aVote, String aUser) {
+        PersistenceManager pm=null;
+        Query query=null;
+        try {
+            pm=PMF.get().getPersistenceManager();
+            query = pm.newQuery(ReviewVote.class);
+            query.setFilter("(reviewId == reviewIdParam && user==userParam)");
+            query.declareParameters("long reviewIdParam, String userParam");
+            query.setRange(0,1);
+            List<ReviewVote> results = (List<ReviewVote>) query.execute(aReview.getKey().getId(), aUser);
+            if (!results.isEmpty()) {
+                return true;
+            }
+        } finally {
+            if (pm!=null) {
+                pm.close();
+            }
+        }
+        return false;
     }
 }

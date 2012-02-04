@@ -25,24 +25,10 @@ public class DishUpdateYesNo {
      */
     public void execute(Dish aDish, String aVote, String aUser) {
         PersistenceManager pm=null;
-        Query query=null;
         try {
             pm=PMF.get().getPersistenceManager();
-
-            /* TODO - Move this to separate method and call in controller.
-            // If user has voted, create edit and return
-            query = pm.newQuery(DishVote.class);
-            query.setFilter("(dishId == dishIdParam && user==userParam)");
-            query.declareParameters("long dishIdParam, String userParam");
-            query.setRange(0,1);
-            List<DishVote> results = (List<DishVote>) query.execute(dishId, aUser);
-            if (!results.isEmpty()) {
-                RequestUtils.addEditUsingKey(aRequest,"alreadyVotedEditMessage");
-                return;
-            }
-            */
-
-            // Update vote
+            
+            // Update vote count
             Dish dish=DishGetSingle.getDish(pm,aDish.getKey().getId());
             if (dish!=null){
                 if (aVote.equals("yes")){
@@ -60,5 +46,36 @@ public class DishUpdateYesNo {
                 pm.close();
             }
         }
+    }
+    
+    /**
+     * Check if voted.
+     *
+     * @param aDish to update
+     * @param aVote yes or no
+     * @param aUser
+     * @return a boolean indicating if user has voted
+     *
+     * @since 1.0
+     */
+    public static boolean hasVoted(Dish aDish, String aVote, String aUser) {
+        PersistenceManager pm=null;
+        Query query=null;
+        try {
+            pm=PMF.get().getPersistenceManager();
+            query = pm.newQuery(DishVote.class);
+            query.setFilter("(dishId == dishIdParam && user==userParam)");
+            query.declareParameters("long dishIdParam, String userParam");
+            query.setRange(0,1);
+            List<DishVote> results = (List<DishVote>) query.execute(aDish.getKey().getId(), aUser);
+            if (!results.isEmpty()) {
+                return true;
+            }
+        } finally {
+            if (pm!=null) {
+                pm.close();
+            }
+        }
+        return false;
     }
 }
