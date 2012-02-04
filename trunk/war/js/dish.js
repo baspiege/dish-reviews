@@ -280,7 +280,9 @@ function handleReviewsDataRequest(req) {
     tableDiv.appendChild(table);
 
     // Parse for Facebook tags
-    FB.XFBML.parse(tableDiv);
+    if (typeof(FB) != "undefined") {
+      FB.XFBML.parse(tableDiv);
+    }
 
     if (moreReviews) {
       var moreIndicator=document.createElement("p");
