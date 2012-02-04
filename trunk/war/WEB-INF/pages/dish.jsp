@@ -1,4 +1,4 @@
-<%-- This JSP has the HTML for reviews page. --%>
+<%-- This JSP has the HTML for dish page. --%>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -22,6 +22,8 @@ var reviewId=<c:out value="${requestScope.reviewId}">0</c:out>;
 </script>
 </head>
 <fmt:bundle basename="Text">
+
+<%-- If review Id, load specific review.  Else load all. --%>
 <c:choose>
   <c:when test="${requestScope.reviewId != null}">
     <body onload="getReviewsDataById();">
@@ -36,7 +38,7 @@ var reviewId=<c:out value="${requestScope.reviewId}">0</c:out>;
 <script type="text/javascript" src="/js/fblogin.js" ></script>
 
 <nav>
-<ul id="navlist" style="margin:0;padding:0;">
+<ul id="navlist">
 <li><a href="stores">Main</a></li>
 <li><a href="store?storeId=<c:out value="${store.key.id}"/>"><span id="storeName"><c:out value="${store.note}"/></span></a></li>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
@@ -46,7 +48,8 @@ var reviewId=<c:out value="${requestScope.reviewId}">0</c:out>;
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 
-<div style="margin-top:1.5em">
+<%-- Dish name. --%>
+<div class="section">
 <%-- If logged in, link to edit page. --%> 
 <c:choose>
   <c:when test="${pageContext.request.userPrincipal != null}">
@@ -56,10 +59,10 @@ var reviewId=<c:out value="${requestScope.reviewId}">0</c:out>;
     <span id="dishName"><c:out value="${dish.note}"/></span>
   </c:otherwise>
 </c:choose>
-<%-- All reviews. --%> 
+<%-- Show All reviews link if there is specific review showing. --%> 
 <c:choose>
   <c:when test="${requestScope.reviewId != null}">
-    <a class="add" href="#" onclick="window.location='dish?dishId=<c:out value="${dish.key.id}"/>';return false;">All reviews</a>
+    <a class="add" href="#" onclick="window.location='dish?dishId=<c:out value="${dish.key.id}"/>';return false;"><fmt:message key="allReviewsLabel"/></a>
   </c:when>
 </c:choose>
 </div>
