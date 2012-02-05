@@ -221,7 +221,7 @@
       <url-pattern>/reviewsOwnXml</url-pattern>
     </servlet-mapping>
     
-    <!-- Change location -->
+    <!-- Admin only -->
     <servlet>
       <servlet-name>admin/dataUpdate</servlet-name>
       <jsp-file>/WEB-INF/admin/dataUpdate.jsp</jsp-file>

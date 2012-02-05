@@ -3,6 +3,7 @@
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ page import="geonotes.data.model.Store" %>
+<%@ page import="geonotes.utils.HtmlUtils" %>
 <%@ page import="geonotes.utils.RequestUtils" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
