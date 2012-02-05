@@ -2,6 +2,9 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page language="java"%>
 <%@ page import="java.util.ResourceBundle" %>
+<%@ page import="geonotes.data.model.Review" %>
+<%@ page import="geonotes.utils.HtmlUtils" %>
+<%@ page import="geonotes.utils.RequestUtils" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
@@ -20,7 +23,7 @@
 </table>
 <p>
 <%-- Add --%>
-<input id="dishId" type="hidden" name="dishId" value="<%=request.getAttribute("dishId")%>" />
+<input id="dishId" type="hidden" name="dishId" value="<%=review.dishId%>" />
 <input class="button" type="submit" style="display:none" id="addButtonDisabled" disabled="disabled" value="<%=bundle.getString("addLabel")%>"/>
 <input class="button" type="submit" style="display:inline" id="addButtonEnabled" name="action" onclick="this.style.display='none';document.getElementById('addButtonDisabled').style.display='inline';" value="<%=bundle.getString("addLabel")%>"/>
 </p>
