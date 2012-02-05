@@ -22,7 +22,7 @@ public class ReviewsGetAll {
      * @return the results
      * @since 1.0
      */
-    public List<Review> execute(Long aDishId, Long aStart) {
+    public static List<Review> execute(Long aDishId, Long aStart) {
         List<Review> results=null;
         PersistenceManager pm=null;
         try {

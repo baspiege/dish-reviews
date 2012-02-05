@@ -20,7 +20,7 @@ public class DeleteOldReviews {
      *
      * @since 1.0
      */
-    public void execute() {
+    public static void execute() {
         PersistenceManager pm=null;
         Query query=null;
         try {

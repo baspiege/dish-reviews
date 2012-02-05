@@ -24,7 +24,7 @@ public class ReviewUpdateYesNo {
      *
      * @since 1.0
      */
-    public void execute(Review aReview, String aVote, String aUser) {
+    public static void execute(Review aReview, String aVote, String aUser) {
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();

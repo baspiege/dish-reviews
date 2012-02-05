@@ -21,7 +21,7 @@ public class DishAdd {
      *
      * @since 1.0
      */
-    public Dish execute(Dish aDish) {
+    public static Dish execute(Dish aDish) {
 
         PersistenceManager pm=null;
         try {

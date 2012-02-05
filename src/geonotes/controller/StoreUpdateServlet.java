@@ -54,7 +54,7 @@ public class StoreUpdateServlet extends HttpServlet {
     private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
         if (!RequestUtils.hasEdits(request)) {
-            store=new StoreUpdate().execute(store);
+            store=StoreUpdate.execute(store);
         }
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
@@ -74,7 +74,7 @@ public class StoreUpdateServlet extends HttpServlet {
             RequestUtils.addEditUsingKey(request,"storesWithDishesCantBeDeletedEditMessage");
         }
         if (!RequestUtils.hasEdits(request)) {
-            new StoreDelete().execute(store);
+            StoreDelete.execute(store);
         }
         // If no edits, forward to stores.
         if (!RequestUtils.hasEdits(request)) {

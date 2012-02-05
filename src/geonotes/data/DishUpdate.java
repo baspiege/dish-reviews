@@ -23,7 +23,7 @@ public class DishUpdate {
      *
      * @since 1.0
      */
-    public Dish execute(Dish aDish) {
+    public static Dish execute(Dish aDish) {
 
         Dish dish=null;
         PersistenceManager pm=null;

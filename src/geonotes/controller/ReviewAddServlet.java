@@ -46,7 +46,7 @@ public class ReviewAddServlet extends HttpServlet {
                 String note=RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
                 review.setNote(note);
                 if (!RequestUtils.hasEdits(request)) {
-                    new ReviewAdd().execute(review);
+                    ReviewAdd.execute(review);
                 }
             }
         }

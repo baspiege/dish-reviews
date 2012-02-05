@@ -22,7 +22,7 @@ public class StoreUpdate {
      *
      * @since 1.0
      */
-    public Store execute(Store aStore) {
+    public static Store execute(Store aStore) {
 
         Store store=null;
         PersistenceManager pm=null;

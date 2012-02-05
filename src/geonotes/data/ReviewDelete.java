@@ -20,7 +20,7 @@ public class ReviewDelete {
      *
      * @since 1.0
      */
-    public void execute(Review aReview) {
+    public static void execute(Review aReview) {
 
         PersistenceManager pm=null;
         try {

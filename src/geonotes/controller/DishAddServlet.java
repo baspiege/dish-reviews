@@ -45,7 +45,7 @@ public class DishAddServlet extends HttpServlet {
                 String note=RequestUtils.getAlphaInput(request,"note",bundle.getString("noteLabel"),true);
                 dish.setNote(note);
                 if (!RequestUtils.hasEdits(request)) {
-                    dish=new DishAdd().execute(dish);
+                    dish=DishAdd.execute(dish);
                 }
             }
         }

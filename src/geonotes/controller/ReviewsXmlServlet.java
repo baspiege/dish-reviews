@@ -27,14 +27,14 @@ public class ReviewsXmlServlet extends HttpServlet {
         List<Review> reviews=null;
         // If review Id, just get that.  Else, get all.
         if (reviewId!=null) {
-           Review review=new ReviewGetSingle().execute(reviewId);
+           Review review=ReviewGetSingle.execute(reviewId);
            // Add to list.
            reviews=new ArrayList<Review>();
            reviews.add(review);
         } else {
             Long dishId=RequestUtils.getNumericInput(request,"dishId",bundle.getString("dishId"),true);
             Long start=RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
-            reviews=new ReviewsGetAll().execute(dishId, start);
+            reviews=ReviewsGetAll.execute(dishId, start);
         }
         request.setAttribute("reviews",reviews);
         RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_XML);

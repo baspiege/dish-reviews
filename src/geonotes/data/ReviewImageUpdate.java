@@ -20,7 +20,7 @@ public class ReviewImageUpdate {
      *
      * @since 1.0
      */
-    public void execute(Review aReview, Blob aImage, Blob aImageThumbnail) {
+    public static void execute(Review aReview, Blob aImage, Blob aImageThumbnail) {
 
         PersistenceManager pm=null;
         try {

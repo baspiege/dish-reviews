@@ -22,7 +22,7 @@ public class ReviewsSingleUserGetAll {
      * @return the results
      * @since 1.0
      */
-    public List<Review> execute(String aUser, Long aStart) {
+    public static List<Review> execute(String aUser, Long aStart) {
         PersistenceManager pm=null;
         List<Review> results=null;
         try {

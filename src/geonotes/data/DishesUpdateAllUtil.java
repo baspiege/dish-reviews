@@ -18,7 +18,7 @@ public class DishesUpdateAllUtil {
      *
      * @since 1.0
      */
-    public void execute() {
+    public static void execute() {
         PersistenceManager pm=null;
         List<Dish> results=null;
 

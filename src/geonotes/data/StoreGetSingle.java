@@ -19,7 +19,7 @@ public class StoreGetSingle {
      * @return a store
      * @since 1.0
      */
-    public Store execute(Long aStoreId) {
+    public static Store execute(Long aStoreId) {
         PersistenceManager pm=null;
         Store store=null;
         try {

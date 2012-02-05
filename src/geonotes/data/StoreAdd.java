@@ -21,7 +21,7 @@ public class StoreAdd {
      *
      * @since 1.0
      */
-    public Store execute(Store aStore) {
+    public static Store execute(Store aStore) {
 
         PersistenceManager pm=null;
         try {

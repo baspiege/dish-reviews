@@ -19,7 +19,7 @@ public class ReviewImageRemove {
      *
      * @since 1.0
      */
-    public void execute(Review aReview) {
+    public static void execute(Review aReview) {
 
         PersistenceManager pm=null;
         Review review=null;

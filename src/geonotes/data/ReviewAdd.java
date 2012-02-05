@@ -19,7 +19,7 @@ public class ReviewAdd {
      *
      * @since 1.0
      */
-    public Review execute(Review aReview) {
+    public static Review execute(Review aReview) {
 
         PersistenceManager pm=null;
         try {

@@ -18,7 +18,7 @@ public class DishDelete {
      *
      * @since 1.0
      */
-    public void execute(Dish aDish) {
+    public static void execute(Dish aDish) {
 
         PersistenceManager pm=null;
         try {

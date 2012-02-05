@@ -17,7 +17,7 @@ public class StoreDelete {
      *
      * @since 1.0
      */
-    public void execute(Store aStore) {
+    public static void execute(Store aStore) {
         PersistenceManager pm=null;
         try {
             pm=PMF.get().getPersistenceManager();

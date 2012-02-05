@@ -19,7 +19,7 @@ public class ReviewsUpdateAllUtil {
      *
      * @since 1.0
      */
-    public void execute() {
+    public static void execute() {
         PersistenceManager pm=null;
         List<Review> results=null;
         pm=PMF.get().getPersistenceManager();
