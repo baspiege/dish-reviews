@@ -55,7 +55,7 @@ public class DishUpdateServlet extends HttpServlet {
     private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
         if (!RequestUtils.hasEdits(request)) {
-            dish=new DishUpdate().execute(dish);
+            dish=DishUpdate.execute(dish);
         }
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
@@ -75,7 +75,7 @@ public class DishUpdateServlet extends HttpServlet {
             RequestUtils.addEditUsingKey(request,"dishesWithReviewsCantBeDeletedEditMessage");
         }
         if (!RequestUtils.hasEdits(request)) {
-            new DishDelete().execute(dish);
+            DishDelete.execute(dish);
         }
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {

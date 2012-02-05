@@ -46,7 +46,7 @@ public class ReviewVoteServlet extends HttpServlet {
                     RequestUtils.addEditUsingKey(request,"alreadyVotedEditMessage");
                 }
                 if (!RequestUtils.hasEdits(request)) {
-                    new ReviewUpdateYesNo().execute(review,vote,user);
+                    ReviewUpdateYesNo.execute(review,vote,user);
                 }
             } else if (action.equals(bundle.getString("removeAgreeLabel"))) {	
                 // Check if hasn't voted
@@ -54,7 +54,7 @@ public class ReviewVoteServlet extends HttpServlet {
                     RequestUtils.addEditUsingKey(request,"haventVotedEditMessage");
                 }
                 if (!RequestUtils.hasEdits(request)) {
-                    new ReviewUpdateUndoYesNo().execute(review,vote,user);
+                    ReviewUpdateUndoYesNo.execute(review,vote,user);
                 }
             }
         }
@@ -83,7 +83,7 @@ public class ReviewVoteServlet extends HttpServlet {
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
         Review review=null;
         if (reviewId!=null) {
-            review=new ReviewGetSingle().execute(reviewId);
+            review=ReviewGetSingle.execute(reviewId);
             request.setAttribute(RequestUtils.REVIEW, review);
         }
         if (review==null) {

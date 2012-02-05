@@ -56,7 +56,7 @@ public class ReviewUpdateServlet extends HttpServlet {
     private void updateAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         if (!RequestUtils.hasEdits(request)) {
-            new ReviewUpdate().execute(review);
+            ReviewUpdate.execute(review);
         }
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
@@ -73,7 +73,7 @@ public class ReviewUpdateServlet extends HttpServlet {
     private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
         if (!RequestUtils.hasEdits(request)) {
-            new ReviewDelete().execute(review);
+            ReviewDelete.execute(review);
         }
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
@@ -99,7 +99,7 @@ public class ReviewUpdateServlet extends HttpServlet {
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
         Review review=null;
         if (reviewId!=null) {
-            review=new ReviewGetSingle().execute(reviewId);
+            review=ReviewGetSingle.execute(reviewId);
             request.setAttribute(RequestUtils.REVIEW, review);
         }
         if (review==null) {

@@ -24,7 +24,7 @@ public class StoreGetAll {
      * @param aLongitude
      * @since 1.0
      */
-    public List<Store> execute(double aLatitude, double aLongitude) {
+    public static List<Store> execute(double aLatitude, double aLongitude) {
         PersistenceManager pm=null;
         List<Store> results=null;
         try {
@@ -133,7 +133,7 @@ public class StoreGetAll {
      * @param resultsTemp results temp
      * @since 1.0
      */
-    public void transferResults(List<Store> results, List<Store> resultsTemp) {
+    public static void transferResults(List<Store> results, List<Store> resultsTemp) {
         // Bug workaround.  Get size actually triggers the underlying database call.
         System.out.println( resultsTemp.size() );
         for (Store note: resultsTemp) {

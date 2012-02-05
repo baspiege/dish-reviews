@@ -94,12 +94,12 @@ public class ReviewImageServlet extends HttpServlet {
                 }
                 // Process if no edits
                 if (!RequestUtils.hasEdits(request)) {
-                    new ReviewImageUpdate().execute(review, imageBlob, imageBlobThumbnail);
+                    ReviewImageUpdate.execute(review, imageBlob, imageBlobThumbnail);
                 }
             } else if (action.equals(bundle.getString("removeLabel"))) {		
                 // Remove an image
                 if (!RequestUtils.hasEdits(request)) {
-                    new ReviewImageRemove().execute(review);
+                    ReviewImageRemove.execute(review);
                 }
             }
         }
@@ -122,7 +122,7 @@ public class ReviewImageServlet extends HttpServlet {
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
         Review review=null;
         if (reviewId!=null) {
-            review=new ReviewGetSingle().execute(reviewId);
+            review=ReviewGetSingle.execute(reviewId);
             request.setAttribute(RequestUtils.REVIEW, review);
         }
         if (review==null) {

@@ -17,7 +17,7 @@ public class ReviewGetSingle {
      *
      * @since 1.0
      */
-    public Review execute(Long aReviewId) {
+    public static Review execute(Long aReviewId) {
         PersistenceManager pm=null;
 
         Review review=null;

@@ -28,7 +28,7 @@ public class DishesXmlServlet extends HttpServlet {
         String sortBy=RequestUtils.getAlphaInput(request,"sortBy",bundle.getString("sortByLabel"),false);
 
         // Get data
-        List<Dish> dishes=new DishesGetAll().execute(storeId, start, sortBy);
+        List<Dish> dishes=DishesGetAll.execute(storeId, start, sortBy);
         request.setAttribute("dishes", dishes);
 
         RequestUtils.forwardTo(request,response,ControllerConstants.DISHES_XML);

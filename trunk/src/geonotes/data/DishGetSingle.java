@@ -19,7 +19,7 @@ public class DishGetSingle {
      * @return a dish
      * @since 1.0
      */
-    public Dish execute(Long aDishId) {
+    public static Dish execute(Long aDishId) {
         PersistenceManager pm=null;
         Dish dish=null;
         try {

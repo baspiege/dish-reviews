@@ -24,7 +24,7 @@ public class ReviewsOwnXmlServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
         String user=request.getUserPrincipal().getName();
         Long start=RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
-        List<Review> results=new ReviewsSingleUserGetAll().execute(user, start);
+        List<Review> results=ReviewsSingleUserGetAll.execute(user, start);
         request.setAttribute("reviews", results);
         RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_OWN_XML);
     }

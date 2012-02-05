@@ -22,7 +22,7 @@ public class DishesGetAll {
      * @param aSortBy sort by
      * @since 1.0
      */
-    public List<Dish> execute(Long aStoreId, Long aStart, String aSortBy) {
+    public static List<Dish> execute(Long aStoreId, Long aStart, String aSortBy) {
         PersistenceManager pm=null;
         List<Dish> results=null;
         try {

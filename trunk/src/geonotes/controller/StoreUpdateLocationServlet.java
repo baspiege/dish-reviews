@@ -49,7 +49,7 @@ public class StoreUpdateLocationServlet extends HttpServlet {
                 store.setLatitude(latitude);
                 store.setLongitude(longitude);
                 if (!RequestUtils.hasEdits(request)) {
-                    store=new StoreUpdate().execute(store);
+                    store=StoreUpdate.execute(store);
                 }
             }
         }

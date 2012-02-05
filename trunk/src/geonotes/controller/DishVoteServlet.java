@@ -44,7 +44,7 @@ public class DishVoteServlet extends HttpServlet {
                     RequestUtils.addEditUsingKey(request,"alreadyVotedEditMessage");
                 }
                 if (!RequestUtils.hasEdits(request)) {
-                    new DishUpdateYesNo().execute(dish,vote,user);
+                    DishUpdateYesNo.execute(dish,vote,user);
                 }
             } else if (action.equals(bundle.getString("unlikeLabel"))) {
                 // Check if hasn't voted
@@ -52,7 +52,7 @@ public class DishVoteServlet extends HttpServlet {
                     RequestUtils.addEditUsingKey(request,"haventVotedEditMessage");
                 }
                 if (!RequestUtils.hasEdits(request)) {
-                    new DishUpdateUndoYesNo().execute(dish,vote,user);
+                    DishUpdateUndoYesNo.execute(dish,vote,user);
                 }
             }
         }

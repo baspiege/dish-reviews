@@ -24,7 +24,7 @@ public class DishUpdateUndoYesNo {
      *
      * @since 1.0
      */
-    public void execute(Dish aDish, String aVote, String aUser) {
+    public static void execute(Dish aDish, String aVote, String aUser) {
         PersistenceManager pm=null;
         Query query=null;
         try {

@@ -34,7 +34,7 @@ public class StoresXmlServlet extends HttpServlet {
         } else {
             Double latitude=RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
             Double longitude=RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
-            stores=new StoreGetAll().execute(latitude,longitude);
+            stores=StoreGetAll.execute(latitude,longitude);
         }
         request.setAttribute("stores", stores);
 
