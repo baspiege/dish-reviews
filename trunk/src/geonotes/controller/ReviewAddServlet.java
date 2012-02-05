@@ -53,6 +53,7 @@ public class ReviewAddServlet extends HttpServlet {
 
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
+            request.setAttribute("dishId",review.dishId);
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_ADD);
