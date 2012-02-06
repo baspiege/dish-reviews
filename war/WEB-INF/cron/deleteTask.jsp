@@ -2,7 +2,7 @@
 <%@ page language="java"%>
 <%@ page import="geonotes.data.DeleteOldReviews" %>
 <%
-    new DeleteOldReviews().execute(request);
+//    DeleteOldReviews().execute(request);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
