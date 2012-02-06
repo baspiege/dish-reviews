@@ -1,26 +1,24 @@
 <%-- This JSP has the HTML for adjust location page. --%>
-<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
-<%@ page language="java"%>
-<%@ page import="java.util.ResourceBundle" %>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page isELIgnored="false" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<%
-    ResourceBundle bundle = ResourceBundle.getBundle("Text");
-%>
-<title><%=bundle.getString("adjustLocationLabel")%></title>
+<fmt:bundle basename="Text">
+<title><fmt:message key="adjustLocationLabel"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </head>
 <body>
 <table>
-<!--  <tr><td><%=bundle.getString("positionLabel")%>:</td><td><span id="info"></span></td></tr> -->
-  <tr><td><%=bundle.getString("addressLabel")%>:</td><td><span id="address"></span></td></tr>
+  <tr><td><fmt:message key="addressLabel"/>:</td><td><span id="address"></span></td></tr>
 </table>
-<div style="margin-top:1em;margin-bottom:1em;">
+<div class="section">
 <form id="store" method="get" action="storeAdd" autocomplete="off">
 <%-- Update --%>
 <input id="latitude" type="hidden" name="latitude" value="" />
 <input id="longitude" type="hidden" name="longitude" value="" />
-<input class="button" type="submit" name="action" onclick="setFieldsFromLocalStorage()" value="<%=bundle.getString("nextLabel")%>"/>
+<input class="button" type="submit" name="action" onclick="setFieldsFromLocalStorage()" value="<fmt:message key="nextLabel"/>"/>
 </form>
 </div>
 <script type="text/javascript">
@@ -121,7 +119,8 @@ function initialize() {
 // Onload handler to fire off the app.
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-<div id="mapCanvas"></div>
+<div class="section" id="mapCanvas"></div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
+</fmt:bundle>
 </html>

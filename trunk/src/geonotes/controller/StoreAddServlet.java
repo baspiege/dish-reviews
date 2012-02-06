@@ -23,16 +23,17 @@ public class StoreAddServlet extends HttpServlet {
         setUpData(request);
 
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
+        ResourceBundle bundle = ResourceBundle.getBundle("Text");
 
-        // Default note
+        // Note
         store.setNote("");
 
-        // Get fields passed in
-        ResourceBundle bundle = ResourceBundle.getBundle("Text");
+        // Coordinates
         Double latitude=RequestUtils.getNumericInputAsDouble(request,"latitude",bundle.getString("latitudeLabel"),true);
-        request.setAttribute("latitude",latitude);
+        store.setLatitude(latitude);
         Double longitude=RequestUtils.getNumericInputAsDouble(request,"longitude",bundle.getString("longitudeLabel"),true);
-        request.setAttribute("longitude",longitude);
+        store.setLongitude(longitude);
+        
         RequestUtils.forwardTo(request,response,ControllerConstants.STORE_ADD);
     }
 
