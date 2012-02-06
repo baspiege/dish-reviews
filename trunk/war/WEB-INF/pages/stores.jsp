@@ -26,7 +26,7 @@ var isLoggedIn=<%=isSignedIn%>;
 <script type="text/javascript" src="/js/fblogin.js" ></script>
 
 <nav>
-<ul id="navlist" style="margin:0;padding:0;">
+<ul id="navlist">
 <% if (isSignedIn) { %>
 <li><a href='/reviewsOwn'>My Reviews</a></li>
 <% } %>
@@ -37,9 +37,9 @@ var isLoggedIn=<%=isSignedIn%>;
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <%-- Location --%>
-<div style="margin-top:1.5em"><span id="geoStatus"></span><a style="margin-left:1em" href="locationChange"><%=bundle.getString("changeLocationLabel")%></a></div>
+<div class="section"><span id="geoStatus"></span><a style="margin-left:1em" href="locationChange"><%=bundle.getString("changeLocationLabel")%></a></div>
 <%-- Data --%>
-<div style="margin-top:1.5em" class="data" id="data">
+<div class="data section" id="data">
 <p> <%=bundle.getString("waitingForDataLabel")%> </p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>

@@ -18,7 +18,7 @@
 <script type="text/javascript" src="/js/fblogin.js" ></script>
 
 <nav>
-<ul id="navlist" style="margin:0;padding:0;">
+<ul id="navlist">
 <li><a href="stores">Main</a></li>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
@@ -27,7 +27,7 @@
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <%-- Data --%>
-<div style="margin-top:1.5em" class="data" id="data">
+<div class="data section" id="data">
 <p> <%=bundle.getString("waitingForDataLabel")%> </p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
