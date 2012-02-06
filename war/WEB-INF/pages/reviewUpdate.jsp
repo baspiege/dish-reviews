@@ -25,7 +25,7 @@
 <tr><td><%=bundle.getString("noteLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(review.note)%>" id="note" title="<%=bundle.getString("noteLabel")%>" maxlength="500"/></td></tr>
 <tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(review.lastUpdateTime)%></td></tr>
 </table>
-<div style="margin-top:1.5em">
+<div class="section">
 <input type="hidden" name="reviewId" value="<%=review.getKey().getId()%>"/>
 <input class="button" type="submit" name="action" value="<%=bundle.getString("updateLabel")%>"/>
 <input class="button" type="submit" name="action" value="<%=bundle.getString("deleteLabel")%>"/>

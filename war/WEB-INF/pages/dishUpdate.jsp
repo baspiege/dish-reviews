@@ -25,7 +25,7 @@
 <tr><td><%=bundle.getString("nameLabel")%>:</td><td><input type="text" name="note" value="<%=HtmlUtils.escapeChars(dish.note)%>" id="note" title="<%=bundle.getString("nameLabel")%>" maxlength="500"/></td></tr>
 <tr><td><%=bundle.getString("lastUpdatedLabel")%>:</td><td><%=dateFormat.format(dish.lastUpdateTime)%></td></tr>
 </table>
-<div style="margin-top:1.5em">
+<div class="section">
 <input type="hidden" name="dishId" value="<%=dish.getKey().getId()%>"/>
 <%-- Update --%>
 <input class="button" type="submit" name="action" value="<%=bundle.getString("updateLabel")%>"/>

@@ -20,15 +20,15 @@ var storeId=<c:out value="${store.key.id}"/>;
 </c:choose>
 </script>
 </head>
-<fmt:bundle basename="Text">
 <body onload="getDishesData();">
+<fmt:bundle basename="Text">
 
 <%-- Facebook login --%>
 <div id="fb-root"></div>
 <script type="text/javascript" src="/js/fblogin.js" ></script>
 
 <nav>
-<ul id="navlist" style="margin:0;padding:0;">
+<ul id="navlist">
 <li><a href="stores">Main</a></li>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
@@ -56,6 +56,6 @@ var storeId=<c:out value="${store.key.id}"/>;
 <p><fmt:message key="waitingForDataLabel"/></p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
-</fmt:bundle>
 </body>
+</fmt:bundle>
 </html>
