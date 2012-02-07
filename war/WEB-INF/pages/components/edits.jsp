@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
 <fmt:bundle basename="Text">
-<c:if test="${edits!=null && edits.size>0}">
+<c:if test="${edits!=null && !empty edits}">
 <div class="edits">
   <br/><b><fmt:message key="requestNotProcessedEditLabel"/></b>
   <ul>
@@ -13,4 +13,5 @@
   </c:forEach>
   </ul>
 </div>
-</c:when>
+</c:if>
+</fmt:bundle>
