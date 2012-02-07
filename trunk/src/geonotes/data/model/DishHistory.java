@@ -71,8 +71,6 @@ public class DishHistory implements Serializable {
         setUser(aDish.user);
     }
 
-    // Accessors for the fields.  JDO doesn't use these, but the application does.
-
     public Key getKey() {
         return key;
     }

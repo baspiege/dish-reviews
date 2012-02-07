@@ -73,8 +73,6 @@ public class ReviewHistory implements Serializable {
         setHasImage(aReview.hasImage);
     }
 
-    // Accessors for the fields.  JDO doesn't use these, but the application does.
-
     public boolean getHasImage() {
         if (hasImage==null) {
             return false;
