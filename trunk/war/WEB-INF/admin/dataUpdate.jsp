@@ -3,6 +3,9 @@
 <%@ page import="geonotes.data.DishesUpdateAllUtil" %>
 <%@ page import="geonotes.data.ReviewsUpdateAllUtil" %>
 <%
+    // Clear mem cache
+    com.google.appengine.api.memcache.MemcacheServiceFactory.getMemcacheService().clearAll();
+
     //new DishesUpdateAllUtil().execute(request);
     //new ReviewsUpdateAllUtil().execute(request);
 %>
