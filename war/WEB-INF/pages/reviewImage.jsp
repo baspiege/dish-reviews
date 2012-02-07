@@ -8,7 +8,7 @@
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text");
     Review review=(Review)request.getAttribute(RequestUtils.REVIEW);
-    boolean usersOwnReview=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
+    boolean usersOwnReview=request.getUserPrincipal().getName()!=null && request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>

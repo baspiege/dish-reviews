@@ -66,8 +66,6 @@ public class Dish implements Serializable {
     {
     }
 
-    // Accessors for the fields.  JDO doesn't use these, but the application does.
-
     public Key getKey() {
         return key;
     }

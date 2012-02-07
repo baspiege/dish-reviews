@@ -58,68 +58,86 @@ public class Review implements Serializable {
      * Constructor.
      *
      */
-    public Review()
-    {
+    public Review() {
     }
 
-    // Accessors for the fields.  JDO doesn't use these, but the application does.
-
-    public boolean getHasImage()
-    {
+    public boolean getHasImage() {
         if (hasImage==null) {
             return false;
         } else {
             return hasImage.booleanValue();
         }
     }
-
-    public Key getKey()
-    {
+        
+    public long getDishId() {
+        return dishId;
+    }
+    
+    public Key getKey() {
         return key;
     }
 
-    public void setDishId(long aDishId)
-    {
+    public String getNote() {
+        return note;
+    }
+
+    public Blob getImage() {
+        return image;
+    }
+
+    public Blob getImageThumbnail() {
+        return imageThumbnail;
+    }
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public long getYes() {
+        return yes;
+    }
+
+    public long getYesVote() {
+        return yesVote;
+    }
+    
+    public String getUser() {
+        return user;
+    }
+    
+    public void setDishId(long aDishId) {
         dishId=aDishId;
     }
 
-    public void setHasImage(Boolean aHasImage)
-    {
+    public void setHasImage(Boolean aHasImage) {
         hasImage=aHasImage;
     }
 
-    public void setNote(String aNote)
-    {
+    public void setNote(String aNote) {
         note=aNote;
     }
 
-    public void setImage(Blob aImage)
-    {
+    public void setImage(Blob aImage) {
         image=aImage;
     }
 
-    public void setImageThumbnail(Blob aImage)
-    {
+    public void setImageThumbnail(Blob aImage) {
         imageThumbnail=aImage;
     }
 
-    public void setLastUpdateTime(Date aLastUpdateTime)
-    {
+    public void setLastUpdateTime(Date aLastUpdateTime) {
         lastUpdateTime=aLastUpdateTime;
     }
 
-    public void setYes(long aYes)
-    {
+    public void setYes(long aYes) {
         yes=aYes;
     }
 
-    public void setYesVote(long aYes)
-    {
+    public void setYesVote(long aYes) {
         yesVote=aYes;
     }
 
-    public void setUser(String aUser)
-    {
+    public void setUser(String aUser) {
         user=aUser;
     }
 }
