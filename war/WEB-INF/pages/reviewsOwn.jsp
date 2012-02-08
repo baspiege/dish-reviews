@@ -1,13 +1,11 @@
 <%-- This JSP has the HTML for 'my reviews' page. --%>
-<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
-<%@ page language="java"%>
-<%@ page import="java.util.ResourceBundle" %>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page isELIgnored="false" %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<%
-    ResourceBundle bundle = ResourceBundle.getBundle("Text");
-%>
-<title><%=bundle.getString("myReviewsLabel")%></title>
+<fmt:bundle basename="Text">
+<title><fmt:message key="myReviewsLabel"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="/js/reviewsOwn.js" ></script>
 </head>
@@ -28,8 +26,9 @@
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <%-- Data --%>
 <div class="data section" id="data">
-<p> <%=bundle.getString("waitingForDataLabel")%> </p>
+<p><fmt:message key="waitingForDataLabel"/></p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
+</fmt:bundle>
 </html>
