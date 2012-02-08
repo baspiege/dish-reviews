@@ -1,4 +1,5 @@
-<%@ page language="java"%>
-<% 
-    response.sendRedirect("/dish?dishId=" + request.getAttribute("dishId"));
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ page isELIgnored="false" %>
+<c:redirect url="/dish">
+  <c:param name="dishId" value="${dishId}"/>
+</c:redirect>
