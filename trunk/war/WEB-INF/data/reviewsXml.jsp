@@ -21,20 +21,20 @@
             // Add attributes
             out.write("<review");
             out.write(" reviewId=\"" + reviewId + "\"");
-            out.write(" yes=\"" + review.yesVote + "\"");
-            out.write(" time=\"" + review.lastUpdateTime.getTime()/1000 + "\"");
-            out.write(" text=\"" + HtmlUtils.escapeChars(review.note) + "\"");
-            out.write(" userId=\"" + review.user + "\"");
+            out.write(" yes=\"" + review.getYesVote() + "\"");
+            out.write(" time=\"" + review.getLastUpdateTime().getTime()/1000 + "\"");
+            out.write(" text=\"" + HtmlUtils.escapeChars(review.getNote()) + "\"");
+            out.write(" userId=\"" + review.getUser() + "\"");
 
             // User
-            if (user!=null && user.equalsIgnoreCase(review.user)) {
+            if (user!=null && user.equalsIgnoreCase(review.getUser())) {
                 out.write(" user=\"true\"");
             } else {
                 out.write(" user=\"false\"");
             }
 
             // Thumbnail
-            if (review.imageThumbnail!=null) {
+            if (review.getImageThumbnail()!=null) {
                 out.write(" img=\"true\"");
             } else {
                 out.write(" img=\"false\"");
