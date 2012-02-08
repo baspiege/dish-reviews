@@ -10,7 +10,7 @@
 <script type="text/javascript" src="/js/dish.js" ></script>
 <script type="text/javascript">
 var dishId=<c:out value="${dish.key.id}"/>;
-var reviewId=<c:out value="${requestScope.reviewId}">0</c:out>;
+var reviewId=<c:out value="${reviewId}">0</c:out>;
 <c:choose>
   <c:when test="${pageContext.request.userPrincipal.name != null}">
     var isLoggedIn=true;
@@ -25,7 +25,7 @@ var reviewId=<c:out value="${requestScope.reviewId}">0</c:out>;
 
 <%-- If review Id, load specific review.  Else load all. --%>
 <c:choose>
-  <c:when test="${requestScope.reviewId != null}">
+  <c:when test="${reviewId != null}">
     <body onload="getReviewsDataById();">
   </c:when>
   <c:otherwise>
@@ -61,7 +61,7 @@ var reviewId=<c:out value="${requestScope.reviewId}">0</c:out>;
 </c:choose>
 <%-- Show All reviews link if there is specific review showing. --%> 
 <c:choose>
-  <c:when test="${requestScope.reviewId != null}">
+  <c:when test="${reviewId != null}">
     <a class="add" href="#" onclick="window.location='dish?dishId=<c:out value="${dish.key.id}"/>';return false;"><fmt:message key="allReviewsLabel"/></a>
   </c:when>
 </c:choose>
