@@ -32,7 +32,7 @@ public class ReviewDelete {
                 pm.deletePersistent(review);
 
                 // Update count
-                Dish dish=DishGetSingle.getDish(pm,review.getDishId());
+                Dish dish=DishGetSingle.getDish(pm,aReview.getDishId());
                 dish.setReviewCount(dish.getReviewCount()-1);
 
                 // Reset last review
@@ -44,8 +44,8 @@ public class ReviewDelete {
                 List<Review> results = (List<Review>) query.execute(dish.getKey().getId());
                 if (!results.isEmpty()) {
                     review=(Review)results.get(0);
-                    dish.setLastReview(review.getNote());
-                    dish.setLastReviewUserId(review.getUser());
+                    dish.setLastReview(aReview.getNote());
+                    dish.setLastReviewUserId(aReview.getUser());
                 } else {
                     dish.setLastReview(null);
                     dish.setLastReviewUserId(null);
