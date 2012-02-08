@@ -70,7 +70,7 @@ public class StoreUpdateServlet extends HttpServlet {
     */
     private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Store store=(Store)request.getAttribute(RequestUtils.STORE);
-        if (store.dishCount>0) {
+        if (store.getDishCount()>0) {
             RequestUtils.addEditUsingKey(request,"storesWithDishesCantBeDeletedEditMessage");
         }
         if (!RequestUtils.hasEdits(request)) {

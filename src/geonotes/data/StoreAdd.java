@@ -34,14 +34,7 @@ public class StoreAdd {
             aStore=pm.makePersistent(aStore);
 
             // History
-            StoreHistory storeHistory=new StoreHistory();
-            storeHistory.setStoreId(aStore.getKey().getId());
-            storeHistory.setNote(aStore.note);
-            storeHistory.setLastUpdateTime(aStore.lastUpdateTime);
-            storeHistory.setLongitude(aStore.longitude);
-            storeHistory.setLatitude(aStore.latitude);
-            storeHistory.setYes(aStore.yes);
-            storeHistory.setUser(aStore.user);
+            StoreHistory storeHistory=new StoreHistory(aStore);
             pm.makePersistent(storeHistory);
         } finally {
             if (pm!=null) {

@@ -32,7 +32,7 @@ public class DishUpdateYesNo {
             Dish dish=DishGetSingle.getDish(pm,aDish.getKey().getId());
             if (dish!=null){
                 if (aVote.equals("yes")){
-                  dish.setYesVote(dish.yesVote+1);
+                  dish.setYesVote(dish.getYesVote()+1);
                 }
             }
 

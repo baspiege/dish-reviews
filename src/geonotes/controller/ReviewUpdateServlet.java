@@ -60,7 +60,7 @@ public class ReviewUpdateServlet extends HttpServlet {
         }
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
-            request.setAttribute("dishId",review.dishId);
+            request.setAttribute("dishId",review.getDishId());
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_UPDATE);
@@ -77,7 +77,7 @@ public class ReviewUpdateServlet extends HttpServlet {
         }
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
-            request.setAttribute("dishId",review.dishId);
+            request.setAttribute("dishId",review.getDishId());
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_UPDATE);
@@ -107,7 +107,7 @@ public class ReviewUpdateServlet extends HttpServlet {
         }
 
         // Check ownerhip
-        boolean usersOwnReview=request.getUserPrincipal().getName().equalsIgnoreCase(review.user);
+        boolean usersOwnReview=request.getUserPrincipal().getName().equalsIgnoreCase(review.getUser());
         if (!usersOwnReview) {
             throw new SecurityException("Review not own: " + reviewId);
         }

@@ -59,7 +59,7 @@ public class DishVoteServlet extends HttpServlet {
 
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
-            request.setAttribute("storeId",dish.storeId);
+            request.setAttribute("storeId",dish.getStoreId());
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_VOTE);

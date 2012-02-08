@@ -33,7 +33,7 @@ public class ReviewImage extends HttpServlet {
 
             if (review!=null){
                 response.setContentType("image/jpeg");
-                response.getOutputStream().write(review.image.getBytes());
+                response.getOutputStream().write(review.getImage().getBytes());
             }
         } catch (Exception e) {
             System.err.println(ReviewImage.class.getName() + ": " + e);

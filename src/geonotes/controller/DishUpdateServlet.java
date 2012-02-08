@@ -71,7 +71,7 @@ public class DishUpdateServlet extends HttpServlet {
     */
     private void deleteAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Dish dish=(Dish)request.getAttribute(RequestUtils.DISH);
-        if (dish.reviewCount>0) {
+        if (dish.getReviewCount()>0) {
             RequestUtils.addEditUsingKey(request,"dishesWithReviewsCantBeDeletedEditMessage");
         }
         if (!RequestUtils.hasEdits(request)) {
@@ -79,7 +79,7 @@ public class DishUpdateServlet extends HttpServlet {
         }
         // If no edits, forward to store.
         if (!RequestUtils.hasEdits(request)) {
-            request.setAttribute("storeId",dish.storeId);
+            request.setAttribute("storeId",dish.getStoreId());
             RequestUtils.forwardTo(request,response,ControllerConstants.STORE_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_UPDATE);

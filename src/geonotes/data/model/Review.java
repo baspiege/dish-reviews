@@ -28,31 +28,31 @@ public class Review implements Serializable {
     private Key key;
 
     @Persistent
-    public long dishId;
+    private long dishId;
 
     @Persistent
-    public Boolean hasImage;
+    private Boolean hasImage;
 
     @Persistent
-    public Blob image;	
+    private Blob image;	
 
     @Persistent
-    public Blob imageThumbnail;		
+    private Blob imageThumbnail;		
 
     @Persistent
-    public Date lastUpdateTime;	
+    private Date lastUpdateTime;	
 
     @Persistent
-    public String note;
+    private String note;
 
     @Persistent
-    public Long yes;
+    private Long yes;
 
     @Persistent
-    public Long yesVote;
+    private Long yesVote;
 
     @Persistent
-    public String user;	
+    private String user;	
 
     /**
      * Constructor.

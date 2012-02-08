@@ -28,28 +28,28 @@ public class ReviewHistory implements Serializable {
     private Key key;
 
     @Persistent
-    public long dishId;
+    private long dishId;
 
     @Persistent
-    public Boolean hasImage;
+    private Boolean hasImage;
 
     @Persistent
-    public Blob image;	
+    private Blob image;	
 
     @Persistent
-    public Blob imageThumbnail;		
+    private Blob imageThumbnail;		
 
     @Persistent
-    public Date lastUpdateTime;	
+    private Date lastUpdateTime;	
 
     @Persistent
-    public String note;
+    private String note;
 
     @Persistent
-    public Long yesVote;
+    private Long yesVote;
 
     @Persistent
-    public String user;	
+    private String user;	
 
     /**
      * Constructor.
@@ -63,14 +63,14 @@ public class ReviewHistory implements Serializable {
      *
      */
     public ReviewHistory(Review aReview) {
-        setNote(aReview.note);
-        setLastUpdateTime(aReview.lastUpdateTime);
-        setDishId(aReview.dishId);
-        setYesVote(aReview.yesVote);
-        setUser(aReview.user);
-        setImage(aReview.image);
-        setImageThumbnail(aReview.imageThumbnail);
-        setHasImage(aReview.hasImage);
+        setNote(aReview.getNote());
+        setLastUpdateTime(aReview.getLastUpdateTime());
+        setDishId(aReview.getDishId());
+        setYesVote(aReview.getYesVote());
+        setUser(aReview.getUser());
+        setImage(aReview.getImage());
+        setImageThumbnail(aReview.getImageThumbnail());
+        setHasImage(aReview.getHasImage());
     }
 
     public boolean getHasImage() {

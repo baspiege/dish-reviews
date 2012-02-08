@@ -34,8 +34,8 @@ public class DishAdd {
             pm.makePersistent(aDish);
 
             // Update count
-            Store store=StoreGetSingle.getStore(pm,aDish.storeId);
-            store.setDishCount(store.dishCount+1);
+            Store store=StoreGetSingle.getStore(pm,aDish.getStoreId());
+            store.setDishCount(store.getDishCount()+1);
 
             // History
             DishHistory dishHistory=new DishHistory(aDish);

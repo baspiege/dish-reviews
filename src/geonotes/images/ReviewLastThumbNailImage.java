@@ -31,9 +31,9 @@ public class ReviewLastThumbNailImage extends HttpServlet {
 
             Review review=ReviewGetSingle.getLastReviewWithImage(pm,dishId.longValue());
 
-            if (review!=null && review.imageThumbnail!=null){
+            if (review!=null && review.getImageThumbnail()!=null){
                 response.setContentType("image/jpeg");
-                response.getOutputStream().write(review.imageThumbnail.getBytes());
+                response.getOutputStream().write(review.getImageThumbnail().getBytes());
             }
         } catch (Exception e) {
             System.err.println(ReviewThumbNailImage.class.getName() + ": " + e);

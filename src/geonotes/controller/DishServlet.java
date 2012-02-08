@@ -47,9 +47,9 @@ public class DishServlet extends HttpServlet {
         }
 
         // Get store
-        Store store=RequestUtils.getStore(dish.storeId);
+        Store store=RequestUtils.getStore(dish.getStoreId());
         if (store==null) {
-            throw new RuntimeException("Store not found: " + dish.storeId);
+            throw new RuntimeException("Store not found: " + dish.getStoreId());
         } else {
             request.setAttribute(RequestUtils.STORE,store);
         }

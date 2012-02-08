@@ -61,7 +61,7 @@ public class ReviewVoteServlet extends HttpServlet {
 
         // If no edits, forward to dish.
         if (!RequestUtils.hasEdits(request)) {
-            request.setAttribute("dishId",review.dishId);
+            request.setAttribute("dishId",review.getDishId());
             RequestUtils.forwardTo(request,response,ControllerConstants.DISH_REDIRECT);
         } else {
             RequestUtils.forwardTo(request,response,ControllerConstants.REVIEW_VOTE);

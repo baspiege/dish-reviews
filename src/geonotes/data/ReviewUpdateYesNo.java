@@ -33,14 +33,14 @@ public class ReviewUpdateYesNo {
             Review review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
             if (review!=null){
                 if (aVote.equals("yes")){
-                  review.setYesVote(review.yesVote+1);
+                  review.setYesVote(review.getYesVote()+1);
                 }
             }
 
             // Record vote
             ReviewVote reviewVote=new ReviewVote();
             reviewVote.setReviewId(review.getKey().getId());
-            reviewVote.setUser(review.user);
+            reviewVote.setUser(review.getUser());
             pm.makePersistent(reviewVote);
         } finally {
             if (pm!=null) {

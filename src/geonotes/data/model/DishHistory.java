@@ -28,28 +28,28 @@ public class DishHistory implements Serializable {
     private Key key;
 
     @Persistent
-    public long dishId;
+    private long dishId;
 
     @Persistent
-    public String lastReview;	
+    private String lastReview;	
 
     @Persistent
-    public Date lastUpdateTime;	
+    private Date lastUpdateTime;	
 
     @Persistent
-    public String note;
+    private String note;
 
     @Persistent
-    public long reviewCount;
+    private long reviewCount;
 
     @Persistent
-    public long storeId;
+    private long storeId;
 
     @Persistent
-    public String user;
+    private String user;
 
     @Persistent
-    public long yesVote;
+    private long yesVote;
 
     /**
      * Constructor.
@@ -64,11 +64,11 @@ public class DishHistory implements Serializable {
      */
     public DishHistory(Dish aDish) {
         setDishId(aDish.getKey().getId());
-        setNote(aDish.note);
-        setLastUpdateTime(aDish.lastUpdateTime);
-        setStoreId(aDish.storeId);
-        setYesVote(aDish.yesVote);
-        setUser(aDish.user);
+        setNote(aDish.getNote());
+        setLastUpdateTime(aDish.getLastUpdateTime());
+        setStoreId(aDish.getStoreId());
+        setYesVote(aDish.getYesVote());
+        setUser(aDish.getUser());
     }
 
     public Key getKey() {
