@@ -54,8 +54,8 @@ public class DishesXmlServlet extends HttpServlet {
             Document doc = docBuilder.newDocument();
             Element root = doc.createElement("dishes");
             doc.appendChild(root);
-            if (stores!=null && stores.size()>0) {
-                for (Store store:stores) {
+            if (dishes!=null && dishes.size()>0) {
+                for (Dish dish:dishes) {
                     Element child = doc.createElement("dish");
                     root.appendChild(child);
                     child.setAttribute("dishId", new Long(dish.getKey().getId()).toString() );
