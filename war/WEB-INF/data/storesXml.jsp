@@ -17,10 +17,10 @@
             // Add attributes
             out.write("<store");
             out.write(" storeId=\"" + storeId + "\"");
-            out.write(" lat=\"" + store.latitude + "\"");
-            out.write(" lon=\"" + store.longitude + "\"");
-            out.write(" text=\"" + HtmlUtils.escapeChars(store.note) + "\"");
-            out.write(" dishCount=\"" + store.dishCount + "\"");
+            out.write(" lat=\"" + store.getLatitude() + "\"");
+            out.write(" lon=\"" + store.getLongitude() + "\"");
+            out.write(" text=\"" + HtmlUtils.escapeChars(store.getNote()) + "\"");
+            out.write(" dishCount=\"" + store.getDishCount() + "\"");
             out.write("/>");
         }
     }

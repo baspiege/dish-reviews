@@ -17,14 +17,14 @@
             // Add attributes
             out.write("<dish");
             out.write(" dishId=\"" + dishId + "\"");
-            out.write(" yes=\"" + dish.yesVote + "\"");
-            out.write(" dishText=\"" + HtmlUtils.escapeChars(dish.note) + "\"");
-            out.write(" lastReviewText=\"" + HtmlUtils.escapeChars(dish.lastReview) + "\"");
-            out.write(" lastReviewUserId=\"" + dish.lastReviewUserId + "\"");
-            out.write(" lastReviewImageId=\"" + dish.lastReviewImageId + "\"");
+            out.write(" yes=\"" + dish.getYesVote() + "\"");
+            out.write(" dishText=\"" + HtmlUtils.escapeChars(dish.getNote()) + "\"");
+            out.write(" lastReviewText=\"" + HtmlUtils.escapeChars(dish.getLastReview()) + "\"");
+            out.write(" lastReviewUserId=\"" + dish.getLastReviewUserId() + "\"");
+            out.write(" lastReviewImageId=\"" + dish.getLastReviewImageId() + "\"");
 
             // Thumbnail
-            if (dish.lastReviewImageId!=null && dish.lastReviewImageId!=0l) {
+            if (dish.getLastReviewImageId()!=null && dish.getLastReviewImageId()!=0l) {
                 out.write(" img=\"true\"");
             } else {
                 out.write(" img=\"false\"");

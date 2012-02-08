@@ -82,7 +82,7 @@ public class Dish implements Serializable {
         return lastReviewUserId;
     }
 
-    public long getLastReviewImageId() {
+    public Long getLastReviewImageId() {
         return lastReviewImageId;
     }
 

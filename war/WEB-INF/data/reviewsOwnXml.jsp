@@ -21,22 +21,22 @@
             // Add attributes
             out.write("<review");
             out.write(" reviewId=\"" + reviewId + "\"");
-            out.write(" yes=\"" + review.yes + "\"");
-            out.write(" text=\"" + HtmlUtils.escapeChars(review.note) + "\"");
-            out.write(" time=\"" + review.lastUpdateTime.getTime()/1000 + "\"");
+            out.write(" yes=\"" + review.getYes() + "\"");
+            out.write(" text=\"" + HtmlUtils.escapeChars(review.getNote()) + "\"");
+            out.write(" time=\"" + review.getLastUpdateTime().getTime()/1000 + "\"");
 
             // Dish attributes
             Dish dish=RequestUtils.getDish(review.dishId);
             out.write(" dishId=\"" + dish.getKey().getId() + "\"");
-            out.write(" dishText=\"" + HtmlUtils.escapeChars(dish.note) + "\"");
+            out.write(" dishText=\"" + HtmlUtils.escapeChars(dish.getNote()) + "\"");
 
             // Store attributes
-            Store store=RequestUtils.getStore(dish.storeId);
+            Store store=RequestUtils.getStore(dish.getStoreId());
             out.write(" storeId=\"" + store.getKey().getId() + "\"");
-            out.write(" storeText=\"" + HtmlUtils.escapeChars(store.note) + "\"");
+            out.write(" storeText=\"" + HtmlUtils.escapeChars(store.getNote()) + "\"");
 
             // Thumbnail
-            if (review.imageThumbnail!=null) {
+            if (review.getImageThumbnail()!=null) {
                 out.write(" img=\"true\"");
             } else {
                 out.write(" img=\"false\"");
