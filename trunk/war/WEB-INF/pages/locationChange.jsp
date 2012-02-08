@@ -1,12 +1,11 @@
 <%-- This JSP has the HTML for location page. --%>
-<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
-<%@ page language="java"%>
-<%@ page import="java.util.ResourceBundle" %>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page isELIgnored="false" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<%
-    ResourceBundle bundle = ResourceBundle.getBundle("Text");
-%>
-<title><%=bundle.getString("changeLocationLabel")%></title>
+<fmt:bundle basename="Text">
+<title><fmt:message key="changeLocationLabel"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
@@ -31,16 +30,15 @@ function setFieldsIntoLocalStorage() {
 </head>
 <body onload="setFieldsFromLocalStorage()">
 <p>
-  <input type="radio" name="location" id="useGeoLocation" value="useGeoLocation"/><label for="useGeoLocation"><%=bundle.getString("currentLocationLabel")%></label>
-  <input type="radio" name="location" id="useOverride" value="useOverride"/><label for="useOverride"><%=bundle.getString("locationBelowLabel")%></label>
+  <input type="radio" name="location" id="useGeoLocation" value="useGeoLocation"/><label for="useGeoLocation"><fmt:message key="currentLocationLabel"/></label>
+  <input type="radio" name="location" id="useOverride" value="useOverride"/><label for="useOverride"><fmt:message key="locationBelowLabel"/></label>
 </p>
 <table>
-<!--  <tr><td><%=bundle.getString("positionLabel")%>:</td><td><span id="info"></span></td></tr> -->
-  <tr><td><%=bundle.getString("addressLabel")%>:</td><td><span id="address"></span></td></tr>
+  <tr><td><fmt:message key="addressLabel"/>:</td><td><span id="address"></span></td></tr>
 </table>
 <div style="margin-top:1em;margin-bottom:1em;">
 <%-- Update --%>
-<input class="button" type="button" name="action" onclick="setFieldsIntoLocalStorage();window.location='stores';return false;" value="<%=bundle.getString("updateLabel")%>"/>
+<input class="button" type="button" name="action" onclick="setFieldsIntoLocalStorage();window.location='stores';return false;" value="<fmt:message key="updateLabel"/>"/>
 </div>
 <script type="text/javascript">
 function getCookie(name) {
@@ -144,4 +142,5 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <div id="mapCanvas"></div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
+</fmt:bundle>
 </html>
