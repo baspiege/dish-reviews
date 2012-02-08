@@ -1,22 +1,27 @@
 <%-- This JSP has the HTML for stores page. --%>
-<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
-<%@ page language="java"%>
-<%@ page import="java.util.ResourceBundle" %>
-<%
-    ResourceBundle bundle = ResourceBundle.getBundle("Text");
-    boolean isSignedIn=request.getUserPrincipal().getName()!= null;
-%>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page isELIgnored="false" %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/docType.jsp" %>
-<title><%=bundle.getString("storesLabel")%></title>
+<fmt:bundle basename="Text">
+<title><fmt:message key="storesLabel"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="/js/stores.js" ></script>
 <script type="text/javascript">
-var waitingForCoordinatesMessage="<%=bundle.getString("waitingForCoordinatesMessage")%>";
-var locationNotAvailableMessage="<%=bundle.getString("locationNotAvailableMessage")%>";
-var locationNotFoundMessage="<%=bundle.getString("locationNotFoundMessage")%>";
-var isLoggedIn=<%=isSignedIn%>;
+var waitingForCoordinatesMessage="<fmt:message key="waitingForCoordinatesMessage"/>";
+var locationNotAvailableMessage="<fmt:message key="locationNotAvailableMessage"/>";
+var locationNotFoundMessage="<fmt:message key="locationNotFoundMessage"/>";
+<c:choose>
+  <c:when test="${pageContext.request.userPrincipal.name != null}">
+    var isLoggedIn=true;
+  </c:when>
+  <c:otherwise>
+    var isLoggedIn=false;
+  </c:otherwise>
+</c:choose>
 </script>
 </head>
 <body onload="getCoordinates();">
@@ -27,9 +32,9 @@ var isLoggedIn=<%=isSignedIn%>;
 
 <nav>
 <ul id="navlist">
-<% if (isSignedIn) { %>
-<li><a href='/reviewsOwn'>My Reviews</a></li>
-<% } %>
+<c:if test="${pageContext.request.userPrincipal.name != null}">
+  <li><a href='/reviewsOwn'><fmt:message key="myReviewsLabel"/></a></li>
+</c:if>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
 <ul>
@@ -37,11 +42,12 @@ var isLoggedIn=<%=isSignedIn%>;
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <%-- Location --%>
-<div class="section"><span id="geoStatus"></span><a style="margin-left:1em" href="locationChange"><%=bundle.getString("changeLocationLabel")%></a></div>
+<div class="section"><span id="geoStatus"></span><a style="margin-left:1em" href="locationChange"><fmt:message key="changeLocationLabel"/></a></div>
 <%-- Data --%>
 <div class="data section" id="data">
-<p> <%=bundle.getString("waitingForDataLabel")%> </p>
+<p><fmt:message key="waitingForDataLabel"/></p>
 </div>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
+</fmt:bundle>
 </html>
