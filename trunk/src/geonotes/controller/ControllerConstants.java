@@ -33,10 +33,4 @@ public class ControllerConstants {
 
     // Main page
     public static String STORES="/WEB-INF/pages/stores.jsp";
-
-    // XML pages
-    public static String DISHES_XML="/WEB-INF/data/dishesXml.jsp";
-    public static String REVIEWS_XML="/WEB-INF/data/reviewsXml.jsp";
-    public static String REVIEWS_OWN_XML="/WEB-INF/data/reviewsOwnXml.jsp";
-    public static String STORES_XML="/WEB-INF/data/storesXml.jsp";
 }
