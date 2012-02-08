@@ -1,8 +1,12 @@
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.util.ResourceBundle" %>
-<% ResourceBundle bundle = ResourceBundle.getBundle("Text"); %>
+<%-- This JSP creates a list of edits. --%>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page isELIgnored="false" %>
+<fmt:bundle basename="Text">
 <div class="footer">
 <p>
-<%= bundle.getString("copyrightLabel")%> <%= Calendar.getInstance().get(Calendar.YEAR) %> Brian Spiegel
+<jsp:useBean id="currentDate" class="java.util.Date" scope="page" />
+<fmt:message key="copyrightLabel"/> <fmt:formatDate pattern="yyyy" value="${currentDate}"/> Brian Spiegel
 </p>
 </div>
+</fmt:bundle>
