@@ -27,40 +27,40 @@ public class StoreHistory implements Serializable {
     private Key key;
 
     @Persistent
-    public long storeId;
+    private long storeId;
 
     @Persistent
-    public long dishCount;
+    private long dishCount;
 
     @Persistent
-    public Blob image;	
+    private Blob image;	
 
     @Persistent
-    public Blob imageThumbnail;	
+    private Blob imageThumbnail;	
 
     @Persistent
-    public Date lastUpdateTime;	
+    private Date lastUpdateTime;	
 
     @Persistent
-    public String note;
+    private String note;
 
     @Persistent
-    public double latitude;
+    private double latitude;
 
     @Persistent
-    public double longitude;
+    private double longitude;
 
     @Persistent
-    public double longitude2Decimal;
+    private double longitude2Decimal;
 
     @Persistent
-    public double latitude2Decimal;
+    private double latitude2Decimal;
 
     @Persistent
-    public String user;	
+    private String user;	
 
     @Persistent
-    public long yes;
+    private long yes;
 
     /**
      * Constructor.
@@ -69,7 +69,21 @@ public class StoreHistory implements Serializable {
     public StoreHistory()
     {
     }
-
+    
+    /**
+     * Constructor.
+     *
+     */
+    public StoreHistory(Store aStore) {
+        setStoreId(aStore.getKey().getId());
+        setNote(aStore.getNote());
+        setLastUpdateTime(aStore.getLastUpdateTime());
+        setLongitude(aStore.getLongitude());
+        setLatitude(aStore.getLatitude());
+        setYes(aStore.getYes());
+        setUser(aStore.getUser());
+    }
+    
     public Key getKey()
     {
         return key;

@@ -30,9 +30,9 @@ public class ReviewUpdate {
 
             if (review!=null){
 
-                if (aReview.note!=null) {
-                    review.setNote(aReview.note);
-                    review.setUser(aReview.user);
+                if (aReview.getNote()!=null) {
+                    review.setNote(aReview.getNote());
+                    review.setUser(aReview.getUser());
                     review.setLastUpdateTime(new Date());
 
                     // History
@@ -40,9 +40,9 @@ public class ReviewUpdate {
                     pm.makePersistent(reviewHistory);
 
                     // Last review
-                    Dish dish=DishGetSingle.getDish(pm,aReview.dishId);
-                    dish.setLastReview(aReview.note);
-                    dish.setLastReviewUserId(aReview.user);
+                    Dish dish=DishGetSingle.getDish(pm,aReview.getDishId());
+                    dish.setLastReview(aReview.getNote());
+                    dish.setLastReviewUserId(aReview.getUser());
                 }
             }
         } finally {

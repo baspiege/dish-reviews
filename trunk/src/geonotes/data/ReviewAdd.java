@@ -34,12 +34,12 @@ public class ReviewAdd {
             pm.makePersistent(reviewHistory);
 
             // Update review count
-            Dish dish=DishGetSingle.getDish(pm,aReview.dishId);
-            dish.setReviewCount(dish.reviewCount+1);
+            Dish dish=DishGetSingle.getDish(pm,aReview.getDishId());
+            dish.setReviewCount(dish.getReviewCount()+1);
 
             // Last review
-            dish.setLastReview(aReview.note);
-            dish.setLastReviewUserId(aReview.user);
+            dish.setLastReview(aReview.getNote());
+            dish.setLastReviewUserId(aReview.getUser());
         } finally {
             if (pm!=null) {
                 pm.close();

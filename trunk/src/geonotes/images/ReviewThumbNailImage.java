@@ -33,7 +33,7 @@ public class ReviewThumbNailImage extends HttpServlet {
 
             if (review!=null){
                 response.setContentType("image/jpeg");
-                response.getOutputStream().write(review.imageThumbnail.getBytes());
+                response.getOutputStream().write(review.getImageThumbnail().getBytes());
             }
         } catch (Exception e) {
             System.err.println(ReviewThumbNailImage.class.getName() + ": " + e);

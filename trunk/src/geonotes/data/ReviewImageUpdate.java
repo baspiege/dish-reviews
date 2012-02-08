@@ -38,7 +38,7 @@ public class ReviewImageUpdate {
                 pm.makePersistent(reviewHistory);
 
                 // Set last image
-                Dish dish=DishGetSingle.getDish(pm,review.dishId);
+                Dish dish=DishGetSingle.getDish(pm,review.getDishId());
                 dish.setLastReviewImageId(review.getKey().getId());
             }
         } finally {

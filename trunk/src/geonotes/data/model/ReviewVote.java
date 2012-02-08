@@ -26,10 +26,10 @@ public class ReviewVote implements Serializable {
     private Key key;
 
     @Persistent
-    public long reviewId;
+    private long reviewId;
 
     @Persistent
-    public String user;
+    private String user;
 
     /**
      * Constructor.

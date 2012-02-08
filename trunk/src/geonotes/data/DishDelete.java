@@ -29,8 +29,8 @@ public class DishDelete {
                 pm.deletePersistent(aDish);
 
                 // Update count
-                Store store=StoreGetSingle.getStore(pm,aDish.storeId);
-                store.setDishCount(store.dishCount-1);
+                Store store=StoreGetSingle.getStore(pm,aDish.getStoreId());
+                store.setDishCount(store.getDishCount()-1);
             }
         } finally {
             if (pm!=null) {

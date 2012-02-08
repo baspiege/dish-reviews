@@ -47,13 +47,13 @@ public class ReviewImageRemove {
 
             if (review!=null){
                 // Set last image
-                Review reviewImage=ReviewGetSingle.getLastReviewWithImage(pm,review.dishId);
-                Dish dish=DishGetSingle.getDish(pm,review.dishId);
+                Review reviewImage=ReviewGetSingle.getLastReviewWithImage(pm,review.getDishId());
+                Dish dish=DishGetSingle.getDish(pm,review.getDishId());
                 if (reviewImage!=null) {
-                    //System.out.println(review.dishId + ": " + reviewImage.getKey().getId());
+                    //System.out.println(review.getDishId() + ": " + reviewImage.getKey().getId());
                     dish.setLastReviewImageId(reviewImage.getKey().getId());
                 } else {
-                    //System.out.println(review.dishId + ": null");
+                    //System.out.println(review.getDishId() + ": null");
                     dish.setLastReviewImageId(0l);
                 }
             }

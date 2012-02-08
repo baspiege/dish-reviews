@@ -26,37 +26,37 @@ public class Dish implements Serializable {
     private Key key;
 
     @Persistent
-    public String lastReview;	
+    private String lastReview;	
 
     @Persistent
-    public String lastReviewUserId;	
+    private String lastReviewUserId;	
 
     @Persistent
-    public Long lastReviewImageId;
+    private Long lastReviewImageId;
 
     @Persistent
-    public Date lastUpdateTime;	
+    private Date lastUpdateTime;	
 
     @Persistent
-    public String note;
+    private String note;
 
     @Persistent
-    public String noteLowerCase;
+    private String noteLowerCase;
 
     @Persistent
-    public long reviewCount;
+    private long reviewCount;
 
     @Persistent
-    public long storeId;
+    private long storeId;
 
     @Persistent
-    public String user;
+    private String user;
 
     @Persistent
-    public Long vote;
+    private Long vote;
 
     @Persistent
-    public Long yesVote;
+    private Long yesVote;
 
     /**
      * Constructor.

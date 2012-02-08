@@ -30,14 +30,14 @@ public class StoreUpdate {
             pm=PMF.get().getPersistenceManager();
             store=StoreGetSingle.getStore(pm,aStore.getKey().getId());
             if (store!=null){
-                if (aStore.note!=null) {
-                    store.setNote(aStore.note);
+                if (aStore.getNote()!=null) {
+                    store.setNote(aStore.getNote());
                 }
-                if (aStore.longitude!=null) {
-                    store.setLongitude(aStore.longitude);
+                if (aStore.getLongitude()!=null) {
+                    store.setLongitude(aStore.getLongitude());
                 }
-                if (aStore.latitude!=null) {
-                    store.setLatitude(aStore.latitude);
+                if (aStore.getLatitude()!=null) {
+                    store.setLatitude(aStore.getLatitude());
                 }
                 store.setLastUpdateTime(new Date());
 
@@ -45,14 +45,7 @@ public class StoreUpdate {
                 MemCacheUtils.setStore(store);
 
                 // History
-                StoreHistory storeHistory=new StoreHistory();
-                storeHistory.setStoreId(store.getKey().getId());
-                storeHistory.setNote(store.note);
-                storeHistory.setLastUpdateTime(store.lastUpdateTime);
-                storeHistory.setLongitude(store.longitude);
-                storeHistory.setLatitude(store.latitude);
-                storeHistory.setYes(store.yes);
-                storeHistory.setUser(store.user);
+                StoreHistory storeHistory=new StoreHistory(store);
                 pm.makePersistent(storeHistory);
             }
         } finally {

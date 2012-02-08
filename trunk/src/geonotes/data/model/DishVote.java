@@ -26,10 +26,10 @@ public class DishVote implements Serializable {
     private Key key;
 
     @Persistent
-    public long dishId;
+    private long dishId;
 
     @Persistent
-    public String user;
+    private String user;
 
     /**
      * Constructor.
