@@ -23,7 +23,7 @@ form {margin: 0px 0px 0px 0px; display: inline;}
   <input style="margin-bottom:1.5em" type="file" name="imageFile">
   <br/>
   <%-- Upload --%>
-  <input class="button" type="submit" name="action" value="<fmt:message key="updloadLabel"/>">
+  <input class="button" type="submit" name="action" value="<fmt:message key="uploadLabel"/>">
   </form>
   <form method="post" action="reviewImageUpdate?reviewId=<c:out value="${review.key.id}"/>" autocomplete="off">
   <%-- Remove --%>
