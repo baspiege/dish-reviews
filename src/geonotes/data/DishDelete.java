@@ -25,12 +25,12 @@ public class DishDelete {
             pm=PMF.get().getPersistenceManager();
 
             if (aDish!=null){
-                aDish=DishGetSingle.getDish(pm,aDish.getKey().getId());
-                pm.deletePersistent(aDish);
-
                 // Update count
                 Store store=StoreGetSingle.getStore(pm,aDish.getStoreId());
                 store.setDishCount(store.getDishCount()-1);
+            
+                aDish=DishGetSingle.getDish(pm,aDish.getKey().getId());
+                pm.deletePersistent(aDish);
             }
         } finally {
             if (pm!=null) {
