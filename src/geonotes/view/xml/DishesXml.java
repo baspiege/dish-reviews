@@ -32,18 +32,21 @@ public class DishesXml {
                 for (Dish dish:aDishes) {
                     Element child = doc.createElement("dish");
                     root.appendChild(child);
-                    child.setAttribute("dishId", new Long(dish.getKey().getId()).toString() );
+                    child.setAttribute("dishId", new Long(dish.getKey().getId()).toString());
                     child.setAttribute("yes", new Long(dish.getYesVote()).toString());
                     child.setAttribute("lastReviewText", dish.getLastReview());
-                    child.setAttribute("lastReviewUserId", new Long(dish.getLastReviewUserId()).toString() );
-                    child.setAttribute("lastReviewImageId", new Long(dish.getLastReviewImageId()).toString() );
+                    child.setAttribute("lastReviewUserId", dish.getLastReviewUserId());
+                    String lastReviewImageId=null;
                     String hasImage=null;
                     if (dish.getLastReviewImageId()!=null && dish.getLastReviewImageId()!=0l) {
                         hasImage="true";
+                        lastReviewImageId=new Long(dish.getLastReviewImageId()).toString();
                     } else {
                         hasImage="false";
+                        lastReviewImageId="";
                     }    
-                    child.setAttribute("lastReviewImageId", hasImage );
+                    child.setAttribute("lastReviewImageId", hasImage);
+                    child.setAttribute("lastReviewImageId", lastReviewImageId);
                 }
             }
             TransformerFactory transfac = TransformerFactory.newInstance();
