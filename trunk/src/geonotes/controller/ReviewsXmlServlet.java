@@ -3,6 +3,7 @@ package geonotes.controller;
 import geonotes.data.ReviewGetSingle;
 import geonotes.data.ReviewsGetAll;
 import geonotes.data.model.Review;
+import geonotes.view.xml.ReviewsXml;
 import geonotes.utils.RequestUtils;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +38,9 @@ public class ReviewsXmlServlet extends HttpServlet {
             reviews=ReviewsGetAll.execute(dishId, start);
         }
         request.setAttribute("reviews",reviews);
-        //RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_XML);
+
+        response.setHeader("Content-Type", "text/xml; charset=UTF-8");
+        ReviewsXml.outputXml(reviews,request.getUserPrincipal().getName(),response.getOutputStream());
     }
 
     /**
