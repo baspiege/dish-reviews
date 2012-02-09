@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
 * Get dishes in XML format.
 */
 public class DishesXml {
-    
+
     /**
     * Out data in XML format.
     */
@@ -34,18 +34,19 @@ public class DishesXml {
                     root.appendChild(child);
                     child.setAttribute("dishId", new Long(dish.getKey().getId()).toString());
                     child.setAttribute("yes", new Long(dish.getYesVote()).toString());
+                    child.setAttribute("dishText", dish.getNote());
                     child.setAttribute("lastReviewText", dish.getLastReview());
                     child.setAttribute("lastReviewUserId", dish.getLastReviewUserId());
-                    String lastReviewImageId=null;
                     String hasImage=null;
+                    String lastReviewImageId=null;
                     if (dish.getLastReviewImageId()!=null && dish.getLastReviewImageId()!=0l) {
                         hasImage="true";
                         lastReviewImageId=new Long(dish.getLastReviewImageId()).toString();
                     } else {
                         hasImage="false";
                         lastReviewImageId="";
-                    }    
-                    child.setAttribute("lastReviewImageId", hasImage);
+                    }
+                    child.setAttribute("img", hasImage);
                     child.setAttribute("lastReviewImageId", lastReviewImageId);
                 }
             }

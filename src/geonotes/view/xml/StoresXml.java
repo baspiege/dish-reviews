@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
 * Get stores in XML format.
 */
 public class StoresXml {
-    
+
     /**
     * Out data in XML format.
     */
