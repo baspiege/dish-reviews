@@ -1,9 +1,5 @@
 package geonotes.utils;
 
-import geonotes.data.DishGetSingle;
-import geonotes.data.StoreGetSingle;
-import geonotes.data.model.Dish;
-import geonotes.data.model.Store;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,23 +70,6 @@ public class RequestUtils {
         }
 
         return value;
-    }
-
-    /**
-    * Get dish.
-    *
-    * @param aDishId dish Id
-    * @return a dish
-    */
-    public static Dish getDish(long aDishId) {
-        Dish dish=null;
-        // Try cache.
-        dish=MemCacheUtils.getDish(aDishId);
-        if (dish==null) {
-            dish=new DishGetSingle().execute(aDishId);
-            MemCacheUtils.setDish(dish);
-        }
-        return dish;
     }
 
     /**
@@ -173,23 +152,6 @@ public class RequestUtils {
         }
 
         return retValue;
-    }
-
-    /**
-    * Get store.
-    *
-    * @param aStoreId store Id
-    * @return a store
-    */
-    public static Store getStore(long aStoreId) {
-        Store store=null;
-        // Try cache.
-        store=MemCacheUtils.getStore(aStoreId);
-        if (store==null) {
-            store=new StoreGetSingle().execute(aStoreId);
-            MemCacheUtils.setStore(store);
-        }
-        return store;
     }
 
    /**

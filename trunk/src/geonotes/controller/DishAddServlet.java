@@ -3,6 +3,7 @@ package geonotes.controller;
 import geonotes.data.DishAdd;
 import geonotes.data.model.Dish;
 import geonotes.data.model.Store;
+import geonotes.utils.MemCacheUtils;
 import geonotes.utils.RequestUtils;
 import geonotes.utils.StringUtils;
 import java.io.IOException;
@@ -74,7 +75,7 @@ public class DishAddServlet extends HttpServlet {
         Long storeId=RequestUtils.getNumericInput(request,"storeId","storeId",true);
         Store store=null;
         if (storeId!=null) {
-            store=RequestUtils.getStore(storeId);
+            store=MemCacheUtils.getStore(storeId);
             request.setAttribute(RequestUtils.STORE, store);
         }
         if (store==null) {

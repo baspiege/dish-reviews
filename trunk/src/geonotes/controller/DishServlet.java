@@ -2,6 +2,7 @@ package geonotes.controller;
 
 import geonotes.data.model.Dish;
 import geonotes.data.model.Store;
+import geonotes.utils.MemCacheUtils;
 import geonotes.utils.RequestUtils;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -38,7 +39,7 @@ public class DishServlet extends HttpServlet {
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
         if (dishId!=null) {
-            dish=RequestUtils.getDish(dishId);
+            dish=MemCacheUtils.getDish(dishId);
         }
         if (dish==null) {
             throw new RuntimeException("Dish not found: " + dishId);
@@ -47,7 +48,7 @@ public class DishServlet extends HttpServlet {
         }
 
         // Get store
-        Store store=RequestUtils.getStore(dish.getStoreId());
+        Store store=MemCacheUtils.getStore(dish.getStoreId());
         if (store==null) {
             throw new RuntimeException("Store not found: " + dish.getStoreId());
         } else {

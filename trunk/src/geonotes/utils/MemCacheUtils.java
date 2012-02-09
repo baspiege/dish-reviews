@@ -1,5 +1,9 @@
 package geonotes.utils;
 
+import geonotes.data.DishGetSingle;
+import geonotes.data.StoreGetSingle;
+import geonotes.data.model.Dish;
+import geonotes.data.model.Store;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import geonotes.data.model.Dish;
@@ -19,20 +23,32 @@ public class MemCacheUtils {
     * Get the dish from cache.
     *
     * @param aDishId dish Id
+    * @return a dish
     */
     public static Dish getDish(long aDishId) {
         MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
-        return (Dish)memcache.get(aDishId + DISH);
+        Dish dish=(Dish)memcache.get(aDishId + DISH);
+        if (dish==null) {
+            dish=new DishGetSingle().execute(aDishId);
+            MemCacheUtils.setDish(dish);
+        }
+        return dish;
     }
 
     /**
     * Get the store from cache.
     *
     * @param aStoreId
+    * @return a store
     */
     public static Store getStore(long aStoreId) {
         MemcacheService memcache=MemcacheServiceFactory.getMemcacheService();
-        return (Store)memcache.get(aStoreId + STORE);
+        Store store=(Store)memcache.get(aStoreId + STORE);
+        if (store==null) {
+            store=new StoreGetSingle().execute(aStoreId);
+            MemCacheUtils.setStore(store);
+        }
+        return store;
     }
 
     /**

@@ -3,6 +3,7 @@ package geonotes.controller;
 import geonotes.data.DishUpdateYesNo;
 import geonotes.data.DishUpdateUndoYesNo;
 import geonotes.data.model.Dish;
+import geonotes.utils.MemCacheUtils;
 import geonotes.utils.RequestUtils;
 import geonotes.utils.StringUtils;
 import java.io.IOException;
@@ -81,7 +82,7 @@ public class DishVoteServlet extends HttpServlet {
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
         Dish dish=null;
         if (dishId!=null) {
-            dish=RequestUtils.getDish(dishId);
+            dish=MemCacheUtils.getDish(dishId);
         }
         if (dish==null) {
             throw new RuntimeException("Dish not found: " + dishId);
