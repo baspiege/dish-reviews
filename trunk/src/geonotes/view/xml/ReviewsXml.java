@@ -1,6 +1,9 @@
 package geonotes.view.xml;
 
+import geonotes.data.model.Dish;
 import geonotes.data.model.Review;
+import geonotes.data.model.Store;
+import geonotes.utils.MemCacheUtils;
 import java.io.OutputStream;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
@@ -23,9 +26,10 @@ public class ReviewsXml {
     *
     * @param aReviews list of reviews
     * @param aUser to check
+    * @param aIncludeStoreDishDetails boolean to indicate if store and dish info is included in output
     * @param aOutputStream output stream to write to
     */
-    public static void outputXml(List<Review> aReviews, String aUser, OutputStream aOutputStream) {
+    public static void outputXml(List<Review> aReviews, String aUser, boolean aIncludeStoreDishDetails, OutputStream aOutputStream) {
         try {
             DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
@@ -56,6 +60,15 @@ public class ReviewsXml {
                         isUser="false";
                     }
                     child.setAttribute("user", hasImage);
+                    // Store and dish info
+                    if (aIncludeStoreDishDetails) {
+                        Dish dish=MemCacheUtils.getDish(review.getDishId());
+                        child.setAttribute("dishId", new Long(dish.getKey().getId()).toString());
+                        child.setAttribute("dishText", dish.getNote());
+                        Store store=MemCacheUtils.getStore(dish.getStoreId());
+                        child.setAttribute("storeId", new Long(store.getKey().getId()).toString());
+                        child.setAttribute("storeText", store.getNote());
+                    }
                 }
             }
             TransformerFactory transfac = TransformerFactory.newInstance();

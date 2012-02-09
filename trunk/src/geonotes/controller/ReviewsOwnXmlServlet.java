@@ -3,6 +3,7 @@ package geonotes.controller;
 import geonotes.data.ReviewsSingleUserGetAll;
 import geonotes.data.model.Review;
 import geonotes.utils.RequestUtils;
+import geonotes.view.xml.ReviewsXml;
 import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -24,9 +25,9 @@ public class ReviewsOwnXmlServlet extends HttpServlet {
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
         String user=request.getUserPrincipal().getName();
         Long start=RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
-        List<Review> results=ReviewsSingleUserGetAll.execute(user, start);
-        request.setAttribute("reviews", results);
-        //RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_OWN_XML);
+        List<Review> reviews=ReviewsSingleUserGetAll.execute(user, start);
+        response.setHeader("Content-Type", "text/xml; charset=UTF-8");
+        ReviewsXml.outputXml(reviews,request.getUserPrincipal().getName(),true,response.getOutputStream());
     }
 
     /**
