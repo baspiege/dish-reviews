@@ -22,16 +22,10 @@ public class DishesXmlServlet extends HttpServlet {
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("Text");
-
-        // Fields
         Long storeId=RequestUtils.getNumericInput(request,"storeId",bundle.getString("storeId"),true);
         Long start=RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
         String sortBy=RequestUtils.getAlphaInput(request,"sortBy",bundle.getString("sortByLabel"),false);
-
-        // Get data
         List<Dish> dishes=DishesGetAll.execute(storeId, start, sortBy);
-        request.setAttribute("dishes", dishes);
-
         response.setHeader("Content-Type", "text/xml; charset=UTF-8");
         DishesXml.outputXml(dishes,response.getOutputStream());
     }
