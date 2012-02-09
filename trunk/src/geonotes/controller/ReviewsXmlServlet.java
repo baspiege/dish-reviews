@@ -37,7 +37,7 @@ public class ReviewsXmlServlet extends HttpServlet {
             reviews=ReviewsGetAll.execute(dishId, start);
         }
         request.setAttribute("reviews",reviews);
-        RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_XML);
+        //RequestUtils.forwardTo(request,response,ControllerConstants.REVIEWS_XML);
     }
 
     /**
