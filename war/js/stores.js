@@ -24,31 +24,6 @@ function setCookie(name,value,daysToExpire) {
 }
 
 ///////////////////
-// Cookies
-///////////////////
-
-function getCookie(name) {
-  if (document.cookie.length>0) {
-    var start=document.cookie.indexOf(name+"=");
-    if (start!=-1) {
-      start+=name.length+1;
-      var end=document.cookie.indexOf(";",start);
-      if (end==-1) {
-        end=document.cookie.length;
-      }
-      return unescape(document.cookie.substring(start,end));
-    }
-  }
-  return "";
-}
-
-function setCookie(name,value,daysToExpire) {
-  var date=new Date();
-  date.setDate(date.getDate()+daysToExpire);
-  document.cookie=name+"="+escape(value)+((daysToExpire==null)?"":";expires="+date.toUTCString());
-}
-
-///////////////////
 // Asynch
 ///////////////////
 
@@ -168,15 +143,6 @@ function handleStoresDataRequest(req) {
       var text=store.getAttribute("text");
       descLink.appendChild(document.createTextNode(text));
       desc.appendChild(descLink);
-      /*
-      if (isLoggedIn) {
-        var editLink=document.createElement("a");
-        editLink.setAttribute("href","storeUpdate?storeId="+storeId);
-        editLink.setAttribute("class","edit");
-        editLink.appendChild(document.createTextNode("edit"));
-        desc.appendChild(document.createTextNode(' '));
-        desc.appendChild(editLink);
-      }*/
       tr.appendChild(desc);
       table.appendChild(tr);
 
@@ -358,18 +324,6 @@ function sortByNameAscending(note1,note2) {
   return name1.localeCompare(name2);
 }
 
-function sortByVoteYesDescending(note1,note2) {
-  var vote1=parseInt(note1.getAttribute("yes"));
-  var vote2=parseInt(note2.getAttribute("yes"));
-  if (vote1>vote2) {
-      return -1;
-  } else if (vote2>vote1) {
-      return 1;
-  } else {
-      return 0;
-  }
-}
-
 function reorderStoresByDishCountDescending() {
   setCookie("sortBy","dishCount");
   reorderStores(sortByDishCountDescending);
@@ -383,11 +337,6 @@ function reorderStoresByDistanceAscending() {
 function reorderStoresByNameAscending() {
   setCookie("sortBy","name");
   reorderStores(sortByNameAscending);
-}
-
-function reorderStoresByVoteYesDescending() {
-  setCookie("sortBy","voteYes");
-  reorderStores(sortByVoteYesDescending);
 }
 
 ///////////////////
@@ -439,8 +388,6 @@ function updateNotesDispay() {
     reorderStoresByNameAscending();
   } else if (sortBy=="dishCount") {
     reorderStoresByDishCountDescending();
-  } else if (sortBy=="voteYes") {
-    reorderStoresByVoteYesDescending();
   }
 }
 
