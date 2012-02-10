@@ -27,6 +27,7 @@ public class DishesXmlServlet extends HttpServlet {
         String sortBy=RequestUtils.getAlphaInput(request,"sortBy",bundle.getString("sortByLabel"),false);
         List<Dish> dishes=DishesGetAll.execute(storeId, start, sortBy);
         response.setHeader("Content-Type", "text/xml; charset=UTF-8");
+        RequestUtils.setNoCache(response);
         DishesXml.outputXml(dishes,response.getOutputStream());
     }
     

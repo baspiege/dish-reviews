@@ -29,7 +29,7 @@ public class ReviewUpdateYesNo {
         try {
             pm=PMF.get().getPersistenceManager();
 
-            // Update vote
+            // Update count
             Review review=ReviewGetSingle.getReview(pm,aReview.getKey().getId());
             if (review!=null){
                 if (aVote.equals("yes")){
