@@ -6,7 +6,7 @@
 <fmt:bundle basename="Text">
 <c:if test="${edits!=null && !empty edits}">
 <section class="edits">
-  <br/><b><fmt:message key="requestNotProcessedEditLabel"/></b>
+  <b><fmt:message key="requestNotProcessedEditLabel"/></b>
   <ul>
   <c:forEach var="edit" items="${edits}">
     <li><c:out value="${edit}" /></li>

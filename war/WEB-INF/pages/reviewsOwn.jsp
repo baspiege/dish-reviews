@@ -20,7 +20,7 @@
 <li><a href="stores">Main</a></li>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
-<ul>
+</ul>
 </nav>
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
