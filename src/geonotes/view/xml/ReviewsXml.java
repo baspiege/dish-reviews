@@ -59,7 +59,7 @@ public class ReviewsXml {
                     } else {
                         isUser="false";
                     }
-                    child.setAttribute("user", hasImage);
+                    child.setAttribute("user", isUser);
                     // Store and dish info
                     if (aIncludeStoreDishDetails) {
                         Dish dish=MemCacheUtils.getDish(review.getDishId());
