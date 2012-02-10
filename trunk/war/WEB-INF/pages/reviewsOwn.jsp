@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
-<%@ include file="/WEB-INF/pages/components/docType.jsp" %>
+<%@ include file="/WEB-INF/pages/components/htmlStart.jsp" %>
 <fmt:bundle basename="Text">
 <title><fmt:message key="myReviewsLabel"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
