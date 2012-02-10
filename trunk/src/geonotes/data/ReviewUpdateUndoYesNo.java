@@ -29,13 +29,12 @@ public class ReviewUpdateUndoYesNo {
         try {
             pm=PMF.get().getPersistenceManager();
 
-            // If user hasn't voted, create edit and return
+            // Delete old votes
             query = pm.newQuery(ReviewVote.class);
             query.setFilter("(reviewId == reviewIdParam && user==userParam)");
             query.declareParameters("long reviewIdParam, String userParam");
             query.setRange(0,1);
             List<ReviewVote> results = (List<ReviewVote>) query.execute(aReview.getKey().getId(), aUser);
-            // Delete old votes
             pm.deletePersistentAll(results);
 
             // Update vote count

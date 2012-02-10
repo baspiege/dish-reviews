@@ -30,13 +30,12 @@ public class DishUpdateUndoYesNo {
         try {
             pm=PMF.get().getPersistenceManager();
 
-            // If user hasn't voted, create edit and return
+            // Delete old votes
             query = pm.newQuery(DishVote.class);
             query.setFilter("(dishId == dishIdParam && user==userParam)");
             query.declareParameters("long dishIdParam, String userParam");
             query.setRange(0,1);
             List<DishVote> results = (List<DishVote>) query.execute(aDish.getKey().getId(), aUser);            
-            // Delete old votes
             pm.deletePersistentAll(results);
 
             // Update vote count
