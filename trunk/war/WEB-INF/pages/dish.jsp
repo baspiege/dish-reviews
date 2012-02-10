@@ -43,7 +43,7 @@ var reviewId=<c:out value="${reviewId}">0</c:out>;
 <li><a href="store?storeId=<c:out value="${store.key.id}"/>"><span id="storeName"><c:out value="${store.note}"/></span></a></li>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
-<ul>
+</ul>
 </nav>
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>

@@ -37,7 +37,7 @@ var locationNotFoundMessage="<fmt:message key="locationNotFoundMessage"/>";
 </c:if>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
-<ul>
+</ul>
 </nav>
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
