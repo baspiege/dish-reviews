@@ -27,6 +27,7 @@ public class ReviewsOwnXmlServlet extends HttpServlet {
         Long start=RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
         List<Review> reviews=ReviewsSingleUserGetAll.execute(user, start);
         response.setHeader("Content-Type", "text/xml; charset=UTF-8");
+        RequestUtils.setNoCacheHeaders(response);
         ReviewsXml.outputXml(reviews,request.getUserPrincipal().getName(),true,response.getOutputStream());
     }
 

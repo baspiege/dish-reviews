@@ -40,6 +40,7 @@ public class StoresXmlServlet extends HttpServlet {
         }
         
         response.setHeader("Content-Type", "text/xml; charset=UTF-8");
+        RequestUtils.setNoCacheHeaders(response);
         StoresXml.outputXml(stores,response.getOutputStream());
     }
 
