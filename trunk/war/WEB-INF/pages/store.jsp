@@ -38,7 +38,7 @@ var storeId=<c:out value="${store.key.id}"/>;
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 
 <%-- Store name --%>
-<div class="section">
+<section>
 <%-- If logged in, link to edit page. --%> 
 <c:choose>
   <c:when test="${pageContext.request.userPrincipal.name != null}">
@@ -49,12 +49,11 @@ var storeId=<c:out value="${store.key.id}"/>;
   </c:otherwise>
 </c:choose>
 <a href="storeUpdateLocation?storeId=<c:out value="${store.key.id}"/>" class="edit"><fmt:message key="locationLabel"/></a>
-</div>
-
 <%-- Data --%>
 <div class="data" id="data">
 <p><fmt:message key="waitingForDataLabel"/></p>
 </div>
+</section>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>

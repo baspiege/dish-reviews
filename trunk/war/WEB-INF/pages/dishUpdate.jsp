@@ -16,11 +16,11 @@
 <tr><td><fmt:message key="nameLabel"/>:</td><td><input type="text" name="note" value="<c:out value="${dish.note}"/>" id="note" title="<fmt:message key="nameLabel"/>" maxlength="500"/></td></tr>
 <tr><td><fmt:message key="lastUpdatedLabel"/>:</td><td><fmt:formatDate pattern="yyyy MMM dd h:mm aa zzz" timeZone="America/Chicago" value="${dish.lastUpdateTime}"/></td></tr>
 </table>
-<div class="section">
+<section>
 <input type="hidden" name="dishId" value="<c:out value="${dish.key.id}"/>"/>
 <input class="button" type="submit" name="action" value="<fmt:message key="updateLabel"/>"/>
 <input class="button" type="submit" name="action" value="<fmt:message key="deleteLabel"/>"/>
-</div>
+</section>
 </form>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>

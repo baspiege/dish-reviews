@@ -13,11 +13,11 @@ a.add:link, a.add:visited, a.edit:link, a.edit:visited, a.more:link, a.more:visi
 
 .button {margin-right:30px;}
 
-.footer { font-size:small; clear:both;padding-top:1em; }
+footer { font-size:small; clear:both;margin-top:1.5em; }
 
 #navlist {margin:0;padding:0;}
 #navlist li {display: inline; list-style-type: none; padding-right: 20px;}
 
 .center { text-align: center; }
 
-div.section {margin-top:1.5em; }
+section {margin-top:1.5em; }

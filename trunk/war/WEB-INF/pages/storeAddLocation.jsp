@@ -13,14 +13,14 @@
 <table>
   <tr><td><fmt:message key="addressLabel"/>:</td><td><span id="address"></span></td></tr>
 </table>
-<div class="section">
+<section>
 <form id="store" method="get" action="storeAdd" autocomplete="off">
 <%-- Update --%>
 <input id="latitude" type="hidden" name="latitude" value="" />
 <input id="longitude" type="hidden" name="longitude" value="" />
 <input class="button" type="submit" name="action" onclick="setFieldsFromLocalStorage()" value="<fmt:message key="nextLabel"/>"/>
 </form>
-</div>
+</section>
 <script type="text/javascript">
 
 function getCookie(name) {
@@ -119,7 +119,7 @@ function initialize() {
 // Onload handler to fire off the app.
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-<div class="section" id="mapCanvas"></div>
+<section id="mapCanvas"></section>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>
