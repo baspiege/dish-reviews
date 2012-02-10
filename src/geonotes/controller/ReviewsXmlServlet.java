@@ -38,6 +38,7 @@ public class ReviewsXmlServlet extends HttpServlet {
             reviews=ReviewsGetAll.execute(dishId, start);
         }
         response.setHeader("Content-Type", "text/xml; charset=UTF-8");
+        RequestUtils.setNoCacheHeaders(response);
         ReviewsXml.outputXml(reviews,request.getUserPrincipal().getName(),false,response.getOutputStream());
     }
 

@@ -216,4 +216,15 @@ public class RequestUtils {
             edits.clear();
         }
     }
+    
+    /**
+    * Set no cache headers.
+    *
+    * @param aResponse Servlet Response
+    */
+    public static void setNoCacheHeaders(HttpServletResponse aResponse) {
+        aResponse.setHeader("Cache-Control","no-cache");
+        aResponse.setHeader("Pragma","no-cache");
+        aResponse.setDateHeader ("Expires", -1);
+    }
 }
