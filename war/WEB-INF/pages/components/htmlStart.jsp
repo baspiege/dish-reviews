@@ -1,3 +1,5 @@
+<!DOCTYPE HTML>
+<!-- Copyright 2012 Brian Spiegel -->
 <html>
 <head>
 <link rel="shortcut icon" href="favicon.ico" />

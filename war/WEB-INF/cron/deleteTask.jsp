@@ -5,7 +5,7 @@
 //    DeleteOldReviews().execute(request);
 %>
 <%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
-<%@ include file="/WEB-INF/pages/components/docType.jsp" %>
+<%@ include file="/WEB-INF/pages/components/htmlStart.jsp" %>
 <title> Delete Task </title>
 </head>
 <body>
