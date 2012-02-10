@@ -42,11 +42,11 @@ var locationNotFoundMessage="<fmt:message key="locationNotFoundMessage"/>";
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 <%-- Location --%>
-<div class="section"><span id="geoStatus"></span><a style="margin-left:1em" href="locationChange"><fmt:message key="changeLocationLabel"/></a></div>
+<section><span id="geoStatus"></span><a style="margin-left:1em" href="locationChange"><fmt:message key="changeLocationLabel"/></a></section>
 <%-- Data --%>
-<div class="data section" id="data">
+<section class="data" id="data">
 <p><fmt:message key="waitingForDataLabel"/></p>
-</div>
+</section>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>

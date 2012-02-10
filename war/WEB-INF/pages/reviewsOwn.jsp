@@ -24,10 +24,11 @@
 </nav>
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
+
 <%-- Data --%>
-<div class="data section" id="data">
+<section class="data" id="data">
 <p><fmt:message key="waitingForDataLabel"/></p>
-</div>
+</section>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>

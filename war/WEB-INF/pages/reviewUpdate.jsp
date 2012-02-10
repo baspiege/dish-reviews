@@ -16,11 +16,11 @@
 <tr><td><fmt:message key="noteLabel"/>:</td><td><input type="text" name="note" value="<c:out value="${review.note}"/>" id="note" title="<fmt:message key="noteLabel"/>" maxlength="500"/></td></tr>
 <tr><td><fmt:message key="lastUpdatedLabel"/>:</td><td><fmt:formatDate pattern="yyyy MMM dd h:mm aa zzz" timeZone="America/Chicago" value="${review.lastUpdateTime}"/></td></tr>
 </table>
-<div class="section">
+<section>
 <input type="hidden" name="reviewId" value="<c:out value="${review.key.id}"/>"/>
 <input class="button" type="submit" name="action" value="<fmt:message key="updateLabel"/>"/>
 <input class="button" type="submit" name="action" value="<fmt:message key="deleteLabel"/>"/>
-</div>
+</section>
 </form>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>

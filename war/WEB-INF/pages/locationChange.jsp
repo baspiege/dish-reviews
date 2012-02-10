@@ -139,7 +139,7 @@ function initialize() {
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 <body>
-<div id="mapCanvas"></div>
+<section id="mapCanvas"></section>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>

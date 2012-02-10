@@ -15,7 +15,7 @@
 <table>
   <tr><td><fmt:message key="addressLabel"/>:</td><td><span id="address"></span></td></tr>
 </table>
-<div class="section">
+<section>
 <c:choose>
   <c:when test="${pageContext.request.userPrincipal.name != null}">
     <%-- Update --%>
@@ -27,7 +27,7 @@
     </form>
   </c:when>
 </c:choose>
-</div>
+</section>
 <script type="text/javascript">
 function setFieldsFromLocalStorage() {
   document.getElementById("latitude").value=addLatitude;
@@ -110,7 +110,7 @@ function initialize() {
 // Onload handler to fire off the app.
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-<div class="section" id="mapCanvas"></div>
+<section id="mapCanvas"></section>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>

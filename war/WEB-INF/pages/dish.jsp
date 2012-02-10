@@ -49,7 +49,7 @@ var reviewId=<c:out value="${reviewId}">0</c:out>;
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 
 <%-- Dish name --%>
-<div class="section">
+<section>
 <%-- If logged in, link to edit page. --%> 
 <c:choose>
   <c:when test="${pageContext.request.userPrincipal.name != null}">
@@ -59,18 +59,17 @@ var reviewId=<c:out value="${reviewId}">0</c:out>;
     <span id="dishName"><c:out value="${dish.note}"/></span>
   </c:otherwise>
 </c:choose>
-<%-- Show All reviews link if there is specific review showing. --%> 
+<%-- Show 'All Reviews' link if there is specific review showing. --%> 
 <c:choose>
   <c:when test="${reviewId != null}">
     <a class="add" href="#" onclick="window.location='dish?dishId=<c:out value="${dish.key.id}"/>';return false;"><fmt:message key="allReviewsLabel"/></a>
   </c:when>
 </c:choose>
-</div>
-
 <%-- Data --%>
 <div class="data" id="data">
 <p><fmt:message key="waitingForDataLabel"/></p>
 </div>
+</section>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </fmt:bundle>
 </body>

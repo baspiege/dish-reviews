@@ -5,13 +5,13 @@
 <%@ page isELIgnored="false" %>
 <fmt:bundle basename="Text">
 <c:if test="${edits!=null && !empty edits}">
-<div class="edits">
+<section class="edits">
   <br/><b><fmt:message key="requestNotProcessedEditLabel"/></b>
   <ul>
   <c:forEach var="edit" items="${edits}">
     <li><c:out value="${edit}" /></li>
   </c:forEach>
   </ul>
-</div>
+</section>
 </c:if>
 </fmt:bundle>
