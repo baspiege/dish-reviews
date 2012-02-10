@@ -14,7 +14,7 @@
 <%-- Fields --%>
 <form id="store" method="post" action="reviewAdd" autocomplete="off">
 <table>
-<tr><td><fmt:message key="nameLabel"/>:</td><td><input type="text" name="note" value="<c:out value="${review.note}"/>" id="note" title="<fmt:message key="noteLabel"/>" maxlength="500"/></td></tr>
+<tr><td><fmt:message key="noteLabel"/>:</td><td><input type="text" name="note" value="<c:out value="${review.note}"/>" id="note" title="<fmt:message key="noteLabel"/>" maxlength="500"/></td></tr>
 </table>
 <p>
 <%-- Add --%>
