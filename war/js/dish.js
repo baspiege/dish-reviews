@@ -279,10 +279,6 @@ function createTableRowForNoData() {
   return tr;
 }
 
-///////////////////
-// Display
-///////////////////
-
 function getElapsedTime(oldSeconds,newSeconds){
   var display="";
   var seconds=newSeconds-oldSeconds;
@@ -305,13 +301,9 @@ function getElapsedTime(oldSeconds,newSeconds){
   return display;
 }
 
-function removeChildrenFromElement(element) {
-  if (element.hasChildNodes()) {
-    while (element.childNodes.length>0) {
-      element.removeChild(element.firstChild);
-    }
-  }
-}
+///////////////////
+// Util
+///////////////////
 
 function elementInViewport(el) {
   var rect = el.getBoundingClientRect();
