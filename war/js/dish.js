@@ -73,206 +73,208 @@ function getReviewsDataById() {
 }
 
 function handleReviewsDataRequest(req) {
-  var tableDiv=document.getElementById("data");
-
-  var tableOrig=document.getElementById("reviews");
-  var table;
+  document.getElementById("waitingForData").style.display="none";
+  var table=document.getElementById("reviews");  
   var newTable=false;
-  if (tableOrig==null) {
-
+  if (table==null) {
     newTable=true;
-    table=document.createElement("table");
-    table.setAttribute("id","reviews");
-    var tr=document.createElement("tr");
-    table.appendChild(tr);
-
-    // Review
-    var thReview=document.createElement("th");
-    tr.appendChild(thReview);
-    thReview.appendChild(document.createTextNode("Review"));
-
-    // Show Add link if logged in
-    if (isLoggedIn) {
-      var addLink=document.createElement("a");
-      addLink.setAttribute("href","reviewAdd?dishId="+dishId);
-      addLink.setAttribute("class","add addTh");
-      addLink.appendChild(document.createTextNode("Add"));
-      thReview.appendChild(addLink);
-    }
-
-    // Time
-    var thTime=document.createElement("th");
-    tr.appendChild(thTime);
-    thTime.appendChild(document.createTextNode("Time Ago"));
-
-    // Agree
-    var thVote=document.createElement("th");
-    tr.appendChild(thVote);
-    thVote.appendChild(document.createTextNode("Agree"));
-
-    // Image
-    var thImage=document.createElement("th");
-    tr.appendChild(thImage);
-    thImage.appendChild(document.createTextNode("Image"));
-
-  } else {
-    table=tableOrig.cloneNode(true);
+    table=createTable();
+    document.getElementById("data").appendChild(table);
   }
 
   // Process request
   var xmlDoc=req.responseXML;
   var reviews=xmlDoc.getElementsByTagName("review");
+  var moreIndicator=document.getElementById("moreIndicator");
   if (reviews.length==0){
-
     moreReviews=false;
+    moreIndicator.style.display="none";
     if (newTable) {
-      var tr=document.createElement("tr");
-      var td=document.createElement("td");
-      td.setAttribute("colspan","4");
-      td.appendChild(document.createTextNode("No reviews."));
-      tr.appendChild(td);
-      table.appendChild(tr);
-      removeChildrenFromElement(tableDiv);
-      // Update tableDiv with new table at end of processing to prevent multiple
-      // requests from interfering with each other
-      tableDiv.appendChild(table);
-    } else {
-      removeChildrenFromElement(document.getElementById("moreIndicator"));
+      table.appendChild(createTableRowForNoData());
     }
   } else {
+    // Check if more
     if (reviews.length<PAGE_SIZE){
       moreReviews=false;
+      moreIndicator.style.display="none";
+    } else {
+      moreIndicator.style.display="inline";
     }
-    // Make HTML for each review
-    var currentSeconds=new Date().getTime()/1000;
+    
+    // Make row for each review
     for (var i=0;i<reviews.length;i++) {
-
       var review=reviews[i];
-      var tr=document.createElement("tr");
-      // Attributes
-      var reviewId=review.getAttribute("reviewId");
-      var reviewText=review.getAttribute("text");
-      var vote=review.getAttribute("yes");
-      var time=review.getAttribute("time");
-      var usersOwn=review.getAttribute("user")=="true";
-      var userId=review.getAttribute("userId");
-      tr.setAttribute("id","reviewId"+reviewId);
-      tr.setAttribute("reviewText",reviewText);
-
-      // Review
-      var descReview=document.createElement("td");
-      if (usersOwn) {
-
-        var moreWrapper=document.createElement("span");
-        moreWrapper.setAttribute("text",reviewText);
-        descReview.appendChild(moreWrapper);
-
-        // Create span... put text in attribute 'text'
-        var hasMore=false;
-        if (reviewText.length>20){
-          reviewText=reviewText.substr(0,20);
-          hasMore=true;
-        }
-
-        if (hasMore) {
-        
-          // Add details with summary
-        }
-        
-        var editLink=document.createElement("a");
-        editLink.setAttribute("href","reviewUpdate?reviewId="+reviewId);
-        editLink.appendChild(document.createTextNode(reviewText));
-        moreWrapper.appendChild(editLink);
-
-        if (hasMore){
-          var moreLink=document.createElement("a");
-          moreLink.setAttribute("href","#");
-          moreLink.setAttribute("class","more");
-          moreLink.setAttribute("onclick","alert(this.parentNode.getAttribute('text'));return false;");
-          moreLink.appendChild(document.createTextNode("more..."));
-          moreWrapper.appendChild(document.createTextNode(" "));
-          moreWrapper.appendChild(moreLink);
-        }
-      } else {
-        descReview.appendChild(document.createTextNode(reviewText));
-      }
-      tr.appendChild(descReview);
-
-      if (usersOwn) {
-        var postButton=document.createElement("button");
-        postButton.setAttribute("onclick","postReviewToFacebook(\"" + reviewId + "\");return false;");
-        postButton.appendChild(document.createTextNode("Share on Facebook"));
-        descReview.appendChild(postButton);
-      } else {
-        // Add name from Facebook id.
-        // Note, adding with createElementNS didn't work.  So using innerHTML.
-        var fbName=document.createElement("span");
-        descReview.appendChild(fbName);
-        fbName.innerHTML=' - <fb:name uid="' + userId + '" useyou="false" linked="true"></fb:name>';
-      }
-
-      // Time Ago
-      var timeReview=document.createElement("td");
-      var elapsedTime=getElapsedTime(parseInt(review.getAttribute("time")),currentSeconds);
-      timeReview.appendChild(document.createTextNode(elapsedTime));
-      tr.appendChild(timeReview);
-
-      // Vote
-      if (isLoggedIn) {
-          var voteDisplay=document.createElement("td");
-          var voteLink=document.createElement("a");
-          voteLink.setAttribute("href","reviewVote?reviewId="+reviewId);
-          voteLink.setAttribute("class","center");
-          voteLink.appendChild(document.createTextNode(vote));
-          voteDisplay.appendChild(voteLink);
-          tr.appendChild(voteDisplay);
-      } else {
-          var voteDisplay=document.createElement("td");
-          voteDisplay.setAttribute("class","center");
-          voteDisplay.appendChild(document.createTextNode(vote));
-          tr.appendChild(voteDisplay);
-      }
-
-      // Image
-      var imageCell=document.createElement("td");
-      if (review.getAttribute("img")=="true") {
-        var imageLink=document.createElement("a");
-        imageLink.setAttribute("href","reviewImageUpdate?reviewId="+reviewId);
-        var image=document.createElement("img");
-        image.setAttribute("src","reviewThumbNailImage?reviewId="+reviewId);
-        imageLink.appendChild(image);
-        imageCell.appendChild(imageLink);
-      } else if (usersOwn) {
-        var imageLink=document.createElement("a");
-        imageLink.setAttribute("class","add");
-        imageLink.setAttribute("href","reviewImageUpdate?reviewId="+reviewId);
-        imageLink.appendChild(document.createTextNode("Add"));
-        imageCell.appendChild(imageLink)
-      }
-      tr.appendChild(imageCell);
-
-      table.appendChild(tr);
-
+      table.appendChild(createTableRowForReview(review));
     }
-    removeChildrenFromElement(tableDiv);
-    // Update tableDiv with new table at end of processing to prevent multiple
-    // requests from interfering with each other
-    tableDiv.appendChild(table);
-
+    
     // Parse for Facebook tags
     if (typeof(FB) != "undefined") {
-      FB.XFBML.parse(tableDiv);
+      FB.XFBML.parse(table);
     }
 
-    if (moreReviews) {
-      var moreIndicator=document.createElement("p");
-      moreIndicator.setAttribute("id","moreIndicator");
-      moreIndicator.appendChild(document.createTextNode("Loading more..."));
-      tableDiv.appendChild(moreIndicator);
-    }
     gettingReviews=false;
     checkForMoreReviews();
   }
+}
+
+///////////////////
+// Display
+///////////////////
+
+function createTable() {
+  table=document.createElement("table");
+  table.setAttribute("id","reviews");
+  var tr=document.createElement("tr");
+  table.appendChild(tr);
+
+  // Review
+  var thReview=document.createElement("th");
+  tr.appendChild(thReview);
+  thReview.appendChild(document.createTextNode("Review"));
+
+  // Show Add link if logged in
+  if (isLoggedIn) {
+    var addLink=document.createElement("a");
+    addLink.setAttribute("href","reviewAdd?dishId="+dishId);
+    addLink.setAttribute("class","add addTh");
+    addLink.appendChild(document.createTextNode("Add"));
+    thReview.appendChild(addLink);
+  }
+
+  // Time
+  var thTime=document.createElement("th");
+  tr.appendChild(thTime);
+  thTime.appendChild(document.createTextNode("Time Ago"));
+
+  // Agree
+  var thVote=document.createElement("th");
+  tr.appendChild(thVote);
+  thVote.appendChild(document.createTextNode("Agree"));
+
+  // Image
+  var thImage=document.createElement("th");
+  tr.appendChild(thImage);
+  thImage.appendChild(document.createTextNode("Image"));
+  
+  return table;
+}
+
+function createTableRowForReview(review) {
+  var tr=document.createElement("tr");
+  var currentSeconds=new Date().getTime()/1000;
+
+  // Attributes
+  var reviewId=review.getAttribute("reviewId");
+  var reviewText=review.getAttribute("text");
+  var vote=review.getAttribute("yes");
+  var time=review.getAttribute("time");
+  var usersOwn=review.getAttribute("user")=="true";
+  var userId=review.getAttribute("userId");
+  tr.setAttribute("id","reviewId"+reviewId);
+  tr.setAttribute("reviewText",reviewText);
+
+  // Review
+  var descReview=document.createElement("td");
+  if (usersOwn) {
+
+    var moreWrapper=document.createElement("span");
+    moreWrapper.setAttribute("text",reviewText);
+    descReview.appendChild(moreWrapper);
+
+    // Create span... put text in attribute 'text'
+    var hasMore=false;
+    if (reviewText.length>20){
+      reviewText=reviewText.substr(0,20);
+      hasMore=true;
+    }
+
+    if (hasMore) {
+    
+      // Add details with summary
+    }
+    
+    var editLink=document.createElement("a");
+    editLink.setAttribute("href","reviewUpdate?reviewId="+reviewId);
+    editLink.appendChild(document.createTextNode(reviewText));
+    moreWrapper.appendChild(editLink);
+
+    if (hasMore){
+      var moreLink=document.createElement("a");
+      moreLink.setAttribute("href","#");
+      moreLink.setAttribute("class","more");
+      moreLink.setAttribute("onclick","alert(this.parentNode.getAttribute('text'));return false;");
+      moreLink.appendChild(document.createTextNode("more..."));
+      moreWrapper.appendChild(document.createTextNode(" "));
+      moreWrapper.appendChild(moreLink);
+    }
+  } else {
+    descReview.appendChild(document.createTextNode(reviewText));
+  }
+  tr.appendChild(descReview);
+
+  if (usersOwn) {
+    var postButton=document.createElement("button");
+    postButton.setAttribute("onclick","postReviewToFacebook(\"" + reviewId + "\");return false;");
+    postButton.appendChild(document.createTextNode("Share on Facebook"));
+    descReview.appendChild(postButton);
+  } else {
+    // Add name from Facebook id.
+    // Note, adding with createElementNS didn't work.  So using innerHTML.
+    var fbName=document.createElement("span");
+    descReview.appendChild(fbName);
+    fbName.innerHTML=' - <fb:name uid="' + userId + '" useyou="false" linked="true"></fb:name>';
+  }
+
+  // Time Ago
+  var timeReview=document.createElement("td");
+  var elapsedTime=getElapsedTime(parseInt(review.getAttribute("time")),currentSeconds);
+  timeReview.appendChild(document.createTextNode(elapsedTime));
+  tr.appendChild(timeReview);
+
+  // Vote
+  if (isLoggedIn) {
+      var voteDisplay=document.createElement("td");
+      var voteLink=document.createElement("a");
+      voteLink.setAttribute("href","reviewVote?reviewId="+reviewId);
+      voteLink.setAttribute("class","center");
+      voteLink.appendChild(document.createTextNode(vote));
+      voteDisplay.appendChild(voteLink);
+      tr.appendChild(voteDisplay);
+  } else {
+      var voteDisplay=document.createElement("td");
+      voteDisplay.setAttribute("class","center");
+      voteDisplay.appendChild(document.createTextNode(vote));
+      tr.appendChild(voteDisplay);
+  }
+
+  // Image
+  var imageCell=document.createElement("td");
+  if (review.getAttribute("img")=="true") {
+    var imageLink=document.createElement("a");
+    imageLink.setAttribute("href","reviewImageUpdate?reviewId="+reviewId);
+    var image=document.createElement("img");
+    image.setAttribute("src","reviewThumbNailImage?reviewId="+reviewId);
+    imageLink.appendChild(image);
+    imageCell.appendChild(imageLink);
+  } else if (usersOwn) {
+    var imageLink=document.createElement("a");
+    imageLink.setAttribute("class","add");
+    imageLink.setAttribute("href","reviewImageUpdate?reviewId="+reviewId);
+    imageLink.appendChild(document.createTextNode("Add"));
+    imageCell.appendChild(imageLink)
+  }
+  tr.appendChild(imageCell);
+
+  return tr;
+}
+
+function createTableRowForNoData() {
+  var tr=document.createElement("tr");
+  var td=document.createElement("td");
+  td.setAttribute("colspan","4");
+  td.appendChild(document.createTextNode("No reviews."));
+  tr.appendChild(td);
+  return tr;
 }
 
 ///////////////////
