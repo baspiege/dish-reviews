@@ -29,6 +29,7 @@ public class DishAdd {
 
             aDish.setLastUpdateTime(new Date());
             aDish.setYesVote(0l);
+            aDish.setReviewCount(0l);
 
             // Save
             pm.makePersistent(aDish);
