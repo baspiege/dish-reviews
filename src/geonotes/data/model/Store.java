@@ -27,7 +27,7 @@ public class Store implements Serializable {
     private Key key;
 
     @Persistent
-    private long dishCount;
+    private Long dishCount;
 
     @Persistent
     private Blob image;	
@@ -71,7 +71,7 @@ public class Store implements Serializable {
         return key;
     }
     
-    public long getDishCount() {
+    public Long getDishCount() {
         return dishCount;
     }
 

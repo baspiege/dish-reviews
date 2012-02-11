@@ -40,10 +40,10 @@ public class ReviewsXml {
                 for (Review review:aReviews) {
                     Element child = doc.createElement("review");
                     root.appendChild(child);
-                    child.setAttribute("reviewId", new Long(review.getKey().getId()).toString());
-                    child.setAttribute("yes", new Long(review.getYesVote()).toString());
+                    child.setAttribute("reviewId", Long.toString(review.getKey().getId()));
+                    child.setAttribute("yes", review.getYesVote().toString());
                     child.setAttribute("text", review.getNote());
-                    child.setAttribute("time", new Long(review.getLastUpdateTime().getTime()/1000).toString());
+                    child.setAttribute("time", Long.toString(review.getLastUpdateTime().getTime()/1000));
                     child.setAttribute("userId", review.getUser());
                     String hasImage=null;
                     if (review.getImageThumbnail()!=null) {
@@ -63,10 +63,10 @@ public class ReviewsXml {
                     // Store and dish info
                     if (aIncludeStoreDishDetails) {
                         Dish dish=MemCacheUtils.getDish(review.getDishId());
-                        child.setAttribute("dishId", new Long(dish.getKey().getId()).toString());
+                        child.setAttribute("dishId", Long.toString(dish.getKey().getId()));
                         child.setAttribute("dishText", dish.getNote());
                         Store store=MemCacheUtils.getStore(dish.getStoreId());
-                        child.setAttribute("storeId", new Long(store.getKey().getId()).toString());
+                        child.setAttribute("storeId", Long.toString(store.getKey().getId()));
                         child.setAttribute("storeText", store.getNote());
                     }
                 }

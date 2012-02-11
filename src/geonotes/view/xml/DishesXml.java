@@ -32,8 +32,8 @@ public class DishesXml {
                 for (Dish dish:aDishes) {
                     Element child = doc.createElement("dish");
                     root.appendChild(child);
-                    child.setAttribute("dishId", new Long(dish.getKey().getId()).toString());
-                    child.setAttribute("yes", new Long(dish.getYesVote()).toString());
+                    child.setAttribute("dishId", Long.toString(dish.getKey().getId()));
+                    child.setAttribute("yes", dish.getYesVote().toString());
                     child.setAttribute("dishText", dish.getNote());
                     child.setAttribute("lastReviewText", dish.getLastReview());
                     child.setAttribute("lastReviewUserId", dish.getLastReviewUserId());
@@ -41,7 +41,7 @@ public class DishesXml {
                     String lastReviewImageId=null;
                     if (dish.getLastReviewImageId()!=null && dish.getLastReviewImageId()!=0l) {
                         hasImage="true";
-                        lastReviewImageId=new Long(dish.getLastReviewImageId()).toString();
+                        lastReviewImageId=dish.getLastReviewImageId().toString();
                     } else {
                         hasImage="false";
                         lastReviewImageId="";

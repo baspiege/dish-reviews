@@ -97,7 +97,7 @@ public class Review implements Serializable {
         return yes;
     }
 
-    public long getYesVote() {
+    public Long getYesVote() {
         return yesVote;
     }
     
@@ -133,7 +133,7 @@ public class Review implements Serializable {
         yes=aYes;
     }
 
-    public void setYesVote(long aYes) {
+    public void setYesVote(Long aYes) {
         yesVote=aYes;
     }
 
