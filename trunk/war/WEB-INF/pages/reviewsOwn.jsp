@@ -26,7 +26,8 @@
 
 <%-- Data --%>
 <section class="data" id="data">
-<p><fmt:message key="waitingForDataLabel"/></p>
+<p id="waitingForData"><fmt:message key="waitingForDataLabel"/></p>
+<p id="moreIndicator" style="display:none"><fmt:message key="loadingMoreLabel"/></p>
 </section>
 
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
