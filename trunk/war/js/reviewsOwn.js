@@ -56,6 +56,7 @@ function handleReviewsDataRequest(req) {
   if (table==null) {
     newTable=true;
     table=createTable();
+    document.getElementById("data").appendChild(table);
   }
 
   // Process request
@@ -94,7 +95,6 @@ function handleReviewsDataRequest(req) {
 
 function createTable() {
   var table=document.createElement("table");
-  document.getElementById("data").appendChild(table);
   table.setAttribute("id","reviews");
   var tr=document.createElement("tr");
   table.appendChild(tr);
