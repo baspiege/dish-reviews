@@ -65,10 +65,12 @@ function checkForMoreReviews() {
 }
 
 function getReviewsData() {
+  gettingReviews=true;
   sendRequest('reviewsXml?dishId='+dishId+'&start=' + startIndexReview, handleReviewsDataRequest);
 }
 
 function getReviewsDataById() {
+  gettingReviews=true;
   sendRequest('reviewsXml?reviewId='+reviewId, handleReviewsDataRequest);
 }
 

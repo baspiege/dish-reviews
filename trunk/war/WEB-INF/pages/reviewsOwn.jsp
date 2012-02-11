@@ -25,8 +25,9 @@
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 
 <%-- Data --%>
-<section class="data" id="data">
+<section>
 <p id="waitingForData"><fmt:message key="waitingForDataLabel"/></p>
+<div class="data" id="data"></div>
 <p id="moreIndicator" style="display:none"><fmt:message key="loadingMoreLabel"/></p>
 </section>
 

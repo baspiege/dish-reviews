@@ -46,6 +46,7 @@ function checkForMoreReviews() {
 }
 
 function getReviewsData() {
+  gettingReviews=true;
   sendRequest('reviewsOwnXml?start=' + startIndexReview, handleReviewsDataRequest);
 }
 
