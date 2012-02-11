@@ -61,31 +61,26 @@ function handleReviewsDataRequest(req) {
   // Process request
   var xmlDoc=req.responseXML;
   var reviews=xmlDoc.getElementsByTagName("review");
+  var moreIndicator=document.getElementById("moreIndicator");
   if (reviews.length==0){
     moreReviews=false;
-    document.getElementById("moreIndicator").style.display="none";
+    moreIndicator.style.display="none";
     if (newTable) {
-      var tr=document.createElement("tr");
-      var td=document.createElement("td");
-      td.setAttribute("colspan","5");
-      td.appendChild(document.createTextNode("No reviews."));
-      tr.appendChild(td);
-      table.appendChild(tr);
+      table.appendChild(createTableRowForNoData());
     }
   } else {
+    // Check if more
     if (reviews.length<PAGE_SIZE){
       moreReviews=false;
-      document.getElementById("moreIndicator").style.display="none";
+      moreIndicator.style.display="none";
+    } else {
+      moreIndicator.style.display="inline";
     }
     
-    // Make HTML for each review
+    // Make row for each review
     for (var i=0;i<reviews.length;i++) {
       var review=reviews[i];
       table.appendChild(createTableRowForReview(review));
-    }
-
-    if (moreReviews) {
-      document.getElementById("moreIndicator").style.display="inline";
     }
 
     gettingReviews=false;
@@ -185,6 +180,15 @@ function createTableRowForReview(review) {
     imageCell.appendChild(imageLink);
   }
   tr.appendChild(imageCell);
+  return tr;
+}
+
+function createTableRowForNoData() {
+  var tr=document.createElement("tr");
+  var td=document.createElement("td");
+  td.setAttribute("colspan","5");
+  td.appendChild(document.createTextNode("No reviews."));
+  tr.appendChild(td);
   return tr;
 }
 
