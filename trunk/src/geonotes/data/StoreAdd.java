@@ -29,6 +29,7 @@ public class StoreAdd {
 
             aStore.setLastUpdateTime(new Date());
             aStore.setYes(0);
+            aStore.setDishCount(0l);
 
             // Save
             aStore=pm.makePersistent(aStore);
