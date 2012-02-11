@@ -174,7 +174,6 @@ function handleReviewsDataRequest(req) {
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
     tableDiv.appendChild(table);
-    //updateNotesDispay();
 
     if (moreReviews) {
       var moreIndicator=document.createElement("p");
