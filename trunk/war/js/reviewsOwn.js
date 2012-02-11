@@ -214,6 +214,10 @@ function getElapsedTime(oldSeconds,newSeconds){
   return display;
 }
 
+///////////////////
+// Util
+///////////////////
+
 function elementInViewport(el) {
   var rect = el.getBoundingClientRect();
   return (rect.top >= 0 && rect.bottom <= window.innerHeight);
