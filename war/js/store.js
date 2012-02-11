@@ -225,7 +225,7 @@ function handleDishesDataRequest(req) {
     tableDiv.appendChild(table);
 
     // Parse for Facebook tags
-    FB.XFBML.parse(tableDiv);
+    // FB.XFBML.parse(tableDiv);
 
     if (moreDishes) {
       var moreIndicator=document.createElement("p");
