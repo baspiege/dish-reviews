@@ -420,3 +420,22 @@ function displayError(error){
 function updateGeoStatus(text) {
   document.getElementById("geoStatus").innerHTML=text;
 }
+
+///////////////////
+// Is logged in
+///////////////////
+
+function setLoggedIn() {
+  var dishRevUser=getCookie("dishRevUser");
+  if (dishRevUser!="") {
+    isLoggedIn=true;
+  }
+
+  // Show 'My Reviews' if logged in
+  var myReviews=document.getElementById("myReviews");  
+  if (isLoggedIn) {
+     myReviews.style.display='inline';
+  } else {
+     myReviews.style.display='none';
+  }
+}

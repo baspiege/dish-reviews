@@ -289,3 +289,22 @@ function elementInViewport(el) {
   var rect = el.getBoundingClientRect();
   return (rect.top >= 0 && rect.bottom <= window.innerHeight);
 }
+
+///////////////////
+// Is logged in
+///////////////////
+
+function setLoggedIn() {
+  var dishRevUser=getCookie("dishRevUser");
+  if (dishRevUser!="") {
+    isLoggedIn=true;
+  }
+
+  // Show 'Edit link' if logged in
+  var storeEditLink=document.getElementById("storeEditLink");  
+  if (isLoggedIn) {
+     storeEditLink.style.display='inline';
+  } else {
+     storeEditLink.style.display='none';
+  }
+}
