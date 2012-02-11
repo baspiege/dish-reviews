@@ -32,11 +32,11 @@ public class StoresXml {
                 for (Store store:aStores) {
                     Element child = doc.createElement("store");
                     root.appendChild(child);
-                    child.setAttribute("storeId", new Long(store.getKey().getId()).toString() );
+                    child.setAttribute("storeId", Long.toString(store.getKey().getId()) );
                     child.setAttribute("lat", store.getLatitude().toString());
                     child.setAttribute("lon", store.getLongitude().toString());
                     child.setAttribute("text", store.getNote());
-                    child.setAttribute("dishCount", new Long(store.getDishCount()).toString());
+                    child.setAttribute("dishCount", store.getDishCount().toString());
                 }
             }
             TransformerFactory transfac = TransformerFactory.newInstance();

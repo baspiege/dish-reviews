@@ -26,7 +26,7 @@ public class ReviewAdd {
             pm=PMF.get().getPersistenceManager();
 
             aReview.setLastUpdateTime(new Date());
-            aReview.setYesVote(0);
+            aReview.setYesVote(0l);
             pm.makePersistent(aReview);
 
             // History

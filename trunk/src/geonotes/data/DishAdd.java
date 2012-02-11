@@ -28,7 +28,7 @@ public class DishAdd {
             pm=PMF.get().getPersistenceManager();
 
             aDish.setLastUpdateTime(new Date());
-            aDish.setYesVote(0);
+            aDish.setYesVote(0l);
 
             // Save
             pm.makePersistent(aDish);

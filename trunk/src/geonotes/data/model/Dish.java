@@ -102,7 +102,7 @@ public class Dish implements Serializable {
         return user;
     }
 
-    public long getYesVote() {
+    public Long getYesVote() {
         return yesVote;
     }
 
@@ -139,7 +139,7 @@ public class Dish implements Serializable {
         user=aUser;
     }
 
-    public void setYesVote(long aYes) {
+    public void setYesVote(Long aYes) {
         yesVote=aYes;
     }
 }
