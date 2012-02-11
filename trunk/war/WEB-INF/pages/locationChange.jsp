@@ -10,8 +10,8 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
 function setFieldsFromLocalStorage() {
-  var useGeoLocation=getCookie("useGeoLocation");
-  if (useGeoLocation=="" || useGeoLocation=="true") {
+  var useGeoLocation=localStorage.useGeoLocation;
+  if (typeof(useGeoLocation)=="undefined" || useGeoLocation=="true") {
     document.getElementById("useGeoLocation").checked="checked";
   } else {
     document.getElementById("useOverride").checked="checked";
@@ -19,11 +19,11 @@ function setFieldsFromLocalStorage() {
 }
 function setFieldsIntoLocalStorage() {
   if (document.getElementById("useGeoLocation").checked) {
-    setCookie("useGeoLocation","true");
+    localStorage.useGeoLocation="true";
   } else {
-    setCookie("useGeoLocation","false");
-    setCookie("latitude",changeLatitude);
-    setCookie("longitude",changeLongitude);
+    localStorage.useGeoLocation="false";
+    localStorage.latitude=changeLatitude;
+    localStorage.longitude=changeLongitude;
   }
 }
 </script>
@@ -41,27 +41,6 @@ function setFieldsIntoLocalStorage() {
 <input class="button" type="button" name="action" onclick="setFieldsIntoLocalStorage();window.location='stores';return false;" value="<fmt:message key="updateLabel"/>"/>
 </div>
 <script type="text/javascript">
-function getCookie(name) {
-  if (document.cookie.length>0) {
-    var start=document.cookie.indexOf(name+"=");
-    if (start!=-1) {
-      start+=name.length+1;
-      var end=document.cookie.indexOf(";",start);
-      if (end==-1) {
-        end=document.cookie.length;
-      }
-      return unescape(document.cookie.substring(start,end));
-    }
-  }
-  return "";
-}
-
-function setCookie(name,value,daysToExpire) {
-  var date=new Date();
-  date.setDate(date.getDate()+daysToExpire);
-  document.cookie=name+"="+escape(value)+((daysToExpire==null)?"":";expires="+date.toUTCString());
-}
-
 var geocoder = new google.maps.Geocoder();
 var changeLatitude;
 var changeLongitude;
@@ -90,10 +69,10 @@ function updateMarkerAddress(str) {
 }
 
 function initialize() {
-  var lat=getCookie("latitude");
-  var lon=getCookie("longitude");
+  var lat=localStorage.latitude;
+  var lon=localStorage.longitude;
 
-  if (lat=="" || lon=="") {
+  if (typeof(lat)=="undefined" || typeof(lon)=="undefined") {
     lat="41.87580845479022";
     lon="-87.6189722061157";
   }

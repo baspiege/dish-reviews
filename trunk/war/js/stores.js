@@ -1,29 +1,4 @@
 ///////////////////
-// Cookies
-///////////////////
-
-function getCookie(name) {
-  if (document.cookie.length>0) {
-    var start=document.cookie.indexOf(name+"=");
-    if (start!=-1) {
-      start+=name.length+1;
-      var end=document.cookie.indexOf(";",start);
-      if (end==-1) {
-        end=document.cookie.length;
-      }
-      return unescape(document.cookie.substring(start,end));
-    }
-  }
-  return "";
-}
-
-function setCookie(name,value,daysToExpire) {
-  var date=new Date();
-  date.setDate(date.getDate()+daysToExpire);
-  document.cookie=name+"="+escape(value)+((daysToExpire==null)?"":";expires="+date.toUTCString());
-}
-
-///////////////////
 // Asynch
 ///////////////////
 
@@ -57,8 +32,8 @@ function sendRequest(url,callback,postData) {
 
 function getStoresData() {
   // Get position and send request
-  var lat=getCookie("latitude");
-  var lon=getCookie("longitude");
+  var lat=localStorage.latitude;
+  var lon=localStorage.longitude;
   sendRequest('storesXml?latitude='+lat+'&longitude='+lon, handleStoresDataRequest);
 }
 
@@ -187,8 +162,8 @@ function geocodePosition(pos) {
 }
 
 function getCoordinates() {
-  var useGeoLocation=getCookie("useGeoLocation");
-  if (useGeoLocation=="" || useGeoLocation=="true") {
+  var useGeoLocation=localStorage.useGeoLocation;
+  if (typeof(useGeoLocation)=="undefined" || useGeoLocation=="true") {
     updateGeoStatus(waitingForCoordinatesMessage);
     var geolocation = navigator.geolocation;
     if (geolocation) {
@@ -199,7 +174,7 @@ function getCoordinates() {
     }
   } else {
     if (typeof(google)!="undefined") {
-      var latLng = new google.maps.LatLng(getCookie("latitude"), getCookie("longitude"));
+      var latLng = new google.maps.LatLng(localStorage.latitude, localStorage.longitude);
       geocodePosition(latLng);
     }
     getStoresData();
@@ -220,8 +195,8 @@ function setPosition(position){
   var display="N/A";
   if (position){
     // Set global variables
-    setCookie("latitude", position.coords.latitude);
-    setCookie("longitude", position.coords.longitude);
+    localStorage.latitude=position.coords.latitude;
+    localStorage.longitude=position.coords.longitude;
     display="";
     // Update buttons
     var addButtonDisabled=document.getElementById("addButtonDisabled");
@@ -325,17 +300,17 @@ function sortByNameAscending(note1,note2) {
 }
 
 function reorderStoresByDishCountDescending() {
-  setCookie("sortBy","dishCount");
+  localStorage.sortBy="dishCount";
   reorderStores(sortByDishCountDescending);
 }
 
 function reorderStoresByDistanceAscending() {
-  setCookie("sortBy","distance");
+  localStorage.sortBy="distance";
   reorderStores(sortByDistanceAscending);
 }
 
 function reorderStoresByNameAscending() {
-  setCookie("sortBy","name");
+  localStorage.sortBy="name";
   reorderStores(sortByNameAscending);
 }
 
@@ -353,8 +328,8 @@ function removeChildrenFromElement(element) {
 
 function updateNotesDispay() {
   // Current location
-  var latitude=parseFloat(getCookie("latitude"));
-  var longitude=parseFloat(getCookie("longitude"));
+  var latitude=parseFloat(localStorage.latitude);
+  var longitude=parseFloat(localStorage.longitude);
   // For each note
   var stores=document.getElementById("stores");
   var notes=stores.getElementsByTagName("tr");
@@ -381,8 +356,8 @@ function updateNotesDispay() {
     note.getElementsByTagName("td")[0].innerHTML=display;
   }
   // Sort
-  var sortBy=getCookie("sortBy");
-  if (sortBy=="" || sortBy=="distance") {
+  var sortBy=localStorage.sortBy;
+  if (typeof(sortBy)=="undefined" || sortBy=="distance") {
     reorderStoresByDistanceAscending();
   } else if (sortBy=="name") {
     reorderStoresByNameAscending();

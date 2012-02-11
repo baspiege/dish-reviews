@@ -1,3 +1,24 @@
+function getCookie(name) {
+  if (document.cookie.length>0) {
+    var start=document.cookie.indexOf(name+"=");
+    if (start!=-1) {
+      start+=name.length+1;
+      var end=document.cookie.indexOf(";",start);
+      if (end==-1) {
+        end=document.cookie.length;
+      }
+      return unescape(document.cookie.substring(start,end));
+    }
+  }
+  return "";
+}
+
+function setCookie(name,value,daysToExpire) {
+  var date=new Date();
+  date.setDate(date.getDate()+daysToExpire);
+  document.cookie=name+"="+escape(value)+((daysToExpire==null)?"":";expires="+date.toUTCString());
+}
+
 var dishRevAppId = "334986003195790";
 window.fbAsyncInit = function() {
   FB.init({
