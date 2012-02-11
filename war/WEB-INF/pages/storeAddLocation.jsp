@@ -23,27 +23,6 @@
 </section>
 <script type="text/javascript">
 
-function getCookie(name) {
-  if (document.cookie.length>0) {
-    var start=document.cookie.indexOf(name+"=");
-    if (start!=-1) {
-      start+=name.length+1;
-      var end=document.cookie.indexOf(";",start);
-      if (end==-1) {
-        end=document.cookie.length;
-      }
-      return unescape(document.cookie.substring(start,end));
-    }
-  }
-  return "";
-}
-
-function setCookie(name,value,daysToExpire) {
-  var date=new Date();
-  date.setDate(date.getDate()+daysToExpire);
-  document.cookie=name+"="+escape(value)+((daysToExpire==null)?"":";expires="+date.toUTCString());
-}
-
 function setFieldsFromLocalStorage() {
   document.getElementById("latitude").value=addLatitude;
   document.getElementById("longitude").value=addLongitude;
@@ -77,8 +56,8 @@ function updateMarkerAddress(str) {
 }
 
 function initialize() {
-  var lat=getCookie("latitude");
-  var lon=getCookie("longitude");
+  var lat=localStorage.latitude;
+  var lon=localStorage.longitude;
   addLatitude=lat;
   addLongitude=lon;
 
