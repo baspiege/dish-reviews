@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
-<%@ include file="/WEB-INF/pages/components/noCache.jsp" %>
 <%@ include file="/WEB-INF/pages/components/htmlStart.jsp" %>
 <title><c:out value="${dish.note}"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
@@ -11,14 +10,7 @@
 <script type="text/javascript">
 var dishId=<c:out value="${dish.key.id}"/>;
 var reviewId=<c:out value="${reviewId}">0</c:out>;
-<c:choose>
-  <c:when test="${pageContext.request.userPrincipal.name != null}">
-    var isLoggedIn=true;
-  </c:when>
-  <c:otherwise>
-    var isLoggedIn=false;
-  </c:otherwise>
-</c:choose>
+var isLoggedIn=false;
 </script>
 </head>
 <fmt:bundle basename="Text">
@@ -26,10 +18,10 @@ var reviewId=<c:out value="${reviewId}">0</c:out>;
 <%-- If review Id, load specific review.  Else load all. --%>
 <c:choose>
   <c:when test="${reviewId != null}">
-    <body onload="getReviewsDataById();">
+    <body onload="setLoggedIn();getReviewsDataById();">
   </c:when>
   <c:otherwise>
-    <body onload="getReviewsData();">
+    <body onload="setLoggedIn();getReviewsData();">
   </c:otherwise>
 </c:choose>
 
@@ -39,7 +31,7 @@ var reviewId=<c:out value="${reviewId}">0</c:out>;
 
 <nav>
 <ul id="navlist">
-<li><a href="stores">Main</a></li>
+<li><a href="stores"><fmt:message key="mainLabel"/></a></li>
 <li><a href="store?storeId=<c:out value="${store.key.id}"/>"><span id="storeName"><c:out value="${store.note}"/></span></a></li>
 <li><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
@@ -48,17 +40,10 @@ var reviewId=<c:out value="${reviewId}">0</c:out>;
 
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 
-<%-- Dish name --%>
 <section>
-<%-- If logged in, link to edit page. --%> 
-<c:choose>
-  <c:when test="${pageContext.request.userPrincipal.name != null}">
-    <a href="dishUpdate?dishId=<c:out value="${dish.key.id}"/>"><span id="dishName"><c:out value="${dish.note}"/></span></a>
-  </c:when>
-  <c:otherwise>
-    <span id="dishName"><c:out value="${dish.note}"/></span>
-  </c:otherwise>
-</c:choose>
+<%-- Dish name --%>
+<span id="dishName"><c:out value="${dish.note}"/></span> 
+<a href="dishUpdate?dishId=<c:out value="${dish.key.id}"/>" class="edit" style="display:none" id="dishEditLink"/><fmt:message key="editLabel"/></a> 
 <%-- Show 'All Reviews' link if there is specific review showing. --%> 
 <c:choose>
   <c:when test="${reviewId != null}">
@@ -70,6 +55,7 @@ var reviewId=<c:out value="${reviewId}">0</c:out>;
 <p><fmt:message key="waitingForDataLabel"/></p>
 </div>
 </section>
+
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </fmt:bundle>
 </body>

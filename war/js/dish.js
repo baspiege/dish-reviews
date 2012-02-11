@@ -199,6 +199,11 @@ function handleReviewsDataRequest(req) {
           hasMore=true;
         }
 
+        if (hasMore) {
+        
+          // Add details with summary
+        }
+        
         var editLink=document.createElement("a");
         editLink.setAttribute("href","reviewUpdate?reviewId="+reviewId);
         editLink.appendChild(document.createTextNode(reviewText));
@@ -332,4 +337,23 @@ function removeChildrenFromElement(element) {
 function elementInViewport(el) {
   var rect = el.getBoundingClientRect();
   return (rect.top >= 0 && rect.bottom <= window.innerHeight);
+}
+
+///////////////////
+// Is logged in
+///////////////////
+
+function setLoggedIn() {
+  var dishRevUser=getCookie("dishRevUser");
+  if (dishRevUser!="") {
+    isLoggedIn=true;
+  }
+
+  // Show 'Edit link' if logged in
+  var dishEditLink=document.getElementById("dishEditLink");  
+  if (isLoggedIn) {
+     dishEditLink.style.display='inline';
+  } else {
+     dishEditLink.style.display='none';
+  }
 }
