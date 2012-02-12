@@ -51,191 +51,191 @@ function getDishesData() {
 }
 
 function handleDishesDataRequest(req) {
-  var tableDiv=document.getElementById("data");
-
-  var tableOrig=document.getElementById("dishes");
-  var table;
+  document.getElementById("waitingForData").style.display="none";
+  var table=document.getElementById("dishes");  
   var newTable=false;
-  if (tableOrig==null) {
+  if (table==null) {
     newTable=true;
-    table=document.createElement("table");
-    table.setAttribute("id","dishes");
-    var tr=document.createElement("tr");
-    table.appendChild(tr);
-
-    // Dish
-    var thName=document.createElement("th");
-    tr.appendChild(thName);
-    var nameLink=document.createElement("a");
-    nameLink.setAttribute("href","#");
-    nameLink.setAttribute("onclick","sortDishesBy('name');return false;");
-    nameLink.appendChild(document.createTextNode("Dish"));
-    thName.appendChild(nameLink);
-
-    // Show Add link if logged in
-    if (isLoggedIn) {
-      var addLink=document.createElement("a");
-      addLink.setAttribute("href","dishAdd?storeId="+storeId);
-      addLink.setAttribute("class","add addTh");
-      addLink.appendChild(document.createTextNode("Add"));
-      thName.appendChild(addLink);
-    }
-
-    // Vote
-    var thVote=document.createElement("th");
-    tr.appendChild(thVote);
-    var voteLink=document.createElement("a");
-    voteLink.setAttribute("href","#");
-    voteLink.setAttribute("onclick","sortDishesBy('vote');return false;");
-    voteLink.appendChild(document.createTextNode("Like"));
-    thVote.appendChild(voteLink);
-
-    // Last Review
-    /*
-    var thReview=document.createElement("th");
-    tr.appendChild(thReview);
-    thReview.appendChild(document.createTextNode("Last Review"));
-    */
-
-    // Last Image
-    var thLastImage=document.createElement("th");
-    tr.appendChild(thLastImage);
-    thLastImage.appendChild(document.createTextNode("Last Image"));
-  } else {
-    table=tableOrig.cloneNode(true);
+    table=createTable();
+    document.getElementById("data").appendChild(table);
   }
 
   // Process request
   var xmlDoc=req.responseXML;
-  var dishes=xmlDoc.getElementsByTagName("dish");
-  if (dishes.length==0){
-    moreDishes=false;
+  var reviews=xmlDoc.getElementsByTagName("dish");
+  var moreIndicator=document.getElementById("moreIndicator");
+  if (reviews.length==0){
+    moreReviews=false;
+    moreIndicator.style.display="none";
     if (newTable) {
-      var tr=document.createElement("tr");
-      var td=document.createElement("td");
-      td.setAttribute("colspan","3");
-      td.appendChild(document.createTextNode("No dishes."));
-      tr.appendChild(td);
-      table.appendChild(tr);
-      removeChildrenFromElement(tableDiv);
-      // Update tableDiv with new table at end of processing to prevent multiple
-      // requests from interfering with each other
-      tableDiv.appendChild(table);
-    } else {
-      removeChildrenFromElement(document.getElementById("moreIndicator"));
+      table.appendChild(createTableRowForNoData());
     }
   } else {
-    if (dishes.length<PAGE_SIZE){
-      moreDishes=false;
+    // Check if more
+    if (reviews.length<PAGE_SIZE){
+      moreReviews=false;
+      moreIndicator.style.display="none";
     }
-    // Make HTML for each dish
-    for (var i=0;i<dishes.length;i++) {
-      var dish=dishes[i];
-      var tr=document.createElement("tr");
-      // Attributes
-      var dishId=dish.getAttribute("dishId");
-      var dishText=dish.getAttribute("dishText");
-      var vote=dish.getAttribute("yes");
-      var lastReviewText=dish.getAttribute("lastReviewText");
-      var lastReviewUserId=dish.getAttribute("lastReviewUserId");
-      var lastReviewImageId=dish.getAttribute("lastReviewImageId");
-
-      // Dish
-      var dishDesc=document.createElement("td");
-      var dishDescLink=document.createElement("a");
-      dishDescLink.setAttribute("href","dish?dishId="+dishId);
-      dishDescLink.appendChild(document.createTextNode(dishText));
-      dishDesc.appendChild(dishDescLink);
-
-      /*
-      if (isLoggedIn) {
-        var editLink=document.createElement("a");
-        editLink.setAttribute("href","dishUpdate?dishId="+dishId);
-        editLink.setAttribute("class","edit");
-        editLink.appendChild(document.createTextNode("edit"));
-        dishDesc.appendChild(document.createTextNode(' '));
-        dishDesc.appendChild(editLink);
-      }
-      */
-
-      tr.appendChild(dishDesc);
-
-      // Vote
-      if (isLoggedIn) {
-          var voteDisplay=document.createElement("td");
-          var voteLink=document.createElement("a");
-          voteLink.setAttribute("href","dishVote?dishId="+dishId);
-          voteLink.setAttribute("class","center");
-          voteLink.appendChild(document.createTextNode(vote));
-          voteDisplay.appendChild(voteLink);
-          tr.appendChild(voteDisplay);
-      } else {
-          var voteDisplay=document.createElement("td");
-          voteDisplay.setAttribute("class","center");
-          voteDisplay.appendChild(document.createTextNode(vote));
-          tr.appendChild(voteDisplay);
-      }
-
-      // Last Review
-      /*
-      var lastReview=document.createElement("td");
-      if (lastReviewText) {
-        var reviewLink=document.createElement("a");
-        reviewLink.setAttribute("href","dish?dishId="+dishId);
-        reviewLink.appendChild(document.createTextNode(lastReviewText));
-        lastReview.appendChild(reviewLink);
-      } else if (isLoggedIn) {
-        var addLink=document.createElement("a");
-        addLink.setAttribute("class","add");
-        addLink.setAttribute("href","reviewAdd?dishId="+dishId);
-        addLink.appendChild(document.createTextNode("Add"));
-        lastReview.appendChild(addLink);
-      }
-      */
-
-      // Add name from Facebook id.
-      // Note, adding with createElementNS didn't work.  So using innerHTML.
-      /*
-      if (lastReviewUserId!='null') {
-        var fbSpan=document.createElement("span");
-        lastReview.appendChild(fbSpan);
-        fbSpan.innerHTML='  - <fb:name uid="' + lastReviewUserId + '" useyou="false" linked="true"></fb:name>';
-      }
-
-      tr.appendChild(lastReview);
-      */
-
-      // Last Image
-      var imageCell=document.createElement("td");
-      if (dish.getAttribute("img")=="true") {
-        var imageLink=document.createElement("a");
-        imageLink.setAttribute("href","reviewImageUpdate?reviewId="+lastReviewImageId);
-        var image=document.createElement("img");
-        image.setAttribute("src","reviewThumbNailImage?reviewId="+lastReviewImageId);
-        imageLink.appendChild(image);
-        imageCell.appendChild(imageLink);
-      }
-      tr.appendChild(imageCell);
-
-      table.appendChild(tr);
+    
+    // Make row for each review
+    for (var i=0;i<reviews.length;i++) {
+      var review=reviews[i];
+      table.appendChild(createTableRowForDish(review));
     }
-    removeChildrenFromElement(tableDiv);
-    // Update tableDiv with new table at end of processing to prevent multiple
-    // requests from interfering with each other
-    tableDiv.appendChild(table);
-
+    
+    // Show 'more' after table is populated
+    if (moreReviews) {
+      moreIndicator.style.display="inline";
+    }
+    
     // Parse for Facebook tags
-    // FB.XFBML.parse(tableDiv);
+    //if (typeof(FB) != "undefined") {
+    //  FB.XFBML.parse(table);
+    //}
 
-    if (moreDishes) {
-      var moreIndicator=document.createElement("p");
-      moreIndicator.setAttribute("id","moreIndicator");
-      moreIndicator.appendChild(document.createTextNode("Loading more..."));
-      tableDiv.appendChild(moreIndicator);
-    }
-    gettingDishes=false;
+    gettingReviews=false;
     checkForMoreDishes();
   }
+}
+
+///////////////////
+// Display
+///////////////////
+
+function createTable() {
+  var table=document.createElement("table");
+  table.setAttribute("id","dishes");
+  var tr=document.createElement("tr");
+  table.appendChild(tr);
+
+  // Dish
+  var thName=document.createElement("th");
+  tr.appendChild(thName);
+  var nameLink=document.createElement("a");
+  nameLink.setAttribute("href","#");
+  nameLink.setAttribute("onclick","sortDishesBy('name');return false;");
+  nameLink.appendChild(document.createTextNode("Dish"));
+  thName.appendChild(nameLink);
+
+  // Show Add link if logged in
+  if (isLoggedIn) {
+    var addLink=document.createElement("a");
+    addLink.setAttribute("href","dishAdd?storeId="+storeId);
+    addLink.setAttribute("class","add addTh");
+    addLink.appendChild(document.createTextNode("Add"));
+    thName.appendChild(addLink);
+  }
+
+  // Vote
+  var thVote=document.createElement("th");
+  tr.appendChild(thVote);
+  var voteLink=document.createElement("a");
+  voteLink.setAttribute("href","#");
+  voteLink.setAttribute("onclick","sortDishesBy('vote');return false;");
+  voteLink.appendChild(document.createTextNode("Like"));
+  thVote.appendChild(voteLink);
+
+  // Last Review
+  /*
+  var thReview=document.createElement("th");
+  tr.appendChild(thReview);
+  thReview.appendChild(document.createTextNode("Last Review"));
+  */
+
+  // Last Image
+  var thLastImage=document.createElement("th");
+  tr.appendChild(thLastImage);
+  thLastImage.appendChild(document.createTextNode("Last Image"));
+  
+  return table;
+}
+
+function createTableRowForDish(dish) {
+  var tr=document.createElement("tr");
+  
+  // Attributes
+  var dishId=dish.getAttribute("dishId");
+  var dishText=dish.getAttribute("dishText");
+  var vote=dish.getAttribute("yes");
+  var lastReviewText=dish.getAttribute("lastReviewText");
+  var lastReviewUserId=dish.getAttribute("lastReviewUserId");
+  var lastReviewImageId=dish.getAttribute("lastReviewImageId");
+
+  // Dish
+  var dishDesc=document.createElement("td");
+  var dishDescLink=document.createElement("a");
+  dishDescLink.setAttribute("href","dish?dishId="+dishId);
+  dishDescLink.appendChild(document.createTextNode(dishText));
+  dishDesc.appendChild(dishDescLink);
+  tr.appendChild(dishDesc);
+
+  // Vote
+  if (isLoggedIn) {
+      var voteDisplay=document.createElement("td");
+      var voteLink=document.createElement("a");
+      voteLink.setAttribute("href","dishVote?dishId="+dishId);
+      voteLink.setAttribute("class","center");
+      voteLink.appendChild(document.createTextNode(vote));
+      voteDisplay.appendChild(voteLink);
+      tr.appendChild(voteDisplay);
+  } else {
+      var voteDisplay=document.createElement("td");
+      voteDisplay.setAttribute("class","center");
+      voteDisplay.appendChild(document.createTextNode(vote));
+      tr.appendChild(voteDisplay);
+  }
+
+  // Last Review
+  /*
+  var lastReview=document.createElement("td");
+  if (lastReviewText) {
+    var reviewLink=document.createElement("a");
+    reviewLink.setAttribute("href","dish?dishId="+dishId);
+    reviewLink.appendChild(document.createTextNode(lastReviewText));
+    lastReview.appendChild(reviewLink);
+  } else if (isLoggedIn) {
+    var addLink=document.createElement("a");
+    addLink.setAttribute("class","add");
+    addLink.setAttribute("href","reviewAdd?dishId="+dishId);
+    addLink.appendChild(document.createTextNode("Add"));
+    lastReview.appendChild(addLink);
+  }
+  */
+
+  // Add name from Facebook id.
+  // Note, adding with createElementNS didn't work.  So using innerHTML.
+  /*
+  if (lastReviewUserId!='null') {
+    var fbSpan=document.createElement("span");
+    lastReview.appendChild(fbSpan);
+    fbSpan.innerHTML='  - <fb:name uid="' + lastReviewUserId + '" useyou="false" linked="true"></fb:name>';
+  }
+
+  tr.appendChild(lastReview);
+  */
+
+  // Last Image
+  var imageCell=document.createElement("td");
+  if (dish.getAttribute("img")=="true") {
+    var imageLink=document.createElement("a");
+    imageLink.setAttribute("href","reviewImageUpdate?reviewId="+lastReviewImageId);
+    var image=document.createElement("img");
+    image.setAttribute("src","reviewThumbNailImage?reviewId="+lastReviewImageId);
+    imageLink.appendChild(image);
+    imageCell.appendChild(imageLink);
+  }
+  tr.appendChild(imageCell);
+  
+  return tr;
+}
+
+function createTableRowForNoData() {
+  var tr=document.createElement("tr");
+  var td=document.createElement("td");
+  td.setAttribute("colspan","3");
+  td.appendChild(document.createTextNode("No dishes."));
+  tr.appendChild(td);
+  return tr;
 }
 
 ///////////////////
@@ -249,7 +249,7 @@ function sortDishesBy(fieldToSortBy) {
 }
 
 ///////////////////
-// Display
+// Utils
 ///////////////////
 
 function removeChildrenFromElement(element) {

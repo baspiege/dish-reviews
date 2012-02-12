@@ -99,14 +99,17 @@ function handleReviewsDataRequest(req) {
     if (reviews.length<PAGE_SIZE){
       moreReviews=false;
       moreIndicator.style.display="none";
-    } else {
-      moreIndicator.style.display="inline";
     }
     
     // Make row for each review
     for (var i=0;i<reviews.length;i++) {
       var review=reviews[i];
       table.appendChild(createTableRowForReview(review));
+    }
+    
+    // Show 'more' after table is populated
+    if (moreReviews) {
+      moreIndicator.style.display="inline";
     }
     
     // Parse for Facebook tags
@@ -124,7 +127,7 @@ function handleReviewsDataRequest(req) {
 ///////////////////
 
 function createTable() {
-  table=document.createElement("table");
+  var table=document.createElement("table");
   table.setAttribute("id","reviews");
   var tr=document.createElement("tr");
   table.appendChild(tr);
@@ -175,46 +178,21 @@ function createTableRowForReview(review) {
   tr.setAttribute("id","reviewId"+reviewId);
   tr.setAttribute("reviewText",reviewText);
 
-  // Review
+  // Description
   var descReview=document.createElement("td");
-  if (usersOwn) {
-
-    var moreWrapper=document.createElement("span");
-    moreWrapper.setAttribute("text",reviewText);
-    descReview.appendChild(moreWrapper);
-
-    // Create span... put text in attribute 'text'
-    var hasMore=false;
-    if (reviewText.length>20){
-      reviewText=reviewText.substr(0,20);
-      hasMore=true;
-    }
-
-    if (hasMore) {
+  tr.appendChild(descReview);
+  descReview.appendChild(document.createTextNode(reviewText));
+  descReview.appendChild(document.createTextNode(" "));
     
-      // Add details with summary
-    }
-    
+  // Edit and Facebook button
+  if (usersOwn) {    
     var editLink=document.createElement("a");
     editLink.setAttribute("href","reviewUpdate?reviewId="+reviewId);
-    editLink.appendChild(document.createTextNode(reviewText));
-    moreWrapper.appendChild(editLink);
+    editLink.setAttribute("class","edit");
+    editLink.appendChild(document.createTextNode("Edit"));
+    descReview.appendChild(editLink);
+    descReview.appendChild(document.createTextNode(" "));
 
-    if (hasMore){
-      var moreLink=document.createElement("a");
-      moreLink.setAttribute("href","#");
-      moreLink.setAttribute("class","more");
-      moreLink.setAttribute("onclick","alert(this.parentNode.getAttribute('text'));return false;");
-      moreLink.appendChild(document.createTextNode("more..."));
-      moreWrapper.appendChild(document.createTextNode(" "));
-      moreWrapper.appendChild(moreLink);
-    }
-  } else {
-    descReview.appendChild(document.createTextNode(reviewText));
-  }
-  tr.appendChild(descReview);
-
-  if (usersOwn) {
     var postButton=document.createElement("button");
     postButton.setAttribute("onclick","postReviewToFacebook(\"" + reviewId + "\");return false;");
     postButton.appendChild(document.createTextNode("Share on Facebook"));

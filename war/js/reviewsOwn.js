@@ -75,14 +75,17 @@ function handleReviewsDataRequest(req) {
     if (reviews.length<PAGE_SIZE){
       moreReviews=false;
       moreIndicator.style.display="none";
-    } else {
-      moreIndicator.style.display="inline";
     }
     
     // Make row for each review
     for (var i=0;i<reviews.length;i++) {
       var review=reviews[i];
       table.appendChild(createTableRowForReview(review));
+    }
+    
+    // Show 'more' after table is populated
+    if (moreReviews) {
+      moreIndicator.style.display="inline";
     }
 
     gettingReviews=false;
