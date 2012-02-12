@@ -243,7 +243,9 @@ function createTableRowForNoData() {
 ///////////////////
 
 function sortDishesBy(fieldToSortBy) {
-  removeChildrenFromElement(document.getElementById("data"));  // Reset data
+  // Reset data first
+  removeChildrenFromElement(document.getElementById("data"));
+  startIndexReview=0;
   sortBy=fieldToSortBy;
   getDishesData();
 }
