@@ -39,7 +39,36 @@ function getStoresData() {
 
 function handleStoresDataRequest(req) {
   var tableDiv=document.getElementById("data");
+  var table=createTable();
 
+  // Process request
+  var xmlDoc=req.responseXML;
+  var stores=xmlDoc.getElementsByTagName("store");
+  if (stores.length==0){
+    table.appendChild(createTableRowForNoData());
+    removeChildrenFromElement(tableDiv);
+    // Update tableDiv with new table at end of processing to prevent multiple
+    // requests from interfering with each other
+    tableDiv.appendChild(table);
+  } else {
+    // Make HTML for each store
+    for (var i=0;i<stores.length;i++) {
+      var store=stores[i];
+      table.appendChild(createTableRowForStore(store));
+    }
+    removeChildrenFromElement(tableDiv);
+    // Update tableDiv with new table at end of processing to prevent multiple
+    // requests from interfering with each other
+    tableDiv.appendChild(table);
+    updateLocationDispay();
+  }
+}
+
+///////////////////
+// Display
+///////////////////
+
+function createTable() {
   var table=document.createElement("table");
   table.setAttribute("id","stores");
   var tr=document.createElement("tr");
@@ -81,61 +110,51 @@ function handleStoresDataRequest(req) {
   typeLink.appendChild(document.createTextNode("Dishes"));
   thType.appendChild(typeLink);
 
-  // Process request
-  var xmlDoc=req.responseXML;
-  var stores=xmlDoc.getElementsByTagName("store");
-  if (stores.length==0){
-    var tr=document.createElement("tr");
-    var td=document.createElement("td");
-    td.setAttribute("colspan","7");
-    td.appendChild(document.createTextNode("No nearby restaurants."));
-    tr.appendChild(td);
-    table.appendChild(tr);
-    removeChildrenFromElement(tableDiv);
-    // Update tableDiv with new table at end of processing to prevent multiple
-    // requests from interfering with each other
-    tableDiv.appendChild(table);
-  } else {
-    // Make HTML for each store
-    for (var i=0;i<stores.length;i++) {
-      var store=stores[i];
-      var tr=document.createElement("tr");
-      // Attributes
-      var storeId=store.getAttribute("storeId");
-      tr.setAttribute("storeId",storeId);
-      tr.setAttribute("name",store.getAttribute("text").toLowerCase());
-      tr.setAttribute("lat",store.getAttribute("lat"));
-      tr.setAttribute("lon",store.getAttribute("lon"));
-      tr.setAttribute("yes",store.getAttribute("yes"));
-      tr.setAttribute("dishCount",store.getAttribute("dishCount"));
-      // Distance and bearing
-      tr.appendChild(document.createElement("td"));
+  return table;
+}
 
-      // Desc
-      var desc=document.createElement("td");
-      var descLink=document.createElement("a");
-      descLink.setAttribute("href","store?storeId="+storeId);
-      var text=store.getAttribute("text");
-      descLink.appendChild(document.createTextNode(text));
-      desc.appendChild(descLink);
-      tr.appendChild(desc);
-      table.appendChild(tr);
+function createTableRowForStore(store) {
+  var tr=document.createElement("tr");
+  // Attributes
+  var storeId=store.getAttribute("storeId");
+  tr.setAttribute("storeId",storeId);
+  tr.setAttribute("name",store.getAttribute("text").toLowerCase());
+  tr.setAttribute("lat",store.getAttribute("lat"));
+  tr.setAttribute("lon",store.getAttribute("lon"));
+  tr.setAttribute("yes",store.getAttribute("yes"));
+  tr.setAttribute("dishCount",store.getAttribute("dishCount"));
+  
+  // Distance and bearing
+  tr.appendChild(document.createElement("td"));
 
-      // Count
-      var type=document.createElement("td");
-      type.setAttribute("class","center");
-      var typeLink=document.createElement("a");
-      typeLink.setAttribute("href","store?storeId="+storeId);
-      typeLink.appendChild(document.createTextNode(store.getAttribute("dishCount")));
-      type.appendChild(typeLink);
-      tr.appendChild(type);
-    }
-    removeChildrenFromElement(tableDiv);
-    // Update tableDiv with new table at end of processing to prevent multiple
-    // requests from interfering with each other
-    tableDiv.appendChild(table);
-    updateNotesDispay();
-  }
+  // Desc
+  var desc=document.createElement("td");
+  var descLink=document.createElement("a");
+  descLink.setAttribute("href","store?storeId="+storeId);
+  var text=store.getAttribute("text");
+  descLink.appendChild(document.createTextNode(text));
+  desc.appendChild(descLink);
+  tr.appendChild(desc);
+
+  // Count
+  var type=document.createElement("td");
+  type.setAttribute("class","center");
+  var typeLink=document.createElement("a");
+  typeLink.setAttribute("href","store?storeId="+storeId);
+  typeLink.appendChild(document.createTextNode(store.getAttribute("dishCount")));
+  type.appendChild(typeLink);
+  tr.appendChild(type);
+
+  return tr;
+}
+
+function createTableRowForNoData(review) {
+  var tr=document.createElement("tr");
+  var td=document.createElement("td");
+  td.setAttribute("colspan","7");
+  td.appendChild(document.createTextNode("No nearby restaurants."));
+  tr.appendChild(td);
+  return tr;
 }
 
 ///////////////////
@@ -326,22 +345,22 @@ function removeChildrenFromElement(element) {
   }
 }
 
-function updateNotesDispay() {
+function updateLocationDispay() {
   // Current location
   var latitude=parseFloat(localStorage.latitude);
   var longitude=parseFloat(localStorage.longitude);
-  // For each note
+  // For each store
   var stores=document.getElementById("stores");
-  var notes=stores.getElementsByTagName("tr");
-  for (var i=1; i<notes.length; i++) {
-    var note=notes[i];
-    var noteLat=parseFloat(note.getAttribute("lat"));
-    var noteLon=parseFloat(note.getAttribute("lon"));
+  var storeRows=stores.getElementsByTagName("tr");
+  for (var i=1; i<storeRows.length; i++) {
+    var store=storeRows[i];
+    var storeLat=parseFloat(store.getAttribute("lat"));
+    var storeLon=parseFloat(store.getAttribute("lon"));
     var display="";
     // Distance
-    var distance=calculateDistance(latitude, longitude, noteLat, noteLon);
+    var distance=calculateDistance(latitude, longitude, storeLat, storeLon);
     // Save for ordering
-    note.setAttribute("distance",distance);
+    store.setAttribute("distance",distance);
     // Add distance to display
     if (distance<1){
       display=Math.round(distance*1000)+"m";
@@ -349,11 +368,11 @@ function updateNotesDispay() {
       display=Math.round(distance*10)/10 +"km";
     }
     // Bearing
-    var bearingDegrees=calculateBearing(latitude, longitude, noteLat, noteLon);
+    var bearingDegrees=calculateBearing(latitude, longitude, storeLat, storeLon);
     display+=" " + getCardinalDirection(bearingDegrees);
-    display="<a href='storeUpdateLocation?storeId=" + note.getAttribute("storeId") + "'>"+display+"</a>";
+    display="<a href='storeUpdateLocation?storeId=" + store.getAttribute("storeId") + "'>"+display+"</a>";
     // Update direction display
-    note.getElementsByTagName("td")[0].innerHTML=display;
+    store.getElementsByTagName("td")[0].innerHTML=display;
   }
   // Sort
   var sortBy=localStorage.sortBy;
