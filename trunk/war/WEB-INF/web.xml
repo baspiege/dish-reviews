@@ -247,4 +247,9 @@
       <exception-type>java.lang.Exception</exception-type>
       <location>/WEB-INF/redirects/error.jsp</location>
     </error-page>
+    
+    <mime-mapping> 
+      <extension>mf</extension>
+      <mime-type>text/cache-manifest</mime-type> 
+  </mime-mapping>
 </web-app>
