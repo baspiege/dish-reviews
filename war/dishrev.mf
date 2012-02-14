@@ -1,0 +1,13 @@
+CACHE MANIFEST
+
+# 1.10
+
+# Explicitly cached entries
+stylesheets/main.css
+js/stores.js
+js/store.js
+js/dish.js
+js/reviewsOwn.js
+
+NETWORK:
+*
