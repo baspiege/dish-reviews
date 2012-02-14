@@ -35,6 +35,8 @@ function sendRequest(url,callback,postData) {
     if (req.readyState != 4) return;
     if (req.status != 200 && req.status != 304) {
       // alert('HTTP error ' + req.status);
+      alert("cached");
+      displayData(getCachedData());
       return;
     }
     if (callback){
@@ -53,23 +55,61 @@ function getStoresData() {
   // Get position and send request
   var lat=localStorage.latitude;
   var lon=localStorage.longitude;
-  sendRequest('storesXml?latitude='+lat+'&longitude='+lon, handleStoresDataRequest);
+  
+  // If online
+  if (navigator.onLine) {
+    sendRequest('storesXml?latitude='+lat+'&longitude='+lon, handleStoresDataRequest);
+  } 
+  // If offline
+  else {
+    displayData(getCachedData());
+  }
+}
+
+function getCachedData() {
+    var latitude=get2Decimals(parseFloat(localStorage.latitude));
+    var longitude=get2Decimals(parseFloat(localStorage.longitude));
+    var locationKey=latitude+","+longitude;
+    var cachedResponse=localStorage.getItem(locationKey);
+    var parser=new DOMParser();
+    var xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
+    return xmlDoc;
 }
 
 function handleStoresDataRequest(req) {
+  // Save in local storage in case app goes offline - TODO Better way to get key in case it changes
+  var latitude=get2Decimals(parseFloat(localStorage.latitude));
+  var longitude=get2Decimals(parseFloat(localStorage.longitude));
+  var locationKey=latitude+","+longitude;
+  localStorage.setItem(locationKey, req.responseText);
+
+  // Process response
+  var xmlDoc=req.responseXML;
+  displayData(xmlDoc);
+}
+
+///////////////////
+// Display
+///////////////////
+
+function displayData(xmlDoc) {  
+  
+  // Create HTML table
   var tableDiv=document.getElementById("data");
   var table=createTable();
 
-  // Process request
-  var xmlDoc=req.responseXML;
-  var stores=xmlDoc.getElementsByTagName("store");
+  var stores=xmlDoc.getElementsByTagName("store"); 
+  
+  // No stores
   if (stores.length==0){
     table.appendChild(createTableRowForNoData());
     removeChildrenFromElement(tableDiv);
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
     tableDiv.appendChild(table);
-  } else {
+  }
+  // Stores
+  else {
     // Make HTML for each store
     for (var i=0;i<stores.length;i++) {
       var store=stores[i];
@@ -82,10 +122,6 @@ function handleStoresDataRequest(req) {
     updateLocationDispay();
   }
 }
-
-///////////////////
-// Display
-///////////////////
 
 function createTable() {
   var table=document.createElement("table");
@@ -476,4 +512,12 @@ function setUpPage() {
 function setOnlineListeners() {
   document.body.addEventListener("offline", setUpPage, false)
   document.body.addEventListener("online", setUpPage, false);
+}
+
+///////////////////
+// Utils
+///////////////////
+
+function get2Decimals(number) {
+  return Math.floor(number*100)/100;
 }

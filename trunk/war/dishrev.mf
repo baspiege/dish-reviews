@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-# 1.10
+# 1.18
 
 # Explicitly cached entries
 stylesheets/main.css
