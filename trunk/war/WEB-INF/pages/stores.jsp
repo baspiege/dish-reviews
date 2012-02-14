@@ -2,7 +2,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
-<%@ include file="/WEB-INF/pages/components/htmlStart.jsp" %>
+<%@ include file="/WEB-INF/pages/components/htmlStartAppCache.jsp" %>
 <fmt:bundle basename="Text">
 <title><fmt:message key="storesLabel"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
@@ -12,10 +12,10 @@
 var waitingForCoordinatesMessage="<fmt:message key="waitingForCoordinatesMessage"/>";
 var locationNotAvailableMessage="<fmt:message key="locationNotAvailableMessage"/>";
 var locationNotFoundMessage="<fmt:message key="locationNotFoundMessage"/>";
-var isLoggedIn=false;
+var canEdit=false;
 </script>
 </head>
-<body onload="setLoggedIn();getCoordinates();">
+<body onload="setUpPage();setOnlineListeners();getCoordinates();">
 
 <%-- Facebook login --%>
 <div id="fb-root"></div>
@@ -24,8 +24,9 @@ var isLoggedIn=false;
 <nav>
 <ul id="navlist">
 <li id="myReviews" style="display:none"><a href='/reviewsOwn'><fmt:message key="myReviewsLabel"/></a></li>
-<li><fb:login-button autologoutlink="true"></fb:login-button></li>
-<li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
+<li id="fblogin" style="display:none"><fb:login-button autologoutlink="true"></fb:login-button></li>
+<li id="fbname" style="display:none"><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
+<li id="offline" style="display:none"><fmt:message key="offlineLabel"/></li>
 </ul>
 </nav>
 

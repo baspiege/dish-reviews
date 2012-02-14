@@ -1,4 +1,23 @@
 ///////////////////
+// Cookies
+///////////////////
+
+function getCookie(name) {
+  if (document.cookie.length>0) {
+    var start=document.cookie.indexOf(name+"=");
+    if (start!=-1) {
+      start+=name.length+1;
+      var end=document.cookie.indexOf(";",start);
+      if (end==-1) {
+        end=document.cookie.length;
+      }
+      return unescape(document.cookie.substring(start,end));
+    }
+  }
+  return "";
+}
+
+///////////////////
 // Asynch
 ///////////////////
 
@@ -92,8 +111,8 @@ function createTable() {
   nameLink.appendChild(document.createTextNode("Name"));
   thName.appendChild(nameLink);
 
-  // Show Add link if logged in
-  if (isLoggedIn) {
+  // Show Add link
+  if (canEdit) {
     var addLink=document.createElement("a");
     addLink.setAttribute("href","storeAddLocation");
     addLink.setAttribute("class","add addTh");
@@ -416,11 +435,13 @@ function updateGeoStatus(text) {
 }
 
 ///////////////////
-// Is logged in
+// Set up page
 ///////////////////
 
-function setLoggedIn() {
+function setUpPage() {
+  // Check if logged in
   var dishRevUser=getCookie("dishRevUser");
+  var isLoggedIn=false;
   if (dishRevUser!="") {
     isLoggedIn=true;
   }
@@ -432,4 +453,27 @@ function setLoggedIn() {
   } else {
      myReviews.style.display='none';
   }
+  
+  // If online, show FB login
+  // If offline, show offline
+  var fblogin=document.getElementById("fblogin");  
+  var fbname=document.getElementById("fbname");  
+  var offline=document.getElementById("offline");  
+  if (navigator.onLine) {
+    fblogin.style.display="inline";
+    fbname.style.display="inline";
+    offline.style.display="none";
+  } else {
+    fblogin.style.display="none";  
+    fbname.style.display="none";
+    offline.style.display="inline";
+  }
+  
+  // If logged in and online, can edit
+  canEdit=isLoggedIn && navigator.onLine;
+}
+
+function setOnlineListeners() {
+  document.body.addEventListener("offline", setUpPage, false)
+  document.body.addEventListener("online", setUpPage, false);
 }
