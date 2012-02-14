@@ -1,3 +1,7 @@
+///////////////////
+// Cookies
+///////////////////
+
 function getCookie(name) {
   if (document.cookie.length>0) {
     var start=document.cookie.indexOf(name+"=");
@@ -18,6 +22,10 @@ function setCookie(name,value,daysToExpire) {
   date.setDate(date.getDate()+daysToExpire);
   document.cookie=name+"="+escape(value)+((daysToExpire==null)?"":";expires="+date.toUTCString());
 }
+
+///////////////////
+// FB Login
+///////////////////
 
 var dishRevAppId = "334986003195790";
 window.fbAsyncInit = function() {
@@ -45,6 +53,9 @@ window.fbAsyncInit = function() {
     }
   });
 };
+
+   setCookie("dishRevUser","1");
+
 
 (function(d){
   var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
