@@ -23,7 +23,7 @@ function getCookie(name) {
 
 var xmlHttpRequest=new XMLHttpRequest();
 
-function sendRequest(url,callback,postData) {
+function sendRequest(url,callback,errorCallback,postData) {
   var req = xmlHttpRequest;
   if (!req) return;
   var method = (postData) ? "POST" : "GET";
@@ -35,8 +35,7 @@ function sendRequest(url,callback,postData) {
     if (req.readyState != 4) return;
     if (req.status != 200 && req.status != 304) {
       // alert('HTTP error ' + req.status);
-      alert("cached");
-      displayData(getCachedData());
+      errorCallback();
       return;
     }
     if (callback){
@@ -51,6 +50,19 @@ function sendRequest(url,callback,postData) {
 // Data
 ///////////////////
 
+function getCachedData() {
+    var xmlDoc=null;
+    var latitude=get2Decimals(parseFloat(localStorage.latitude));
+    var longitude=get2Decimals(parseFloat(localStorage.longitude));
+    var locationKey=latitude+","+longitude;
+    var cachedResponse=localStorage.getItem(locationKey);
+    if (cachedResponse) {
+      var parser=new DOMParser();
+      var xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
+    }
+    return xmlDoc;
+}
+
 function getStoresData() {
   // Get position and send request
   var lat=localStorage.latitude;
@@ -58,22 +70,8 @@ function getStoresData() {
   
   // If online
   if (navigator.onLine) {
-    sendRequest('storesXml?latitude='+lat+'&longitude='+lon, handleStoresDataRequest);
+    sendRequest('storesXml?latitude='+lat+'&longitude='+lon, handleStoresDataRequest, displayCachedData);
   } 
-  // If offline
-  else {
-    displayData(getCachedData());
-  }
-}
-
-function getCachedData() {
-    var latitude=get2Decimals(parseFloat(localStorage.latitude));
-    var longitude=get2Decimals(parseFloat(localStorage.longitude));
-    var locationKey=latitude+","+longitude;
-    var cachedResponse=localStorage.getItem(locationKey);
-    var parser=new DOMParser();
-    var xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
-    return xmlDoc;
 }
 
 function handleStoresDataRequest(req) {
@@ -89,8 +87,15 @@ function handleStoresDataRequest(req) {
 }
 
 ///////////////////
-// Display
+// Data Display
 ///////////////////
+
+function displayCachedData() {
+  var xmlDoc=getCachedData();
+  if (xmlDoc) {
+      displayData(xmlDoc);
+  }
+}
 
 function displayData(xmlDoc) {  
   
@@ -251,6 +256,7 @@ function getCoordinates() {
       var latLng = new google.maps.LatLng(localStorage.latitude, localStorage.longitude);
       geocodePosition(latLng);
     }
+    displayCachedData();
     getStoresData();
     // Update buttons
     var addButtonDisabled=document.getElementById("addButtonDisabled");
@@ -281,6 +287,7 @@ function setPosition(position){
     if (addButtonEnabled) {
       addButtonEnabled.style.display='inline';
     }
+    displayCachedData();
     getStoresData();
     if (google) {
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
