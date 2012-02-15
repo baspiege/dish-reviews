@@ -54,9 +54,6 @@ window.fbAsyncInit = function() {
   });
 };
 
-   setCookie("dishRevUser","1");
-
-
 (function(d){
   var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
   js = d.createElement('script'); js.id = id; js.async = true;
