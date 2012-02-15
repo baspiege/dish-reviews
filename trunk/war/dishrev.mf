@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-# 1.26
+# 1.27
 
 # Explicitly cached entries
 stylesheets/main.css
@@ -15,4 +15,4 @@ NETWORK:
 *
 
 FALLBACK:
-* /nodata.html
+/ /nodata.html
