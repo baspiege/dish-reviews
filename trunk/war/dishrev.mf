@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-# 1.18
+# 1.26
 
 # Explicitly cached entries
 stylesheets/main.css
@@ -8,6 +8,11 @@ js/stores.js
 js/store.js
 js/dish.js
 js/reviewsOwn.js
+locationChange
+reviewsOwn
 
 NETWORK:
 *
+
+FALLBACK:
+* /nodata.html

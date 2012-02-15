@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
-<%@ include file="/WEB-INF/pages/components/htmlStart.jsp" %>
+<%@ include file="/WEB-INF/pages/components/htmlStartAppCache.jsp" %>
 <fmt:bundle basename="Text">
 <title><fmt:message key="changeLocationLabel"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
