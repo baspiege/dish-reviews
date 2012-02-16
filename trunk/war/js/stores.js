@@ -52,10 +52,7 @@ function sendRequest(url,callback,errorCallback,postData) {
 
 function getCachedData() {
     var xmlDoc=null;
-    var latitude=get2Decimals(parseFloat(localStorage.latitude));
-    var longitude=get2Decimals(parseFloat(localStorage.longitude));
-    var locationKey=latitude+","+longitude;
-    var cachedResponse=localStorage.getItem(locationKey);
+    var cachedResponse=localStorage.getItem(getStoresKey());
     if (cachedResponse) {
       var parser=new DOMParser();
       xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
@@ -76,12 +73,16 @@ function getStoresData() {
   }
 }
 
-function handleStoresDataRequest(req) {
-  // Save in local storage in case app goes offline
+function getStoresKey() {
   var latitude=get2Decimals(parseFloat(localStorage.latitude));
   var longitude=get2Decimals(parseFloat(localStorage.longitude));
-  var locationKey=latitude+","+longitude;
-  setItemIntoLocalStorage(locationKey, req.responseText);
+  return "STORES_"+latitude+"_"+longitude;
+}
+
+function handleStoresDataRequest(req) {
+  // Save in local storage in case app goes offline
+  // TODO - Get lat/lon from result.  Might change between request and response.
+  setItemIntoLocalStorage(getStoresKey(), req.responseText);
 
   // Process response
   var xmlDoc=req.responseXML;
@@ -216,7 +217,7 @@ function createTableRowForNoCachedData(review) {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
   td.setAttribute("colspan","7");
-  td.appendChild(document.createTextNode("No server connectivity or cached data.  Please try again later."));
+  td.appendChild(document.createTextNode("No connectivity or cached data.  Please try again later."));
   tr.appendChild(td);
   return tr;
 }

@@ -23,7 +23,7 @@ function getCookie(name) {
 
 var xmlHttpRequest=new XMLHttpRequest();
 
-function sendRequest(url,callback,postData) {
+function sendRequest(url,callback,errorCallback,postData) {
   var req = xmlHttpRequest;
   if (!req) return;
   var method = (postData) ? "POST" : "GET";
@@ -35,6 +35,7 @@ function sendRequest(url,callback,postData) {
     if (req.readyState != 4) return;
     if (req.status != 200 && req.status != 304) {
       // alert('HTTP error ' + req.status);
+      errorCallback();
       return;
     }
     if (callback){
@@ -65,11 +66,52 @@ function checkForMoreDishes() {
   }
 }
 
+function getCachedData() {
+    var xmlDoc=null;
+    var cachedResponse=localStorage.getItem(getStoreKey());
+    if (cachedResponse) {
+      var parser=new DOMParser();
+      xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
+    }
+    return xmlDoc;
+}
+
 function getDishesData() {
-  sendRequest('dishesXml?storeId='+storeId+'&start='+startIndexReview+'&sortBy='+sortBy, handleDishesDataRequest);
+  // If online, get from server.  Else get from cache.
+  if (navigator.onLine) {
+    sendRequest('dishesXml?storeId='+storeId+'&start='+startIndexReview+'&sortBy='+sortBy, handleDishesDataRequest);
+  } else {
+    displayCachedData();
+  }
+}
+
+function getStoreKey() {
+  return "STORE_"+storeId+"_"+startIndexReview+"_"+sortBy;
 }
 
 function handleDishesDataRequest(req) {
+  // Save in local storage in case app goes offline
+  setItemIntoLocalStorage(getStoreKey(), req.responseText);
+
+  // Process response
+  var xmlDoc=req.responseXML;
+  displayData(xmlDoc);
+}
+
+///////////////////
+// Data Display
+///////////////////
+
+function displayCachedData() {
+  var xmlDoc=getCachedData();
+  if (xmlDoc) {
+    displayData(xmlDoc);
+  } else {
+    displayTableNoCachedData();
+  }
+}
+
+function displayData(xmlDoc) {
   document.getElementById("waitingForData").style.display="none";
   var table=document.getElementById("dishes");  
   var newTable=false;
@@ -79,12 +121,11 @@ function handleDishesDataRequest(req) {
     document.getElementById("data").appendChild(table);
   }
 
-  // Process request
-  var xmlDoc=req.responseXML;
+  // Process dishes
   var reviews=xmlDoc.getElementsByTagName("dish");
   var moreIndicator=document.getElementById("moreIndicator");
   if (reviews.length==0){
-    moreReviews=false;
+    moreDishes=false;
     moreIndicator.style.display="none";
     if (newTable) {
       table.appendChild(createTableRowForNoData());
@@ -92,7 +133,7 @@ function handleDishesDataRequest(req) {
   } else {
     // Check if more
     if (reviews.length<PAGE_SIZE){
-      moreReviews=false;
+      moreDishes=false;
       moreIndicator.style.display="none";
     }
     
@@ -103,7 +144,7 @@ function handleDishesDataRequest(req) {
     }
     
     // Show 'more' after table is populated
-    if (moreReviews) {
+    if (moreDishes) {
       moreIndicator.style.display="inline";
     }
     
@@ -116,10 +157,6 @@ function handleDishesDataRequest(req) {
     checkForMoreDishes();
   }
 }
-
-///////////////////
-// Display
-///////////////////
 
 function createTable() {
   var table=document.createElement("table");
@@ -136,8 +173,8 @@ function createTable() {
   nameLink.appendChild(document.createTextNode("Dish"));
   thName.appendChild(nameLink);
 
-  // Show Add link if logged in
-  if (isLoggedIn) {
+  // Show Add link
+  if (canEdit) {
     var addLink=document.createElement("a");
     addLink.setAttribute("href","dishAdd?storeId="+storeId);
     addLink.setAttribute("class","add addTh");
@@ -189,7 +226,7 @@ function createTableRowForDish(dish) {
   tr.appendChild(dishDesc);
 
   // Vote
-  if (isLoggedIn) {
+  if (canEdit) {
       var voteDisplay=document.createElement("td");
       var voteLink=document.createElement("a");
       voteLink.setAttribute("href","dishVote?dishId="+dishId);
@@ -212,7 +249,7 @@ function createTableRowForDish(dish) {
     reviewLink.setAttribute("href","dish?dishId="+dishId);
     reviewLink.appendChild(document.createTextNode(lastReviewText));
     lastReview.appendChild(reviewLink);
-  } else if (isLoggedIn) {
+  } else if (canEdit) {
     var addLink=document.createElement("a");
     addLink.setAttribute("class","add");
     addLink.setAttribute("href","reviewAdd?dishId="+dishId);
@@ -248,6 +285,15 @@ function createTableRowForDish(dish) {
   return tr;
 }
 
+function createTableRowForNoCachedData(review) {
+  var tr=document.createElement("tr");
+  var td=document.createElement("td");
+  td.setAttribute("colspan","3");
+  td.appendChild(document.createTextNode("No connectivity or cached data.  Please try again later."));
+  tr.appendChild(td);
+  return tr;
+}
+
 function createTableRowForNoData() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
@@ -255,6 +301,14 @@ function createTableRowForNoData() {
   td.appendChild(document.createTextNode("No dishes."));
   tr.appendChild(td);
   return tr;
+}
+
+function displayTableNoCachedData() {
+  var tableDiv=document.getElementById("data");
+  var table=createTable();
+  table.appendChild(createTableRowForNoCachedData());
+  removeChildrenFromElement(tableDiv);
+  tableDiv.appendChild(table);
 }
 
 ///////////////////
@@ -267,6 +321,50 @@ function sortDishesBy(fieldToSortBy) {
   startIndexReview=0;
   sortBy=fieldToSortBy;
   getDishesData();
+}
+
+///////////////////
+// Set-up page
+///////////////////
+
+function setUpPage() {
+  // Check if logged in
+  var dishRevUser=getCookie("dishRevUser");
+  var isLoggedIn=false;
+  if (dishRevUser!="") {
+    isLoggedIn=true;
+  }
+  
+  // If online, show FB login
+  // If offline, show offline
+  var fblogin=document.getElementById("fblogin");  
+  var fbname=document.getElementById("fbname");  
+  var offline=document.getElementById("offline");  
+  if (navigator.onLine) {
+    fblogin.style.display="inline";
+    fbname.style.display="inline";
+    offline.style.display="none";
+  } else {
+    fblogin.style.display="none";  
+    fbname.style.display="none";
+    offline.style.display="inline";
+  }
+  
+  // If logged in and online, can edit
+  canEdit=isLoggedIn && navigator.onLine;
+
+  // Show 'Edit link' if logged in
+  var storeEditLink=document.getElementById("storeEditLink");  
+  if (canEdit) {
+     storeEditLink.style.display='inline';
+  } else {
+     storeEditLink.style.display='none';
+  }
+}
+
+function setOnlineListeners() {
+  document.body.addEventListener("offline", setUpPage, false)
+  document.body.addEventListener("online", setUpPage, false);
 }
 
 ///////////////////
@@ -286,21 +384,13 @@ function elementInViewport(el) {
   return (rect.top >= 0 && rect.bottom <= window.innerHeight);
 }
 
-///////////////////
-// Is logged in
-///////////////////
-
-function setLoggedIn() {
-  var dishRevUser=getCookie("dishRevUser");
-  if (dishRevUser!="") {
-    isLoggedIn=true;
-  }
-
-  // Show 'Edit link' if logged in
-  var storeEditLink=document.getElementById("storeEditLink");  
-  if (isLoggedIn) {
-     storeEditLink.style.display='inline';
-  } else {
-     storeEditLink.style.display='none';
+function setItemIntoLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    if (e == QUOTA_EXCEEDED_ERR) {
+      // Clear old entries - TODO - In future, just clear oldest?
+      localStorage.clear();
+    }
   }
 }
