@@ -9,10 +9,10 @@
 <script type="text/javascript" src="/js/store.js" ></script>
 <script type="text/javascript">
 var storeId=<c:out value="${store.key.id}"/>;
-var isLoggedIn=false;
+var canEdit=false;
 </script>
 </head>
-<body onload="setLoggedIn();getDishesData();">
+<body onload="setUpPage();setOnlineListeners();getDishesData();">
 <fmt:bundle basename="Text">
 
 <%-- Facebook login --%>
@@ -22,8 +22,9 @@ var isLoggedIn=false;
 <nav>
 <ul id="navlist">
 <li><a href="stores"><fmt:message key="mainLabel"/></a></li>
-<li><fb:login-button autologoutlink="true"></fb:login-button></li>
-<li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
+<li id="fblogin" style="display:none"><fb:login-button autologoutlink="true"></fb:login-button></li>
+<li id="fbname" style="display:none"><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
+<li id="offline" style="display:none"><fmt:message key="offlineLabel"/></li>
 </ul>
 </nav>
 
