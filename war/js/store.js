@@ -304,11 +304,14 @@ function createTableRowForNoData() {
 }
 
 function displayTableNoCachedData() {
-  var tableDiv=document.getElementById("data");
-  var table=createTable();
+  document.getElementById("waitingForData").style.display="none";
+  document.getElementById("moreIndicator").style.display="none";
+  var table=document.getElementById("dishes");  
+  if (table==null) {
+    table=createTable();
+    document.getElementById("data").appendChild(table);
+  }
   table.appendChild(createTableRowForNoCachedData());
-  removeChildrenFromElement(tableDiv);
-  tableDiv.appendChild(table);
 }
 
 ///////////////////
