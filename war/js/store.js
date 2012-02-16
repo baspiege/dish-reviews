@@ -79,7 +79,7 @@ function getCachedData() {
 function getDishesData() {
   // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
-    sendRequest('dishesXml?storeId='+storeId+'&start='+startIndexReview+'&sortBy='+sortBy, handleDishesDataRequest);
+    sendRequest('dishesXml?storeId='+storeId+'&start='+startIndexReview+'&sortBy='+sortBy, handleDishesDataRequest, displayCachedData);
   } else {
     displayCachedData();
   }
