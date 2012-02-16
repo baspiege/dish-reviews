@@ -1,18 +1,17 @@
 CACHE MANIFEST
 
-# 1.27
+# 1.35
 
 # Explicitly cached entries
+favicon.ico
 stylesheets/main.css
 js/stores.js
 js/store.js
 js/dish.js
 js/reviewsOwn.js
+stores
 locationChange
 reviewsOwn
 
 NETWORK:
 *
-
-FALLBACK:
-/ /nodata.html

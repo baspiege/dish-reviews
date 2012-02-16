@@ -58,7 +58,7 @@ function getCachedData() {
     var cachedResponse=localStorage.getItem(locationKey);
     if (cachedResponse) {
       var parser=new DOMParser();
-      var xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
+      xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
     }
     return xmlDoc;
 }
@@ -68,18 +68,20 @@ function getStoresData() {
   var lat=localStorage.latitude;
   var lon=localStorage.longitude;
   
-  // If online
+  // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
     sendRequest('storesXml?latitude='+lat+'&longitude='+lon, handleStoresDataRequest, displayCachedData);
-  } 
+  } else {
+    displayCachedData();
+  }
 }
 
 function handleStoresDataRequest(req) {
-  // Save in local storage in case app goes offline - TODO Better way to get key in case it changes
+  // Save in local storage in case app goes offline
   var latitude=get2Decimals(parseFloat(localStorage.latitude));
   var longitude=get2Decimals(parseFloat(localStorage.longitude));
   var locationKey=latitude+","+longitude;
-  localStorage.setItem(locationKey, req.responseText);
+  setItemIntoLocalStorage(locationKey, req.responseText);
 
   // Process response
   var xmlDoc=req.responseXML;
@@ -93,7 +95,9 @@ function handleStoresDataRequest(req) {
 function displayCachedData() {
   var xmlDoc=getCachedData();
   if (xmlDoc) {
-      displayData(xmlDoc);
+    displayData(xmlDoc);
+  } else {
+    displayTableNoCachedData();
   }
 }
 
@@ -208,6 +212,15 @@ function createTableRowForStore(store) {
   return tr;
 }
 
+function createTableRowForNoCachedData(review) {
+  var tr=document.createElement("tr");
+  var td=document.createElement("td");
+  td.setAttribute("colspan","7");
+  td.appendChild(document.createTextNode("No server connectivity or cached data.  Please try again later."));
+  tr.appendChild(td);
+  return tr;
+}
+
 function createTableRowForNoData(review) {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
@@ -215,6 +228,14 @@ function createTableRowForNoData(review) {
   td.appendChild(document.createTextNode("No nearby restaurants."));
   tr.appendChild(td);
   return tr;
+}
+
+function displayTableNoCachedData() {
+  var tableDiv=document.getElementById("data");
+  var table=createTable();
+  table.appendChild(createTableRowForNoCachedData());
+  removeChildrenFromElement(tableDiv);
+  tableDiv.appendChild(table);
 }
 
 ///////////////////
@@ -256,7 +277,6 @@ function getCoordinates() {
       var latLng = new google.maps.LatLng(localStorage.latitude, localStorage.longitude);
       geocodePosition(latLng);
     }
-    displayCachedData();
     getStoresData();
     // Update buttons
     var addButtonDisabled=document.getElementById("addButtonDisabled");
@@ -287,7 +307,6 @@ function setPosition(position){
     if (addButtonEnabled) {
       addButtonEnabled.style.display='inline';
     }
-    displayCachedData();
     getStoresData();
     if (google) {
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -527,4 +546,15 @@ function setOnlineListeners() {
 
 function get2Decimals(number) {
   return Math.floor(number*100)/100;
+}
+
+function setItemIntoLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    if (e == QUOTA_EXCEEDED_ERR) {
+      // Clear old entries - TODO - In future, just clear oldest?
+      localStorage.clear();
+    }
+  }
 }
