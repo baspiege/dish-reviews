@@ -13,6 +13,7 @@ var waitingForCoordinatesMessage="<fmt:message key="waitingForCoordinatesMessage
 var locationNotAvailableMessage="<fmt:message key="locationNotAvailableMessage"/>";
 var locationNotFoundMessage="<fmt:message key="locationNotFoundMessage"/>";
 var canEdit=false;
+var isLoggedIn=false;
 </script>
 </head>
 <body onload="setUpPage();setOnlineListeners();getCoordinates();">
