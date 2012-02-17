@@ -504,7 +504,7 @@ function updateGeoStatus(text) {
 function setUpPage() {
   // Check if logged in
   var dishRevUser=getCookie("dishRevUser");
-  var isLoggedIn=false;
+  isLoggedIn=false;
   if (dishRevUser!="") {
     isLoggedIn=true;
   }

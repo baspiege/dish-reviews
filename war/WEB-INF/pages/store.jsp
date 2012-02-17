@@ -10,6 +10,7 @@
 <script type="text/javascript">
 var storeId=<c:out value="${store.key.id}"/>;
 var canEdit=false;
+var isLoggedIn=false;
 </script>
 </head>
 <body onload="setUpPage();setOnlineListeners();getDishesData();">

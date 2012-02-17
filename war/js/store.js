@@ -333,7 +333,7 @@ function sortDishesBy(fieldToSortBy) {
 function setUpPage() {
   // Check if logged in
   var dishRevUser=getCookie("dishRevUser");
-  var isLoggedIn=false;
+  isLoggedIn=false;
   if (dishRevUser!="") {
     isLoggedIn=true;
   }
