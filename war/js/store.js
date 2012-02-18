@@ -51,7 +51,7 @@ function sendRequest(url,callback,errorCallback,postData) {
 ///////////////////
 
 var gettingDishes=false;
-var moreDishes=true;
+var moreDishes=false;
 window.onscroll=checkForMoreDishes;
 var startIndexReview=0;
 var PAGE_SIZE=10; // If changes, update server count as well.
@@ -135,6 +135,8 @@ function displayData(xmlDoc) {
     if (reviews.length<PAGE_SIZE){
       moreDishes=false;
       moreIndicator.style.display="none";
+    } else {
+      moreDishes=true;
     }
     
     // Make row for each review
