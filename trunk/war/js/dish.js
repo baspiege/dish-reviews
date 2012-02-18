@@ -69,14 +69,14 @@ function postReviewToFacebook(reviewId) {
 ///////////////////
 
 var gettingReviews=false;
-var moreReviews=true;
+var moreReviews=false;
 window.onscroll=checkForMoreReviews;
 var startIndexReview=0;
 var PAGE_SIZE=10; // If changes, update server count as well.
 
 function checkForMoreReviews() {
   var moreIndicator=document.getElementById("moreIndicator");
-  if (moreIndicator && elementInViewport(moreIndicator) && !gettingReviews && moreReviews) {
+  if (moreReviews && !gettingReviews && moreIndicator && elementInViewport(moreIndicator)) {
     gettingReviews=true;
     startIndexReview+=PAGE_SIZE;
     getReviewsData();
@@ -118,6 +118,8 @@ function handleReviewsDataRequest(req) {
     if (reviews.length<PAGE_SIZE){
       moreReviews=false;
       moreIndicator.style.display="none";
+    } else {
+      moreReviews=true;
     }
     
     // Make row for each review

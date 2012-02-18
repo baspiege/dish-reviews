@@ -59,7 +59,7 @@ var sortBy="name"
 
 function checkForMoreDishes() {
   var moreIndicator=document.getElementById("moreIndicator");
-  if (moreIndicator && elementInViewport(moreIndicator) && !gettingDishes && moreDishes) {
+  if (moreDishes && !gettingDishes && moreIndicator && elementInViewport(moreIndicator)) {
     gettingDishes=true;
     startIndexReview+=PAGE_SIZE;
     getDishesData();
