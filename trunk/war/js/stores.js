@@ -166,7 +166,7 @@ function createTable() {
     thName.appendChild(addLink);
   }
 
-  // Reviews
+  // Dishes
   var thType=document.createElement("th");
   tr.appendChild(thType);
   var typeLink=document.createElement("a");
@@ -213,7 +213,7 @@ function createTableRowForStore(store) {
   return tr;
 }
 
-function createTableRowForNoCachedData(review) {
+function createTableRowForNoCachedData() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
   td.setAttribute("colspan","7");
@@ -222,7 +222,7 @@ function createTableRowForNoCachedData(review) {
   return tr;
 }
 
-function createTableRowForNoData(review) {
+function createTableRowForNoData() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
   td.setAttribute("colspan","7");

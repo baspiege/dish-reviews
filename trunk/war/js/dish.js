@@ -23,7 +23,7 @@ function getCookie(name) {
 
 var xmlHttpRequest=new XMLHttpRequest();
 
-function sendRequest(url,callback,postData) {
+function sendRequest(url,callback,errorCallback,postData) {
   var req = xmlHttpRequest;
   if (!req) return;
   var method = (postData) ? "POST" : "GET";
@@ -35,6 +35,7 @@ function sendRequest(url,callback,postData) {
     if (req.readyState != 4) return;
     if (req.status != 200 && req.status != 304) {
       // alert('HTTP error ' + req.status);
+      errorCallback();
       return;
     }
     if (callback){
@@ -83,17 +84,61 @@ function checkForMoreReviews() {
   }
 }
 
+function getCachedData() {
+    var xmlDoc=null;
+    var cachedResponse=localStorage.getItem(getDishKey());
+    if (cachedResponse) {
+      var parser=new DOMParser();
+      xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
+    }
+    return xmlDoc;
+}
+
 function getReviewsData() {
-  gettingReviews=true;
-  sendRequest('reviewsXml?dishId='+dishId+'&start=' + startIndexReview, handleReviewsDataRequest);
+  // If online, get from server.  Else get from cache.
+  if (navigator.onLine) {
+    sendRequest('reviewsXml?dishId='+dishId+'&start=' + startIndexReview, handleReviewsDataRequest, displayCachedData);
+  } else {
+    displayCachedData();
+  }
+}
+
+function getDishKey() {
+  return "DISH_"+dishId+"_"+startIndexReview;
 }
 
 function getReviewsDataById() {
-  gettingReviews=true;
-  sendRequest('reviewsXml?reviewId='+reviewId, handleReviewsDataRequest);
+  // If online, get from server.  Else get from cache.
+  if (navigator.onLine) {
+    sendRequest('reviewsXml?reviewId='+reviewId, handleReviewsDataRequest, displayCachedData);
+  } else {
+    displayCachedData();
+  }
 }
 
 function handleReviewsDataRequest(req) {
+  // Save in local storage in case app goes offline
+  setItemIntoLocalStorage(getDishKey(), req.responseText);
+
+  // Process response
+  var xmlDoc=req.responseXML;
+  displayData(xmlDoc);
+}
+
+///////////////////
+// Data Display
+///////////////////
+
+function displayCachedData() {
+  var xmlDoc=getCachedData();
+  if (xmlDoc) {
+    displayData(xmlDoc);
+  } else {
+    displayTableNoCachedData();
+  }
+}
+
+function displayData(xmlDoc) {
   document.getElementById("waitingForData").style.display="none";
   var table=document.getElementById("reviews");  
   var newTable=false;
@@ -104,7 +149,6 @@ function handleReviewsDataRequest(req) {
   }
 
   // Process request
-  var xmlDoc=req.responseXML;
   var reviews=xmlDoc.getElementsByTagName("review");
   var moreIndicator=document.getElementById("moreIndicator");
   if (reviews.length==0){
@@ -158,8 +202,8 @@ function createTable() {
   tr.appendChild(thReview);
   thReview.appendChild(document.createTextNode("Review"));
 
-  // Show Add link if logged in
-  if (isLoggedIn) {
+  // Show Add link
+  if (canEdit) {
     var addLink=document.createElement("a");
     addLink.setAttribute("href","reviewAdd?dishId="+dishId);
     addLink.setAttribute("class","add addTh");
@@ -233,7 +277,7 @@ function createTableRowForReview(review) {
   tr.appendChild(timeReview);
 
   // Vote
-  if (isLoggedIn) {
+  if (canEdit) {
       var voteDisplay=document.createElement("td");
       var voteLink=document.createElement("a");
       voteLink.setAttribute("href","reviewVote?reviewId="+reviewId);
@@ -269,6 +313,15 @@ function createTableRowForReview(review) {
   return tr;
 }
 
+function createTableRowForNoCachedData() {
+  var tr=document.createElement("tr");
+  var td=document.createElement("td");
+  td.setAttribute("colspan","4");
+  td.appendChild(document.createTextNode("No connectivity or cached data.  Please try again later."));
+  tr.appendChild(td);
+  return tr;
+}
+
 function createTableRowForNoData() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
@@ -300,8 +353,63 @@ function getElapsedTime(oldSeconds,newSeconds){
   return display;
 }
 
+function displayTableNoCachedData() {
+  document.getElementById("waitingForData").style.display="none";
+  document.getElementById("moreIndicator").style.display="none";
+  var table=document.getElementById("reviews");  
+  if (table==null) {
+    table=createTable();
+    document.getElementById("data").appendChild(table);
+  }
+  table.appendChild(createTableRowForNoCachedData());
+}
+
 ///////////////////
-// Util
+// Set-up page
+///////////////////
+
+function setUpPage() {
+  // Check if logged in
+  var dishRevUser=getCookie("dishRevUser");
+  isLoggedIn=false;
+  if (dishRevUser!="") {
+    isLoggedIn=true;
+  }
+  
+  // If online, show FB login
+  // If offline, show offline
+  var fblogin=document.getElementById("fblogin");  
+  var fbname=document.getElementById("fbname");  
+  var offline=document.getElementById("offline");  
+  if (navigator.onLine) {
+    fblogin.style.display="inline";
+    fbname.style.display="inline";
+    offline.style.display="none";
+  } else {
+    fblogin.style.display="none";  
+    fbname.style.display="none";
+    offline.style.display="inline";
+  }
+  
+  // If logged in and online, can edit
+  canEdit=isLoggedIn && navigator.onLine;
+  
+  // Show 'Edit link' if can edit
+  var dishEditLink=document.getElementById("dishEditLink");  
+  if (canEdit) {
+     dishEditLink.style.display='inline';
+  } else {
+     dishEditLink.style.display='none';
+  }
+}
+
+function setOnlineListeners() {
+  document.body.addEventListener("offline", setUpPage, false)
+  document.body.addEventListener("online", setUpPage, false);
+}
+
+///////////////////
+// Utils
 ///////////////////
 
 function elementInViewport(el) {
@@ -309,21 +417,13 @@ function elementInViewport(el) {
   return (rect.top >= 0 && rect.bottom <= window.innerHeight);
 }
 
-///////////////////
-// Is logged in
-///////////////////
-
-function setLoggedIn() {
-  var dishRevUser=getCookie("dishRevUser");
-  if (dishRevUser!="") {
-    isLoggedIn=true;
-  }
-
-  // Show 'Edit link' if logged in
-  var dishEditLink=document.getElementById("dishEditLink");  
-  if (isLoggedIn) {
-     dishEditLink.style.display='inline';
-  } else {
-     dishEditLink.style.display='none';
+function setItemIntoLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    if (e == QUOTA_EXCEEDED_ERR) {
+      // Clear old entries - TODO - In future, just clear oldest?
+      localStorage.clear();
+    }
   }
 }

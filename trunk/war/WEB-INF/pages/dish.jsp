@@ -10,6 +10,7 @@
 <script type="text/javascript">
 var dishId=<c:out value="${dish.key.id}"/>;
 var reviewId=<c:out value="${reviewId}">0</c:out>;
+var canEdit=false;
 var isLoggedIn=false;
 </script>
 </head>
@@ -18,10 +19,10 @@ var isLoggedIn=false;
 <%-- If review Id, load specific review.  Else load all. --%>
 <c:choose>
   <c:when test="${reviewId != null}">
-    <body onload="setLoggedIn();getReviewsDataById();">
+    <body onload="setUpPage();setOnlineListeners();getReviewsDataById();">
   </c:when>
   <c:otherwise>
-    <body onload="setLoggedIn();getReviewsData();">
+    <body onload="setUpPage();setOnlineListeners();getReviewsData();">
   </c:otherwise>
 </c:choose>
 
@@ -33,8 +34,9 @@ var isLoggedIn=false;
 <ul id="navlist">
 <li><a href="stores"><fmt:message key="mainLabel"/></a></li>
 <li><a href="store?storeId=<c:out value="${store.key.id}"/>"><span id="storeName"><c:out value="${store.note}"/></span></a></li>
-<li><fb:login-button autologoutlink="true"></fb:login-button></li>
-<li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
+<li id="fblogin" style="display:none"><fb:login-button autologoutlink="true"></fb:login-button></li>
+<li id="fbname" style="display:none"><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
+<li id="offline" style="display:none"><fmt:message key="offlineLabel"/></li>
 </ul>
 </nav>
 
