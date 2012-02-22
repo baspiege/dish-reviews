@@ -53,7 +53,7 @@ function sendRequest(url,callback,errorCallback,postData) {
 var gettingDishes=false;
 var moreDishes=false;
 window.onscroll=checkForMoreDishes;
-var startIndexReview=0;
+var startIndexDish=0;
 var PAGE_SIZE=10; // If changes, update server count as well.
 var sortBy="name"
 
@@ -61,7 +61,7 @@ function checkForMoreDishes() {
   var moreIndicator=document.getElementById("moreIndicator");
   if (moreDishes && !gettingDishes && moreIndicator && elementInViewport(moreIndicator)) {
     gettingDishes=true;
-    startIndexReview+=PAGE_SIZE;
+    startIndexDish+=PAGE_SIZE;
     getDishesData();
   }
 }
@@ -79,14 +79,14 @@ function getCachedData() {
 function getDishesData() {
   // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
-    sendRequest('dishesXml?storeId='+storeId+'&start='+startIndexReview+'&sortBy='+sortBy, handleDishesDataRequest, displayCachedData);
+    sendRequest('dishesXml?storeId='+storeId+'&start='+startIndexDish+'&sortBy='+sortBy, handleDishesDataRequest, displayCachedData);
   } else {
     displayCachedData();
   }
 }
 
 function getStoreKey() {
-  return "STORE_"+storeId+"_"+startIndexReview+"_"+sortBy;
+  return "STORE_"+storeId+"_"+startIndexDish+"_"+sortBy;
 }
 
 function handleDishesDataRequest(req) {
@@ -122,9 +122,9 @@ function displayData(xmlDoc) {
   }
 
   // Process dishes
-  var reviews=xmlDoc.getElementsByTagName("dish");
+  var dishes=xmlDoc.getElementsByTagName("dish");
   var moreIndicator=document.getElementById("moreIndicator");
-  if (reviews.length==0){
+  if (dishes.length==0){
     moreDishes=false;
     moreIndicator.style.display="none";
     if (newTable) {
@@ -132,17 +132,17 @@ function displayData(xmlDoc) {
     }
   } else {
     // Check if more
-    if (reviews.length<PAGE_SIZE){
+    if (dishes.length<PAGE_SIZE){
       moreDishes=false;
       moreIndicator.style.display="none";
     } else {
       moreDishes=true;
     }
     
-    // Make row for each review
-    for (var i=0;i<reviews.length;i++) {
-      var review=reviews[i];
-      table.appendChild(createTableRowForDish(review));
+    // Make row for each dish
+    for (var i=0;i<dishes.length;i++) {
+      var dish=dishes[i];
+      table.appendChild(createTableRowForDish(dish));
     }
     
     // Show 'more' after table is populated
@@ -155,10 +155,14 @@ function displayData(xmlDoc) {
     //  FB.XFBML.parse(table);
     //}
 
-    gettingReviews=false;
+    gettingDishes=false;
     checkForMoreDishes();
   }
 }
+
+///////////////////
+// Display
+///////////////////
 
 function createTable() {
   var table=document.createElement("table");
@@ -287,7 +291,7 @@ function createTableRowForDish(dish) {
   return tr;
 }
 
-function createTableRowForNoCachedData(review) {
+function createTableRowForNoCachedData() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
   td.setAttribute("colspan","3");
@@ -325,7 +329,7 @@ function sortDishesBy(fieldToSortBy) {
   document.getElementById("waitingForData").style.display="block";
   document.getElementById("moreIndicator").style.display="none";
   removeChildrenFromElement(document.getElementById("data"));
-  startIndexReview=0;
+  startIndexDish=0;
   sortBy=fieldToSortBy;
   getDishesData();
 }
@@ -360,7 +364,7 @@ function setUpPage() {
   // If logged in and online, can edit
   canEdit=isLoggedIn && navigator.onLine;
 
-  // Show 'Edit link' if logged in
+  // Show 'Edit link' if can edit
   var storeEditLink=document.getElementById("storeEditLink");  
   if (canEdit) {
      storeEditLink.style.display='inline';
