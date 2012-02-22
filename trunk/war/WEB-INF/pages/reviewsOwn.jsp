@@ -8,7 +8,7 @@
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="/js/reviewsOwn.js" ></script>
 </head>
-<body onload="getReviewsData();">
+<body onload="setUpPage();setOnlineListeners();getReviewsData();">
 
 <%-- Facebook login --%>
 <div id="fb-root"></div>
@@ -17,8 +17,9 @@
 <nav>
 <ul id="navlist">
 <li><a href="stores"><fmt:message key="mainLabel"/></a></li>
-<li><fb:login-button autologoutlink="true"></fb:login-button></li>
-<li><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
+<li id="fblogin" style="display:none"><fb:login-button autologoutlink="true"></fb:login-button></li>
+<li id="fbname" style="display:none"><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
+<li id="offline" style="display:none"><fmt:message key="offlineLabel"/></li>
 </ul>
 </nav>
 
