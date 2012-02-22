@@ -67,7 +67,7 @@ function checkForMoreReviews() {
 
 function getCachedData() {
     var xmlDoc=null;
-    var cachedResponse=localStorage.getItem(getDishKey());
+    var cachedResponse=localStorage.getItem(getReviewsOwnKey());
     if (cachedResponse) {
       var parser=new DOMParser();
       xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
