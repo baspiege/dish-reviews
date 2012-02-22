@@ -321,7 +321,9 @@ function displayTableNoCachedData() {
 ///////////////////
 
 function sortDishesBy(fieldToSortBy) {
-  // Reset data first
+  // Reset indicators and data
+  document.getElementById("waitingForData").style.display="block";
+  document.getElementById("moreIndicator").style.display="none";
   removeChildrenFromElement(document.getElementById("data"));
   startIndexReview=0;
   sortBy=fieldToSortBy;
