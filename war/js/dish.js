@@ -108,7 +108,7 @@ function getDishKey() {
 }
 
 function getReviewsDataById() {
-  // If online, get from server.  Else get from cache.
+  // If online, get from server.  Else get from cache.  // TODO - Update cached data?
   if (navigator.onLine) {
     sendRequest('reviewsXml?reviewId='+reviewId, handleReviewsDataRequest, displayCachedData);
   } else {

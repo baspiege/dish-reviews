@@ -1,10 +1,29 @@
 ///////////////////
+// Cookies
+///////////////////
+
+function getCookie(name) {
+  if (document.cookie.length>0) {
+    var start=document.cookie.indexOf(name+"=");
+    if (start!=-1) {
+      start+=name.length+1;
+      var end=document.cookie.indexOf(";",start);
+      if (end==-1) {
+        end=document.cookie.length;
+      }
+      return unescape(document.cookie.substring(start,end));
+    }
+  }
+  return "";
+}
+
+///////////////////
 // Asynch
 ///////////////////
 
 var xmlHttpRequest=new XMLHttpRequest();
 
-function sendRequest(url,callback,postData) {
+function sendRequest(url,callback,errorCallback,postData) {
   var req = xmlHttpRequest;
   if (!req) return;
   var method = (postData) ? "POST" : "GET";
@@ -16,6 +35,7 @@ function sendRequest(url,callback,postData) {
     if (req.readyState != 4) return;
     if (req.status != 200 && req.status != 304) {
       // alert('HTTP error ' + req.status);
+      errorCallback();
       return;
     }
     if (callback){
@@ -45,12 +65,53 @@ function checkForMoreReviews() {
   }
 }
 
+function getCachedData() {
+    var xmlDoc=null;
+    var cachedResponse=localStorage.getItem(getDishKey());
+    if (cachedResponse) {
+      var parser=new DOMParser();
+      xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
+    }
+    return xmlDoc;
+}
+
+function getReviewsOwnKey() {
+  return "REVIEWS_OWN_"+startIndexReview;
+}
+
 function getReviewsData() {
-  gettingReviews=true;
-  sendRequest('reviewsOwnXml?start=' + startIndexReview, handleReviewsDataRequest);
+  // If online, get from server.  Else get from cache.
+  if (navigator.onLine) {
+    sendRequest('reviewsOwnXml?start=' + startIndexReview, handleReviewsDataRequest, displayCachedData);
+  } else {
+    displayCachedData();
+  }
+
 }
 
 function handleReviewsDataRequest(req) {
+  // Save in local storage in case app goes offline
+  setItemIntoLocalStorage(getReviewsOwnKey(), req.responseText);
+
+  // Process response
+  var xmlDoc=req.responseXML;
+  displayData(xmlDoc);
+}
+
+///////////////////
+// Data Display
+///////////////////
+
+function displayCachedData() {
+  var xmlDoc=getCachedData();
+  if (xmlDoc) {
+    displayData(xmlDoc);
+  } else {
+    displayTableNoCachedData();
+  }
+}
+
+function displayData(xmlDoc) {
   document.getElementById("waitingForData").style.display="none";
   var table=document.getElementById("reviews");  
   var newTable=false;
@@ -61,7 +122,6 @@ function handleReviewsDataRequest(req) {
   }
 
   // Process request
-  var xmlDoc=req.responseXML;
   var reviews=xmlDoc.getElementsByTagName("review");
   var moreIndicator=document.getElementById("moreIndicator");
   if (reviews.length==0){
@@ -189,6 +249,15 @@ function createTableRowForReview(review) {
   return tr;
 }
 
+function createTableRowForNoCachedData() {
+  var tr=document.createElement("tr");
+  var td=document.createElement("td");
+  td.setAttribute("colspan","5");
+  td.appendChild(document.createTextNode("No connectivity or cached data.  Please try again later."));
+  tr.appendChild(td);
+  return tr;
+}
+
 function createTableRowForNoData() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
@@ -220,6 +289,51 @@ function getElapsedTime(oldSeconds,newSeconds){
   return display;
 }
 
+function displayTableNoCachedData() {
+  document.getElementById("waitingForData").style.display="none";
+  document.getElementById("moreIndicator").style.display="none";
+  var table=document.getElementById("reviews");  
+  if (table==null) {
+    table=createTable();
+    document.getElementById("data").appendChild(table);
+  }
+  table.appendChild(createTableRowForNoCachedData());
+}
+
+///////////////////
+// Set-up page
+///////////////////
+
+function setUpPage() {
+
+  // Check if logged in
+  var dishRevUser=getCookie("dishRevUser");
+  isLoggedIn=false;
+  if (dishRevUser!="") {
+    isLoggedIn=true;
+  }
+  
+  // If online, show FB login
+  // If offline, show offline
+  var fblogin=document.getElementById("fblogin");  
+  var fbname=document.getElementById("fbname");  
+  var offline=document.getElementById("offline");  
+  if (navigator.onLine) {
+    fblogin.style.display="inline";
+    fbname.style.display="inline";
+    offline.style.display="none";
+  } else {
+    fblogin.style.display="none";  
+    fbname.style.display="none";
+    offline.style.display="inline";
+  }
+}
+
+function setOnlineListeners() {
+  document.body.addEventListener("offline", setUpPage, false)
+  document.body.addEventListener("online", setUpPage, false);
+}
+
 ///////////////////
 // Util
 ///////////////////
@@ -227,4 +341,15 @@ function getElapsedTime(oldSeconds,newSeconds){
 function elementInViewport(el) {
   var rect = el.getBoundingClientRect();
   return (rect.top >= 0 && rect.bottom <= window.innerHeight);
+}
+
+function setItemIntoLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    if (e == QUOTA_EXCEEDED_ERR) {
+      // Clear old entries - TODO - In future, just clear oldest?
+      localStorage.clear();
+    }
+  }
 }
