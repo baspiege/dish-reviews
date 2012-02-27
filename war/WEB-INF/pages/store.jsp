@@ -34,7 +34,7 @@ var isLoggedIn=false;
 <section>
 <%-- Store name --%>
 <c:out value="${store.note}"/> 
-<a href="storeUpdate?storeId=<c:out value="${store.key.id}"/>" class="edit" style="display:none" id="storeEditLink"/><fmt:message key="editLabel"/></a> 
+<a href="storeUpdate?storeId=<c:out value="${store.key.id}"/>" class="edit" style="display:none" id="storeEditLink"><fmt:message key="editLabel"/></a> 
 <a href="storeUpdateLocation?storeId=<c:out value="${store.key.id}"/>" class="edit"><fmt:message key="locationLabel"/></a>
 <%-- Data --%>
 <p id="waitingForData"><fmt:message key="waitingForDataLabel"/></p>

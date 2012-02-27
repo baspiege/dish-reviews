@@ -45,7 +45,7 @@ var isLoggedIn=false;
 <section>
 <%-- Dish name --%>
 <span id="dishName"><c:out value="${dish.note}"/></span> 
-<a href="dishUpdate?dishId=<c:out value="${dish.key.id}"/>" class="edit" style="display:none" id="dishEditLink"/><fmt:message key="editLabel"/></a> 
+<a href="dishUpdate?dishId=<c:out value="${dish.key.id}"/>" class="edit" style="display:none" id="dishEditLink"><fmt:message key="editLabel"/></a> 
 <%-- Show 'All Reviews' link if there is specific review showing. --%> 
 <c:choose>
   <c:when test="${reviewId != null}">
