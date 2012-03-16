@@ -53,9 +53,9 @@ var isLoggedIn=false;
   </c:when>
 </c:choose>
 <%-- Data --%>
-<p id="waitingForData"><fmt:message key="waitingForDataLabel"/></p>
+<progress id="waitingForData" title="<fmt:message key="waitingForDataLabel"/>"><fmt:message key="waitingForDataLabel"/></progress>
 <div class="data" id="data"></div>
-<p id="moreIndicator" style="display:none"><fmt:message key="loadingMoreLabel"/></p>
+<progress id="moreIndicator" style="display:none" title="<fmt:message key="loadingMoreLabel"/>"><fmt:message key="loadingMoreLabel"/></progress>
 </section>
 
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>

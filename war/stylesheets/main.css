@@ -21,3 +21,5 @@ footer { font-size:small; clear:both;margin-top:1.5em; }
 .center { text-align: center; }
 
 section {margin-top:1.5em; }
+
+progress {display: block;}

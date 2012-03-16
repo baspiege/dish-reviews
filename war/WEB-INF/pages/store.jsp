@@ -37,9 +37,9 @@ var isLoggedIn=false;
 <a href="storeUpdate?storeId=<c:out value="${store.key.id}"/>" class="edit" style="display:none" id="storeEditLink"><fmt:message key="editLabel"/></a> 
 <a href="storeUpdateLocation?storeId=<c:out value="${store.key.id}"/>" class="edit"><fmt:message key="locationLabel"/></a>
 <%-- Data --%>
-<p id="waitingForData"><fmt:message key="waitingForDataLabel"/></p>
+<progress id="waitingForData" title="<fmt:message key="waitingForDataLabel"/>"><fmt:message key="waitingForDataLabel"/></progress>
 <div class="data" id="data"></div>
-<p id="moreIndicator" style="display:none"><fmt:message key="loadingMoreLabel"/></p>
+<progress id="moreIndicator" style="display:none" title="<fmt:message key="loadingMoreLabel"/>"><fmt:message key="loadingMoreLabel"/></progress>
 </section>
 
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
