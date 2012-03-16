@@ -38,7 +38,7 @@ var isLoggedIn=false;
 
 <%-- Data --%>
 <section class="data" id="data">
-<p><fmt:message key="waitingForDataLabel"/></p>
+<progress title="<fmt:message key="waitingForDataLabel"/>"><fmt:message key="waitingForDataLabel"/></progress>
 </section>
 
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
