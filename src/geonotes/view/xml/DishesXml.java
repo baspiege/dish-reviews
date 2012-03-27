@@ -1,6 +1,7 @@
 package geonotes.view.xml;
 
 import geonotes.data.model.Dish;
+import geonotes.data.model.Store;
 import java.io.OutputStream;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
@@ -21,12 +22,14 @@ public class DishesXml {
     /**
     * Out data in XML format.
     */
-    public static void outputXml(List<Dish> aDishes, OutputStream aOutputStream) {
+    public static void outputXml(Store aStore, List<Dish> aDishes, OutputStream aOutputStream) {
         try {
             DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
-            Element root = doc.createElement("dishes");
+            Element root = doc.createElement("store");
+            root.setAttribute("id", "store");
+            root.setAttribute("storeName", aStore.getNote());
             doc.appendChild(root);
             if (aDishes!=null && aDishes.size()>0) {
                 for (Dish dish:aDishes) {

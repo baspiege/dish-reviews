@@ -140,7 +140,7 @@ function displayCachedData() {
 
 function displayData(xmlDoc) {
   document.getElementById("waitingForData").style.display="none";
-  var table=document.getElementById("reviews");  
+  var table=document.getElementById("reviews");
   var newTable=false;
   if (table==null) {
     newTable=true;
@@ -148,7 +148,15 @@ function displayData(xmlDoc) {
     document.getElementById("data").appendChild(table);
   }
 
-  // Process request
+  // Get dish name and store name
+  var dish=xmlDoc.getElementById("dish");
+  var dishNameUpdate=dish.getAttribute("dishName");
+  var storeNameUpdate=dish.getAttribute("storeName");
+  document.getElementById("dishName").innerHTML=dishNameUpdate;
+  document.getElementById("title").innerHTML=dishNameUpdate;
+  document.getElementById("storeName").innerHTML=storeNameUpdate;
+
+  // Process reviews
   var reviews=xmlDoc.getElementsByTagName("review");
   var moreIndicator=document.getElementById("moreIndicator");
   if (reviews.length==0){
@@ -165,18 +173,18 @@ function displayData(xmlDoc) {
     } else {
       moreReviews=true;
     }
-    
+
     // Make row for each review
     for (var i=0;i<reviews.length;i++) {
       var review=reviews[i];
       table.appendChild(createTableRowForReview(review));
     }
-    
+
     // Show 'more' after table is populated
     if (moreReviews) {
       moreIndicator.style.display="inline";
     }
-    
+
     // Parse for Facebook tags
     if (typeof(FB) != "undefined") {
       FB.XFBML.parse(table);
@@ -225,7 +233,7 @@ function createTable() {
   var thImage=document.createElement("th");
   tr.appendChild(thImage);
   thImage.appendChild(document.createTextNode("Image"));
-  
+
   return table;
 }
 
@@ -248,9 +256,9 @@ function createTableRowForReview(review) {
   tr.appendChild(descReview);
   descReview.appendChild(document.createTextNode(reviewText));
   descReview.appendChild(document.createTextNode(" "));
-    
+
   // Edit and Facebook button
-  if (usersOwn) {    
+  if (usersOwn) {
     var editLink=document.createElement("a");
     editLink.setAttribute("href","reviewUpdate?reviewId="+reviewId);
     editLink.setAttribute("class","edit");
@@ -356,7 +364,7 @@ function getElapsedTime(oldSeconds,newSeconds){
 function displayTableNoCachedData() {
   document.getElementById("waitingForData").style.display="none";
   document.getElementById("moreIndicator").style.display="none";
-  var table=document.getElementById("reviews");  
+  var table=document.getElementById("reviews");
   if (table==null) {
     table=createTable();
     document.getElementById("data").appendChild(table);
@@ -375,27 +383,27 @@ function setUpPage() {
   if (dishRevUser!="") {
     isLoggedIn=true;
   }
-  
+
   // If online, show FB login
   // If offline, show offline
-  var fblogin=document.getElementById("fblogin");  
-  var fbname=document.getElementById("fbname");  
-  var offline=document.getElementById("offline");  
+  var fblogin=document.getElementById("fblogin");
+  var fbname=document.getElementById("fbname");
+  var offline=document.getElementById("offline");
   if (navigator.onLine) {
     fblogin.style.display="inline";
     fbname.style.display="inline";
     offline.style.display="none";
   } else {
-    fblogin.style.display="none";  
+    fblogin.style.display="none";
     fbname.style.display="none";
     offline.style.display="inline";
   }
-  
+
   // If logged in and online, can edit
   canEdit=isLoggedIn && navigator.onLine;
-  
+
   // Show 'Edit link' if can edit
-  var dishEditLink=document.getElementById("dishEditLink");  
+  var dishEditLink=document.getElementById("dishEditLink");
   if (canEdit) {
      dishEditLink.style.display='inline';
   } else {

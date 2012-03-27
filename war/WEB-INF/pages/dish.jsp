@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
 <%@ include file="/WEB-INF/pages/components/htmlStartAppCache.jsp" %>
-<title><c:out value="${dish.note}"/></title>
+<title id="title"></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="/js/dish.js" ></script>
 <script type="text/javascript">
@@ -33,7 +33,7 @@ var isLoggedIn=false;
 <nav>
 <ul id="navlist">
 <li><a href="stores"><fmt:message key="mainLabel"/></a></li>
-<li><a href="store?storeId=<c:out value="${store.key.id}"/>"><span id="storeName"><c:out value="${store.note}"/></span></a></li>
+<li><a href="store?storeId=<c:out value="${store.key.id}"/>"><span id="storeName"></span></a></li>
 <li id="fblogin" style="display:none"><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li id="fbname" style="display:none"><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
 <li id="offline" style="display:none"><fmt:message key="offlineLabel"/></li>
@@ -44,7 +44,7 @@ var isLoggedIn=false;
 
 <section>
 <%-- Dish name --%>
-<span id="dishName"><c:out value="${dish.note}"/></span> 
+<span id="dishName"></span> 
 <a href="dishUpdate?dishId=<c:out value="${dish.key.id}"/>" class="edit" style="display:none" id="dishEditLink"><fmt:message key="editLabel"/></a> 
 <%-- Show 'All Reviews' link if there is specific review showing. --%> 
 <c:choose>
