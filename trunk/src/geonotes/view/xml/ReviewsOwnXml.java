@@ -19,26 +19,21 @@ import org.w3c.dom.Element;
 /**
 * Get reviews in XML format.
 */
-public class ReviewsXml {
+public class ReviewsOwnXml {
 
     /**
     * Out data in XML format.
     *
-    * @param aStore store
-    * @param aDish dish
     * @param aReviews list of reviews
     * @param aUser to check
     * @param aOutputStream output stream to write to
     */
-    public static void outputXml(Store aStore, Dish aDish, List<Review> aReviews, String aUser, OutputStream aOutputStream) {
+    public static void outputXml(List<Review> aReviews, String aUser, OutputStream aOutputStream) {
         try {
             DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
-            Element root = doc.createElement("dish");
-            root.setAttribute("id", "dish");
-            root.setAttribute("dishName", aDish.getNote());
-            root.setAttribute("storeName", aStore.getNote());
+            Element root = doc.createElement("dishes");
             doc.appendChild(root);
             if (aReviews!=null && aReviews.size()>0) {
                 for (Review review:aReviews) {
@@ -64,6 +59,12 @@ public class ReviewsXml {
                         isUser="false";
                     }
                     child.setAttribute("user", isUser);
+                    Dish dish=MemCacheUtils.getDish(review.getDishId());
+                    child.setAttribute("dishId", Long.toString(dish.getKey().getId()));
+                    child.setAttribute("dishText", dish.getNote());
+                    Store store=MemCacheUtils.getStore(dish.getStoreId());
+                    child.setAttribute("storeId", Long.toString(store.getKey().getId()));
+                    child.setAttribute("storeText", store.getNote());
                 }
             }
             TransformerFactory transfac = TransformerFactory.newInstance();

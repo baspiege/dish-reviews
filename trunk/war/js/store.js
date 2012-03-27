@@ -120,6 +120,12 @@ function displayData(xmlDoc) {
     table=createTable();
     document.getElementById("data").appendChild(table);
   }
+  
+  // Get dish name and store name
+  var store=xmlDoc.getElementById("store");
+  var storeName=store.getAttribute("storeName");  
+  document.getElementById("title").innerHTML=storeName;
+  document.getElementById("storeName").innerHTML=storeName;  
 
   // Process dishes
   var dishes=xmlDoc.getElementsByTagName("dish");

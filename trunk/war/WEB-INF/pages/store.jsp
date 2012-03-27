@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
 <%@ include file="/WEB-INF/pages/components/htmlStartAppCache.jsp" %>
-<title><c:out value="${store.note}"/></title>
+<title id="title"></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="/js/store.js" ></script>
 <script type="text/javascript">
@@ -33,7 +33,7 @@ var isLoggedIn=false;
 
 <section>
 <%-- Store name --%>
-<c:out value="${store.note}"/> 
+<span id="storeName"></span> 
 <a href="storeUpdate?storeId=<c:out value="${store.key.id}"/>" class="edit" style="display:none" id="storeEditLink"><fmt:message key="editLabel"/></a> 
 <a href="storeUpdateLocation?storeId=<c:out value="${store.key.id}"/>" class="edit"><fmt:message key="locationLabel"/></a>
 <%-- Data --%>

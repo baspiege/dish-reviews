@@ -2,6 +2,8 @@ package geonotes.controller;
 
 import geonotes.data.DishesGetAll;
 import geonotes.data.model.Dish;
+import geonotes.data.model.Store;
+import geonotes.utils.MemCacheUtils;
 import geonotes.utils.RequestUtils;
 import geonotes.view.xml.DishesXml;
 import java.io.IOException;
@@ -25,10 +27,11 @@ public class DishesXmlServlet extends HttpServlet {
         Long storeId=RequestUtils.getNumericInput(request,"storeId",bundle.getString("storeId"),true);
         Long start=RequestUtils.getNumericInput(request,"start",bundle.getString("startLabel"),true);
         String sortBy=RequestUtils.getAlphaInput(request,"sortBy",bundle.getString("sortByLabel"),false);
+        Store store=MemCacheUtils.getStore(storeId);
         List<Dish> dishes=DishesGetAll.execute(storeId, start, sortBy);
         response.setHeader("Content-Type", "text/xml; charset=UTF-8");
         RequestUtils.setNoCacheHeaders(response);
-        DishesXml.outputXml(dishes,response.getOutputStream());
+        DishesXml.outputXml(store,dishes,response.getOutputStream());
     }
     
     /**
