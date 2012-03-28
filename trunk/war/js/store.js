@@ -121,11 +121,23 @@ function displayData(xmlDoc) {
     document.getElementById("data").appendChild(table);
   }
   
-  // Get dish name and store name
+  // Set store name
   var store=xmlDoc.getElementById("store");
-  var storeName=store.getAttribute("storeName");  
-  document.getElementById("title").innerHTML=storeName;
-  document.getElementById("storeName").innerHTML=storeName;  
+  if (store) {
+    var storeName=store.getAttribute("storeName");
+    if (storeName) {
+      var title=document.getElementById("title");
+      if (title) {
+        removeChildrenFromElement(title);
+        title.appendChild(document.createTextNode(storeName));
+      }
+      var storeNameTag=document.getElementById("storeName");
+      if (storeNameTag) {
+        removeChildrenFromElement(storeNameTag);
+        storeNameTag.appendChild(document.createTextNode(storeName));
+      }
+    }
+  }
 
   // Process dishes
   var dishes=xmlDoc.getElementsByTagName("dish");
