@@ -169,7 +169,7 @@ function displayData(xmlDoc) {
       var title=document.getElementById("title");
       if (title) {
         removeChildrenFromElement(title);
-        dishNameTag.appendChild(document.createTextNode(dishName));
+        title.appendChild(document.createTextNode(dishName));
       }
     }
   }
