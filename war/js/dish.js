@@ -149,7 +149,7 @@ function displayData(xmlDoc) {
   }
   
   // Set store name and dish name
-  var dish=xmlDoc.getElementById("dish");
+  var dish=xmlDoc.getElementsByTagName("dish")[0];
   if (dish) {
     var storeName=dish.getAttribute("storeName");
     if (storeName) {

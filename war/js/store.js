@@ -122,7 +122,7 @@ function displayData(xmlDoc) {
   }
   
   // Set store name
-  var store=xmlDoc.getElementById("store");
+  var store=xmlDoc.getElementsByTagName("store")[0];
   if (store) {
     var storeName=store.getAttribute("storeName");
     if (storeName) {
