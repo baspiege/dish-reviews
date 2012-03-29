@@ -123,21 +123,13 @@ function displayData(xmlDoc) {
   
   // Set store name
   var store=xmlDoc.getElementsByTagName("store")[0];
-  if (store) {
-    var storeName=store.getAttribute("storeName");
-    if (storeName) {
-      var title=document.getElementById("title");
-      if (title) {
-        removeChildrenFromElement(title);
-        title.appendChild(document.createTextNode(storeName));
-      }
-      var storeNameTag=document.getElementById("storeName");
-      if (storeNameTag) {
-        removeChildrenFromElement(storeNameTag);
-        storeNameTag.appendChild(document.createTextNode(storeName));
-      }
-    }
-  }
+  var storeName=store.getAttribute("storeName");
+  var title=document.getElementById("title");
+  removeChildrenFromElement(title);
+  title.appendChild(document.createTextNode(storeName));
+  var storeNameTag=document.getElementById("storeName");
+  removeChildrenFromElement(storeNameTag);
+  storeNameTag.appendChild(document.createTextNode(storeName));
 
   // Process dishes
   var dishes=xmlDoc.getElementsByTagName("dish");

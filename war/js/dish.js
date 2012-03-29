@@ -150,29 +150,17 @@ function displayData(xmlDoc) {
   
   // Set store name and dish name
   var dish=xmlDoc.getElementsByTagName("dish")[0];
-  if (dish) {
-    var storeName=dish.getAttribute("storeName");
-    if (storeName) {
-      var storeNameTag=document.getElementById("storeName");
-      if (storeNameTag) {
-        removeChildrenFromElement(storeNameTag);
-        storeNameTag.appendChild(document.createTextNode(storeName));
-      }
-    }
-    var dishName=dish.getAttribute("dishName");
-    if (dishName) {
-      var dishNameTag=document.getElementById("dishName");
-      if (dishNameTag) {
-        removeChildrenFromElement(dishNameTag);
-        dishNameTag.appendChild(document.createTextNode(dishName));
-      }
-      var title=document.getElementById("title");
-      if (title) {
-        removeChildrenFromElement(title);
-        title.appendChild(document.createTextNode(dishName));
-      }
-    }
-  }
+  var storeName=dish.getAttribute("storeName");
+  var storeNameTag=document.getElementById("storeName");
+  removeChildrenFromElement(storeNameTag);
+  storeNameTag.appendChild(document.createTextNode(storeName));
+  var dishName=dish.getAttribute("dishName");
+  var dishNameTag=document.getElementById("dishName");
+  removeChildrenFromElement(dishNameTag);
+  dishNameTag.appendChild(document.createTextNode(dishName));
+  var title=document.getElementById("title");
+  removeChildrenFromElement(title);
+  title.appendChild(document.createTextNode(dishName)); 
 
   // Process reviews
   var reviews=xmlDoc.getElementsByTagName("review");
