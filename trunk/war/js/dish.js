@@ -438,6 +438,14 @@ function setOnlineListeners() {
 // Utils
 ///////////////////
 
+function removeChildrenFromElement(element) {
+  if (element.hasChildNodes()) {
+    while (element.childNodes.length>0) {
+      element.removeChild(element.firstChild);
+    }
+  }
+}
+
 function elementInViewport(el) {
   var rect = el.getBoundingClientRect();
   return (rect.top >= 0 && rect.bottom <= window.innerHeight);
