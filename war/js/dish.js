@@ -147,14 +147,32 @@ function displayData(xmlDoc) {
     table=createTable();
     document.getElementById("data").appendChild(table);
   }
-
-  // Get dish name and store name
+  
+  // Set store name and dish name
   var dish=xmlDoc.getElementById("dish");
-  var dishNameUpdate=dish.getAttribute("dishName");
-  var storeNameUpdate=dish.getAttribute("storeName");
-  document.getElementById("dishName").innerHTML=dishNameUpdate;
-  document.getElementById("title").innerHTML=dishNameUpdate;
-  document.getElementById("storeName").innerHTML=storeNameUpdate;
+  if (dish) {
+    var storeName=dish.getAttribute("storeName");
+    if (storeName) {
+      var storeNameTag=document.getElementById("storeName");
+      if (storeNameTag) {
+        removeChildrenFromElement(storeNameTag);
+        storeNameTag.appendChild(document.createTextNode(storeName));
+      }
+    }
+    var dishName=dish.getAttribute("dishName");
+    if (dishName) {
+      var dishNameTag=document.getElementById("dishName");
+      if (dishNameTag) {
+        removeChildrenFromElement(dishNameTag);
+        dishNameTag.appendChild(document.createTextNode(dishName));
+      }
+      var title=document.getElementById("title");
+      if (title) {
+        removeChildrenFromElement(title);
+        dishNameTag.appendChild(document.createTextNode(dishName));
+      }
+    }
+  }
 
   // Process reviews
   var reviews=xmlDoc.getElementsByTagName("review");
