@@ -26,24 +26,45 @@ function setFieldsIntoLocalStorage() {
     localStorage.longitude=changeLongitude;
   }
 }
+window.onunload=setFieldsIntoLocalStorage;
+function handleKeyPressAddress(e){
+  var key=e.keyCode;
+  if (key==13){
+	geocodeAddress(document.getElementById('address').value);
+    document.getElementById("useOverride").checked="checked";
+  }
+}
+function onblurAddress(){
+  geocodeAddress(document.getElementById('address').value);
+  document.getElementById("useOverride").checked="checked";
+}
 </script>
 </head>
 <body onload="setFieldsFromLocalStorage()">
 <p>
   <input type="radio" name="location" id="useGeoLocation" value="useGeoLocation"/><label for="useGeoLocation"><fmt:message key="currentLocationLabel"/></label>
-  <input type="radio" name="location" id="useOverride" value="useOverride"/><label for="useOverride"><fmt:message key="locationBelowLabel"/></label>
 </p>
-<table>
-  <tr><td><fmt:message key="addressLabel"/>:</td><td><span id="address"></span></td></tr>
-</table>
-<div style="margin-top:1em;margin-bottom:1em;">
-<%-- Update --%>
-<input class="button" type="button" name="action" onclick="setFieldsIntoLocalStorage();window.location='stores';return false;" value="<fmt:message key="updateLabel"/>"/>
-</div>
+<p>
+  <input type="radio" name="location" id="useOverride" value="useOverride"/> <input id="address" value="" onblur="onblurAddress()" onkeypress="handleKeyPressAddress(event)"></input>
+</p>
 <script type="text/javascript">
 var geocoder = new google.maps.Geocoder();
 var changeLatitude;
 var changeLongitude;
+
+function geocodeAddress(addressToFind) {
+  geocoder.geocode({
+    address: addressToFind
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+      updateMarkerAddress(responses[0].formatted_address);
+      changeLatitude=responses[0].geometry.location.lat();
+	  changeLongitude=responses[0].geometry.location.lng();
+    } else {
+      updateMarkerAddress('Cannot determine address at this location.');
+    }
+  });
+}
 
 function geocodePosition(pos) {
   geocoder.geocode({
@@ -57,15 +78,8 @@ function geocodePosition(pos) {
   });
 }
 
-function updateMarkerPosition(latLng) {
-  document.getElementById('info').innerHTML = [
-    latLng.lat(),
-    latLng.lng()
-  ].join(', ');
-}
-
 function updateMarkerAddress(str) {
-  document.getElementById('address').innerHTML = str;
+  document.getElementById('address').value = str;
 }
 
 function initialize() {
@@ -94,16 +108,11 @@ function initialize() {
   });
 
   // Update current position info.
-  //updateMarkerPosition(latLng);
   geocodePosition(latLng);
 
   // Add dragging event listeners.
   google.maps.event.addListener(marker, 'dragstart', function() {
     updateMarkerAddress('');
-  });
-
-  google.maps.event.addListener(marker, 'drag', function() {
-    //updateMarkerPosition(marker.getPosition());
   });
 
   google.maps.event.addListener(marker, 'dragend', function() {
@@ -117,7 +126,6 @@ function initialize() {
 // Onload handler to fire off the app.
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-<body>
 <section id="mapCanvas"></section>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
