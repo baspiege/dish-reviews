@@ -1,6 +1,6 @@
 <%-- This JSP has the HTML for location page. --%>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
 <%@ include file="/WEB-INF/pages/components/htmlStartAppCache.jsp" %>
@@ -51,6 +51,8 @@ function onblurAddress(){
 var geocoder = new google.maps.Geocoder();
 var changeLatitude;
 var changeLongitude;
+var map;
+var marker;
 
 function geocodeAddress(addressToFind) {
   geocoder.geocode({
@@ -60,6 +62,8 @@ function geocodeAddress(addressToFind) {
       updateMarkerAddress(responses[0].formatted_address);
       changeLatitude=responses[0].geometry.location.lat();
 	  changeLongitude=responses[0].geometry.location.lng();
+	  map.panTo(responses[0].geometry.location);
+	  marker.setPosition(responses[0].geometry.location);
     } else {
       updateMarkerAddress('Cannot determine address at this location.');
     }
@@ -95,12 +99,12 @@ function initialize() {
   changeLatitude=lat;
   changeLongitude=lon;
   var latLng = new google.maps.LatLng(lat, lon);
-  var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+  map = new google.maps.Map(document.getElementById('mapCanvas'), {
     zoom: 16,
     center: latLng,
     mapTypeId: google.maps.MapTypeId.HYBRID
   });
-  var marker = new google.maps.Marker({
+  marker = new google.maps.Marker({
     position: latLng,
     title: 'Location',
     map: map,
