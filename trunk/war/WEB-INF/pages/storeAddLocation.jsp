@@ -10,9 +10,7 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </head>
 <body>
-<table>
-  <tr><td><fmt:message key="addressLabel"/>:</td><td><span id="address"></span></td></tr>
-</table>
+<input id="address" value="" onblur="onblurAddress()" onkeypress="handleKeyPressAddress(event)"></input>
 <section>
 <form id="store" method="get" action="storeAdd" autocomplete="off">
 <%-- Update --%>
@@ -28,9 +26,37 @@ function setFieldsFromLocalStorage() {
   document.getElementById("longitude").value=addLongitude;
 }
 
+function handleKeyPressAddress(e){
+  var key=e.keyCode;
+  if (key==13){
+	geocodeAddress(document.getElementById('address').value);
+  }
+}
+function onblurAddress(){
+  geocodeAddress(document.getElementById('address').value);
+}
+
 var geocoder = new google.maps.Geocoder();
 var addLatitude;
 var addLongitude;
+var map;
+var marker;
+
+function geocodeAddress(addressToFind) {
+  geocoder.geocode({
+    address: addressToFind
+  }, function(responses) {
+    if (responses && responses.length > 0) {
+      updateMarkerAddress(responses[0].formatted_address);
+      addLatitude=responses[0].geometry.location.lat();
+	  addLongitude=responses[0].geometry.location.lng();
+	  map.panTo(responses[0].geometry.location);
+	  marker.setPosition(responses[0].geometry.location);
+    } else {
+      updateMarkerAddress('Cannot determine address at this location.');
+    }
+  });
+}
 
 function geocodePosition(pos) {
   geocoder.geocode({
@@ -44,15 +70,8 @@ function geocodePosition(pos) {
   });
 }
 
-function updateMarkerPosition(latLng) {
-  document.getElementById('info').innerHTML = [
-    latLng.lat(),
-    latLng.lng()
-  ].join(', ');
-}
-
 function updateMarkerAddress(str) {
-  document.getElementById('address').innerHTML = str;
+  document.getElementById('address').value = str;
 }
 
 function initialize() {
@@ -62,12 +81,12 @@ function initialize() {
   addLongitude=lon;
 
   var latLng = new google.maps.LatLng(lat, lon);
-  var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+  map = new google.maps.Map(document.getElementById('mapCanvas'), {
     zoom: 16,
     center: latLng,
     mapTypeId: google.maps.MapTypeId.HYBRID
   });
-  var marker = new google.maps.Marker({
+  marker = new google.maps.Marker({
     position: latLng,
     title: 'Location',
     map: map,
@@ -75,16 +94,11 @@ function initialize() {
   });
 
   // Update current position info.
-  //updateMarkerPosition(latLng);
   geocodePosition(latLng);
 
   // Add dragging event listeners.
   google.maps.event.addListener(marker, 'dragstart', function() {
     updateMarkerAddress('');
-  });
-
-  google.maps.event.addListener(marker, 'drag', function() {
-    //updateMarkerPosition(marker.getPosition());
   });
 
   google.maps.event.addListener(marker, 'dragend', function() {
