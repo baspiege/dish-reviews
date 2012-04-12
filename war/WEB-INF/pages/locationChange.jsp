@@ -27,14 +27,7 @@ function setFieldsIntoLocalStorage() {
   }
 }
 window.onunload=setFieldsIntoLocalStorage;
-function handleKeyPressAddress(e){
-  var key=e.keyCode;
-  if (key==13){
-	geocodeAddress(document.getElementById('address').value);
-    document.getElementById("useOverride").checked="checked";
-  }
-}
-function onblurAddress(){
+function onchangeTypedAddress(){
   geocodeAddress(document.getElementById('address').value);
   document.getElementById("useOverride").checked="checked";
 }
@@ -45,7 +38,7 @@ function onblurAddress(){
   <input type="radio" name="location" id="useGeoLocation" value="useGeoLocation"/><label for="useGeoLocation"><fmt:message key="currentLocationLabel"/></label>
 </p>
 <p>
-  <input type="radio" name="location" id="useOverride" value="useOverride"/> <input id="address" value="" onblur="onblurAddress()" onkeypress="handleKeyPressAddress(event)"></input>
+  <input type="radio" name="location" id="useOverride" value="useOverride"/> <input id="address" value="" onchange="onchangeTypedAddress()"></input>
 </p>
 <script type="text/javascript">
 var geocoder = new google.maps.Geocoder();

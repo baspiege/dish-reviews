@@ -10,7 +10,7 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </head>
 <body>
-<input id="address" value="" onblur="onblurAddress()" onkeypress="handleKeyPressAddress(event)"></input>
+<input id="address" value="" onchange="onchangeTypedAddress()"></input>
 <section>
 <form id="store" method="get" action="storeAdd" autocomplete="off">
 <%-- Update --%>
@@ -26,13 +26,7 @@ function setFieldsFromLocalStorage() {
   document.getElementById("longitude").value=addLongitude;
 }
 
-function handleKeyPressAddress(e){
-  var key=e.keyCode;
-  if (key==13){
-	geocodeAddress(document.getElementById('address').value);
-  }
-}
-function onblurAddress(){
+function onchangeTypedAddress(){
   geocodeAddress(document.getElementById('address').value);
 }
 
