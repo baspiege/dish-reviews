@@ -17,6 +17,7 @@ function setFieldsFromLocalStorage() {
     document.getElementById("useOverride").checked="checked";
   }
 }
+
 function setFieldsIntoLocalStorage() {
   if (document.getElementById("useGeoLocation").checked) {
     localStorage.useGeoLocation="true";
@@ -26,16 +27,41 @@ function setFieldsIntoLocalStorage() {
     localStorage.longitude=changeLongitude;
   }
 }
+
 window.onunload=setFieldsIntoLocalStorage;
+
 function onchangeTypedAddress(){
   geocodeAddress(document.getElementById('address').value);
   document.getElementById("useOverride").checked="checked";
 }
+
+function onchangeCurrentLocation(){
+  if (!document.getElementById("useOverride").checked) {
+	getCoordinates();
+  }
+}
+
+function getCoordinates() {
+  var geolocation = navigator.geolocation;
+  if (geolocation) {
+    geolocation.getCurrentPosition(setPosition);
+  }
+}
+
+function setPosition(position){
+  if (position){
+    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    map.panTo(latLng);
+    marker.setPosition(latLng);
+    geocodePosition(latLng);
+  }
+}
+
 </script>
 </head>
 <body onload="setFieldsFromLocalStorage()">
 <p>
-  <input type="radio" name="location" id="useGeoLocation" value="useGeoLocation"/><label for="useGeoLocation"><fmt:message key="currentLocationLabel"/></label>
+  <input type="radio" name="location" id="useGeoLocation" value="useGeoLocation" onchange="onchangeCurrentLocation()"/><label for="useGeoLocation"><fmt:message key="currentLocationLabel"/></label>
 </p>
 <p>
   <input type="radio" name="location" id="useOverride" value="useOverride"/> <input id="address" value="" onchange="onchangeTypedAddress()"></input>
