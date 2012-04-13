@@ -269,7 +269,7 @@ function getCoordinates() {
     var geolocation = navigator.geolocation;
     if (geolocation) {
       var parameters={maximumAge:300000, timeout:20000};
-      geolocation.watchPosition(setPosition,displayError,parameters);
+      geolocation.getCurrentPosition(setPosition,displayError,parameters);
     } else {
       updateGeoStatus(locationNotAvailableMessage);
     }
