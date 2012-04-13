@@ -80,9 +80,9 @@ function geocodeAddress(addressToFind) {
     if (responses && responses.length > 0) {
       updateMarkerAddress(responses[0].formatted_address);
       changeLatitude=responses[0].geometry.location.lat();
-	  changeLongitude=responses[0].geometry.location.lng();
-	  map.panTo(responses[0].geometry.location);
-	  marker.setPosition(responses[0].geometry.location);
+	    changeLongitude=responses[0].geometry.location.lng();
+	    map.panTo(responses[0].geometry.location);
+	    marker.setPosition(responses[0].geometry.location);
     } else {
       updateMarkerAddress('Cannot determine address at this location.');
     }
