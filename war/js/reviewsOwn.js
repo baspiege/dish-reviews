@@ -282,7 +282,17 @@ function getElapsedTime(oldSeconds,newSeconds){
         display=Math.round(hours)+" hr";
       } else {
         var days=hours/24;
-        display=Math.round(days)+" days";
+        if (days<30) {
+          display=Math.round(days)+" days";
+        } else {
+          var months=days/30;
+          if (months<12) {
+            display=Math.round(months)+" months";
+          } else {
+            var years=months/12;
+            display=Math.round(years)+" years";
+          }
+        }
       }
     }
   }
