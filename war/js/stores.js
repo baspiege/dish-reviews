@@ -65,6 +65,11 @@ function getStoresData() {
   var lat=localStorage.latitude;
   var lon=localStorage.longitude;
   
+  var progressData=document.getElementById("progressData");
+  if (progressData) {
+    progressData.style.display="inline";
+  }
+  
   // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
     sendRequest('storesXml?latitude='+lat+'&longitude='+lon, handleStoresDataRequest, displayCachedData);
