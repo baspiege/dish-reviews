@@ -64,6 +64,9 @@ function getStoresData() {
   // Get position and send request
   var lat=localStorage.getItem("latitude");
   var lon=localStorage.getItem("longitude");
+  if (lat==null || lon==null) {
+    return;
+  }
   
   var progressData=document.getElementById("progressData");
   if (progressData) {
@@ -269,7 +272,7 @@ function geocodePosition(pos) {
 
 function getCoordinates() {
   var useGeoLocation=localStorage.getItem("useGeoLocation");
-  if ((useGeoLocation!=null || useGeoLocation=="true") && navigator.onLine) {
+  if (useGeoLocation!=null || useGeoLocation=="true") {
     updateGeoStatus(waitingForCoordinatesMessage);
     var geolocation = navigator.geolocation;
     if (geolocation) {
