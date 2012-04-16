@@ -23,3 +23,5 @@ footer { font-size:small; clear:both;margin-top:1.5em; }
 section {margin-top:1.5em; }
 
 progress {display: block;}
+
+.nw {white-space:nowrap;}
