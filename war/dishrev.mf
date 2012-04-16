@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-# 2.18
+# 2.19
 
 # Explicitly cached entries
 favicon.ico

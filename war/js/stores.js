@@ -272,7 +272,7 @@ function geocodePosition(pos) {
 
 function getCoordinates() {
   var useGeoLocation=localStorage.getItem("useGeoLocation");
-  if (useGeoLocation!=null || useGeoLocation=="true") {
+  if (useGeoLocation==null || useGeoLocation=="true") {
     updateGeoStatus(waitingForCoordinatesMessage);
     var geolocation = navigator.geolocation;
     if (geolocation) {
