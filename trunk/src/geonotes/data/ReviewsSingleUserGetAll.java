@@ -36,7 +36,7 @@ public class ReviewsSingleUserGetAll {
                 query.setRange(aStart, aStart+10);
                 results = (List<Review>) query.execute(aUser);
 
-                // Bug workaround.  Get size actually triggers the underlying database call.
+                // Touch object to get data.  Size method triggers the underlying database call.
                 results.size();
             } finally {
                 if (query!=null) {

@@ -44,7 +44,7 @@ public class DishesGetAll {
 
                 results = (List<Dish>) query.execute(aStoreId);
 
-                // Bug workaround.  Get size actually triggers the underlying database call.
+                // Touch object to get data.  Size method triggers the underlying database call.
                 results.size();
             } finally {
                 if (query!=null) {

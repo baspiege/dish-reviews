@@ -134,7 +134,7 @@ public class StoreGetAll {
      * @since 1.0
      */
     public static void transferResults(List<Store> results, List<Store> resultsTemp) {
-        // Bug workaround.  Get size actually triggers the underlying database call.
+        // Touch object to get data.  Size method triggers the underlying database call.
         System.out.println( resultsTemp.size() );
         for (Store note: resultsTemp) {
           results.add(note);
