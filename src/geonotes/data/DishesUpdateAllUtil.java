@@ -28,7 +28,7 @@ public class DishesUpdateAllUtil {
         try {
             query = pm.newQuery(Dish.class);
             results = (List<Dish>) query.execute();
-            // Bug workaround.  Get size actually triggers the underlying database call.
+            // Touch object to get data.  Size method triggers the underlying database call.
             results.size();
         } finally {
             if (query!=null) {
