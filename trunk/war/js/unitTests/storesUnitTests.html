@@ -1,0 +1,58 @@
+<html>
+<head>
+<link rel="shortcut icon" href="favicon.ico" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+<script type="text/javascript" src="/js/stores.js" ></script>
+<title>Stores Unit Test</title>
+<style>
+.passed {color:green;}
+.failed {color:red;}
+</style>
+</head>
+<body>
+<div id="data">
+</div>
+<div id="progressData">
+</div>
+<div id="results">
+</div>
+<script>
+
+function assert(result, message) {
+  var resultsDiv=document.getElementById("results");
+  var para=document.createElement("p");
+  if (result) {
+    para.setAttribute("class","passed");
+    para.appendChild(document.createTextNode("PASSED: " + message));
+  } else {
+    para.setAttribute("class","failed");
+    para.appendChild(document.createTextNode("FAILED: " + message));
+  }
+
+  resultsDiv.appendChild(para);
+}
+
+// Set up data
+var canEdit=false;
+localStorage.setItem("latitude","1.23");
+localStorage.setItem("longitude","4.56");
+var stores='<stores><store dishCount="1" lat="1.23" lon="4.57" storeId="1" text="Test1"/><store dishCount="2" lat="1.24" lon="4.58" storeId="2" text="Test2"/></stores>';
+setItemIntoLocalStorage(getStoresKey(), stores);
+
+// Display
+displayCachedData();
+
+// Count 
+var rows=data.getElementsByTagName("tr");
+assert( rows.length==3, "Rows in table equals " + rows.length);
+
+// TODO
+// Check other functions
+// Check values in table
+// Check table with no values
+// Check sorting
+</script>
+</body>
+</html>
