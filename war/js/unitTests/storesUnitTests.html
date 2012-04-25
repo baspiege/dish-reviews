@@ -23,6 +23,8 @@
 function assert(result, message) {
   var resultsDiv=document.getElementById("results");
   var para=document.createElement("p");
+  para.appendChild(document.createTextNode(arguments.callee.caller.name + ': '));
+  
   if (result) {
     para.setAttribute("class","passed");
     para.appendChild(document.createTextNode("PASSED: " + message));
@@ -34,19 +36,36 @@ function assert(result, message) {
   resultsDiv.appendChild(para);
 }
 
-// Set up data
 var canEdit=false;
-localStorage.setItem("latitude","1.23");
-localStorage.setItem("longitude","4.56");
-var stores='<stores><store dishCount="1" lat="1.23" lon="4.57" storeId="1" text="Test1"/><store dishCount="2" lat="1.24" lon="4.58" storeId="2" text="Test2"/></stores>';
-setItemIntoLocalStorage(getStoresKey(), stores);
 
-// Display
-displayCachedData();
+function testStores() {
+  // Set up data
+  localStorage.setItem("latitude","1.23");
+  localStorage.setItem("longitude","4.56");
+  var stores='<stores><store dishCount="1" lat="1.23" lon="4.57" storeId="1" text="Test1"/><store dishCount="2" lat="1.24" lon="4.58" storeId="2" text="Test2"/></stores>';
+  setItemIntoLocalStorage(getStoresKey(), stores);
+  // Display
+  displayCachedData();
+  // Count 
+  var rows=data.getElementsByTagName("tr");
+  assert( rows.length==3, "Rows in table equals " + rows.length);
+}
 
-// Count 
-var rows=data.getElementsByTagName("tr");
-assert( rows.length==3, "Rows in table equals " + rows.length);
+function testNoStores() {
+  // Set up data
+  localStorage.setItem("latitude","1.23");
+  localStorage.setItem("longitude","4.56");
+  var stores='<stores></stores>';
+  setItemIntoLocalStorage(getStoresKey(), stores);
+  // Display
+  displayCachedData();
+  // Count 
+  var rows=data.getElementsByTagName("tr");
+  assert( rows.length==2, "Rows in table equals " + rows.length);
+}
+
+testStores();
+testNoStores();
 
 // TODO
 // Check other functions
