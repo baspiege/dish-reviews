@@ -219,7 +219,7 @@ function createTable() {
   // Show Add link
   if (canEdit) {
     var addLink=document.createElement("a");
-    addLink.setAttribute("href","reviewAdd?dishId="+dishId);
+    addLink.setAttribute("href","/reviewAdd?dishId="+dishId);
     addLink.setAttribute("class","add addTh");
     addLink.appendChild(document.createTextNode("Add"));
     thReview.appendChild(addLink);
@@ -266,7 +266,7 @@ function createTableRowForReview(review) {
   // Edit and Facebook button
   if (usersOwn) {
     var editLink=document.createElement("a");
-    editLink.setAttribute("href","reviewUpdate?reviewId="+reviewId);
+    editLink.setAttribute("href","/reviewUpdate?reviewId="+reviewId);
     editLink.setAttribute("class","edit");
     editLink.appendChild(document.createTextNode("Edit"));
     descReview.appendChild(editLink);
@@ -294,7 +294,7 @@ function createTableRowForReview(review) {
   if (canEdit) {
       var voteDisplay=document.createElement("td");
       var voteLink=document.createElement("a");
-      voteLink.setAttribute("href","reviewVote?reviewId="+reviewId);
+      voteLink.setAttribute("href","/reviewVote?reviewId="+reviewId);
       voteLink.setAttribute("class","center");
       voteLink.appendChild(document.createTextNode(vote));
       voteDisplay.appendChild(voteLink);
@@ -310,7 +310,7 @@ function createTableRowForReview(review) {
   var imageCell=document.createElement("td");
   if (review.getAttribute("img")=="true") {
     var imageLink=document.createElement("a");
-    imageLink.setAttribute("href","reviewImageUpdate?reviewId="+reviewId);
+    imageLink.setAttribute("href","/reviewImageUpdate?reviewId="+reviewId);
     var image=document.createElement("img");
     image.setAttribute("src","reviewThumbNailImage?reviewId="+reviewId);
     imageLink.appendChild(image);
@@ -318,7 +318,7 @@ function createTableRowForReview(review) {
   } else if (usersOwn) {
     var imageLink=document.createElement("a");
     imageLink.setAttribute("class","add");
-    imageLink.setAttribute("href","reviewImageUpdate?reviewId="+reviewId);
+    imageLink.setAttribute("href","/reviewImageUpdate?reviewId="+reviewId);
     imageLink.appendChild(document.createTextNode("Add"));
     imageCell.appendChild(imageLink)
   }
