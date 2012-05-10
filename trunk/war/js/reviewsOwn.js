@@ -82,7 +82,7 @@ function getReviewsOwnKey() {
 function getReviewsData() {
   // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
-    sendRequest('reviewsOwnXml?start=' + startIndexReview, handleReviewsDataRequest, displayCachedData);
+    sendRequest('/reviewsOwnXml?start=' + startIndexReview, handleReviewsDataRequest, displayCachedData);
   } else {
     displayCachedData();
   }
