@@ -34,7 +34,7 @@ var isLoggedIn=false;
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
 
 <%-- Location --%>
-<section><span id="geoStatus"></span><a class="nw" style="margin-left:1em" href="locationChange"><fmt:message key="changeLocationLabel"/></a></section>
+<section><span id="geoStatus"></span><a class="nw" style="margin-left:1em" href="/locationChange"><fmt:message key="changeLocationLabel"/></a></section>
 
 <%-- Data --%>
 <section class="data" id="data">

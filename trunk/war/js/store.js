@@ -192,7 +192,7 @@ function createTable() {
   // Show Add link
   if (canEdit) {
     var addLink=document.createElement("a");
-    addLink.setAttribute("href","dishAdd?storeId="+storeId);
+    addLink.setAttribute("href","/dishAdd?storeId="+storeId);
     addLink.setAttribute("class","add addTh");
     addLink.appendChild(document.createTextNode("Add"));
     thName.appendChild(addLink);
@@ -236,7 +236,7 @@ function createTableRowForDish(dish) {
   // Dish
   var dishDesc=document.createElement("td");
   var dishDescLink=document.createElement("a");
-  dishDescLink.setAttribute("href","dish?dishId="+dishId);
+  dishDescLink.setAttribute("href","/dish?dishId="+dishId);
   dishDescLink.appendChild(document.createTextNode(dishText));
   dishDesc.appendChild(dishDescLink);
   tr.appendChild(dishDesc);
@@ -245,7 +245,7 @@ function createTableRowForDish(dish) {
   if (canEdit) {
       var voteDisplay=document.createElement("td");
       var voteLink=document.createElement("a");
-      voteLink.setAttribute("href","dishVote?dishId="+dishId);
+      voteLink.setAttribute("href","/dishVote?dishId="+dishId);
       voteLink.setAttribute("class","center");
       voteLink.appendChild(document.createTextNode(vote));
       voteDisplay.appendChild(voteLink);
@@ -262,13 +262,13 @@ function createTableRowForDish(dish) {
   var lastReview=document.createElement("td");
   if (lastReviewText) {
     var reviewLink=document.createElement("a");
-    reviewLink.setAttribute("href","dish?dishId="+dishId);
+    reviewLink.setAttribute("href","/dish?dishId="+dishId);
     reviewLink.appendChild(document.createTextNode(lastReviewText));
     lastReview.appendChild(reviewLink);
   } else if (canEdit) {
     var addLink=document.createElement("a");
     addLink.setAttribute("class","add");
-    addLink.setAttribute("href","reviewAdd?dishId="+dishId);
+    addLink.setAttribute("href","/reviewAdd?dishId="+dishId);
     addLink.appendChild(document.createTextNode("Add"));
     lastReview.appendChild(addLink);
   }
@@ -290,9 +290,9 @@ function createTableRowForDish(dish) {
   var imageCell=document.createElement("td");
   if (dish.getAttribute("img")=="true") {
     var imageLink=document.createElement("a");
-    imageLink.setAttribute("href","reviewImageUpdate?reviewId="+lastReviewImageId);
+    imageLink.setAttribute("href","/reviewImageUpdate?reviewId="+lastReviewImageId);
     var image=document.createElement("img");
-    image.setAttribute("src","reviewThumbNailImage?reviewId="+lastReviewImageId);
+    image.setAttribute("src","/reviewThumbNailImage?reviewId="+lastReviewImageId);
     imageLink.appendChild(image);
     imageCell.appendChild(imageLink);
   }

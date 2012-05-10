@@ -32,8 +32,8 @@ var isLoggedIn=false;
 
 <nav>
 <ul id="navlist">
-<li><a href="stores"><fmt:message key="mainLabel"/></a></li>
-<li><a href="store?storeId=<c:out value="${store.key.id}"/>"><span id="storeName"></span></a></li>
+<li><a href="/stores"><fmt:message key="mainLabel"/></a></li>
+<li><a href="/store?storeId=<c:out value="${store.key.id}"/>"><span id="storeName"></span></a></li>
 <li id="fblogin" style="display:none"><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li id="fbname" class="nw" style="display:none"><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
 <li id="offline" style="display:none"><fmt:message key="offlineLabel"/></li>
@@ -45,11 +45,11 @@ var isLoggedIn=false;
 <section>
 <%-- Dish name --%>
 <span id="dishName"></span> 
-<a href="dishUpdate?dishId=<c:out value="${dish.key.id}"/>" class="edit" style="display:none" id="dishEditLink"><fmt:message key="editLabel"/></a> 
+<a href="/dishUpdate?dishId=<c:out value="${dish.key.id}"/>" class="edit" style="display:none" id="dishEditLink"><fmt:message key="editLabel"/></a> 
 <%-- Show 'All Reviews' link if there is specific review showing. --%> 
 <c:choose>
   <c:when test="${reviewId != null}">
-    <a class="add" href="#" onclick="window.location='dish?dishId=<c:out value="${dish.key.id}"/>';return false;"><fmt:message key="allReviewsLabel"/></a>
+    <a class="add" href="#" onclick="window.location='/dish?dishId=<c:out value="${dish.key.id}"/>';return false;"><fmt:message key="allReviewsLabel"/></a>
   </c:when>
 </c:choose>
 <%-- Data --%>

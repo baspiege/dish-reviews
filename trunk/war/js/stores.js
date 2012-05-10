@@ -168,7 +168,7 @@ function createTable() {
   // Show Add link
   if (canEdit) {
     var addLink=document.createElement("a");
-    addLink.setAttribute("href","storeAddLocation");
+    addLink.setAttribute("href","/storeAddLocation");
     addLink.setAttribute("class","add addTh");
     addLink.appendChild(document.createTextNode("Add"));
     thName.appendChild(addLink);
@@ -203,7 +203,7 @@ function createTableRowForStore(store) {
   // Desc
   var desc=document.createElement("td");
   var descLink=document.createElement("a");
-  descLink.setAttribute("href","store?storeId="+storeId);
+  descLink.setAttribute("href","/store?storeId="+storeId);
   var text=store.getAttribute("text");
   descLink.appendChild(document.createTextNode(text));
   desc.appendChild(descLink);
@@ -213,7 +213,7 @@ function createTableRowForStore(store) {
   var type=document.createElement("td");
   type.setAttribute("class","center");
   var typeLink=document.createElement("a");
-  typeLink.setAttribute("href","store?storeId="+storeId);
+  typeLink.setAttribute("href","/store?storeId="+storeId);
   typeLink.appendChild(document.createTextNode(store.getAttribute("dishCount")));
   type.appendChild(typeLink);
   tr.appendChild(type);
@@ -459,7 +459,7 @@ function updateLocationDispay() {
     // Bearing
     var bearingDegrees=calculateBearing(latitude, longitude, storeLat, storeLon);
     display+=" " + getCardinalDirection(bearingDegrees);
-    display="<a href='storeUpdateLocation?storeId=" + store.getAttribute("storeId") + "'>"+display+"</a>";
+    display="<a href='/storeUpdateLocation?storeId=" + store.getAttribute("storeId") + "'>"+display+"</a>";
     // Update direction display
     store.getElementsByTagName("td")[0].innerHTML=display;
   }
