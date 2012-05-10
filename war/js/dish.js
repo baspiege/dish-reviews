@@ -97,7 +97,7 @@ function getCachedData() {
 function getReviewsData() {
   // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
-    sendRequest('reviewsXml?dishId='+dishId+'&start=' + startIndexReview, handleReviewsDataRequest, displayCachedData);
+    sendRequest('/reviewsXml?dishId='+dishId+'&start=' + startIndexReview, handleReviewsDataRequest, displayCachedData);
   } else {
     displayCachedData();
   }
@@ -110,7 +110,7 @@ function getDishKey() {
 function getReviewsDataById() {
   // If online, get from server.  Else get from cache.  // TODO - Update cached data?
   if (navigator.onLine) {
-    sendRequest('reviewsXml?reviewId='+reviewId, handleReviewsDataRequest, displayCachedData);
+    sendRequest('/reviewsXml?reviewId='+reviewId, handleReviewsDataRequest, displayCachedData);
   } else {
     displayCachedData();
   }
