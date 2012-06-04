@@ -75,6 +75,10 @@ function getStoresData() {
   
   // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
+    var xmlDoc=getCachedData();
+    if (xmlDoc) {
+      displayData(xmlDoc);
+    }
     sendRequest('/storesXml?latitude='+lat+'&longitude='+lon, handleStoresDataRequest, displayCachedData);
   } else {
     displayCachedData();
@@ -88,13 +92,28 @@ function getStoresKey() {
 }
 
 function handleStoresDataRequest(req) {
+  var display=true;
+  var cachedResponse=localStorage.getItem(getStoresKey());
+  
   // Save in local storage in case app goes offline
   // TODO - Get lat/lon from result.  Might change between request and response.
   setItemIntoLocalStorage(getStoresKey(), req.responseText);
+  
+  if (cachedResponse!=null) {
+    var display=false;
+    if (cachedResponse!=req.responseText) {
+      var response=confirm("Do you want to display new data?");
+      if (response) {
+        display=true;
+      }
+    }
+  }
 
   // Process response
-  var xmlDoc=req.responseXML;
-  displayData(xmlDoc);
+  if (display) {
+    var xmlDoc=req.responseXML;
+    displayData(xmlDoc);
+  }
 }
 
 ///////////////////
