@@ -2,4 +2,5 @@
 <%@ page isELIgnored="false" %>
 <c:redirect url="/store">
   <c:param name="storeId" value="${storeId}"/>
+  <c:param name="reload" value="true"/>
 </c:redirect>
