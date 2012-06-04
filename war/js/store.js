@@ -105,8 +105,13 @@ function handleDishesDataRequest(req) {
   var display=true;
   var qsString=getQueryStrings();
   var reload=qsString && qsString.reload && qsString.reload=="true";
+  
+  var cachedResponse=localStorage.getItem(getStoreKey());
+  
+  // Save in local storage in case app goes offline
+  setItemIntoLocalStorage(getStoreKey(), req.responseText);
+  
   if (!reload) {
-    var cachedResponse=localStorage.getItem(getStoreKey());
     if (cachedResponse!=null) {
       var display=false;
       if (cachedResponse!=req.responseText) {
@@ -117,10 +122,7 @@ function handleDishesDataRequest(req) {
       }
     }
   }
-
-  // Save in local storage in case app goes offline
-  setItemIntoLocalStorage(getStoreKey(), req.responseText);
-
+  
   // Process response
   if (display) {
     var xmlDoc=req.responseXML;
