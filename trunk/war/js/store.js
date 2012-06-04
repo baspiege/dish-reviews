@@ -459,5 +459,4 @@ function getQueryStrings() {
     }
   }
   return qsParm;
-}rm;
 }
