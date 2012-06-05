@@ -406,12 +406,12 @@ function setUpPage() {
   var fbname=document.getElementById("fbname");
   var offline=document.getElementById("offline");
   if (navigator.onLine) {
-    fblogin.style.display="inline";
-    fbname.style.display="inline";
+    //fblogin.style.display="inline";
+    //fbname.style.display="inline";
     offline.style.display="none";
   } else {
-    fblogin.style.display="none";
-    fbname.style.display="none";
+    //fblogin.style.display="none";
+    //fbname.style.display="none";
     offline.style.display="inline";
   }
 
