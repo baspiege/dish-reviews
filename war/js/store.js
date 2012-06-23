@@ -238,11 +238,9 @@ function createTable() {
   thVote.appendChild(voteLink);
 
   // Last Review
-  /*
   var thReview=document.createElement("th");
   tr.appendChild(thReview);
   thReview.appendChild(document.createTextNode("Last Review"));
-  */
 
   // Last Image
   var thLastImage=document.createElement("th");
@@ -288,7 +286,6 @@ function createTableRowForDish(dish) {
   }
 
   // Last Review
-  /*
   var lastReview=document.createElement("td");
   if (lastReviewText) {
     var reviewLink=document.createElement("a");
@@ -302,19 +299,16 @@ function createTableRowForDish(dish) {
     addLink.appendChild(document.createTextNode("Add"));
     lastReview.appendChild(addLink);
   }
-  */
 
   // Add name from Facebook id.
   // Note, adding with createElementNS didn't work.  So using innerHTML.
-  /*
-  if (lastReviewUserId!='null') {
+  if (lastReviewUserId!='') {
     var fbSpan=document.createElement("span");
     lastReview.appendChild(fbSpan);
     fbSpan.innerHTML='  - <fb:name uid="' + lastReviewUserId + '" useyou="false" linked="true"></fb:name>';
   }
 
   tr.appendChild(lastReview);
-  */
 
   // Last Image
   var imageCell=document.createElement("td");
@@ -334,7 +328,7 @@ function createTableRowForDish(dish) {
 function createTableRowForNoCachedData() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
-  td.setAttribute("colspan","3");
+  td.setAttribute("colspan","4");
   td.appendChild(document.createTextNode("No connectivity or cached data.  Please try again later."));
   tr.appendChild(td);
   return tr;
@@ -343,7 +337,7 @@ function createTableRowForNoCachedData() {
 function createTableRowForNoData() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
-  td.setAttribute("colspan","3");
+  td.setAttribute("colspan","4");
   td.appendChild(document.createTextNode("No dishes."));
   tr.appendChild(td);
   return tr;
