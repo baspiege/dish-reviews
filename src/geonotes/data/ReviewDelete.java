@@ -58,6 +58,16 @@ public class ReviewDelete {
                 } else {
                     dish.setLastReviewImageId(0l);
                 }
+                
+                // Last review
+                Review lastReview=ReviewGetSingle.getLastReviewWithImage(pm,dish.getKey().getId());
+                if (lastReview!=null) {
+                    dish.setLastReview(lastReview.getNote());
+                    dish.setLastReviewUserId(lastReview.getUser());
+                } else {
+                    dish.setLastReview("");
+                    dish.setLastReviewUserId("");                
+                }
             }
         } finally {
             if (pm!=null) {
