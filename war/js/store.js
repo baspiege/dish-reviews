@@ -191,9 +191,9 @@ function displayData(xmlDoc) {
     }
     
     // Parse for Facebook tags
-    //if (typeof(FB) != "undefined") {
-    //  FB.XFBML.parse(table);
-    //}
+    if (typeof(FB) != "undefined") {
+      FB.XFBML.parse(table);
+    }
 
     gettingDishes=false;
     checkForMoreDishes();
