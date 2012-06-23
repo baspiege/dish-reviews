@@ -18,7 +18,7 @@ var isLoggedIn=false;
 
 <%-- Facebook login --%>
 <div id="fb-root"></div>
-<%--  <script type="text/javascript" src="/js/fblogin.js" ></script> --%>
+<script type="text/javascript" src="/js/fblogin.js" ></script>
 
 <nav>
 <ul id="navlist">
