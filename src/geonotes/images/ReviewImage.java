@@ -22,6 +22,8 @@ public class ReviewImage extends HttpServlet {
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        RequestUtils.setCacheHeaders(response, 30);
+    
         // Get Id.
         Long reviewId=RequestUtils.getNumericInput(request,"reviewId","reviewId",true);
 

@@ -227,4 +227,17 @@ public class RequestUtils {
         aResponse.setHeader("Pragma","no-cache");
         aResponse.setDateHeader ("Expires", -1);
     }
+
+    /**
+    * Set cache headers.
+    *
+    * @param aResponse Servlet Response
+    */
+    public static void setCacheHeaders(HttpServletResponse aResponse, int days) {
+        int cacheInSeconds = 60 * 60 * 24 * days;        
+        long now = System.currentTimeMillis();
+        aResponse.addHeader("Cache-Control", "max-age=" + cacheInSeconds);
+        aResponse.setDateHeader("Last-Modified", now);
+        aResponse.setDateHeader("Expires", now + cacheInSeconds * 1000);
+    }    
 }
