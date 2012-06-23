@@ -22,6 +22,8 @@ public class ReviewLastThumbNailImage extends HttpServlet {
     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        RequestUtils.setCacheHeaders(response, 30);
+    
         // Get Id.
         Long dishId=RequestUtils.getNumericInput(request,"dishId","dishId",true);
 
