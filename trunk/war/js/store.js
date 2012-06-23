@@ -302,7 +302,7 @@ function createTableRowForDish(dish) {
 
   // Add name from Facebook id.
   // Note, adding with createElementNS didn't work.  So using innerHTML.
-  if (lastReviewUserId!='') {
+  if (lastReviewUserId) {
     var fbSpan=document.createElement("span");
     lastReview.appendChild(fbSpan);
     fbSpan.innerHTML='  - <fb:name uid="' + lastReviewUserId + '" useyou="false" linked="true"></fb:name>';

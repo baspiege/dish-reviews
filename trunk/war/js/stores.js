@@ -213,7 +213,7 @@ function createTableRowForStore(store) {
   tr.setAttribute("name",store.getAttribute("text").toLowerCase());
   tr.setAttribute("lat",store.getAttribute("lat"));
   tr.setAttribute("lon",store.getAttribute("lon"));
-  tr.setAttribute("yes",store.getAttribute("yes"));
+  //tr.setAttribute("yes",store.getAttribute("yes"));
   tr.setAttribute("dishCount",store.getAttribute("dishCount"));
   
   // Distance and bearing
