@@ -95,8 +95,20 @@ function getCachedData() {
 }
 
 function getReviewsData() {
+  var qsString=getQueryStrings();
+  var reload=false;
+  if (qsString && qsString.reload && qsString.reload=="true") {
+    reload=true;
+  }
+
   // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
+    if (!reload) {
+      var xmlDoc=getCachedData();
+      if (xmlDoc) {
+        displayData(xmlDoc);
+      }
+    }
     sendRequest('/reviewsXml?dishId='+dishId+'&start=' + startIndexReview, handleReviewsDataRequest, displayCachedData);
   } else {
     displayCachedData();
@@ -117,12 +129,30 @@ function getReviewsDataById() {
 }
 
 function handleReviewsDataRequest(req) {
+  var display=true;
+  var qsString=getQueryStrings();
+  var reload=qsString && qsString.reload && qsString.reload=="true";
+  if (!reload) {
+    var cachedResponse=localStorage.getItem(getDishKey());
+    if (cachedResponse!=null) {
+      var display=false;
+      if (cachedResponse!=req.responseText) {
+        var response=confirm("Do you want to display new data?");
+        if (response) {
+          window.location.href=window.location.href+"&reload=true";
+        }
+      }
+    }
+  }
+
   // Save in local storage in case app goes offline
   setItemIntoLocalStorage(getDishKey(), req.responseText);
 
   // Process response
-  var xmlDoc=req.responseXML;
-  displayData(xmlDoc);
+  if (display) {
+    var xmlDoc=req.responseXML;
+    displayData(xmlDoc);
+  }
 }
 
 ///////////////////
@@ -458,4 +488,19 @@ function setItemIntoLocalStorage(key, value) {
       localStorage.clear();
     }
   }
+}
+
+function getQueryStrings() {
+  var qsParm = new Array();
+  var query = window.location.search.substring(1);
+  var parms = query.split('&');
+  for (var i=0; i<parms.length; i++) {
+    var pos = parms[i].indexOf('=');
+      if (pos > 0) {
+      var key = parms[i].substring(0,pos);
+      var val = parms[i].substring(pos+1);
+      qsParm[key] = val;
+    }
+  }
+  return qsParm;
 }
