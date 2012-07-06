@@ -7,16 +7,8 @@
 <title><fmt:message key="storesLabel"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript" src="/js/stores.js" ></script>
-<script type="text/javascript">
-var waitingForCoordinatesMessage="<fmt:message key="waitingForCoordinatesMessage"/>";
-var locationNotAvailableMessage="<fmt:message key="locationNotAvailableMessage"/>";
-var locationNotFoundMessage="<fmt:message key="locationNotFoundMessage"/>";
-var canEdit=false;
-var isLoggedIn=false;
-</script>
 </head>
-<body onload="setUpPage();setOnlineListeners();getCoordinates();">
+<body>
 
 <%-- Facebook login --%>
 <div id="fb-root"></div>
@@ -44,4 +36,5 @@ var isLoggedIn=false;
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>
+<script type="text/javascript" src="/js/stores.js" ></script>
 </html>

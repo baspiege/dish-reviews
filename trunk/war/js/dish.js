@@ -69,6 +69,10 @@ function postReviewToFacebook(reviewId) {
 // Data
 ///////////////////
 
+var dishId;
+var reviewId;
+var canEdit=false;
+var isLoggedIn=false;
 var gettingReviews=false;
 var moreReviews=false;
 window.onscroll=checkForMoreReviews;
@@ -422,7 +426,19 @@ function displayTableNoCachedData() {
 // Set-up page
 ///////////////////
 
+function reloadDishesPage () {
+  window.location='/dish?dishId='+dishId;
+  return false;
+}
+
 function setUpPage() {
+
+  var qsString=getQueryStrings();
+  if (qsString) {
+    dishId=qsString.dishId;
+    reviewId=qsString.reviewId;
+  }
+  
   // Check if logged in
   var dishRevUser=getCookie("dishRevUser");
   isLoggedIn=false;
@@ -454,6 +470,15 @@ function setUpPage() {
      dishEditLink.style.display='inline';
   } else {
      dishEditLink.style.display='none';
+  }
+  
+  if (reviewId) {
+    getReviewsDataById();
+    var allReviewsLink=document.getElementById("allReviewsLink");
+    allReviewsLink.style.display="inline";
+    allReviewsLink.onclick=reloadDishesPage;    
+  } else {
+    getReviewsData()
   }
 }
 
@@ -504,3 +529,10 @@ function getQueryStrings() {
   }
   return qsParm;
 }
+
+///////////////////
+// Start page.
+///////////////////
+
+setOnlineListeners();
+setUpPage();
