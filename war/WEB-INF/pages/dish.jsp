@@ -7,6 +7,7 @@
 <title id="title"></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
+<body>
 <fmt:bundle basename="Text">
 
 <%-- Facebook login --%>

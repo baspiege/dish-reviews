@@ -8,7 +8,6 @@
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 <body>
-<div id="storeId" style="display:none" storeId="${store.key.id}"></div>
 
 <fmt:bundle basename="Text">
 
