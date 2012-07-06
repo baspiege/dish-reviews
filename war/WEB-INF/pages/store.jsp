@@ -6,14 +6,10 @@
 <%@ include file="/WEB-INF/pages/components/htmlStartAppCache.jsp" %>
 <title id="title"></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-<script type="text/javascript" src="/js/store.js" ></script>
-<script type="text/javascript">
-var storeId=<c:out value="${store.key.id}"/>;
-var canEdit=false;
-var isLoggedIn=false;
-</script>
 </head>
-<body onload="setUpPage();setOnlineListeners();getDishesData();">
+<body>
+<div id="storeId" style="display:none" storeId="${store.key.id}"></div>
+
 <fmt:bundle basename="Text">
 
 <%-- Facebook login --%>
@@ -47,4 +43,5 @@ var isLoggedIn=false;
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>
+<script type="text/javascript" src="/js/store.js" ></script>
 </html>

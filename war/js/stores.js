@@ -50,6 +50,12 @@ function sendRequest(url,callback,errorCallback,postData) {
 // Data
 ///////////////////
 
+var waitingForCoordinatesMessage="Waiting for coordinates...";
+var locationNotAvailableMessage="Location Not Available";
+var locationNotFoundMessage="Location Not Found";
+var canEdit=false;
+var isLoggedIn=false;
+
 function getCachedData() {
     var xmlDoc=null;
     var cachedResponse=localStorage.getItem(getStoresKey());
@@ -585,3 +591,11 @@ function setItemIntoLocalStorage(key, value) {
     }
   }
 }
+
+///////////////////
+// Start page.
+///////////////////
+
+setOnlineListeners();
+setUpPage();
+getCoordinates();

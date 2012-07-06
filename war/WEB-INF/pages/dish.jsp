@@ -6,25 +6,8 @@
 <%@ include file="/WEB-INF/pages/components/htmlStartAppCache.jsp" %>
 <title id="title"></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-<script type="text/javascript" src="/js/dish.js" ></script>
-<script type="text/javascript">
-var dishId=<c:out value="${dish.key.id}"/>;
-var reviewId=<c:out value="${reviewId}">0</c:out>;
-var canEdit=false;
-var isLoggedIn=false;
-</script>
 </head>
 <fmt:bundle basename="Text">
-
-<%-- If review Id, load specific review.  Else load all. --%>
-<c:choose>
-  <c:when test="${reviewId != null}">
-    <body onload="setUpPage();setOnlineListeners();getReviewsDataById();">
-  </c:when>
-  <c:otherwise>
-    <body onload="setUpPage();setOnlineListeners();getReviewsData();">
-  </c:otherwise>
-</c:choose>
 
 <%-- Facebook login --%>
 <div id="fb-root"></div>
@@ -49,11 +32,7 @@ var isLoggedIn=false;
 <span id="dishName"></span> 
 <a href="/dishUpdate?dishId=<c:out value="${dish.key.id}"/>" class="edit" style="display:none" id="dishEditLink"><fmt:message key="editLabel"/></a> 
 <%-- Show 'All Reviews' link if there is specific review showing. --%> 
-<c:choose>
-  <c:when test="${reviewId != null}">
-    <a class="add" href="#" onclick="window.location='/dish?dishId=<c:out value="${dish.key.id}"/>';return false;"><fmt:message key="allReviewsLabel"/></a>
-  </c:when>
-</c:choose>
+<a id="allReviewsLink" class="add" href="#" style="display:none"><fmt:message key="allReviewsLabel"/></a>
 <%-- Data --%>
 <progress id="waitingForData" title="<fmt:message key="waitingForDataLabel"/>"><fmt:message key="waitingForDataLabel"/></progress>
 <div class="data" id="data"></div>
@@ -63,4 +42,5 @@ var isLoggedIn=false;
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </fmt:bundle>
 </body>
+<script type="text/javascript" src="/js/dish.js" ></script>
 </html>

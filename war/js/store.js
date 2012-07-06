@@ -50,6 +50,9 @@ function sendRequest(url,callback,errorCallback,postData) {
 // Data
 ///////////////////
 
+var storeId;
+var canEdit=false;
+var isLoggedIn=false;
 var gettingDishes=false;
 var moreDishes=false;
 window.onscroll=checkForMoreDishes;
@@ -373,6 +376,12 @@ function sortDishesBy(fieldToSortBy) {
 ///////////////////
 
 function setUpPage() {
+
+  var qsString=getQueryStrings();
+  if (qsString && qsString.storeId) {
+    storeId=qsString.storeId;
+  }
+
   // Check if logged in
   var dishRevUser=getCookie("dishRevUser");
   isLoggedIn=false;
@@ -454,3 +463,11 @@ function getQueryStrings() {
   }
   return qsParm;
 } 
+
+///////////////////
+// Start page.
+///////////////////
+
+setOnlineListeners();
+setUpPage();
+getDishesData();
