@@ -9,13 +9,17 @@ var map;
 var marker;
 
 ///////////////////
-// Event handlers
+// Local storage
 ///////////////////
 
 function setFieldsFromLocalStorage() {
   document.getElementById("latitude").value=addLatitude;
   document.getElementById("longitude").value=addLongitude;
 }
+
+///////////////////
+// Event handlers
+///////////////////
 
 function onchangeTypedAddress(){
   geocodeAddress(document.getElementById('address').value);
@@ -97,9 +101,6 @@ function initialize() {
 ///////////////////
 
 function setUpPage() {
-
-  // Onload handler to fire off the app.
-  google.maps.event.addDomListener(window, 'load', initialize);
   
   // Set fields when submitting
   var submitLocation=document.getElementById("submitLocation");
@@ -110,4 +111,10 @@ function setUpPage() {
   address.onchange=onchangeTypedAddress;
 }
 
+function setUpMap() {
+  // Onload handler to intialize the map.
+  google.maps.event.addDomListener(window, 'load', initialize);
+}
+
 setUpPage();
+setUpMap();

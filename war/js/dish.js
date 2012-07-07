@@ -510,7 +510,9 @@ function setUpPage() {
   } else {
      dishEditLink.style.display='none';
   }
-  
+}
+
+function setUpReviews() {
   if (reviewId) {
     getReviewsDataById();
     var allReviewsLink=document.getElementById("allReviewsLink");
@@ -528,3 +530,4 @@ function setOnlineListeners() {
 
 setOnlineListeners();
 setUpPage();
+setUpReviews();

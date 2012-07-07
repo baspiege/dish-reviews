@@ -18,7 +18,7 @@
 </table>
 <p>
 <%-- Cancel --%>
-<input class="button" type="button" name="action" value="<fmt:message key="cancelLabel"/>" onclick="window.location='stores';return false;"/>
+<input id="cancelButton" class="button" type="button" name="action" value="<fmt:message key="cancelLabel"/>" />
 <%-- Add --%>
 <input id="latitude" type="hidden" name="latitude" value="<c:out value="${store.latitude}"/>" />
 <input id="longitude" type="hidden" name="longitude" value="<c:out value="${store.longitude}"/>" />

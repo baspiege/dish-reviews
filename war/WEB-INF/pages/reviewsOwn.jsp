@@ -6,9 +6,8 @@
 <fmt:bundle basename="Text">
 <title><fmt:message key="myReviewsLabel"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-<script type="text/javascript" src="/js/reviewsOwn.js" ></script>
 </head>
-<body onload="setUpPage();setOnlineListeners();getReviewsData();">
+<body>
 
 <%-- Facebook login --%>
 <div id="fb-root"></div>
@@ -35,4 +34,5 @@
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>
+<script type="text/javascript" src="/js/reviewsOwn.js" ></script>
 </html>

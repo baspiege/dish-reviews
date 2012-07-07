@@ -548,7 +548,7 @@ function setItemIntoLocalStorage(key, value) {
 }
 
 ///////////////////
-// Start page.
+// Set-up page
 ///////////////////
 
 function setUpPage() {

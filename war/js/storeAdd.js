@@ -2,9 +2,13 @@
 // Event handlers
 ///////////////////
 
-function disableButton() {
+function disableAddButton() {
   this.style.display='none';
   document.getElementById('addButtonDisabled').style.display='inline';
+}
+
+function cancelAction() {
+  window.location='stores';
 }
 
 ///////////////////
@@ -13,9 +17,13 @@ function disableButton() {
 
 function setUpPage() {
   
-  // Update submit button
+  // Disable button after submitting
   var addButtonEnabled=document.getElementById("addButtonEnabled");
-  addButtonEnabled.onclick=disableButton;
+  addButtonEnabled.onclick=disableAddButton;
+  
+  // Cancel button action
+  var cancelButton=document.getElementById("cancelButton");
+  cancelButton.onclick=cancelAction;
 }
 
 setUpPage();
