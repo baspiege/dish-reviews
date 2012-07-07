@@ -1,4 +1,19 @@
 ///////////////////
+// Global vars
+///////////////////
+
+var storeId;
+var canEdit=false;
+var isLoggedIn=false;
+var gettingDishes=false;
+var moreDishes=false;
+window.onscroll=checkForMoreDishes;
+var startIndexDish=0;
+var PAGE_SIZE=10; // If changes, update server count as well.
+var sortBy="name"
+var xmlHttpRequest=new XMLHttpRequest();
+
+///////////////////
 // Cookies
 ///////////////////
 
@@ -20,8 +35,6 @@ function getCookie(name) {
 ///////////////////
 // Asynch
 ///////////////////
-
-var xmlHttpRequest=new XMLHttpRequest();
 
 function sendRequest(url,callback,errorCallback,postData) {
   var req = xmlHttpRequest;
@@ -49,16 +62,6 @@ function sendRequest(url,callback,errorCallback,postData) {
 ///////////////////
 // Data
 ///////////////////
-
-var storeId;
-var canEdit=false;
-var isLoggedIn=false;
-var gettingDishes=false;
-var moreDishes=false;
-window.onscroll=checkForMoreDishes;
-var startIndexDish=0;
-var PAGE_SIZE=10; // If changes, update server count as well.
-var sortBy="name"
 
 function checkForMoreDishes() {
   var moreIndicator=document.getElementById("moreIndicator");
@@ -372,56 +375,6 @@ function sortDishesBy(fieldToSortBy) {
 }
 
 ///////////////////
-// Set-up page
-///////////////////
-
-function setUpPage() {
-
-  var qsString=getQueryStrings();
-  if (qsString && qsString.storeId) {
-    storeId=qsString.storeId;
-  }
-
-  // Check if logged in
-  var dishRevUser=getCookie("dishRevUser");
-  isLoggedIn=false;
-  if (dishRevUser!="") {
-    isLoggedIn=true;
-  }
-  
-  // If online, show FB login
-  // If offline, show offline
-  var fblogin=document.getElementById("fblogin");  
-  var fbname=document.getElementById("fbname");  
-  var offline=document.getElementById("offline");  
-  if (navigator.onLine) {
-    //fblogin.style.display="inline";
-    //fbname.style.display="inline";
-    offline.style.display="none";
-  } else {
-    //fblogin.style.display="none";  
-    //fbname.style.display="none";
-    offline.style.display="inline";
-  }
-  
-  // If logged in and online, can edit
-  canEdit=isLoggedIn && navigator.onLine;
-
-  // Show 'Edit link' if can edit
-  var storeEditLink=document.getElementById("storeEditLink");  
-  if (canEdit) {
-     storeEditLink.style.display='inline';
-  } else {
-     storeEditLink.style.display='none';
-  }
-}
-
-function setOnlineListeners() {
-  document.body.addEventListener("offline", setUpPage, false)
-  document.body.addEventListener("online", setUpPage, false);
-}
-
-///////////////////
 // Utils
 ///////////////////
 
@@ -462,11 +415,49 @@ function getQueryStrings() {
     }
   }
   return qsParm;
-} 
+}
 
 ///////////////////
-// Start page.
+// Set-up page
 ///////////////////
+
+function setUpPage() {
+
+  var qsString=getQueryStrings();
+  if (qsString && qsString.storeId) {
+    storeId=qsString.storeId;
+  }
+
+  // Check if logged in
+  var dishRevUser=getCookie("dishRevUser");
+  isLoggedIn=false;
+  if (dishRevUser!="") {
+    isLoggedIn=true;
+  }
+  
+  var offline=document.getElementById("offline");  
+  if (navigator.onLine) {
+    offline.style.display="none";
+  } else {
+    offline.style.display="inline";
+  }
+  
+  // If logged in and online, can edit
+  canEdit=isLoggedIn && navigator.onLine;
+
+  // Show 'Edit link' if can edit
+  var storeEditLink=document.getElementById("storeEditLink");  
+  if (canEdit) {
+     storeEditLink.style.display='inline';
+  } else {
+     storeEditLink.style.display='none';
+  }
+}
+
+function setOnlineListeners() {
+  document.body.addEventListener("offline", setUpPage, false)
+  document.body.addEventListener("online", setUpPage, false);
+}
 
 setOnlineListeners();
 setUpPage();

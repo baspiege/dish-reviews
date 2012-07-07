@@ -1,4 +1,20 @@
 ///////////////////
+// Global vars
+///////////////////
+
+var dishId;
+var reviewId;
+var canEdit=false;
+var isLoggedIn=false;
+var gettingReviews=false;
+var moreReviews=false;
+window.onscroll=checkForMoreReviews;
+var startIndexReview=0;
+var PAGE_SIZE=10; // If changes, update server count as well.
+
+var xmlHttpRequest=new XMLHttpRequest();
+
+///////////////////
 // Cookies
 ///////////////////
 
@@ -20,8 +36,6 @@ function getCookie(name) {
 ///////////////////
 // Asynch
 ///////////////////
-
-var xmlHttpRequest=new XMLHttpRequest();
 
 function sendRequest(url,callback,errorCallback,postData) {
   var req = xmlHttpRequest;
@@ -68,16 +82,6 @@ function postReviewToFacebook(reviewId) {
 ///////////////////
 // Data
 ///////////////////
-
-var dishId;
-var reviewId;
-var canEdit=false;
-var isLoggedIn=false;
-var gettingReviews=false;
-var moreReviews=false;
-window.onscroll=checkForMoreReviews;
-var startIndexReview=0;
-var PAGE_SIZE=10; // If changes, update server count as well.
 
 function checkForMoreReviews() {
   var moreIndicator=document.getElementById("moreIndicator");
@@ -423,71 +427,6 @@ function displayTableNoCachedData() {
 }
 
 ///////////////////
-// Set-up page
-///////////////////
-
-function reloadDishesPage () {
-  window.location='/dish?dishId='+dishId;
-  return false;
-}
-
-function setUpPage() {
-
-  var qsString=getQueryStrings();
-  if (qsString) {
-    dishId=qsString.dishId;
-    reviewId=qsString.reviewId;
-  }
-  
-  // Check if logged in
-  var dishRevUser=getCookie("dishRevUser");
-  isLoggedIn=false;
-  if (dishRevUser!="") {
-    isLoggedIn=true;
-  }
-
-  // If online, show FB login
-  // If offline, show offline
-  var fblogin=document.getElementById("fblogin");
-  var fbname=document.getElementById("fbname");
-  var offline=document.getElementById("offline");
-  if (navigator.onLine) {
-    //fblogin.style.display="inline";
-    //fbname.style.display="inline";
-    offline.style.display="none";
-  } else {
-    //fblogin.style.display="none";
-    //fbname.style.display="none";
-    offline.style.display="inline";
-  }
-
-  // If logged in and online, can edit
-  canEdit=isLoggedIn && navigator.onLine;
-
-  // Show 'Edit link' if can edit
-  var dishEditLink=document.getElementById("dishEditLink");
-  if (canEdit) {
-     dishEditLink.style.display='inline';
-  } else {
-     dishEditLink.style.display='none';
-  }
-  
-  if (reviewId) {
-    getReviewsDataById();
-    var allReviewsLink=document.getElementById("allReviewsLink");
-    allReviewsLink.style.display="inline";
-    allReviewsLink.onclick=reloadDishesPage;    
-  } else {
-    getReviewsData()
-  }
-}
-
-function setOnlineListeners() {
-  document.body.addEventListener("offline", setUpPage, false)
-  document.body.addEventListener("online", setUpPage, false);
-}
-
-///////////////////
 // Utils
 ///////////////////
 
@@ -530,9 +469,62 @@ function getQueryStrings() {
   return qsParm;
 }
 
+function reloadDishesPage () {
+  window.location='/dish?dishId='+dishId;
+  return false;
+}
+
 ///////////////////
-// Start page.
+// Set-up page
 ///////////////////
+
+function setUpPage() {
+
+  var qsString=getQueryStrings();
+  if (qsString) {
+    dishId=qsString.dishId;
+    reviewId=qsString.reviewId;
+  }
+  
+  // Check if logged in
+  var dishRevUser=getCookie("dishRevUser");
+  isLoggedIn=false;
+  if (dishRevUser!="") {
+    isLoggedIn=true;
+  }
+
+  var offline=document.getElementById("offline");
+  if (navigator.onLine) {
+    offline.style.display="none";
+  } else {
+    offline.style.display="inline";
+  }
+
+  // If logged in and online, can edit
+  canEdit=isLoggedIn && navigator.onLine;
+
+  // Show 'Edit link' if can edit
+  var dishEditLink=document.getElementById("dishEditLink");
+  if (canEdit) {
+     dishEditLink.style.display='inline';
+  } else {
+     dishEditLink.style.display='none';
+  }
+  
+  if (reviewId) {
+    getReviewsDataById();
+    var allReviewsLink=document.getElementById("allReviewsLink");
+    allReviewsLink.style.display="inline";
+    allReviewsLink.onclick=reloadDishesPage;
+  } else {
+    getReviewsData()
+  }
+}
+
+function setOnlineListeners() {
+  document.body.addEventListener("offline", setUpPage, false)
+  document.body.addEventListener("online", setUpPage, false);
+}
 
 setOnlineListeners();
 setUpPage();
