@@ -366,3 +366,7 @@ function setOnlineListeners() {
   document.body.addEventListener("offline", setUpPage, false)
   document.body.addEventListener("online", setUpPage, false);
 }
+
+setOnlineListeners()
+setUpPage();
+getReviewsData();

@@ -19,7 +19,7 @@
 <p>
 <input id="storeId" type="hidden" name="storeId" value="<c:out value="${dish.storeId}"/>" />
 <input class="button" type="submit" style="display:none" id="addButtonDisabled" disabled="disabled" value="<fmt:message key="addLabel"/>"/>
-<input class="button" type="submit" style="display:inline" id="addButtonEnabled" name="action" onclick="this.style.display='none';document.getElementById('addButtonDisabled').style.display='inline';" value="<fmt:message key="addLabel"/>"/>
+<input class="button" type="submit" style="display:inline" id="addButtonEnabled" name="action" value="<fmt:message key="addLabel"/>"/>
 </p>
 </form>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
