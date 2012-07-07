@@ -11,8 +11,15 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </head>
 <body>
+
+<%-- Hidden fields for JavaScript --%>
+<div style="display:none;">
+  <span id="storeLatitude"><c:out value="${store.latitude}"/></span>
+  <span id="storeLongitude"><c:out value="${store.longitude}"/></span>
+</div>
+
 <jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-<input id="address" value="" onchange="onchangeTypedAddress()"></input>
+<input id="address" value=""></input>
 <section>
 <c:choose>
   <c:when test="${pageContext.request.userPrincipal.name != null}">
@@ -21,104 +28,14 @@
     <input id="latitude" type="hidden" name="latitude" value="" />
     <input id="longitude" type="hidden" name="longitude" value="" />
     <input type="hidden" name="storeId" value="<c:out value="${store.key.id}"/>"/>
-    <input class="button" type="submit" name="action" onclick="setFieldsFromLocalStorage();" value="<fmt:message key="updateLabel"/>"/>
+    <input id="submitLocation" class="button" type="submit" name="action" value="<fmt:message key="updateLabel"/>"/>
     </form>
   </c:when>
 </c:choose>
 </section>
-<script type="text/javascript">
-function setFieldsFromLocalStorage() {
-  document.getElementById("latitude").value=addLatitude;
-  document.getElementById("longitude").value=addLongitude;
-}
-
-function onchangeTypedAddress(){
-  geocodeAddress(document.getElementById('address').value);
-}
-
-var geocoder = new google.maps.Geocoder();
-var addLatitude;
-var addLongitude;
-var map;
-var marker;
-
-function geocodeAddress(addressToFind) {
-  geocoder.geocode({
-    address: addressToFind
-  }, function(responses) {
-    if (responses && responses.length > 0) {
-      updateMarkerAddress(responses[0].formatted_address);
-      addLatitude=responses[0].geometry.location.lat();
-	  addLongitude=responses[0].geometry.location.lng();
-	  map.panTo(responses[0].geometry.location);
-	  marker.setPosition(responses[0].geometry.location);
-    } else {
-      updateMarkerAddress('Cannot determine address at this location.');
-    }
-  });
-}
-
-function geocodePosition(pos) {
-  geocoder.geocode({
-    latLng: pos
-  }, function(responses) {
-    if (responses && responses.length > 0) {
-      updateMarkerAddress(responses[0].formatted_address);
-    } else {
-      updateMarkerAddress('Cannot determine address at this location.');
-    }
-  });
-}
-
-function updateMarkerAddress(str) {
-  document.getElementById('address').value = str;
-}
-
-function initialize() {
-  var lat=<c:out value="${store.latitude}"/>;
-  var lon=<c:out value="${store.longitude}"/>;
-  addLatitude=lat;
-  addLongitude=lon;
-  var latLng = new google.maps.LatLng(lat, lon);
-  map = new google.maps.Map(document.getElementById('mapCanvas'), {
-    zoom: 16,
-    center: latLng,
-    mapTypeId: google.maps.MapTypeId.HYBRID
-  });
-  marker = new google.maps.Marker({
-    position: latLng,
-    title: 'Location',
-    map: map
-
-    <c:choose>
-      <c:when test="${pageContext.request.userPrincipal.name != null}">
-        , draggable: true
-      </c:when>
-    </c:choose>
-
-    });
-
-  // Update current position info.
-  geocodePosition(latLng);
-
-  // Add dragging event listeners.
-  google.maps.event.addListener(marker, 'dragstart', function() {
-    updateMarkerAddress('');
-  });
-
-  google.maps.event.addListener(marker, 'dragend', function() {
-    geocodePosition(marker.getPosition());
-    // map.setCenter(marker.getPosition())
-    addLatitude=marker.getPosition().lat();
-    addLongitude=marker.getPosition().lng();
-  });
-}
-
-// Onload handler to fire off the app.
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
 <section id="mapCanvas"></section>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>
+<script type="text/javascript" src="/js/storeUpdateLocation.js" ></script>
 </html>

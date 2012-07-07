@@ -1,14 +1,17 @@
 CACHE MANIFEST
 
-# 2.66
+# 2.73
 
 # Explicitly cached entries
 favicon.ico
 stylesheets/main.css
 js/stores.js
-js/store.js
 js/dish.js
 js/reviewsOwn.js
+js/store.js
+js/storeAdd.js
+js/storeAddLocation.js
+js/storeUpdateLocation.js
 stores
 locationChange
 reviewsOwn

@@ -23,10 +23,11 @@
 <input id="latitude" type="hidden" name="latitude" value="<c:out value="${store.latitude}"/>" />
 <input id="longitude" type="hidden" name="longitude" value="<c:out value="${store.longitude}"/>" />
 <input class="button" type="submit" style="display:none" id="addButtonDisabled" disabled="disabled" value="<fmt:message key="addLabel"/>"/>
-<input class="button" type="submit" style="display:inline" id="addButtonEnabled" name="action" onclick="this.style.display='none';document.getElementById('addButtonDisabled').style.display='inline';" value="<fmt:message key="addLabel"/>"/>
+<input class="button" type="submit" style="display:inline" id="addButtonEnabled" name="action" value="<fmt:message key="addLabel"/>"/>
 </p>
 </form>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>
+<script type="text/javascript" src="/js/storeAdd.js" ></script>
 </html>

@@ -1,4 +1,15 @@
 ///////////////////
+// Global vars
+///////////////////
+
+var gettingReviews=false;
+var moreReviews=false;
+window.onscroll=checkForMoreReviews;
+var startIndexReview=0;
+var PAGE_SIZE=10; // If changes, update server count as well.
+var xmlHttpRequest=new XMLHttpRequest();
+
+///////////////////
 // Cookies
 ///////////////////
 
@@ -20,8 +31,6 @@ function getCookie(name) {
 ///////////////////
 // Asynch
 ///////////////////
-
-var xmlHttpRequest=new XMLHttpRequest();
 
 function sendRequest(url,callback,errorCallback,postData) {
   var req = xmlHttpRequest;
@@ -49,12 +58,6 @@ function sendRequest(url,callback,errorCallback,postData) {
 ///////////////////
 // Data
 ///////////////////
-
-var gettingReviews=false;
-var moreReviews=false;
-window.onscroll=checkForMoreReviews;
-var startIndexReview=0;
-var PAGE_SIZE=10; // If changes, update server count as well.
 
 function checkForMoreReviews() {
   var moreIndicator=document.getElementById("moreIndicator");
@@ -311,6 +314,26 @@ function displayTableNoCachedData() {
 }
 
 ///////////////////
+// Util
+///////////////////
+
+function elementInViewport(el) {
+  var rect = el.getBoundingClientRect();
+  return (rect.top >= 0 && rect.bottom <= window.innerHeight);
+}
+
+function setItemIntoLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    if (e == QUOTA_EXCEEDED_ERR) {
+      // Clear old entries - TODO - In future, just clear oldest?
+      localStorage.clear();
+    }
+  }
+}
+
+///////////////////
 // Set-up page
 ///////////////////
 
@@ -342,24 +365,4 @@ function setUpPage() {
 function setOnlineListeners() {
   document.body.addEventListener("offline", setUpPage, false)
   document.body.addEventListener("online", setUpPage, false);
-}
-
-///////////////////
-// Util
-///////////////////
-
-function elementInViewport(el) {
-  var rect = el.getBoundingClientRect();
-  return (rect.top >= 0 && rect.bottom <= window.innerHeight);
-}
-
-function setItemIntoLocalStorage(key, value) {
-  try {
-    localStorage.setItem(key, value);
-  } catch (e) {
-    if (e == QUOTA_EXCEEDED_ERR) {
-      // Clear old entries - TODO - In future, just clear oldest?
-      localStorage.clear();
-    }
-  }
 }

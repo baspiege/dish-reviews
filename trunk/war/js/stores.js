@@ -1,4 +1,16 @@
 ///////////////////
+// Global vars
+///////////////////
+
+var waitingForCoordinatesMessage="Waiting for coordinates...";
+var locationNotAvailableMessage="Location Not Available";
+var locationNotFoundMessage="Location Not Found";
+var canEdit=false;
+var isLoggedIn=false;
+var geocoder;
+var xmlHttpRequest=new XMLHttpRequest();
+
+///////////////////
 // Cookies
 ///////////////////
 
@@ -20,8 +32,6 @@ function getCookie(name) {
 ///////////////////
 // Asynch
 ///////////////////
-
-var xmlHttpRequest=new XMLHttpRequest();
 
 function sendRequest(url,callback,errorCallback,postData) {
   var req = xmlHttpRequest;
@@ -49,12 +59,6 @@ function sendRequest(url,callback,errorCallback,postData) {
 ///////////////////
 // Data
 ///////////////////
-
-var waitingForCoordinatesMessage="Waiting for coordinates...";
-var locationNotAvailableMessage="Location Not Available";
-var locationNotFoundMessage="Location Not Found";
-var canEdit=false;
-var isLoggedIn=false;
 
 function getCachedData() {
     var xmlDoc=null;
@@ -275,11 +279,6 @@ function displayTableNoCachedData() {
 ///////////////////
 // Coordinates
 ///////////////////
-
-var geocoder;
-if (typeof(google)!="undefined") {
-  geocoder = new google.maps.Geocoder();
-}
 
 function geocodePosition(pos) {
   if (geocoder ) {
@@ -530,10 +529,33 @@ function updateGeoStatus(text) {
 }
 
 ///////////////////
-// Set up page
+// Utils
+///////////////////
+
+function get2Decimals(number) {
+  return Math.floor(number*100)/100;
+}
+
+function setItemIntoLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    if (e == QUOTA_EXCEEDED_ERR) {
+      // Clear old entries - TODO - In future, just clear oldest?
+      localStorage.clear();
+    }
+  }
+}
+
+///////////////////
+// Start page.
 ///////////////////
 
 function setUpPage() {
+  if (typeof(google)!="undefined") {
+    geocoder = new google.maps.Geocoder();
+  }
+
   // Check if logged in
   var dishRevUser=getCookie("dishRevUser");
   isLoggedIn=false;
@@ -572,29 +594,6 @@ function setOnlineListeners() {
   document.body.addEventListener("offline", setUpPage, false)
   document.body.addEventListener("online", setUpPage, false);
 }
-
-///////////////////
-// Utils
-///////////////////
-
-function get2Decimals(number) {
-  return Math.floor(number*100)/100;
-}
-
-function setItemIntoLocalStorage(key, value) {
-  try {
-    localStorage.setItem(key, value);
-  } catch (e) {
-    if (e == QUOTA_EXCEEDED_ERR) {
-      // Clear old entries - TODO - In future, just clear oldest?
-      localStorage.clear();
-    }
-  }
-}
-
-///////////////////
-// Start page.
-///////////////////
 
 setOnlineListeners();
 setUpPage();
