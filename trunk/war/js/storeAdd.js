@@ -8,7 +8,7 @@ function disableAddButton() {
 }
 
 function cancelAction() {
-  window.location='stores';
+  window.location='/stores';
 }
 
 ///////////////////
