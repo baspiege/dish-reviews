@@ -10,7 +10,7 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </head>
 <body>
-<input id="address" value="" onchange="onchangeTypedAddress()"></input>
+<input id="address" value=""></input>
 <section>
 <form id="store" method="get" action="storeAdd" autocomplete="off">
 <%-- Update --%>

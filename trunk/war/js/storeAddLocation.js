@@ -101,9 +101,13 @@ function setUpPage() {
   // Onload handler to fire off the app.
   google.maps.event.addDomListener(window, 'load', initialize);
   
-  // Update submit button
+  // Set fields when submitting
   var submitLocation=document.getElementById("submitLocation");
   submitLocation.onclick=setFieldsFromLocalStorage;
+  
+  // Update address when typed over
+  var address=document.getElementById("address");
+  address.onchange=onchangeTypedAddress;
 }
 
 setUpPage();
