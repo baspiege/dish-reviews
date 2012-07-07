@@ -25,4 +25,5 @@
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>
+<script type="text/javascript" src="/js/dishAdd.js" ></script>
 </html>
