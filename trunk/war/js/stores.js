@@ -450,14 +450,6 @@ function reorderStoresByNameAscending() {
 // Display
 ///////////////////
 
-function removeChildrenFromElement(element) {
-  if (element.hasChildNodes()) {
-    while (element.childNodes.length>0) {
-      element.removeChild(element.firstChild);
-    }
-  }
-}
-
 function updateLocationDispay() {
   // Current location
   var latitude=parseFloat(localStorage.getItem("latitude"));
@@ -534,6 +526,14 @@ function updateGeoStatus(text) {
 
 function get2Decimals(number) {
   return Math.floor(number*100)/100;
+}
+
+function removeChildrenFromElement(element) {
+  if (element.hasChildNodes()) {
+    while (element.childNodes.length>0) {
+      element.removeChild(element.firstChild);
+    }
+  }
 }
 
 function setItemIntoLocalStorage(key, value) {
