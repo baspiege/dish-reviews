@@ -597,4 +597,5 @@ function setOnlineListeners() {
 
 setOnlineListeners();
 setUpPage();
+displayCachedData();
 getCoordinates();
