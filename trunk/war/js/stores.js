@@ -85,10 +85,7 @@ function getStoresData() {
   
   // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
-    var xmlDoc=getCachedData();
-    if (xmlDoc) {
-      displayData(xmlDoc);
-    }
+    displayCachedDataIfExists();
     sendRequest('/storesXml?latitude='+lat+'&longitude='+lon, handleStoresDataRequest, displayCachedData);
   } else {
     displayCachedData();
@@ -129,6 +126,13 @@ function handleStoresDataRequest(req) {
 ///////////////////
 // Data Display
 ///////////////////
+
+function displayCachedDataIfExists() {
+  var xmlDoc=getCachedData();
+  if (xmlDoc) {
+    displayData(xmlDoc);
+  }
+}
 
 function displayCachedData() {
   var xmlDoc=getCachedData();
@@ -597,5 +601,5 @@ function setOnlineListeners() {
 
 setOnlineListeners();
 setUpPage();
-displayCachedData();
+displayCachedDataIfExists();
 getCoordinates();
