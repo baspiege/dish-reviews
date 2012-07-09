@@ -41,7 +41,7 @@ window.fbAsyncInit = function() {
   FB.Event.subscribe('auth.login', function(response) {
     setCookie("dishRevUser",response.authResponse.userID);
     if (!isLoggedIn){
-      window.location.reload();
+      window.location='/stores';
     }
   });
 
