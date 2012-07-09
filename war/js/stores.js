@@ -594,8 +594,10 @@ function setUpPage() {
   var login=document.getElementById("logonLink");
   if (isLoggedIn) {
     login.innerHTML="Log Off";
+    login.addEventListener('click', function(){ FB.logout(); }); 
   } else {
     login.innerHTML="Logon";
+    login.addEventListener('click', function(){ FB.login(); });
   }
   
   // If logged in and online, can edit

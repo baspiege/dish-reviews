@@ -2,21 +2,6 @@
 // Cookies
 ///////////////////
 
-function getCookie(name) {
-  if (document.cookie.length>0) {
-    var start=document.cookie.indexOf(name+"=");
-    if (start!=-1) {
-      start+=name.length+1;
-      var end=document.cookie.indexOf(";",start);
-      if (end==-1) {
-        end=document.cookie.length;
-      }
-      return unescape(document.cookie.substring(start,end));
-    }
-  }
-  return "";
-}
-
 function setCookie(name,value,daysToExpire) {
   var date=new Date();
   date.setDate(date.getDate()+daysToExpire);
@@ -40,12 +25,12 @@ window.fbAsyncInit = function() {
 
   FB.Event.subscribe('auth.login', function(response) {
     setCookie("dishRevUser",response.authResponse.userID);
-    window.location='/stores';
+    window.location='http://dishrev.appspot.com';
   });
 
   FB.Event.subscribe('auth.logout', function(response) {
     setCookie("dishRevUser","",-1);
-    window.location='/stores';
+    window.location='http://dishrev.appspot.com';
   });
 };
 

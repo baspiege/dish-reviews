@@ -184,16 +184,6 @@
       <url-pattern>/locationChange</url-pattern>
     </servlet-mapping>
     
-    <!-- FB Login -->
-    <servlet>
-      <servlet-name>fblogin</servlet-name>
-      <jsp-file>/WEB-INF/pages/fblogin.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-      <servlet-name>fblogin</servlet-name>
-      <url-pattern>/fblogin</url-pattern>
-    </servlet-mapping>
-    
     <!-- Xml Data -->
     <servlet>
       <servlet-name>storesXml</servlet-name>
