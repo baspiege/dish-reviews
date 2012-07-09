@@ -25,12 +25,16 @@ window.fbAsyncInit = function() {
 
   FB.Event.subscribe('auth.login', function(response) {
     setCookie("dishRevUser",response.authResponse.userID);
-    window.location='http://dishrev.appspot.com';
+    if (!isLoggedIn) {
+      window.location='http://dishrev.appspot.com';
+    }
   });
 
   FB.Event.subscribe('auth.logout', function(response) {
     setCookie("dishRevUser","",-1);
-    window.location='http://dishrev.appspot.com';
+    if (isLoggedIn) {
+      // Nothing for now...
+    }
   });
 };
 
