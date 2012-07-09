@@ -590,6 +590,14 @@ function setUpPage() {
     offline.style.display="inline";
   }
   
+  // Vary login link
+  var login=document.getElementById("logonLink");
+  if (isLoggedIn) {
+    login.innerHTML="Log Off";
+  } else {
+    login.innerHTML="Logon";
+  }
+  
   // If logged in and online, can edit
   canEdit=isLoggedIn && navigator.onLine;
 }
