@@ -16,7 +16,6 @@
 <nav>
 <ul id="navlist">
 <li><a href="/stores"><fmt:message key="mainLabel"/></a></li>
-<li id="fblogin" style="display:none"><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li id="fbname" class="nw" style="display:none"><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
 <li id="offline" style="display:none"><fmt:message key="offlineLabel"/></li>
 </ul>

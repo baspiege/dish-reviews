@@ -40,17 +40,12 @@ window.fbAsyncInit = function() {
 
   FB.Event.subscribe('auth.login', function(response) {
     setCookie("dishRevUser",response.authResponse.userID);
-    if (!isLoggedIn){
-      window.location='/stores';
-    }
+    window.location='/stores';
   });
 
   FB.Event.subscribe('auth.logout', function(response) {
     setCookie("dishRevUser","",-1);
-    if (isLoggedIn){
-      // Commenting out because some browsers fire this event even when logged in.
-      //window.location.reload();
-    }
+    window.location='/stores';
   });
 };
 
