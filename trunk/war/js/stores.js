@@ -555,6 +555,14 @@ function setItemIntoLocalStorage(key, value) {
 // Set-up page
 ///////////////////
 
+function fbLogout() {
+  FB.logout;
+}
+
+function fbLogin() {
+  FB.login;
+}
+
 function setUpPage() {
   if (typeof(google)!="undefined") {
     geocoder = new google.maps.Geocoder();
@@ -594,10 +602,10 @@ function setUpPage() {
   var login=document.getElementById("logonLink");
   if (isLoggedIn) {
     login.innerHTML="Log Off";
-    login.onclick=FB.logout; 
+    login.onclick=fbLogout; 
   } else {
     login.innerHTML="Logon";
-    login.onclick=FB.login;
+    login.onclick=fbLogin;
   }
   
   // If logged in and online, can edit
