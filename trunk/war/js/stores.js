@@ -556,11 +556,11 @@ function setItemIntoLocalStorage(key, value) {
 ///////////////////
 
 function fbLogout() {
-  FB.logout;
+  FB.logout();
 }
 
 function fbLogin() {
-  FB.login;
+  FB.login();
 }
 
 function setUpPage() {
