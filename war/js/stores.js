@@ -257,7 +257,7 @@ function createTableRowForStore(store) {
 function createTableRowForNoCachedData() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
-  td.setAttribute("colspan","7");
+  td.setAttribute("colspan","3");
   td.appendChild(document.createTextNode("No connectivity or cached data.  Please try again later."));
   tr.appendChild(td);
   return tr;
@@ -266,7 +266,7 @@ function createTableRowForNoCachedData() {
 function createTableRowForNoData() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
-  td.setAttribute("colspan","7");
+  td.setAttribute("colspan","3");
   td.appendChild(document.createTextNode("No nearby restaurants."));
   tr.appendChild(td);
   return tr;
@@ -529,7 +529,7 @@ function updateGeoStatus(text) {
 ///////////////////
 
 function get2Decimals(number) {
-  return Math.floor(number*100)/100;
+  return Math.round(number*100)/100;
 }
 
 function removeChildrenFromElement(element) {
