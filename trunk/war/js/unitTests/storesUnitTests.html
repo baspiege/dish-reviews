@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
-<script type="text/javascript" src="/js/stores.js" ></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <title>Stores Unit Test</title>
 <style>
 .passed {color:green;}
@@ -12,14 +12,19 @@
 </style>
 </head>
 <body>
+<li id="myReviews" style="display:none"></li>
+<li id="fblogin" style="display:none"><a id="logonLink" href="#"></a></li>
+<li id="fbname" class="nw" style="display:none"></li>
+<li id="offline" style="display:none"></li>
+<section><span id="geoStatus"></span><a class="nw" style="margin-left:1em" href="/locationChange"></a></section>
 <div id="data">
 </div>
 <div id="progressData">
 </div>
 <div id="results">
 </div>
+<script type="text/javascript" src="/js/stores.js" ></script>
 <script>
-
 function assert(result, message) {
   var resultsDiv=document.getElementById("results");
   var para=document.createElement("p");
@@ -64,8 +69,17 @@ function testNoStores() {
   assert( rows.length==2, "Rows in table equals " + rows.length);
 }
 
+function testStoresKey() {
+  // Set up data
+  localStorage.setItem("latitude","1.23");
+  localStorage.setItem("longitude","4.56");
+  var key=getStoresKey();
+  assert( key=="STORES_1.23_4.56", "Store key is " + key);
+}
+
 testStores();
 testNoStores();
+testStoresKey();
 
 // TODO
 // Check other functions
