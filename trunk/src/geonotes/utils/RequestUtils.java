@@ -234,7 +234,7 @@ public class RequestUtils {
     * @param aResponse Servlet Response
     */
     public static void setCacheHeaders(HttpServletResponse aResponse, int days) {
-        int cacheInSeconds = 60 * 60 * 24 * days;        
+        long cacheInSeconds = 60 * 60 * 24 * days;        
         long now = System.currentTimeMillis();
         aResponse.addHeader("Cache-Control", "max-age=" + cacheInSeconds);
         aResponse.setDateHeader("Last-Modified", now);
