@@ -4,23 +4,22 @@
 
 var Store=new Object();
 
-var storeId;
-var gettingDishes=false;
-var moreDishes=false;
-window.onscroll=Store.checkForMoreDishes;
-var startIndexDish=0;
-var PAGE_SIZE=10; // If changes, update server count as well.
-var sortBy="name"
+Store.storeId;
+Store.gettingDishes=false;
+Store.moreDishes=false;
+Store.startIndexDish=0;
+Store.PAGE_SIZE=10; // If changes, update server count as well.
+Store.sortBy="name"
 
 ///////////////////
 // Data
 ///////////////////
 
-Store.checkForMoreDishes=function() {
+checkForMoreDishes=function() {
   var moreIndicator=document.getElementById("moreIndicator");
-  if (moreDishes && !gettingDishes && moreIndicator && elementInViewport(moreIndicator)) {
-    gettingDishes=true;
-    startIndexDish+=PAGE_SIZE;
+  if (Store.moreDishes && !Store.gettingDishes && moreIndicator && elementInViewport(moreIndicator)) {
+    Store.gettingDishes=true;
+    Store.startIndexDish+=Store.PAGE_SIZE;
     Store.getDishesData();
   }
 }
@@ -50,14 +49,14 @@ Store.getDishesData=function() {
         Store.displayData(xmlDoc);
       }
     }
-    sendRequest('/dishesXml?storeId='+storeId+'&start='+startIndexDish+'&sortBy='+sortBy, Store.handleDishesDataRequest, Store.displayCachedData);
+    sendRequest('/dishesXml?storeId='+Store.storeId+'&start='+Store.startIndexDish+'&sortBy='+Store.sortBy, Store.handleDishesDataRequest, Store.displayCachedData);
   } else {
     Store.displayCachedData();
   }
 }
 
 Store.getStoreKey=function() {
-  return "STORE_"+storeId+"_"+startIndexDish+"_"+sortBy;
+  return "STORE_"+Store.storeId+"_"+Store.startIndexDish+"_"+Store.sortBy;
 }
 
 Store.handleDishesDataRequest=function(req) {
@@ -125,18 +124,18 @@ Store.displayData=function(xmlDoc) {
   var dishes=xmlDoc.getElementsByTagName("dish");
   var moreIndicator=document.getElementById("moreIndicator");
   if (dishes.length==0){
-    moreDishes=false;
+    Store.moreDishes=false;
     moreIndicator.style.display="none";
     if (newTable) {
       table.appendChild(Store.createTableRowForNoData());
     }
   } else {
     // Check if more
-    if (dishes.length<PAGE_SIZE){
-      moreDishes=false;
+    if (dishes.length<Store.PAGE_SIZE){
+      Store.moreDishes=false;
       moreIndicator.style.display="none";
     } else {
-      moreDishes=true;
+      Store.moreDishes=true;
     }
     
     // Make row for each dish
@@ -146,7 +145,7 @@ Store.displayData=function(xmlDoc) {
     }
     
     // Show 'more' after table is populated
-    if (moreDishes) {
+    if (Store.moreDishes) {
       moreIndicator.style.display="inline";
     }
     
@@ -155,8 +154,8 @@ Store.displayData=function(xmlDoc) {
       FB.XFBML.parse(table);
     }
 
-    gettingDishes=false;
-    Store.checkForMoreDishes();
+    Store.gettingDishes=false;
+    checkForMoreDishes();
   }
 }
 
@@ -182,7 +181,7 @@ Store.createTable=function() {
   // Show Add link
   if (User.canEdit) {
     var addLink=document.createElement("a");
-    addLink.setAttribute("href","/dishAdd?storeId="+storeId);
+    addLink.setAttribute("href","/dishAdd?storeId="+Store.storeId);
     addLink.setAttribute("class","add addTh");
     addLink.appendChild(document.createTextNode("Add"));
     thName.appendChild(addLink);
@@ -323,8 +322,8 @@ Store.sortDishesBy=function(fieldToSortBy) {
   document.getElementById("waitingForData").style.display="block";
   document.getElementById("moreIndicator").style.display="none";
   removeChildrenFromElement(document.getElementById("data"));
-  startIndexDish=0;
-  sortBy=fieldToSortBy;
+  Store.startIndexDish=0;
+  Store.sortBy=fieldToSortBy;
   Store.getDishesData();
 }
 
@@ -394,7 +393,7 @@ Store.createStoreSections=function() {
 Store.setUpPage=function() {
   var qsString=getQueryStrings();
   if (qsString && qsString.storeId) {
-    storeId=qsString.storeId;
+    Store.storeId=qsString.storeId;
   }
 
   // Check if logged in
@@ -425,3 +424,5 @@ Store.setOnlineListeners();
 Store.createStoresLayout();
 Store.setUpPage();
 Store.getDishesData();
+
+window.onscroll=checkForMoreDishes; // TODO - Make this part of store object?
