@@ -44,3 +44,11 @@ window.fbAsyncInit = function() {
   js.src = "//connect.facebook.net/en_US/all.js";
   d.getElementsByTagName('head')[0].appendChild(js);
 }(document));
+
+function fbLogout() {
+  FB.logout();
+}
+
+function fbLogin() {
+  FB.login();
+}
