@@ -2,79 +2,32 @@
 // Global vars
 ///////////////////
 
+var Store=new Object();
+
 var storeId;
-var canEdit=false;
-var isLoggedIn=false;
 var gettingDishes=false;
 var moreDishes=false;
-window.onscroll=checkForMoreDishes;
+window.onscroll=Store.checkForMoreDishes;
 var startIndexDish=0;
 var PAGE_SIZE=10; // If changes, update server count as well.
 var sortBy="name"
-var xmlHttpRequest=new XMLHttpRequest();
-
-///////////////////
-// Cookies
-///////////////////
-
-function getCookie(name) {
-  if (document.cookie.length>0) {
-    var start=document.cookie.indexOf(name+"=");
-    if (start!=-1) {
-      start+=name.length+1;
-      var end=document.cookie.indexOf(";",start);
-      if (end==-1) {
-        end=document.cookie.length;
-      }
-      return unescape(document.cookie.substring(start,end));
-    }
-  }
-  return "";
-}
-
-///////////////////
-// Asynch
-///////////////////
-
-function sendRequest(url,callback,errorCallback,postData) {
-  var req = xmlHttpRequest;
-  if (!req) return;
-  var method = (postData) ? "POST" : "GET";
-  req.open(method,url,true);
-  req.setRequestHeader('User-Agent','XMLHTTP/1.0');
-  if (postData)
-    req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-  req.onreadystatechange = function () {
-    if (req.readyState != 4) return;
-    if (req.status != 200 && req.status != 304) {
-      // alert('HTTP error ' + req.status);
-      errorCallback();
-      return;
-    }
-    if (callback){
-      callback(req);
-    }
-  }
-  if (req.readyState == 4) return;
-  req.send(postData);
-}
 
 ///////////////////
 // Data
 ///////////////////
 
-function checkForMoreDishes() {
+Store.checkForMoreDishes=function() {
   var moreIndicator=document.getElementById("moreIndicator");
   if (moreDishes && !gettingDishes && moreIndicator && elementInViewport(moreIndicator)) {
     gettingDishes=true;
     startIndexDish+=PAGE_SIZE;
-    getDishesData();
+    Store.getDishesData();
   }
 }
 
-function getCachedData() {
+Store.getCachedData=function() {
     var xmlDoc=null;
-    var cachedResponse=localStorage.getItem(getStoreKey());
+    var cachedResponse=localStorage.getItem(Store.getStoreKey());
     if (cachedResponse) {
       var parser=new DOMParser();
       xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
@@ -82,7 +35,7 @@ function getCachedData() {
     return xmlDoc;
 }
 
-function getDishesData() {
+Store.getDishesData=function() {
   var qsString=getQueryStrings();
   var reload=false;
   if (qsString && qsString.reload && qsString.reload=="true") {
@@ -92,27 +45,27 @@ function getDishesData() {
   // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
     if (!reload) {
-      var xmlDoc=getCachedData();
+      var xmlDoc=Store.getCachedData();
       if (xmlDoc) {
-        displayData(xmlDoc);
+        Store.displayData(xmlDoc);
       }
     }
-    sendRequest('/dishesXml?storeId='+storeId+'&start='+startIndexDish+'&sortBy='+sortBy, handleDishesDataRequest, displayCachedData);
+    sendRequest('/dishesXml?storeId='+storeId+'&start='+startIndexDish+'&sortBy='+sortBy, Store.handleDishesDataRequest, Store.displayCachedData);
   } else {
-    displayCachedData();
+    Store.displayCachedData();
   }
 }
 
-function getStoreKey() {
+Store.getStoreKey=function() {
   return "STORE_"+storeId+"_"+startIndexDish+"_"+sortBy;
 }
 
-function handleDishesDataRequest(req) {
+Store.handleDishesDataRequest=function(req) {
   var display=true;
   var qsString=getQueryStrings();
   var reload=qsString && qsString.reload && qsString.reload=="true";
   if (!reload) {
-    var cachedResponse=localStorage.getItem(getStoreKey());
+    var cachedResponse=localStorage.getItem(Store.getStoreKey());
     if (cachedResponse!=null) {
       var display=false;
       if (cachedResponse!=req.responseText) {
@@ -125,12 +78,12 @@ function handleDishesDataRequest(req) {
   }
 
   // Save in local storage in case app goes offline
-  setItemIntoLocalStorage(getStoreKey(), req.responseText);
+  setItemIntoLocalStorage(Store.getStoreKey(), req.responseText);
 
   // Process response
   if (display) {
     var xmlDoc=req.responseXML;
-    displayData(xmlDoc);
+    Store.displayData(xmlDoc);
   }
 }
 
@@ -138,22 +91,22 @@ function handleDishesDataRequest(req) {
 // Data Display
 ///////////////////
 
-function displayCachedData() {
-  var xmlDoc=getCachedData();
+Store.displayCachedData=function() {
+  var xmlDoc=Store.getCachedData();
   if (xmlDoc) {
-    displayData(xmlDoc);
+    Store.displayData(xmlDoc);
   } else {
-    displayTableNoCachedData();
+    Store.displayTableNoCachedData();
   }
 }
 
-function displayData(xmlDoc) {
+Store.displayData=function(xmlDoc) {
   document.getElementById("waitingForData").style.display="none";
   var table=document.getElementById("dishes");  
   var newTable=false;
   if (table==null) {
     newTable=true;
-    table=createTable();
+    table=Store.createTable();
     document.getElementById("data").appendChild(table);
   }
   
@@ -162,6 +115,7 @@ function displayData(xmlDoc) {
   var storeName=store.getAttribute("storeName");
   var title=document.getElementById("title");
   removeChildrenFromElement(title);
+  title.appendChild(document.createTextNode(storeName));
   title.appendChild(document.createTextNode(storeName));
   var storeNameTag=document.getElementById("storeName");
   removeChildrenFromElement(storeNameTag);
@@ -174,7 +128,7 @@ function displayData(xmlDoc) {
     moreDishes=false;
     moreIndicator.style.display="none";
     if (newTable) {
-      table.appendChild(createTableRowForNoData());
+      table.appendChild(Store.createTableRowForNoData());
     }
   } else {
     // Check if more
@@ -188,7 +142,7 @@ function displayData(xmlDoc) {
     // Make row for each dish
     for (var i=0;i<dishes.length;i++) {
       var dish=dishes[i];
-      table.appendChild(createTableRowForDish(dish));
+      table.appendChild(Store.createTableRowForDish(dish));
     }
     
     // Show 'more' after table is populated
@@ -202,7 +156,7 @@ function displayData(xmlDoc) {
     }
 
     gettingDishes=false;
-    checkForMoreDishes();
+    Store.checkForMoreDishes();
   }
 }
 
@@ -210,7 +164,7 @@ function displayData(xmlDoc) {
 // Display
 ///////////////////
 
-function createTable() {
+Store.createTable=function() {
   var table=document.createElement("table");
   table.setAttribute("id","dishes");
   var tr=document.createElement("tr");
@@ -221,12 +175,12 @@ function createTable() {
   tr.appendChild(thName);
   var nameLink=document.createElement("a");
   nameLink.setAttribute("href","#");
-  nameLink.addEventListener('click', function(e){e.preventDefault();sortDishesBy('name')}, false);
+  nameLink.addEventListener('click', function(e){e.preventDefault();Store.sortDishesBy('name')}, false);
   nameLink.appendChild(document.createTextNode("Dish"));
   thName.appendChild(nameLink);
 
   // Show Add link
-  if (canEdit) {
+  if (User.canEdit) {
     var addLink=document.createElement("a");
     addLink.setAttribute("href","/dishAdd?storeId="+storeId);
     addLink.setAttribute("class","add addTh");
@@ -239,7 +193,7 @@ function createTable() {
   tr.appendChild(thVote);
   var voteLink=document.createElement("a");
   voteLink.setAttribute("href","#");
-  voteLink.addEventListener('click', function(e){e.preventDefault();sortDishesBy('vote')}, false);
+  voteLink.addEventListener('click', function(e){e.preventDefault();Store.sortDishesBy('vote')}, false);
   voteLink.appendChild(document.createTextNode("Like"));
   thVote.appendChild(voteLink);
 
@@ -256,7 +210,7 @@ function createTable() {
   return table;
 }
 
-function createTableRowForDish(dish) {
+Store.createTableRowForDish=function(dish) {
   var tr=document.createElement("tr");
   
   // Attributes
@@ -276,7 +230,7 @@ function createTableRowForDish(dish) {
   tr.appendChild(dishDesc);
 
   // Vote
-  if (canEdit) {
+  if (User.canEdit) {
       var voteDisplay=document.createElement("td");
       var voteLink=document.createElement("a");
       voteLink.setAttribute("href","/dishVote?dishId="+dishId);
@@ -298,7 +252,7 @@ function createTableRowForDish(dish) {
     reviewLink.setAttribute("href","/dish?dishId="+dishId);
     reviewLink.appendChild(document.createTextNode(lastReviewText));
     lastReview.appendChild(reviewLink);
-  } else if (canEdit) {
+  } else if (User.canEdit) {
     var addLink=document.createElement("a");
     addLink.setAttribute("class","add");
     addLink.setAttribute("href","/reviewAdd?dishId="+dishId);
@@ -331,7 +285,7 @@ function createTableRowForDish(dish) {
   return tr;
 }
 
-function createTableRowForNoCachedData() {
+Store.createTableRowForNoCachedData=function() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
   td.setAttribute("colspan","4");
@@ -340,7 +294,7 @@ function createTableRowForNoCachedData() {
   return tr;
 }
 
-function createTableRowForNoData() {
+Store.createTableRowForNoData=function() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
   td.setAttribute("colspan","4");
@@ -349,80 +303,95 @@ function createTableRowForNoData() {
   return tr;
 }
 
-function displayTableNoCachedData() {
+Store.displayTableNoCachedData=function() {
   document.getElementById("waitingForData").style.display="none";
   document.getElementById("moreIndicator").style.display="none";
   var table=document.getElementById("dishes");  
   if (table==null) {
-    table=createTable();
+    table=Store.createTable();
     document.getElementById("data").appendChild(table);
   }
-  table.appendChild(createTableRowForNoCachedData());
+  table.appendChild(Store.createTableRowForNoCachedData());
 }
 
 ///////////////////
 // Sort
 ///////////////////
 
-function sortDishesBy(fieldToSortBy) {
+Store.sortDishesBy=function(fieldToSortBy) {
   // Reset indicators and data
   document.getElementById("waitingForData").style.display="block";
   document.getElementById("moreIndicator").style.display="none";
   removeChildrenFromElement(document.getElementById("data"));
   startIndexDish=0;
   sortBy=fieldToSortBy;
-  getDishesData();
-}
-
-///////////////////
-// Utils
-///////////////////
-
-function removeChildrenFromElement(element) {
-  if (element.hasChildNodes()) {
-    while (element.childNodes.length>0) {
-      element.removeChild(element.firstChild);
-    }
-  }
-}
-
-function elementInViewport(el) {
-  var rect = el.getBoundingClientRect();
-  return (rect.top >= 0 && rect.bottom <= window.innerHeight);
-}
-
-function setItemIntoLocalStorage(key, value) {
-  try {
-    localStorage.setItem(key, value);
-  } catch (e) {
-    if (e == QUOTA_EXCEEDED_ERR) {
-      // Clear old entries - TODO - In future, just clear oldest?
-      localStorage.clear();
-    }
-  }
-}
-
-function getQueryStrings() {
-  var qsParm = new Array();
-  var query = window.location.search.substring(1);
-  var parms = query.split('&');
-  for (var i=0; i<parms.length; i++) {
-    var pos = parms[i].indexOf('=');
-      if (pos > 0) {
-      var key = parms[i].substring(0,pos);
-      var val = parms[i].substring(pos+1);
-      qsParm[key] = val;
-    }
-  }
-  return qsParm;
+  Store.getDishesData();
 }
 
 ///////////////////
 // Set-up page
 ///////////////////
 
-function setUpPage() {
+Store.createStoresLayout=function () {
+  // Clear content
+  var content=document.getElementById("content");  
+  removeChildrenFromElement(content);
 
+  //Store.createStoresNav();
+  Store.createStoreSections(); 
+}
+
+Store.createStoreSections=function() {
+  var content=document.getElementById("content");  
+  var sectionData=document.createElement("section");
+  content.appendChild(sectionData);
+
+  // Store name
+  var storeName=document.createElement("span");
+  sectionData.appendChild(storeName);
+  storeName.setAttribute("id","storeName");
+
+  // Edit link
+  var editLink=document.createElement("a");
+  sectionData.appendChild(editLink);
+  editLink.setAttribute("href","/storeUpdate?storeId=ADD_ID");
+  editLink.setAttribute("edit","class");
+  editLink.setAttribute("style","display:none");
+  editLink.setAttribute("id","storeEditLink");
+  editLink.appendChild(document.createTextNode("Edit"));
+  
+  // Add space between edit and location
+  sectionData.appendChild(document.createTextNode(" "));
+  
+  // Location link
+  var locationLink=document.createElement("a");
+  sectionData.appendChild(locationLink);
+  locationLink.setAttribute("href","/storeUpdateLocation?storeId=ADD_ID");
+  locationLink.setAttribute("edit","class");
+  locationLink.appendChild(document.createTextNode("Location"));
+  
+  // Waiting for data
+  var waitingForData=document.createElement("progress");
+  sectionData.appendChild(waitingForData);
+  waitingForData.setAttribute("style","display:none");
+  waitingForData.setAttribute("id","waitingForData");
+  waitingForData.setAttribute("title","Waiting for data");
+  
+  // Store data
+  var storeData=document.createElement("div");
+  sectionData.appendChild(storeData);
+  storeData.setAttribute("class","data");
+  storeData.setAttribute("id","data");
+
+  // More indicator
+  var moreIndicator=document.createElement("progress");
+  sectionData.appendChild(moreIndicator);
+  moreIndicator.setAttribute("style","display:none");
+  moreIndicator.setAttribute("id","moreIndicator");
+  moreIndicator.setAttribute("title","Loading more");
+}
+
+Store.setUpPage=function() {
   var qsString=getQueryStrings();
   if (qsString && qsString.storeId) {
     storeId=qsString.storeId;
@@ -430,35 +399,29 @@ function setUpPage() {
 
   // Check if logged in
   var dishRevUser=getCookie("dishRevUser");
-  isLoggedIn=false;
+  User.isLoggedIn=false;
   if (dishRevUser!="") {
-    isLoggedIn=true;
+    User.isLoggedIn=true;
   }
-  
-  var offline=document.getElementById("offline");  
-  if (navigator.onLine) {
-    offline.style.display="none";
-  } else {
-    offline.style.display="inline";
-  }
-  
+    
   // If logged in and online, can edit
-  canEdit=isLoggedIn && navigator.onLine;
+  User.canEdit=User.isLoggedIn && navigator.onLine;
 
   // Show 'Edit link' if can edit
   var storeEditLink=document.getElementById("storeEditLink");  
-  if (canEdit) {
+  if (User.canEdit) {
      storeEditLink.style.display='inline';
   } else {
      storeEditLink.style.display='none';
   }
 }
 
-function setOnlineListeners() {
-  document.body.addEventListener("offline", setUpPage, false)
-  document.body.addEventListener("online", setUpPage, false);
+Store.setOnlineListeners=function() {
+  document.body.addEventListener("offline", Store.setUpPage, false)
+  document.body.addEventListener("online", Store.setUpPage, false);
 }
 
-setOnlineListeners();
-setUpPage();
-getDishesData();
+Store.setOnlineListeners();
+Store.createStoresLayout();
+Store.setUpPage();
+Store.getDishesData();
