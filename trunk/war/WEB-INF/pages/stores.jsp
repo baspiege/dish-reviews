@@ -4,7 +4,7 @@
 <%@ page isELIgnored="false" %>
 <%@ include file="/WEB-INF/pages/components/htmlStartAppCache.jsp" %>
 <fmt:bundle basename="Text">
-<title><fmt:message key="storesLabel"/></title>
+<title id="title"><fmt:message key="storesLabel"/></title>
 <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </head>
@@ -13,6 +13,9 @@
 <%-- Facebook login --%>
 <div id="fb-root"></div>
 <script type="text/javascript" src="/js/fblogin.js" ></script>
+
+<nav id="nav">
+</nav>
 
 <div id="content">
 </div>
@@ -23,4 +26,5 @@
 <script type="text/javascript" src="/js/utils.js" ></script>
 <script type="text/javascript" src="/js/user.js" ></script>
 <script type="text/javascript" src="/js/stores.js" ></script>
+<script type="text/javascript" src="/js/store.js" ></script>
 </html>

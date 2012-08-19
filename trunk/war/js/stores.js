@@ -187,7 +187,8 @@ Stores.createTableRowForStore=function(store) {
   // Desc
   var desc=document.createElement("td");
   var descLink=document.createElement("a");
-  descLink.setAttribute("href","/store?storeId="+storeId);
+  descLink.setAttribute("href","#");
+  descLink.setAttribute("onclick","Store.create("+storeId+")");
   var text=store.getAttribute("text");
   descLink.appendChild(document.createTextNode(text));
   desc.appendChild(descLink);
@@ -440,9 +441,8 @@ Stores.updateGeoStatus=function(text) {
 }
 
 Stores.createStoresNav=function() {
-  var content=document.getElementById("content");  
-  var nav=document.createElement("nav");
-  content.appendChild(nav);  
+  var nav=document.getElementById("nav");  
+  removeChildrenFromElement(nav);
   
   // List
   var navUl=document.createElement("ul");
@@ -476,8 +476,7 @@ Stores.createStoresNav=function() {
   navItem.setAttribute("id","fbname");
   navItem.setAttribute("style","display:none");
   navItem.setAttribute("class","nw");
-  //<fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name>
-  navItem.appendChild(document.createTextNode("Test name"));
+  navItem.innerHTML="<fb:name uid=\"loggedinuser\" useyou=\"false\" linked=\"true\"></fb:name>";
   
   // OffLink
   var navItem=document.createElement("li");
@@ -489,7 +488,8 @@ Stores.createStoresNav=function() {
 }
 
 Stores.createStoresSections=function() {
-  var content=document.getElementById("content");  
+  var content=document.getElementById("content");
+  removeChildrenFromElement(content);
   
   var sectionLocation=document.createElement("section");
   content.appendChild(sectionLocation);
@@ -510,10 +510,6 @@ Stores.createStoresSections=function() {
 ///////////////////
 
 Stores.createStoresLayout=function () {
-  // Clear content
-  var content=document.getElementById("content");  
-  removeChildrenFromElement(content);
-
   Stores.createStoresNav();
   Stores.createStoresSections(); 
 }
