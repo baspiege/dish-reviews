@@ -2,67 +2,19 @@
 // Global vars
 ///////////////////
 
-var waitingForCoordinatesMessage="Waiting for coordinates...";
-var locationNotAvailableMessage="Location Not Available";
-var locationNotFoundMessage="Location Not Found";
-var canEdit=false;
-var isLoggedIn=false;
-var geocoder;
-var xmlHttpRequest=new XMLHttpRequest();
+var Stores=new Object();
 
-///////////////////
-// Cookies
-///////////////////
-
-function getCookie(name) {
-  if (document.cookie.length>0) {
-    var start=document.cookie.indexOf(name+"=");
-    if (start!=-1) {
-      start+=name.length+1;
-      var end=document.cookie.indexOf(";",start);
-      if (end==-1) {
-        end=document.cookie.length;
-      }
-      return unescape(document.cookie.substring(start,end));
-    }
-  }
-  return "";
-}
-
-///////////////////
-// Asynch
-///////////////////
-
-function sendRequest(url,callback,errorCallback,postData) {
-  var req = xmlHttpRequest;
-  if (!req) return;
-  var method = (postData) ? "POST" : "GET";
-  req.open(method,url,true);
-  req.setRequestHeader('User-Agent','XMLHTTP/1.0');
-  if (postData)
-    req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-  req.onreadystatechange = function () {
-    if (req.readyState != 4) return;
-    if (req.status != 200 && req.status != 304) {
-      // alert('HTTP error ' + req.status);
-      errorCallback();
-      return;
-    }
-    if (callback){
-      callback(req);
-    }
-  }
-  if (req.readyState == 4) return;
-  req.send(postData);
-}
+Stores.waitingForCoordinatesMessage="Waiting for coordinates...";
+Stores.locationNotAvailableMessage="Location Not Available";
+Stores.locationNotFoundMessage="Location Not Found";
 
 ///////////////////
 // Data
 ///////////////////
 
-function getCachedData() {
+Stores.getCachedData=function() {
     var xmlDoc=null;
-    var cachedResponse=localStorage.getItem(getStoresKey());
+    var cachedResponse=localStorage.getItem(Stores.getStoresKey());
     if (cachedResponse) {
       var parser=new DOMParser();
       xmlDoc=parser.parseFromString(cachedResponse,"text/xml");
@@ -70,7 +22,7 @@ function getCachedData() {
     return xmlDoc;
 }
 
-function getStoresData() {
+Stores.getStoresData=function() {
   // Get position and send request
   var lat=localStorage.getItem("latitude");
   var lon=localStorage.getItem("longitude");
@@ -85,26 +37,26 @@ function getStoresData() {
   
   // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
-    displayCachedDataIfExists();
-    sendRequest('/storesXml?latitude='+lat+'&longitude='+lon, handleStoresDataRequest, displayCachedData);
+    Stores.displayCachedDataIfExists();
+    sendRequest('/storesXml?latitude='+lat+'&longitude='+lon, Stores.handleStoresDataRequest, Stores.displayCachedData);
   } else {
-    displayCachedData();
+    Stores.displayCachedData();
   }
 }
 
-function getStoresKey() {
+Stores.getStoresKey=function() {
   var latitude=get2Decimals(parseFloat(localStorage.getItem("latitude")));
   var longitude=get2Decimals(parseFloat(localStorage.getItem("longitude")));
   return "STORES_"+latitude+"_"+longitude;
 }
 
-function handleStoresDataRequest(req) {
+Stores.handleStoresDataRequest=function(req) {
   var display=true;
-  var cachedResponse=localStorage.getItem(getStoresKey());
+  var cachedResponse=localStorage.getItem(Stores.getStoresKey());
   
   // Save in local storage in case app goes offline
   // TODO - Get lat/lon from result.  Might change between request and response.
-  setItemIntoLocalStorage(getStoresKey(), req.responseText);
+  setItemIntoLocalStorage(Stores.getStoresKey(), req.responseText);
   
   if (cachedResponse!=null) {
     var display=false;
@@ -119,7 +71,7 @@ function handleStoresDataRequest(req) {
   // Process response
   if (display) {
     var xmlDoc=req.responseXML;
-    displayData(xmlDoc);
+    Stores.displayData(xmlDoc);
   }
 }
 
@@ -127,33 +79,32 @@ function handleStoresDataRequest(req) {
 // Data Display
 ///////////////////
 
-function displayCachedDataIfExists() {
-  var xmlDoc=getCachedData();
+Stores.displayCachedDataIfExists=function() {
+  var xmlDoc=Stores.getCachedData();
   if (xmlDoc) {
-    displayData(xmlDoc);
+    Stores.displayData(xmlDoc);
   }
 }
 
-function displayCachedData() {
-  var xmlDoc=getCachedData();
+Stores.displayCachedData=function() {
+  var xmlDoc=Stores.getCachedData();
   if (xmlDoc) {
-    displayData(xmlDoc);
+    Stores.displayData(xmlDoc);
   } else {
-    displayTableNoCachedData();
+    Stores.displayTableNoCachedData();
   }
 }
 
-function displayData(xmlDoc) {  
-  
+Stores.displayData=function(xmlDoc) {
   // Create HTML table
   var tableDiv=document.getElementById("data");
-  var table=createTable();
+  var table=Stores.createTable();
 
   var stores=xmlDoc.getElementsByTagName("store"); 
   
   // No stores
   if (stores.length==0){
-    table.appendChild(createTableRowForNoData());
+    table.appendChild(Stores.createTableRowForNoData());
     removeChildrenFromElement(tableDiv);
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
@@ -164,17 +115,17 @@ function displayData(xmlDoc) {
     // Make HTML for each store
     for (var i=0;i<stores.length;i++) {
       var store=stores[i];
-      table.appendChild(createTableRowForStore(store));
+      table.appendChild(Stores.createTableRowForStore(store));
     }
     removeChildrenFromElement(tableDiv);
     // Update tableDiv with new table at end of processing to prevent multiple
     // requests from interfering with each other
     tableDiv.appendChild(table);
-    updateLocationDispay();
+    Stores.updateLocationDispay();
   }
 }
 
-function createTable() {
+Stores.createTable=function() {
   var table=document.createElement("table");
   table.setAttribute("id","stores");
   var tr=document.createElement("tr");
@@ -185,7 +136,7 @@ function createTable() {
   tr.appendChild(thDistance);
   var distanceLink=document.createElement("a");
   distanceLink.setAttribute("href","#");
-  distanceLink.setAttribute("onclick","reorderStoresByDistanceAscending();return false;");
+  distanceLink.setAttribute("onclick","Stores.reorderStoresByDistanceAscending();return false;");
   distanceLink.appendChild(document.createTextNode("Distance"));
   thDistance.appendChild(distanceLink);
 
@@ -194,12 +145,12 @@ function createTable() {
   tr.appendChild(thName);
   var nameLink=document.createElement("a");
   nameLink.setAttribute("href","#");
-  nameLink.setAttribute("onclick","reorderStoresByNameAscending();return false;");
+  nameLink.setAttribute("onclick","Stores.reorderStoresByNameAscending();return false;");
   nameLink.appendChild(document.createTextNode("Name"));
   thName.appendChild(nameLink);
 
   // Show Add link
-  if (canEdit) {
+  if (User.canEdit) {
     var addLink=document.createElement("a");
     addLink.setAttribute("href","/storeAddLocation");
     addLink.setAttribute("class","add addTh");
@@ -212,14 +163,14 @@ function createTable() {
   tr.appendChild(thType);
   var typeLink=document.createElement("a");
   typeLink.setAttribute("href","#");
-  typeLink.setAttribute("onclick","reorderStoresByDishCountDescending();return false;");
+  typeLink.setAttribute("onclick","Stores.reorderStoresByDishCountDescending();return false;");
   typeLink.appendChild(document.createTextNode("Dishes"));
   thType.appendChild(typeLink);
 
   return table;
 }
 
-function createTableRowForStore(store) {
+Stores.createTableRowForStore=function(store) {
   var tr=document.createElement("tr");
   // Attributes
   var storeId=store.getAttribute("storeId");
@@ -254,7 +205,7 @@ function createTableRowForStore(store) {
   return tr;
 }
 
-function createTableRowForNoCachedData() {
+Stores.createTableRowForNoCachedData=function() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
   td.setAttribute("colspan","3");
@@ -263,7 +214,7 @@ function createTableRowForNoCachedData() {
   return tr;
 }
 
-function createTableRowForNoData() {
+Stores.createTableRowForNoData=function() {
   var tr=document.createElement("tr");
   var td=document.createElement("td");
   td.setAttribute("colspan","3");
@@ -272,10 +223,10 @@ function createTableRowForNoData() {
   return tr;
 }
 
-function displayTableNoCachedData() {
+Stores.displayTableNoCachedData=function() {
   var tableDiv=document.getElementById("data");
-  var table=createTable();
-  table.appendChild(createTableRowForNoCachedData());
+  var table=Stores.createTable();
+  table.appendChild(Stores.createTableRowForNoCachedData());
   removeChildrenFromElement(tableDiv);
   tableDiv.appendChild(table);
 }
@@ -284,36 +235,36 @@ function displayTableNoCachedData() {
 // Coordinates
 ///////////////////
 
-function geocodePosition(pos) {
+Stores.geocodePosition=function(pos) {
   if (geocoder ) {
     geocoder.geocode({
       latLng: pos
     }, function(responses) {
       if (responses && responses.length > 0) {
-        updateGeoStatus(responses[0].formatted_address);
+        Stores.updateGeoStatus(responses[0].formatted_address);
       } else {
-        updateGeoStatus('Cannot determine address at this location.');
+        Stores.updateGeoStatus('Cannot determine address at this location.');
       }
     });
   }
 }
 
-function getCoordinates() {
+Stores.getCoordinates=function() {
   var useGeoLocation=localStorage.getItem("useGeoLocation");
   if (useGeoLocation==null || useGeoLocation=="true") {
-    updateGeoStatus(waitingForCoordinatesMessage);
+    Stores.updateGeoStatus(Stores.waitingForCoordinatesMessage);
     var geolocation = navigator.geolocation;
     if (geolocation) {
-      geolocation.getCurrentPosition(setPosition,displayError);
+      geolocation.getCurrentPosition(Stores.setPosition,Stores.displayError);
     } else {
-      updateGeoStatus(locationNotAvailableMessage);
+      Stores.updateGeoStatus(Stores.locationNotAvailableMessage);
     }
   } else {
     if (typeof(google)!="undefined") {
       var latLng = new google.maps.LatLng(localStorage.getItem("latitude"), localStorage.getItem("longitude"));
-      geocodePosition(latLng);
+      Stores.geocodePosition(latLng);
     }
-    getStoresData();
+    Stores.getStoresData();
     // Update buttons
     var addButtonDisabled=document.getElementById("addButtonDisabled");
     if (addButtonDisabled) {
@@ -327,7 +278,7 @@ function getCoordinates() {
 }
 
 // Set global variables holding the position
-function setPosition(position){
+Stores.setPosition=function(position) {
   var display="N/A";
   if (position){
     // Set global variables
@@ -343,56 +294,20 @@ function setPosition(position){
     if (addButtonEnabled) {
       addButtonEnabled.style.display='inline';
     }
-    getStoresData();
+    Stores.getStoresData();
     if (google) {
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      geocodePosition(latLng);
+      Stores.geocodePosition(latLng);
     }
   }
-  updateGeoStatus(display);
-}
-
-if (typeof(Number.prototype.toRad) === "undefined") {
-  Number.prototype.toRad = function() {
-    return this * Math.PI / 180;
-  }
-}
-
-// Converts radians to numeric (signed) degrees
-if (typeof(Number.prototype.toDeg) === "undefined") {
-  Number.prototype.toDeg = function() {
-    return this * 180 / Math.PI;
-  }
-}
-
-function calculateDistance(lat1, lon1, lat2, lon2) {
-  var R = 6371; // km
-  var dLat = (lat2-lat1).toRad();
-  var dLon = (lon2-lon1).toRad();
-  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-          Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
-          Math.sin(dLon/2) * Math.sin(dLon/2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  var d = R * c;
-  return d;
-}
-
-function calculateBearing(lat1, lon1, lat2, lon2) {
-  var dLon=(lon2-lon1).toRad();
-  var lat1r=lat1.toRad();
-  var lat2r=lat2.toRad();
-  var y = Math.sin(dLon) * Math.cos(lat2r);
-  var x = Math.cos(lat1r)*Math.sin(lat2r) -
-          Math.sin(lat1r)*Math.cos(lat2r)*Math.cos(dLon);
-  var bearing = Math.atan2(y, x).toDeg();
-  return (bearing+360)%360;
+  Stores.updateGeoStatus(display);
 }
 
 ///////////////////
 // Sorting
 ///////////////////
 
-function reorderStores(sortFunction) {
+Stores.reorderStores=function(sortFunction) {
   var stores=document.getElementById("stores");
   var notes=stores.getElementsByTagName("tr");
   var notesTemp=new Array();
@@ -405,7 +320,7 @@ function reorderStores(sortFunction) {
   }
 }
 
-function sortByDishCountDescending(note1,note2) {
+Stores.sortByDishCountDescending=function(note1,note2) {
   var dishCount1=parseFloat(note1.getAttribute("dishCount"));
   var dishCount2=parseFloat(note2.getAttribute("dishCount"));
   if (dishCount1>dishCount2) {
@@ -417,7 +332,7 @@ function sortByDishCountDescending(note1,note2) {
   }
 }
 
-function sortByDistanceAscending(note1,note2) {
+Stores.sortByDistanceAscending=function(note1,note2) {
   var distance1=parseFloat(note1.getAttribute("distance"));
   var distance2=parseFloat(note2.getAttribute("distance"));
   if (distance2>distance1) {
@@ -429,32 +344,32 @@ function sortByDistanceAscending(note1,note2) {
   }
 }
 
-function sortByNameAscending(note1,note2) {
+Stores.sortByNameAscending=function(note1,note2) {
   var name1=note1.getAttribute("name");
   var name2=note2.getAttribute("name");
   return name1.localeCompare(name2);
 }
 
-function reorderStoresByDishCountDescending() {
+Stores.reorderStoresByDishCountDescending=function() {
   setItemIntoLocalStorage("sortBy","dishCount");
-  reorderStores(sortByDishCountDescending);
+  Stores.reorderStores(Stores.sortByDishCountDescending);
 }
 
-function reorderStoresByDistanceAscending() {
+Stores.reorderStoresByDistanceAscending=function() {
   setItemIntoLocalStorage("sortBy","distance");
-  reorderStores(sortByDistanceAscending);
+  Stores.reorderStores(Stores.sortByDistanceAscending);
 }
 
-function reorderStoresByNameAscending() {
+Stores.reorderStoresByNameAscending=function() {
   setItemIntoLocalStorage("sortBy","name");
-  reorderStores(sortByNameAscending);
+  Stores.reorderStores(Stores.sortByNameAscending);
 }
 
 ///////////////////
 // Display
 ///////////////////
 
-function updateLocationDispay() {
+Stores.updateLocationDispay=function() {
   // Current location
   var latitude=parseFloat(localStorage.getItem("latitude"));
   var longitude=parseFloat(localStorage.getItem("longitude"));
@@ -478,7 +393,7 @@ function updateLocationDispay() {
     }
     // Bearing
     var bearingDegrees=calculateBearing(latitude, longitude, storeLat, storeLon);
-    display+=" " + getCardinalDirection(bearingDegrees);
+    display+=" " + Stores.getCardinalDirection(bearingDegrees);
     display="<a href='/storeUpdateLocation?storeId=" + store.getAttribute("storeId") + "'>"+display+"</a>";
     // Update direction display
     store.getElementsByTagName("td")[0].innerHTML=display;
@@ -486,15 +401,15 @@ function updateLocationDispay() {
   // Sort
   var sortBy=localStorage.getItem("sortBy");
   if (sortBy==null || sortBy=="name") {
-    reorderStoresByNameAscending();
+    Stores.reorderStoresByNameAscending();
   } else if (sortBy=="distance") {
-    reorderStoresByDistanceAscending();
+    Stores.reorderStoresByDistanceAscending();
   } else if (sortBy=="dishCount") {
-    reorderStoresByDishCountDescending();
+    Stores.reorderStoresByDishCountDescending();
   }
 }
 
-function getCardinalDirection(degrees) {
+Stores.getCardinalDirection=function(degrees) {
   var value;
   if (degrees>=22.5 && degrees<=67.5){
     value="NE";
@@ -516,68 +431,108 @@ function getCardinalDirection(degrees) {
   return value;
 }
 
-function displayError(error){
-  updateGeoStatus(locationNotFoundMessage + ": (" + error.code + ") " + error.message);
+Stores.displayError=function(error) {
+  Stores.updateGeoStatus(Stores.locationNotFoundMessage + ": (" + error.code + ") " + error.message);
 }
 
-function updateGeoStatus(text) {
+Stores.updateGeoStatus=function(text) {
   document.getElementById("geoStatus").innerHTML=text;
 }
 
-///////////////////
-// Utils
-///////////////////
+Stores.createStoresNav=function() {
+  var content=document.getElementById("content");  
+  var nav=document.createElement("nav");
+  content.appendChild(nav);  
+  
+  // List
+  var navUl=document.createElement("ul");
+  nav.appendChild(navUl);
+  navUl.setAttribute("id","navlist");
 
-function get2Decimals(number) {
-  return Math.round(number*100)/100;
+  // My Reviews
+  var navItem=document.createElement("li");
+  navUl.appendChild(navItem);  
+  navItem.setAttribute("id","myReviews");
+  navItem.setAttribute("style","display:none");
+  var navItemLink=document.createElement("a");
+  navItem.appendChild(navItemLink);  
+  navItemLink.setAttribute("href","TestLink");
+  navItemLink.appendChild(document.createTextNode("Log On")); 
+  
+  // Fb login
+  var navItem=document.createElement("li");
+  navUl.appendChild(navItem);  
+  navItem.setAttribute("id","fblogin");
+  navItem.setAttribute("style","display:none");
+  var navItemLink=document.createElement("a");
+  navItem.appendChild(navItemLink);  
+  navItemLink.setAttribute("id","logonLink");
+  navItemLink.setAttribute("href","#");
+  navItemLink.appendChild(document.createTextNode("Log On"));  
+  
+  // Fb name
+  var navItem=document.createElement("li");
+  navUl.appendChild(navItem);  
+  navItem.setAttribute("id","fbname");
+  navItem.setAttribute("style","display:none");
+  navItem.setAttribute("class","nw");
+  //<fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name>
+  navItem.appendChild(document.createTextNode("Test name"));
+  
+  // OffLink
+  var navItem=document.createElement("li");
+  navUl.appendChild(navItem);  
+  navItem.setAttribute("id","offline");
+  navItem.setAttribute("style","display:none");
+  navItem.setAttribute("class","nw");
+  navItem.appendChild(document.createTextNode("Offline"));
 }
 
-function removeChildrenFromElement(element) {
-  if (element.hasChildNodes()) {
-    while (element.childNodes.length>0) {
-      element.removeChild(element.firstChild);
-    }
-  }
-}
-
-function setItemIntoLocalStorage(key, value) {
-  try {
-    localStorage.setItem(key, value);
-  } catch (e) {
-    if (e == QUOTA_EXCEEDED_ERR) {
-      // Clear old entries - TODO - In future, just clear oldest?
-      localStorage.clear();
-    }
-  }
+Stores.createStoresSections=function() {
+  var content=document.getElementById("content");  
+  
+  var sectionLocation=document.createElement("section");
+  content.appendChild(sectionLocation);
+  var geoStatus=document.createElement("span");
+  sectionLocation.appendChild(geoStatus);
+  geoStatus.setAttribute("id","geoStatus");
+  // TODO - <a class="nw" style="margin-left:1em" href="/locationChange">Change Location</a>
+  
+  var sectionData=document.createElement("section");
+  content.appendChild(sectionData);
+  sectionData.setAttribute("class","data");
+  sectionData.setAttribute("id","data");
+  // TODO - Add <progress id="progressData" style="display:none" title="Waiting for data"></progress>
 }
 
 ///////////////////
 // Set-up page
 ///////////////////
 
-function fbLogout() {
-  FB.logout();
+Stores.createStoresLayout=function () {
+  // Clear content
+  var content=document.getElementById("content");  
+  removeChildrenFromElement(content);
+
+  Stores.createStoresNav();
+  Stores.createStoresSections(); 
 }
 
-function fbLogin() {
-  FB.login();
-}
-
-function setUpPage() {
+Stores.setUpPage=function() {
   if (typeof(google)!="undefined") {
     geocoder = new google.maps.Geocoder();
   }
 
   // Check if logged in
   var dishRevUser=getCookie("dishRevUser");
-  isLoggedIn=false;
+  User.isLoggedIn=false;
   if (dishRevUser!="") {
-    isLoggedIn=true;
+    User.isLoggedIn=true;
   }
 
   // Show 'My Reviews' if logged in
   var myReviews=document.getElementById("myReviews");  
-  if (isLoggedIn) {
+  if (User.isLoggedIn) {
      myReviews.style.display='inline';
   } else {
      myReviews.style.display='none';
@@ -600,7 +555,7 @@ function setUpPage() {
   
   // Vary login link
   var login=document.getElementById("logonLink");
-  if (isLoggedIn) {
+  if (User.isLoggedIn) {
     login.innerHTML="Log Off";
     login.onclick=fbLogout; 
   } else {
@@ -609,15 +564,16 @@ function setUpPage() {
   }
   
   // If logged in and online, can edit
-  canEdit=isLoggedIn && navigator.onLine;
+  User.canEdit=User.isLoggedIn && navigator.onLine;
 }
 
-function setOnlineListeners() {
-  document.body.addEventListener("offline", setUpPage, false)
-  document.body.addEventListener("online", setUpPage, false);
+Stores.setOnlineListeners=function() {
+  document.body.addEventListener("offline", Stores.setUpPage, false)
+  document.body.addEventListener("online", Stores.setUpPage, false);
 }
 
-setOnlineListeners();
-setUpPage();
-displayCachedDataIfExists();
-getCoordinates();
+Stores.setOnlineListeners();
+Stores.createStoresLayout();
+Stores.setUpPage();
+Stores.displayCachedDataIfExists();
+Stores.getCoordinates();
