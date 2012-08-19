@@ -14,27 +14,13 @@
 <div id="fb-root"></div>
 <script type="text/javascript" src="/js/fblogin.js" ></script>
 
-<nav>
-<ul id="navlist">
-<li id="myReviews" style="display:none"><a href='/reviewsOwn'><fmt:message key="myReviewsLabel"/></a></li>
-<li id="fblogin" style="display:none"><a id="logonLink" href="#"><fmt:message key="logonLabel"/></a></li>
-<li id="fbname" class="nw" style="display:none"><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>
-<li id="offline" style="display:none"><fmt:message key="offlineLabel"/></li>
-</ul>
-</nav>
-
-<jsp:include page="/WEB-INF/pages/components/edits.jsp"/>
-
-<%-- Location --%>
-<section><span id="geoStatus"></span><a class="nw" style="margin-left:1em" href="/locationChange"><fmt:message key="changeLocationLabel"/></a></section>
-
-<%-- Data --%>
-<section class="data" id="data">
-<progress id="progressData" style="display:none" title="<fmt:message key="waitingForDataLabel"/>"><fmt:message key="waitingForDataLabel"/></progress>
-</section>
+<div id="content">
+</div>
 
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>
+<script type="text/javascript" src="/js/utils.js" ></script>
+<script type="text/javascript" src="/js/user.js" ></script>
 <script type="text/javascript" src="/js/stores.js" ></script>
 </html>
