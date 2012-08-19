@@ -15,7 +15,7 @@ Store.sortBy="name"
 // Data
 ///////////////////
 
-checkForMoreDishes=function() {
+Store.checkForMoreDishes=function() {
   var moreIndicator=document.getElementById("moreIndicator");
   if (Store.moreDishes && !Store.gettingDishes && moreIndicator && elementInViewport(moreIndicator)) {
     Store.gettingDishes=true;
@@ -155,7 +155,7 @@ Store.displayData=function(xmlDoc) {
     }
 
     Store.gettingDishes=false;
-    checkForMoreDishes();
+    Store.checkForMoreDishes();
   }
 }
 
@@ -391,10 +391,10 @@ Store.createStoreSections=function() {
 }
 
 Store.setUpPage=function() {
-  var qsString=getQueryStrings();
-  if (qsString && qsString.storeId) {
-    Store.storeId=qsString.storeId;
-  }
+  //var qsString=getQueryStrings();
+  //if (qsString && qsString.storeId) {
+  //  Store.storeId=qsString.storeId;
+  //}
 
   // Check if logged in
   var dishRevUser=getCookie("dishRevUser");
@@ -420,9 +420,11 @@ Store.setOnlineListeners=function() {
   document.body.addEventListener("online", Store.setUpPage, false);
 }
 
-Store.setOnlineListeners();
-Store.createStoresLayout();
-Store.setUpPage();
-Store.getDishesData();
-
-window.onscroll=checkForMoreDishes; // TODO - Make this part of store object?
+Store.create=function(storeId) {
+  Store.storeId=storeId;
+  //Store.setOnlineListeners();
+  Store.createStoresLayout();
+  Store.setUpPage();
+  Store.getDishesData();
+  window.onscroll=function(){ Store.checkForMoreDishes(); };
+}
