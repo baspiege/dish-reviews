@@ -221,7 +221,7 @@ function createTable() {
   tr.appendChild(thName);
   var nameLink=document.createElement("a");
   nameLink.setAttribute("href","#");
-  nameLink.setAttribute("onclick","sortDishesBy('name');return false;");
+  nameLink.addEventListener('click', function(e){e.preventDefault();sortDishesBy('name')}, false);
   nameLink.appendChild(document.createTextNode("Dish"));
   thName.appendChild(nameLink);
 
@@ -239,7 +239,7 @@ function createTable() {
   tr.appendChild(thVote);
   var voteLink=document.createElement("a");
   voteLink.setAttribute("href","#");
-  voteLink.setAttribute("onclick","sortDishesBy('vote');return false;");
+  voteLink.addEventListener('click', function(e){e.preventDefault();sortDishesBy('vote')}, false);
   voteLink.appendChild(document.createTextNode("Like"));
   thVote.appendChild(voteLink);
 
