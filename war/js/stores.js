@@ -188,7 +188,7 @@ Stores.createTableRowForStore=function(store) {
   var desc=document.createElement("td");
   var descLink=document.createElement("a");
   descLink.setAttribute("href","#");
-  descLink.setAttribute("onclick","Store.create("+storeId+")");
+  descLink.setAttribute("onclick","Store.linkTo("+storeId+");return false;");
   var text=store.getAttribute("text");
   descLink.appendChild(document.createTextNode(text));
   desc.appendChild(descLink);
@@ -198,7 +198,8 @@ Stores.createTableRowForStore=function(store) {
   var type=document.createElement("td");
   type.setAttribute("class","center");
   var typeLink=document.createElement("a");
-  typeLink.setAttribute("href","/store?storeId="+storeId);
+  typeLink.setAttribute("href","#");
+  typeLink.setAttribute("onclick","Store.linkTo("+storeId+");return false;");
   typeLink.appendChild(document.createTextNode(store.getAttribute("dishCount")));
   type.appendChild(typeLink);
   tr.appendChild(type);
@@ -496,13 +497,23 @@ Stores.createStoresSections=function() {
   var geoStatus=document.createElement("span");
   sectionLocation.appendChild(geoStatus);
   geoStatus.setAttribute("id","geoStatus");
-  // TODO - <a class="nw" style="margin-left:1em" href="/locationChange">Change Location</a>
+  
+  var changeLocationLink=document.createElement("a");
+  sectionLocation.appendChild(changeLocationLink);
+  changeLocationLink.setAttribute("class","nw");
+  changeLocationLink.setAttribute("style","margin-left:1em"); 
+  changeLocationLink.setAttribute("href","/locationChange");
+  changeLocationLink.appendChild(document.createTextNode("Change Location"));
   
   var sectionData=document.createElement("section");
   content.appendChild(sectionData);
   sectionData.setAttribute("class","data");
   sectionData.setAttribute("id","data");
-  // TODO - Add <progress id="progressData" style="display:none" title="Waiting for data"></progress>
+  var waitingForData=document.createElement("progress");
+  sectionData.appendChild(waitingForData);
+  waitingForData.setAttribute("style","display:none");
+  waitingForData.setAttribute("id","waitingForData");
+  waitingForData.setAttribute("title","Waiting for data");
 }
 
 ///////////////////
@@ -555,7 +566,7 @@ Stores.setUpPage=function() {
     login.innerHTML="Log Off";
     login.onclick=fbLogout; 
   } else {
-    login.innerHTML="Logon";
+    login.innerHTML="Log On";
     login.onclick=fbLogin;
   }
   
@@ -569,7 +580,17 @@ Stores.setOnlineListeners=function() {
 }
 
 Stores.setOnlineListeners();
-Stores.createStoresLayout();
-Stores.setUpPage();
-Stores.displayCachedDataIfExists();
-Stores.getCoordinates();
+
+Stores.display=function() {
+  //Stores.setOnlineListeners();
+  Stores.createStoresLayout();
+  Stores.setUpPage();
+  Stores.displayCachedDataIfExists();
+  Stores.getCoordinates();
+}
+
+Stores.display();
+
+window.onpopstate = function(event) {
+  //alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+};

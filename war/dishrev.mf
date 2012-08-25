@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-# 3.03
+# 3.04
 
 # Explicitly cached entries
 favicon.ico
