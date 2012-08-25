@@ -564,14 +564,26 @@ Stores.setUpPage=function() {
   var login=document.getElementById("logonLink");
   if (User.isLoggedIn) {
     login.innerHTML="Log Off";
-    login.onclick=fbLogout; 
+    login.removeEventListener('click', Stores.fbLoginLink, false);  
+    login.addEventListener('click', Stores.fbLogoutLink, false);
   } else {
     login.innerHTML="Log On";
-    login.onclick=fbLogin;
+    login.removeEventListener('click', Stores.fbLogoutLink, false);  
+    login.addEventListener('click', Stores.fbLoginLink, false);
   }
   
   // If logged in and online, can edit
   User.canEdit=User.isLoggedIn && navigator.onLine;
+}
+
+Stores.fbLogoutLink=function(event) {
+  event.preventDefault(); 
+  fbLogout();
+}
+
+Stores.fbLoginLink=function(event) {
+  event.preventDefault(); 
+  fbLogin();
 }
 
 Stores.setOnlineListeners=function() {
