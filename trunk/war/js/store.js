@@ -376,6 +376,9 @@ Store.createStoreSections=function() {
   var storeName=document.createElement("span");
   sectionData.appendChild(storeName);
   storeName.setAttribute("id","storeName");
+  
+  // Space between name and edit link
+  sectionData.appendChild(document.createTextNode(" ")); 
 
   // Edit link
   var editLink=document.createElement("a");

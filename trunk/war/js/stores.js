@@ -457,8 +457,8 @@ Stores.createStoresNav=function() {
   navItem.setAttribute("style","display:none");
   var navItemLink=document.createElement("a");
   navItem.appendChild(navItemLink);  
-  navItemLink.setAttribute("href","TestLink");
-  navItemLink.appendChild(document.createTextNode("Log On")); 
+  navItemLink.setAttribute("href","/reviewsOwn");
+  navItemLink.appendChild(document.createTextNode("My Reviews")); 
   
   // Fb login
   var navItem=document.createElement("li");
