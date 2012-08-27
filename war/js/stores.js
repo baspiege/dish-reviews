@@ -601,8 +601,23 @@ Stores.display=function() {
   Stores.getCoordinates();
 }
 
+Stores.linkTo=function() {
+  var stateObj = { action: "stores" };
+  history.pushState(stateObj, "Stores", "#stores" );
+  Stores.display();
+}
+
 Stores.display();
 
-window.onpopstate = function(event) {
-  //alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+window.onpopstate = function(e) {
+  if (e.state && e.state.action) { 
+    if (e.state.action=="stores") {
+      Stores.display();
+    } else if (e.state.action=="store") {
+      Store.display(e.state.id);
+    }
+    // alert("location: " + document.location + ", state: " + JSON.stringify(e.state));
+  } else {
+    Stores.display();
+  }
 };

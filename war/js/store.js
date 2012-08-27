@@ -352,7 +352,7 @@ Store.createStoreNav=function() {
   var navItemLink=document.createElement("a");
   navItem.appendChild(navItemLink);  
   navItemLink.setAttribute("href","#");
-  navItemLink.addEventListener('click', function(e){e.preventDefault();Stores.display();}, false);  
+  navItemLink.addEventListener('click', function(e){e.preventDefault();Stores.linkTo();}, false);  
   navItemLink.appendChild(document.createTextNode("Main")); 
   
   // OffLink
@@ -460,7 +460,7 @@ Store.display=function(storeId) {
 }
 
 Store.linkTo=function(storeId) {
-  // var stateObj = { action: "test1" };
-  // history.pushState(stateObj, "test1", "test1.html");
+  var stateObj = { action: "store", id: storeId };
+  history.pushState(stateObj, "Store", "#storeId=" + storeId);
   Store.display(storeId);
 }
