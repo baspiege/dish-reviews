@@ -383,8 +383,8 @@ Store.createStoreSections=function() {
   // Edit link
   var editLink=document.createElement("a");
   sectionData.appendChild(editLink);
-  editLink.setAttribute("href","/storeUpdate?storeId=ADD_ID");
-  editLink.setAttribute("edit","class");
+  editLink.setAttribute("href","/storeUpdate?storeId=" + Store.storeId);
+  editLink.setAttribute("class","edit");
   editLink.setAttribute("style","display:none");
   editLink.setAttribute("id","storeEditLink");
   editLink.appendChild(document.createTextNode("Edit"));
@@ -395,8 +395,8 @@ Store.createStoreSections=function() {
   // Location link
   var locationLink=document.createElement("a");
   sectionData.appendChild(locationLink);
-  locationLink.setAttribute("href","/storeUpdateLocation?storeId=ADD_ID");
-  locationLink.setAttribute("edit","class");
+  locationLink.setAttribute("href","/storeUpdateLocation?storeId=" + Store.storeId);
+  locationLink.setAttribute("class","edit");
   locationLink.appendChild(document.createTextNode("Location"));
   
   // Waiting for data
