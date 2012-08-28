@@ -603,20 +603,22 @@ Stores.display=function() {
 
 Stores.linkTo=function() {
   var stateObj = { action: "stores" };
-  history.pushState(stateObj, "Stores", "#stores" );
+  history.pushState(stateObj, "Stores", "/stores" );
   Stores.display();
 }
+
+// TODO - Check query string...
+// If store Id, display, else display store...
 
 Stores.display();
 
 window.onpopstate = function(e) {
-  if (e.state && e.state.action) { 
+  if (e && e.state && e.state.action) { 
     if (e.state.action=="stores") {
       Stores.display();
-    } else if (e.state.action=="store") {
-      Store.display(e.state.id);
+    } else if (e.state.action=="store") {   
+      Store.display(e.state.storeId);
     }
-    // alert("location: " + document.location + ", state: " + JSON.stringify(e.state));
   } else {
     Stores.display();
   }
