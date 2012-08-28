@@ -460,7 +460,7 @@ Store.display=function(storeId) {
 }
 
 Store.linkTo=function(storeId) {
-  var stateObj = { action: "store", id: storeId };
-  history.pushState(stateObj, "Store", "#storeId=" + storeId);
+  var stateObj = { action: "store", storeId: storeId };
+  history.pushState(stateObj, "Store", "/stores?storeId=" + storeId );
   Store.display(storeId);
 }
