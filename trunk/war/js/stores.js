@@ -4,6 +4,7 @@
 
 var Stores=new Object();
 
+Stores.lock=false;
 Stores.waitingForCoordinatesMessage="Waiting for coordinates...";
 Stores.locationNotAvailableMessage="Location Not Available";
 Stores.locationNotFoundMessage="Location Not Found";
@@ -602,17 +603,30 @@ Stores.display=function() {
 }
 
 Stores.linkTo=function() {
+  Stores.lock=false;
   var stateObj = { action: "stores" };
   history.pushState(stateObj, "Stores", "/stores" );
   Stores.display();
 }
 
-// TODO - Check query string...
-// If store Id, display, else display store...
+Stores.checkPage=function() {
+  Stores.lock=true;
+  var qsString=getQueryStrings();
+  if (qsString && qsString.storeId) {
+    Store.display(qsString.storeId);    
+  } else {
+    Stores.display();
+  }
+}
 
-Stores.display();
+Stores.checkPage();
 
 window.onpopstate = function(e) {
+  if (Stores.lock) {
+    Stores.lock=false;
+    return;
+  }
+
   if (e && e.state && e.state.action) { 
     if (e.state.action=="stores") {
       Stores.display();

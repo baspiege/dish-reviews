@@ -17,7 +17,7 @@
 <nav>
 <ul id="navlist">
 <li><a href="/stores"><fmt:message key="mainLabel"/></a></li>
-<li><a href="/store?storeId=<c:out value="${store.key.id}"/>"><span id="storeName"></span></a></li>
+<li><a href="/stores?storeId=<c:out value="${store.key.id}"/>"><span id="storeName"></span></a></li>
 <%-- 
 <li id="fblogin" style="display:none"><fb:login-button autologoutlink="true"></fb:login-button></li>
 <li id="fbname" class="nw" style="display:none"><fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name></li>

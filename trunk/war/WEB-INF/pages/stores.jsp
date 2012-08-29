@@ -25,6 +25,6 @@
 </fmt:bundle>
 <script type="text/javascript" src="/js/utils.js" ></script>
 <script type="text/javascript" src="/js/user.js" ></script>
-<script type="text/javascript" src="/js/stores.js" ></script>
 <script type="text/javascript" src="/js/store.js" ></script>
+<script type="text/javascript" src="/js/stores.js" ></script>
 </html>
