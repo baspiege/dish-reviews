@@ -452,6 +452,9 @@ Store.setOnlineListeners=function() {
 
 Store.display=function(storeId) {
   Store.storeId=storeId;
+  Store.gettingDishes=false;
+  Store.moreDishes=false;
+  Store.startIndexDish=0;
   //Store.setOnlineListeners();
   Store.createStoreLayout();
   Store.setUpPage();
@@ -460,6 +463,7 @@ Store.display=function(storeId) {
 }
 
 Store.linkTo=function(storeId) {
+  Stores.lock=false;
   var stateObj = { action: "store", storeId: storeId };
   history.pushState(stateObj, "Store", "/stores?storeId=" + storeId );
   Store.display(storeId);

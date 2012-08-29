@@ -211,7 +211,7 @@ function createTableRowForReview(review) {
   // Store
   var storeDesc=document.createElement("td");
   var storeDescLink=document.createElement("a");
-  storeDescLink.setAttribute("href","/store?storeId="+storeId);
+  storeDescLink.setAttribute("href","/stores?storeId="+storeId);
   storeDescLink.appendChild(document.createTextNode(storeText));
   storeDesc.appendChild(storeDescLink);
   tr.appendChild(storeDesc);
