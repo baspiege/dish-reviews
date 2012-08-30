@@ -512,7 +512,7 @@ Stores.createStoresSections=function() {
   sectionData.setAttribute("id","data");
   var waitingForData=document.createElement("progress");
   sectionData.appendChild(waitingForData);
-  waitingForData.setAttribute("style","display:none");
+  //waitingForData.setAttribute("style","display:none");
   waitingForData.setAttribute("id","waitingForData");
   waitingForData.setAttribute("title","Waiting for data");
 }
