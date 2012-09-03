@@ -115,7 +115,6 @@ Store.displayData=function(xmlDoc) {
   var title=document.getElementById("title");
   removeChildrenFromElement(title);
   title.appendChild(document.createTextNode(storeName));
-  title.appendChild(document.createTextNode(storeName));
   var storeNameTag=document.getElementById("storeName");
   removeChildrenFromElement(storeNameTag);
   storeNameTag.appendChild(document.createTextNode(storeName));

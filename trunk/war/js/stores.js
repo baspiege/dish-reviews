@@ -169,8 +169,15 @@ dishrev.stores.controller.reorderStoresByNameAscending=function() {
 ///////////////////
 
 dishrev.stores.view.createStoresLayout=function () {
+  dishrev.stores.view.setPageTitle();
   dishrev.stores.view.createStoresNav();
   dishrev.stores.view.createStoresSections();   
+}
+
+dishrev.stores.view.setPageTitle=function () {
+  var title=document.getElementById("title");
+  removeChildrenFromElement(title);
+  title.appendChild(document.createTextNode("Dish Reviews!"));
 }
 
 dishrev.stores.view.createStoresNav=function() {
