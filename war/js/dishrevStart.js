@@ -9,13 +9,13 @@ dishrev.controller.initialize=function() {
 
   // Check if logged in
   var dishRevUser=getCookie("dishRevUser");
-  User.isLoggedIn=false;
+  dishrev.user.isLoggedIn=false;
   if (dishRevUser!="") {
-    User.isLoggedIn=true;
+    dishrev.user.isLoggedIn=true;
   }
   
   // If logged in and online, can edit
-  User.canEdit=User.isLoggedIn && navigator.onLine;
+  dishrev.user.canEdit=dishrev.user.isLoggedIn && navigator.onLine;
 }
 
 dishrev.controller.checkPage=function() {
