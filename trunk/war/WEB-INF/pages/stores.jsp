@@ -23,8 +23,11 @@
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 </body>
 </fmt:bundle>
+<script type="text/javascript" src="/js/dishrev.js" ></script>
 <script type="text/javascript" src="/js/utils.js" ></script>
 <script type="text/javascript" src="/js/user.js" ></script>
 <script type="text/javascript" src="/js/store.js" ></script>
 <script type="text/javascript" src="/js/stores.js" ></script>
+<script type="text/javascript" src="/js/dishrevStart.js" ></script>
+
 </html>
