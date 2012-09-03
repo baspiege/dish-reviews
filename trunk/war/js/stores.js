@@ -26,7 +26,7 @@ dishrev.stores.controller.linkTo=function() {
 
 dishrev.stores.controller.create=function() {
   //dishrev.stores.view.setOnlineListeners();
-  dishrev.stores.controller.init();
+  dishrev.controller.initialize();
   dishrev.stores.view.createStoresLayout();
   dishrev.stores.view.displayCachedDataIfExists();
   dishrev.stores.controller.getCoordinates();
@@ -50,14 +50,11 @@ dishrev.stores.controller.getStoresData=function() {
     return;
   }
   
-  var progressData=document.getElementById("progressData");
-  if (progressData) {
-    progressData.style.display="inline";
-  }
+  dishrev.stores.view.showProgressData();
   
   // If online, get from server.  Else get from cache.
   if (navigator.onLine) {
-    dishrev.stores.view.displayCachedDataIfExists();
+    //dishrev.stores.view.displayCachedDataIfExists();
     sendRequest('/storesXml?latitude='+lat+'&longitude='+lon, dishrev.stores.controller.handleStoresDataRequest, dishrev.stores.view.displayCachedData);
   } else {
     dishrev.stores.view.displayCachedData();
@@ -93,22 +90,6 @@ dishrev.stores.controller.handleStoresDataRequest=function(req) {
     var xmlDoc=req.responseXML;
     dishrev.stores.view.displayData(xmlDoc);
   }
-}
-
-dishrev.stores.controller.init=function() {
-  if (typeof(google)!="undefined") {
-    geocoder = new google.maps.Geocoder();
-  }
-
-  // Check if logged in
-  var dishRevUser=getCookie("dishRevUser");
-  User.isLoggedIn=false;
-  if (dishRevUser!="") {
-    User.isLoggedIn=true;
-  }
-  
-  // If logged in and online, can edit
-  User.canEdit=User.isLoggedIn && navigator.onLine;
 }
 
 dishrev.stores.controller.setOnlineListeners=function() {
@@ -168,6 +149,21 @@ dishrev.stores.controller.geocodePosition=function(pos) {
   }
 }
 
+dishrev.stores.controller.reorderStoresByDishCountDescending=function() {
+  setItemIntoLocalStorage(dishrev.stores.model.storesSortBy,"dishCount");
+  dishrev.stores.view.reorderStores(dishrev.stores.view.sortByDishCountDescending);
+}
+
+dishrev.stores.controller.reorderStoresByDistanceAscending=function() {
+  setItemIntoLocalStorage(dishrev.stores.model.storesSortBy,"distance");
+  dishrev.stores.view.reorderStores(dishrev.stores.view.sortByDistanceAscending);
+}
+
+dishrev.stores.controller.reorderStoresByNameAscending=function() {
+  setItemIntoLocalStorage(dishrev.stores.model.storesSortBy,"name");
+  dishrev.stores.view.reorderStores(dishrev.stores.view.sortByNameAscending);
+}
+
 ///////////////////
 // Stores View
 ///////////////////
@@ -225,7 +221,7 @@ dishrev.stores.view.createStoresNav=function() {
   
   // Show 'My Reviews' if logged in
   var myReviews=document.getElementById("myReviews");  
-  if (User.isLoggedIn) {
+  if (dishrev.user.isLoggedIn) {
      myReviews.style.display='inline';
   } else {
      myReviews.style.display='none';
@@ -248,7 +244,7 @@ dishrev.stores.view.createStoresNav=function() {
   
   // Vary login link
   var login=document.getElementById("logonLink");
-  if (User.isLoggedIn) {
+  if (dishrev.user.isLoggedIn) {
     login.innerHTML="Log Off";
     login.removeEventListener('click', dishrev.controller.fbLoginLink, false);  
     login.addEventListener('click', dishrev.controller.fbLogoutLink, false);
@@ -344,7 +340,7 @@ dishrev.stores.view.createTable=function() {
   tr.appendChild(thDistance);
   var distanceLink=document.createElement("a");
   distanceLink.setAttribute("href","#");
-  distanceLink.setAttribute("onclick","dishrev.stores.view.reorderStoresByDistanceAscending();return false;");
+  distanceLink.setAttribute("onclick","dishrev.stores.controller.reorderStoresByDistanceAscending();return false;");
   distanceLink.appendChild(document.createTextNode("Distance"));
   thDistance.appendChild(distanceLink);
 
@@ -353,12 +349,12 @@ dishrev.stores.view.createTable=function() {
   tr.appendChild(thName);
   var nameLink=document.createElement("a");
   nameLink.setAttribute("href","#");
-  nameLink.setAttribute("onclick","dishrev.stores.view.reorderStoresByNameAscending();return false;");
+  nameLink.setAttribute("onclick","dishrev.stores.controller.reorderStoresByNameAscending();return false;");
   nameLink.appendChild(document.createTextNode("Name"));
   thName.appendChild(nameLink);
 
   // Show Add link
-  if (User.canEdit) {
+  if (dishrev.user.canEdit) {
     var addLink=document.createElement("a");
     addLink.setAttribute("href","/storeAddLocation");
     addLink.setAttribute("class","add addTh");
@@ -371,7 +367,7 @@ dishrev.stores.view.createTable=function() {
   tr.appendChild(thType);
   var typeLink=document.createElement("a");
   typeLink.setAttribute("href","#");
-  typeLink.setAttribute("onclick","dishrev.stores.view.reorderStoresByDishCountDescending();return false;");
+  typeLink.setAttribute("onclick","dishrev.stores.controller.reorderStoresByDishCountDescending();return false;");
   typeLink.appendChild(document.createTextNode("Dishes"));
   thType.appendChild(typeLink);
 
@@ -481,11 +477,11 @@ dishrev.stores.view.updateLocationDispay=function() {
   // Sort
   var sortBy=localStorage.getItem(dishrev.stores.model.storesSortBy);
   if (sortBy==null || sortBy=="name") {
-    dishrev.stores.view.reorderStoresByNameAscending();
+    dishrev.stores.controller.reorderStoresByNameAscending();
   } else if (sortBy=="distance") {
-    dishrev.stores.view.reorderStoresByDistanceAscending();
+    dishrev.stores.controller.reorderStoresByDistanceAscending();
   } else if (sortBy=="dishCount") {
-    dishrev.stores.view.reorderStoresByDishCountDescending();
+    dishrev.stores.controller.reorderStoresByDishCountDescending();
   }
 }
 
@@ -519,6 +515,13 @@ dishrev.stores.view.updateAddButtons=function(degrees) {
   var addButtonEnabled=document.getElementById("addButtonEnabled");
   if (addButtonEnabled) {
     addButtonEnabled.style.display='inline';
+  }
+}
+
+dishrev.stores.view.showProgressData=function(degrees) {
+  var progressData=document.getElementById("progressData");
+  if (progressData) {
+    progressData.style.display="inline";
   }
 }
 
@@ -567,19 +570,4 @@ dishrev.stores.view.sortByNameAscending=function(note1,note2) {
   var name1=note1.getAttribute("name");
   var name2=note2.getAttribute("name");
   return name1.localeCompare(name2);
-}
-
-dishrev.stores.view.reorderStoresByDishCountDescending=function() {
-  setItemIntoLocalStorage(dishrev.stores.model.storesSortBy,"dishCount");
-  dishrev.stores.view.reorderStores(dishrev.stores.view.sortByDishCountDescending);
-}
-
-dishrev.stores.view.reorderStoresByDistanceAscending=function() {
-  setItemIntoLocalStorage(dishrev.stores.model.storesSortBy,"distance");
-  dishrev.stores.view.reorderStores(dishrev.stores.view.sortByDistanceAscending);
-}
-
-dishrev.stores.view.reorderStoresByNameAscending=function() {
-  setItemIntoLocalStorage(dishrev.stores.model.storesSortBy,"name");
-  dishrev.stores.view.reorderStores(dishrev.stores.view.sortByNameAscending);
 }

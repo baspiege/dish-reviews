@@ -179,7 +179,7 @@ Store.createTable=function() {
   thName.appendChild(nameLink);
 
   // Show Add link
-  if (User.canEdit) {
+  if (dishrev.user.canEdit) {
     var addLink=document.createElement("a");
     addLink.setAttribute("href","/dishAdd?storeId="+Store.storeId);
     addLink.setAttribute("class","add addTh");
@@ -229,7 +229,7 @@ Store.createTableRowForDish=function(dish) {
   tr.appendChild(dishDesc);
 
   // Vote
-  if (User.canEdit) {
+  if (dishrev.user.canEdit) {
       var voteDisplay=document.createElement("td");
       var voteLink=document.createElement("a");
       voteLink.setAttribute("href","/dishVote?dishId="+dishId);
@@ -251,7 +251,7 @@ Store.createTableRowForDish=function(dish) {
     reviewLink.setAttribute("href","/dish?dishId="+dishId);
     reviewLink.appendChild(document.createTextNode(lastReviewText));
     lastReview.appendChild(reviewLink);
-  } else if (User.canEdit) {
+  } else if (dishrev.user.canEdit) {
     var addLink=document.createElement("a");
     addLink.setAttribute("class","add");
     addLink.setAttribute("href","/reviewAdd?dishId="+dishId);
@@ -428,17 +428,17 @@ Store.setUpPage=function() {
 
   // Check if logged in
   var dishRevUser=getCookie("dishRevUser");
-  User.isLoggedIn=false;
+  dishrev.user.isLoggedIn=false;
   if (dishRevUser!="") {
-    User.isLoggedIn=true;
+    dishrev.user.isLoggedIn=true;
   }
     
   // If logged in and online, can edit
-  User.canEdit=User.isLoggedIn && navigator.onLine;
+  dishrev.user.canEdit=dishrev.user.isLoggedIn && navigator.onLine;
 
   // Show 'Edit link' if can edit
   var storeEditLink=document.getElementById("storeEditLink");  
-  if (User.canEdit) {
+  if (dishrev.user.canEdit) {
      storeEditLink.style.display='inline';
   } else {
      storeEditLink.style.display='none';

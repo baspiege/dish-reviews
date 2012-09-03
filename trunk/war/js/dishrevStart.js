@@ -2,6 +2,22 @@
 // Main controller
 ///////////////////
 
+dishrev.controller.initialize=function() {
+  if (typeof(google)!="undefined") {
+    geocoder = new google.maps.Geocoder();
+  }
+
+  // Check if logged in
+  var dishRevUser=getCookie("dishRevUser");
+  User.isLoggedIn=false;
+  if (dishRevUser!="") {
+    User.isLoggedIn=true;
+  }
+  
+  // If logged in and online, can edit
+  User.canEdit=User.isLoggedIn && navigator.onLine;
+}
+
 dishrev.controller.checkPage=function() {
   dishrev.model.lock=true;
   var qsString=getQueryStrings();
