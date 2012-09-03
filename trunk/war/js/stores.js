@@ -26,7 +26,7 @@ dishrev.stores.controller.linkTo=function() {
 
 dishrev.stores.controller.create=function() {
   //dishrev.stores.view.setOnlineListeners();
-  dishrev.stores.controller.checkUser();
+  dishrev.stores.controller.init();
   dishrev.stores.view.createStoresLayout();
   dishrev.stores.view.displayCachedDataIfExists();
   dishrev.stores.controller.getCoordinates();
@@ -95,7 +95,7 @@ dishrev.stores.controller.handleStoresDataRequest=function(req) {
   }
 }
 
-dishrev.stores.controller.checkUser=function() {
+dishrev.stores.controller.init=function() {
   if (typeof(google)!="undefined") {
     geocoder = new google.maps.Geocoder();
   }
@@ -127,47 +127,31 @@ dishrev.stores.controller.getCoordinates=function() {
       dishrev.stores.view.updateGeoStatus(dishrev.stores.model.locationNotAvailableMessage);
     }
   } else {
-    if (typeof(google)!="undefined") {
+    if (geocoder) {
       var latLng = new google.maps.LatLng(localStorage.getItem("latitude"), localStorage.getItem("longitude"));
       dishrev.stores.controller.geocodePosition(latLng);
     }
+    dishrev.stores.view.updateAddButtons();
     dishrev.stores.controller.getStoresData();
-    // Update buttons
-    var addButtonDisabled=document.getElementById("addButtonDisabled");
-    if (addButtonDisabled) {
-      addButtonDisabled.style.display='none';
-    }
-    var addButtonEnabled=document.getElementById("addButtonEnabled");
-    if (addButtonEnabled) {
-      addButtonEnabled.style.display='inline';
-    }
   }
 }
 
 // Set global variables holding the position
 dishrev.stores.controller.setPosition=function(position) {
-  var display="N/A";
   if (position){
     // Set global variables
     setItemIntoLocalStorage("latitude",position.coords.latitude);
     setItemIntoLocalStorage("longitude",position.coords.longitude);
-    display="";
-    // Update buttons
-    var addButtonDisabled=document.getElementById("addButtonDisabled");
-    if (addButtonDisabled) {
-      addButtonDisabled.style.display='none';
-    }
-    var addButtonEnabled=document.getElementById("addButtonEnabled");
-    if (addButtonEnabled) {
-      addButtonEnabled.style.display='inline';
-    }
-    dishrev.stores.controller.getNewData();
-    if (google) {
+    dishrev.stores.view.updateGeoStatus("Getting address...");
+    if (geocoder) {
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       dishrev.stores.controller.geocodePosition(latLng);
     }
+    dishrev.stores.view.updateAddButtons();
+    dishrev.stores.controller.getNewData();
+  } else {
+    dishrev.stores.view.updateGeoStatus("N/A");
   }
-  dishrev.stores.view.updateGeoStatus(display);
 }
 
 dishrev.stores.controller.geocodePosition=function(pos) {
@@ -525,6 +509,17 @@ dishrev.stores.view.getCardinalDirection=function(degrees) {
     value="N";
   }
   return value;
+}
+
+dishrev.stores.view.updateAddButtons=function(degrees) {
+  var addButtonDisabled=document.getElementById("addButtonDisabled");
+  if (addButtonDisabled) {
+    addButtonDisabled.style.display='none';
+  }
+  var addButtonEnabled=document.getElementById("addButtonEnabled");
+  if (addButtonEnabled) {
+    addButtonEnabled.style.display='inline';
+  }
 }
 
 ///////////////////
