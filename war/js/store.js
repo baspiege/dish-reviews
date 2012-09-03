@@ -352,7 +352,7 @@ Store.createStoreNav=function() {
   var navItemLink=document.createElement("a");
   navItem.appendChild(navItemLink);  
   navItemLink.setAttribute("href","#");
-  navItemLink.addEventListener('click', function(e){e.preventDefault();Stores.linkTo();}, false);  
+  navItemLink.addEventListener('click', function(e){e.preventDefault();dishrev.stores.controller.linkTo();}, false);  
   navItemLink.appendChild(document.createTextNode("Main")); 
   
   // OffLink
@@ -463,7 +463,7 @@ Store.display=function(storeId) {
 }
 
 Store.linkTo=function(storeId) {
-  Stores.lock=false;
+  dishrev.model.lock=false;
   var stateObj = { action: "store", storeId: storeId };
   history.pushState(stateObj, "Store", "/stores?storeId=" + storeId );
   Store.display(storeId);

@@ -1,12 +1,14 @@
 CACHE MANIFEST
 
-# 3.07
+# 3.16
 
 # Explicitly cached entries
 favicon.ico
 stylesheets/main.css
 js/dish.js
 js/dishAdd.js
+js/dishrev.js
+js/dishrevStart.js
 js/fblogin.js
 js/locationChange.js
 js/reviewAdd.js
