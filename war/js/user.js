@@ -1,8 +1,8 @@
+dishrev.user=new Object();
+
 ///////////////////
-// Global vars
+// User Model
 ///////////////////
 
-var User=new Object();
-
-User.canEdit=false;
-User.isLoggedIn=false;
+dishrev.user.canEdit=false;
+dishrev.user.isLoggedIn=false;
