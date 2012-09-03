@@ -42,7 +42,7 @@ dishrev.stores.controller.getCachedData=function() {
   return xmlDoc;
 }
 
-dishrev.stores.controller.getNewData=function() {
+dishrev.stores.controller.getStoresData=function() {
   // Get position and send request
   var lat=localStorage.getItem("latitude");
   var lon=localStorage.getItem("longitude");
@@ -148,7 +148,7 @@ dishrev.stores.controller.setPosition=function(position) {
       dishrev.stores.controller.geocodePosition(latLng);
     }
     dishrev.stores.view.updateAddButtons();
-    dishrev.stores.controller.getNewData();
+    dishrev.stores.controller.getStoresData();
   } else {
     dishrev.stores.view.updateGeoStatus("N/A");
   }
