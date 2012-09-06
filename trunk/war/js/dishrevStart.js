@@ -40,7 +40,7 @@ window.onpopstate = function(e) {
     if (e.state.action=="stores") {
       dishrev.stores.controller.create();
     } else if (e.state.action=="store") {   
-      dishrev.store.controller.create(e.state.storeId);
+      Store.display(e.state.storeId);
     }
   } else {
     dishrev.stores.controller.create();
