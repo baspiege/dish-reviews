@@ -1,7 +1,7 @@
 var Store = (function(){
 
   ///////////////////
-  // Global vars
+  // Vars
   ///////////////////
 
   var storeId;
@@ -14,6 +14,48 @@ var Store = (function(){
   ///////////////////
   // Controller
   ///////////////////
+  
+  create=function(storeId) {
+    storeId=storeId;
+    gettingDishes=false;
+    moreDishes=false;
+    startIndexDish=0;
+    //setOnlineListeners();
+    createStoreLayout();
+    setUpPage();
+    getDishesData();
+    window.onscroll=function(){ checkForMoreDishes(); };
+  }
+  
+  setUpPage=function() {
+    //var qsString=getQueryStrings();
+    //if (qsString && qsString.storeId) {
+    //  storeId=qsString.storeId;
+    //}
+
+    // Check if logged in
+    var dishRevUser=getCookie("dishRevUser");
+    dishrev.user.isLoggedIn=false;
+    if (dishRevUser!="") {
+      dishrev.user.isLoggedIn=true;
+    }
+      
+    // If logged in and online, can edit
+    dishrev.user.canEdit=dishrev.user.isLoggedIn && navigator.onLine;
+
+    // Show 'Edit link' if can edit
+    var storeEditLink=document.getElementById("storeEditLink");  
+    if (dishrev.user.canEdit) {
+       storeEditLink.style.display='inline';
+    } else {
+       storeEditLink.style.display='none';
+    }
+  }
+
+  setOnlineListeners=function() {
+    document.body.addEventListener("offline", setUpPage, false)
+    document.body.addEventListener("online", setUpPage, false);
+  }
 
   checkForMoreDishes=function() {
     var moreIndicator=document.getElementById("moreIndicator");
@@ -114,7 +156,7 @@ var Store = (function(){
     navItemLink.addEventListener('click', function(e){e.preventDefault();dishrev.stores.controller.linkTo();}, false);  
     navItemLink.appendChild(document.createTextNode("Main")); 
     
-    // OffLink
+    // Offline
     var navItem=document.createElement("li");
     navUl.appendChild(navItem);  
     navItem.setAttribute("id","offline");
@@ -410,54 +452,12 @@ var Store = (function(){
     sortBy=fieldToSortBy;
     getDishesData();
   }
-
-  setUpPage=function() {
-    //var qsString=getQueryStrings();
-    //if (qsString && qsString.storeId) {
-    //  storeId=qsString.storeId;
-    //}
-
-    // Check if logged in
-    var dishRevUser=getCookie("dishRevUser");
-    dishrev.user.isLoggedIn=false;
-    if (dishRevUser!="") {
-      dishrev.user.isLoggedIn=true;
-    }
-      
-    // If logged in and online, can edit
-    dishrev.user.canEdit=dishrev.user.isLoggedIn && navigator.onLine;
-
-    // Show 'Edit link' if can edit
-    var storeEditLink=document.getElementById("storeEditLink");  
-    if (dishrev.user.canEdit) {
-       storeEditLink.style.display='inline';
-    } else {
-       storeEditLink.style.display='none';
-    }
-  }
-
-  setOnlineListeners=function() {
-    document.body.addEventListener("offline", setUpPage, false)
-    document.body.addEventListener("online", setUpPage, false);
-  }
-
-  display=function(storeId) {
-    storeId=storeId;
-    gettingDishes=false;
-    moreDishes=false;
-    startIndexDish=0;
-    //setOnlineListeners();
-    createStoreLayout();
-    setUpPage();
-    getDishesData();
-    window.onscroll=function(){ checkForMoreDishes(); };
-  }
   
   return {
   
     display: function(aStoreId) {
       storeId=aStoreId;
-      display(aStoreId);
+      create(aStoreId);
     },
 
     linkTo: function(aStoreId) {
@@ -465,7 +465,7 @@ var Store = (function(){
       dishrev.model.lock=false;
       var stateObj = { action: "store", storeId: storeId };
       history.pushState(stateObj, "Store", "/stores?storeId=" + storeId );
-      display(storeId);
+      create(storeId);
     }
   };
 
