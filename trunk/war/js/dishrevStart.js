@@ -19,11 +19,15 @@ DishRev.initialize=function() {
 }
 
 DishRev.checkPage=function() {
-  DishRevUser.lock=true;
+  DishRev.lock=true;
   var qsString=getQueryStrings();
-  if (qsString && qsString.storeId) {
-    Store.display(qsString.storeId);    
-  } else {
+  if (qsString) {
+    if (qsString.storeId) {
+      Store.display(qsString.storeId);    
+    } else if (qsString.dishId) {
+      Dish.display(qsString.dishId);
+    }
+  } else {  
     Stores.display();
   }
 }
@@ -41,6 +45,8 @@ window.onpopstate = function(e) {
       Stores.display();
     } else if (e.state.action=="store") {
       Store.display(e.state.storeId);
+    } else if (e.state.action=="dish") {
+      Dish.display(e.state.dishId);
     }
   } else {
     Stores.display();

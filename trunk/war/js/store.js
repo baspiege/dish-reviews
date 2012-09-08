@@ -28,10 +28,6 @@ var Store = (function(){
   }
   
   var setUpPage=function() {
-    //var qsString=getQueryStrings();
-    //if (qsString && qsString.storeId) {
-    //  storeId=qsString.storeId;
-    //}
 
     // Check if logged in
     var dishRevUser=getCookie("dishRevUser");
@@ -349,7 +345,8 @@ var Store = (function(){
     // Dish
     var dishDesc=document.createElement("td");
     var dishDescLink=document.createElement("a");
-    dishDescLink.setAttribute("href","/dish?dishId="+dishId);
+    dishDescLink.setAttribute("href","#");
+    dishDescLink.addEventListener('click', function(e){e.preventDefault();Dish.linkTo(dishId);}, false);
     dishDescLink.appendChild(document.createTextNode(dishText));
     dishDesc.appendChild(dishDescLink);
     tr.appendChild(dishDesc);
