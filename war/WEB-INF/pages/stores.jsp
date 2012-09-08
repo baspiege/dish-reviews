@@ -26,6 +26,7 @@
 <script type="text/javascript" src="/js/dishrev.js" ></script>
 <script type="text/javascript" src="/js/utils.js" ></script>
 <script type="text/javascript" src="/js/user.js" ></script>
+<script type="text/javascript" src="/js/dish.js" ></script>
 <script type="text/javascript" src="/js/store.js" ></script>
 <script type="text/javascript" src="/js/stores.js" ></script>
 <script type="text/javascript" src="/js/dishrevStart.js" ></script>
