@@ -16,8 +16,7 @@ var Dish = (function(){
   // Controller
   ///////////////////
   
-  var create=function(dishId) {
-    dishId=dishId;
+  var create=function() {
     gettingReviews=false;
     moreReviews=false;
     startIndexReview=0;
@@ -522,16 +521,23 @@ var Dish = (function(){
   }
 
   return {
-    display: function(aDishId) {
+    display: function(aDishId, aReviewId) {
       dishId=aDishId;
-      create(aDishId);
+      reviewId=aReviewId;      
+      create();
     },
-    linkTo: function(aDishId) {
+    linkTo: function(aDishId, aReviewId) {
       dishId=aDishId;
+      reviewId=aReviewId;
       DishRev.lock=false;
-      var stateObj = { action: "dish", dishId: dishId };
-      history.pushState(stateObj, "Dish", "/stores?dishId=" + dishId );
-      create(dishId);
+      if (reviewId) {
+        var stateObj = { action: "review", dishId: dishId, reviewId: reviewId };
+        history.pushState(stateObj, "Review", "/stores?reviewId=" + reviewId );
+      } else {
+        var stateObj = { action: "dish", dishId: dishId };
+        history.pushState(stateObj, "Dish", "/stores?dishId=" + dishId );      
+      }
+      create();
     }
   };
 

@@ -15,7 +15,7 @@ var Store = (function(){
   // Controller
   ///////////////////
   
-  var create=function(storeId) {
+  var create=function() {
     storeId=storeId;
     gettingDishes=false;
     moreDishes=false;
@@ -371,7 +371,8 @@ var Store = (function(){
     var lastReview=document.createElement("td");
     if (lastReviewText) {
       var reviewLink=document.createElement("a");
-      reviewLink.setAttribute("href","/dish?dishId="+dishId);
+      reviewLink.setAttribute("href","#");
+      reviewLink.addEventListener('click', function(e){e.preventDefault();Dish.linkTo(dishId);}, false);
       reviewLink.appendChild(document.createTextNode(lastReviewText));
       lastReview.appendChild(reviewLink);
     } else if (DishRevUser.canEdit) {
@@ -453,14 +454,14 @@ var Store = (function(){
   return {
     display: function(aStoreId) {
       storeId=aStoreId;
-      create(aStoreId);
+      create();
     },
     linkTo: function(aStoreId) {
       storeId=aStoreId;
       DishRev.lock=false;
       var stateObj = { action: "store", storeId: storeId };
       history.pushState(stateObj, "Store", "/stores?storeId=" + storeId );
-      create(storeId);
+      create();
     }
   };
 
