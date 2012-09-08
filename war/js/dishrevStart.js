@@ -24,6 +24,8 @@ DishRev.checkPage=function() {
   if (qsString) {
     if (qsString.storeId) {
       Store.display(qsString.storeId);    
+    } else if (qsString.dishId && qsString.reviewId) {
+      Dish.display(qsString.dishId, qsString.reviewId);
     } else if (qsString.dishId) {
       Dish.display(qsString.dishId);
     }
@@ -47,6 +49,8 @@ window.onpopstate = function(e) {
       Store.display(e.state.storeId);
     } else if (e.state.action=="dish") {
       Dish.display(e.state.dishId);
+    } else if (e.state.action=="review") {
+      Dish.display(e.state.dishId, e.state.reviewId);
     }
   } else {
     Stores.display();
