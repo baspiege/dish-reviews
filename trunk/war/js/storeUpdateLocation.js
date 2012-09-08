@@ -138,11 +138,15 @@ function setUpPage() {
   
   // Set fields when submitting
   var submitLocation=document.getElementById("submitLocation");
-  submitLocation.onclick=setFieldsFromLocalStorage;
+  if (submitLocation) {
+    submitLocation.onclick=setFieldsFromLocalStorage;
+  }
   
   // Update address when typed over
   var address=document.getElementById("address");
-  address.onchange=onchangeTypedAddress;
+  if (address) {
+    address.onchange=onchangeTypedAddress;
+  }
 }
 
 function setUpMap() {

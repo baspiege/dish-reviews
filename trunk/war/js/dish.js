@@ -53,7 +53,7 @@ var Dish = (function(){
       getReviewsDataById();
       var allReviewsLink=document.getElementById("allReviewsLink");
       allReviewsLink.style.display="inline";
-      allReviewsLink.onclick=reloadDishesPage;
+      allReviewsLink.addEventListener('click', function(e){e.preventDefault();Dish.display(dishId);}, false);  
     } else {
       getReviewsData();
     }
@@ -115,8 +115,20 @@ var Dish = (function(){
   }
 
   var getReviewsDataById=function() {
+    var qsString=getQueryStrings();
+    var reload=false;
+    if (qsString && qsString.reload && qsString.reload=="true") {
+      reload=true;
+    }  
+  
     // If online, get from server.  Else get from cache.  // TODO - Update cached data?
     if (navigator.onLine) {
+      if (!reload) {
+        var xmlDoc=getCachedData();
+        if (xmlDoc) {
+          displayData(xmlDoc);
+        }
+      }
       sendRequest('/reviewsXml?reviewId='+reviewId, handleReviewsDataRequest, displayCachedData);
     } else {
       displayCachedData();
@@ -193,6 +205,17 @@ var Dish = (function(){
     navItemLink.addEventListener('click', function(e){e.preventDefault();Stores.linkTo();}, false);  
     navItemLink.appendChild(document.createTextNode("Main")); 
     
+    // Store
+    var navItem=document.createElement("li");
+    navUl.appendChild(navItem);  
+    var navItemLink=document.createElement("a");
+    navItem.appendChild(navItemLink);  
+    //navItemLink.setAttribute("href","#");
+    //navItemLink.addEventListener('click', function(e){e.preventDefault();Store.linkTo(storeId);}, false);  
+    var storeName=document.createElement("span");
+    navItemLink.appendChild(storeName); 
+    storeName.setAttribute("id","storeName");
+        
     // Offline
     var navItem=document.createElement("li");
     navUl.appendChild(navItem);  
@@ -209,14 +232,6 @@ var Dish = (function(){
 
     var sectionData=document.createElement("section");
     content.appendChild(sectionData);
-
-    // Store name
-    var storeName=document.createElement("span");
-    sectionData.appendChild(storeName);
-    storeName.setAttribute("id","storeName");
-    
-    // Space between name and edit link
-    sectionData.appendChild(document.createTextNode(" "));     
     
     // Dish name
     var dishName=document.createElement("span");
@@ -234,6 +249,19 @@ var Dish = (function(){
     editLink.setAttribute("style","display:none");
     editLink.setAttribute("id","dishEditLink");
     editLink.appendChild(document.createTextNode("Edit"));
+    
+    // Space
+    sectionData.appendChild(document.createTextNode(" ")); 
+
+    // All reviews link
+    var allReviewsLink=document.createElement("a");
+    sectionData.appendChild(allReviewsLink);
+    allReviewsLink.setAttribute("href","#");
+    allReviewsLink.addEventListener('click', function(e){e.preventDefault();Dish.linkTo(dishId);}, false);
+    allReviewsLink.setAttribute("class","more");
+    allReviewsLink.setAttribute("style","display:none");
+    allReviewsLink.setAttribute("id","allReviewsLink");
+    allReviewsLink.appendChild(document.createTextNode("All Reviews"));
     
     // Waiting for data
     var waitingForData=document.createElement("progress");
@@ -281,6 +309,9 @@ var Dish = (function(){
     var storeNameTag=document.getElementById("storeName");
     removeChildrenFromElement(storeNameTag);
     storeNameTag.appendChild(document.createTextNode(storeName));
+    
+    // TODO - Set link for store...
+    
     var dishName=dish.getAttribute("dishName");
     var dishNameTag=document.getElementById("dishName");
     removeChildrenFromElement(dishNameTag);
@@ -439,7 +470,7 @@ var Dish = (function(){
       var imageLink=document.createElement("a");
       imageLink.setAttribute("href","/reviewImageUpdate?reviewId="+reviewId);
       var image=document.createElement("img");
-      image.setAttribute("src","reviewThumbNailImage?reviewId="+reviewId);
+      image.setAttribute("src","/reviewThumbNailImage?reviewId="+reviewId);
       imageLink.appendChild(image);
       imageCell.appendChild(imageLink);
     } else if (usersOwn) {
@@ -516,7 +547,7 @@ var Dish = (function(){
   }
 
   var reloadDishesPage=function() {
-    window.location='/dish?dishId='+dishId;
+    window.location='/stores?dishId='+dishId;
     return false;
   }
 
