@@ -211,8 +211,7 @@ function createTableRowForReview(review) {
   // Store
   var storeDesc=document.createElement("td");
   var storeDescLink=document.createElement("a");
-  storeDescLink.setAttribute("href","#");
-  storeDescLink.setAttribute("onclick","Store.linkTo("+storeId+");return false;");  
+  storeDescLink.setAttribute("href","/stores?storeId="+storeId);  
   storeDescLink.appendChild(document.createTextNode(storeText));
   storeDesc.appendChild(storeDescLink);
   tr.appendChild(storeDesc);
@@ -220,8 +219,7 @@ function createTableRowForReview(review) {
   // Dish
   var dishDesc=document.createElement("td");
   var dishDescLink=document.createElement("a");
-  dishDescLink.setAttribute("href","#");
-  dishDescLink.addEventListener('click', function(e){e.preventDefault();Dish.linkTo(dishId);}, false);
+  dishDescLink.setAttribute("href","/stores?dishId="+dishId);
   dishDescLink.appendChild(document.createTextNode(dishText));
   dishDesc.appendChild(dishDescLink);
   tr.appendChild(dishDesc);
@@ -235,8 +233,7 @@ function createTableRowForReview(review) {
   // Review
   var descReview=document.createElement("td");
   var descReviewLink=document.createElement("a");
-  descReviewLink.setAttribute("href","#");
-  descReviewLink.addEventListener('click', function(e){e.preventDefault();Dish.linkTo(dishId,reviewId);}, false);  
+  descReviewLink.setAttribute("href","/stores?dishId="+dishId+"&reviewId="+reviewId);
   descReviewLink.appendChild(document.createTextNode(reviewText));
   descReview.appendChild(descReviewLink);
   tr.appendChild(descReview);
