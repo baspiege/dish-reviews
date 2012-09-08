@@ -2,47 +2,47 @@
 // Main controller
 ///////////////////
 
-dishrev.controller.initialize=function() {
+DishRev.initialize=function() {
   if (typeof(google)!="undefined") {
     geocoder = new google.maps.Geocoder();
   }
 
   // Check if logged in
-  var dishRevUser=getCookie("dishRevUser");
-  dishrev.user.isLoggedIn=false;
-  if (dishRevUser!="") {
-    dishrev.user.isLoggedIn=true;
+  var user=getCookie("dishRevUser");
+  DishRevUser.isLoggedIn=false;
+  if (user!="") {
+    DishRevUser.isLoggedIn=true;
   }
   
   // If logged in and online, can edit
-  dishrev.user.canEdit=dishrev.user.isLoggedIn && navigator.onLine;
+  DishRevUser.canEdit=DishRevUser.isLoggedIn && navigator.onLine;
 }
 
-dishrev.controller.checkPage=function() {
-  dishrev.model.lock=true;
+DishRev.checkPage=function() {
+  DishRevUser.lock=true;
   var qsString=getQueryStrings();
   if (qsString && qsString.storeId) {
     Store.display(qsString.storeId);    
   } else {
-    dishrev.stores.controller.create();
+    Stores.display();
   }
 }
 
-dishrev.controller.checkPage();
+DishRev.checkPage();
 
 window.onpopstate = function(e) {
-  if (dishrev.model.lock) {
-    dishrev.model.lock=false;
+  if (DishRev.lock) {
+    DishRev.lock=false;
     return;
   }
 
   if (e && e.state && e.state.action) { 
     if (e.state.action=="stores") {
-      dishrev.stores.controller.create();
-    } else if (e.state.action=="store") {   
+      Stores.display();
+    } else if (e.state.action=="store") {
       Store.display(e.state.storeId);
     }
   } else {
-    dishrev.stores.controller.create();
+    Stores.display();
   }
 };

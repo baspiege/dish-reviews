@@ -15,7 +15,7 @@ var Store = (function(){
   // Controller
   ///////////////////
   
-  create=function(storeId) {
+  var create=function(storeId) {
     storeId=storeId;
     gettingDishes=false;
     moreDishes=false;
@@ -35,17 +35,17 @@ var Store = (function(){
 
     // Check if logged in
     var dishRevUser=getCookie("dishRevUser");
-    dishrev.user.isLoggedIn=false;
+    DishRevUser.isLoggedIn=false;
     if (dishRevUser!="") {
-      dishrev.user.isLoggedIn=true;
+      DishRevUser.isLoggedIn=true;
     }
       
     // If logged in and online, can edit
-    dishrev.user.canEdit=dishrev.user.isLoggedIn && navigator.onLine;
+    DishRevUser.canEdit=DishRevUser.isLoggedIn && navigator.onLine;
 
     // Show 'Edit link' if can edit
     var storeEditLink=document.getElementById("storeEditLink");  
-    if (dishrev.user.canEdit) {
+    if (DishRevUser.canEdit) {
        storeEditLink.style.display='inline';
     } else {
        storeEditLink.style.display='none';
@@ -153,7 +153,7 @@ var Store = (function(){
     var navItemLink=document.createElement("a");
     navItem.appendChild(navItemLink);  
     navItemLink.setAttribute("href","#");
-    navItemLink.addEventListener('click', function(e){e.preventDefault();dishrev.stores.controller.linkTo();}, false);  
+    navItemLink.addEventListener('click', function(e){e.preventDefault();Stores.linkTo();}, false);  
     navItemLink.appendChild(document.createTextNode("Main")); 
     
     // Offline
@@ -305,7 +305,7 @@ var Store = (function(){
     thName.appendChild(nameLink);
 
     // Show Add link
-    if (dishrev.user.canEdit) {
+    if (DishRevUser.canEdit) {
       var addLink=document.createElement("a");
       addLink.setAttribute("href","/dishAdd?storeId="+storeId);
       addLink.setAttribute("class","add addTh");
@@ -355,7 +355,7 @@ var Store = (function(){
     tr.appendChild(dishDesc);
 
     // Vote
-    if (dishrev.user.canEdit) {
+    if (DishRevUser.canEdit) {
         var voteDisplay=document.createElement("td");
         var voteLink=document.createElement("a");
         voteLink.setAttribute("href","/dishVote?dishId="+dishId);
@@ -377,7 +377,7 @@ var Store = (function(){
       reviewLink.setAttribute("href","/dish?dishId="+dishId);
       reviewLink.appendChild(document.createTextNode(lastReviewText));
       lastReview.appendChild(reviewLink);
-    } else if (dishrev.user.canEdit) {
+    } else if (DishRevUser.canEdit) {
       var addLink=document.createElement("a");
       addLink.setAttribute("class","add");
       addLink.setAttribute("href","/reviewAdd?dishId="+dishId);
@@ -454,15 +454,13 @@ var Store = (function(){
   }
   
   return {
-  
     display: function(aStoreId) {
       storeId=aStoreId;
       create(aStoreId);
     },
-
     linkTo: function(aStoreId) {
       storeId=aStoreId;
-      dishrev.model.lock=false;
+      DishRev.lock=false;
       var stateObj = { action: "store", storeId: storeId };
       history.pushState(stateObj, "Store", "/stores?storeId=" + storeId );
       create(storeId);

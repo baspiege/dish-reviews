@@ -1,25 +1,22 @@
 
-dishrev=new Object();
-dishrev.model=new Object();
-dishrev.view=new Object();
-dishrev.controller=new Object();
+DishRev=new Object();
 
 ///////////////////
 // Main model
 ///////////////////
 
-dishrev.model.lock=false;
+DishRev.lock=false;
 
 ///////////////////
 // Main view
 ///////////////////
 
-dishrev.view.fbLogoutLink=function(event) {
+DishRev.fbLogoutLink=function(event) {
   event.preventDefault(); 
   fbLogout();
 }
 
-dishrev.view.fbLoginLink=function(event) {
+DishRev.fbLoginLink=function(event) {
   event.preventDefault(); 
   fbLogin();
 }
