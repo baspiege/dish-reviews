@@ -28,6 +28,8 @@ DishRev.checkPage=function() {
       Dish.display(qsString.dishId, qsString.reviewId);
     } else if (qsString.dishId) {
       Dish.display(qsString.dishId);
+    } else {
+      Stores.display();
     }
   } else {  
     Stores.display();
