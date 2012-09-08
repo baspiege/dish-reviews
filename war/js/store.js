@@ -27,7 +27,7 @@ var Store = (function(){
     window.onscroll=function(){ checkForMoreDishes(); };
   }
   
-  setUpPage=function() {
+  var setUpPage=function() {
     //var qsString=getQueryStrings();
     //if (qsString && qsString.storeId) {
     //  storeId=qsString.storeId;
@@ -52,12 +52,12 @@ var Store = (function(){
     }
   }
 
-  setOnlineListeners=function() {
+  var setOnlineListeners=function() {
     document.body.addEventListener("offline", setUpPage, false)
     document.body.addEventListener("online", setUpPage, false);
   }
 
-  checkForMoreDishes=function() {
+  var checkForMoreDishes=function() {
     var moreIndicator=document.getElementById("moreIndicator");
     if (moreDishes && !gettingDishes && moreIndicator && elementInViewport(moreIndicator)) {
       gettingDishes=true;
@@ -66,7 +66,7 @@ var Store = (function(){
     }
   }
 
-  getCachedData=function() {
+  var getCachedData=function() {
       var xmlDoc=null;
       var cachedResponse=localStorage.getItem(getStoreKey());
       if (cachedResponse) {
@@ -76,7 +76,7 @@ var Store = (function(){
       return xmlDoc;
   }
 
-  getDishesData=function() {
+  var getDishesData=function() {
     var qsString=getQueryStrings();
     var reload=false;
     if (qsString && qsString.reload && qsString.reload=="true") {
@@ -97,11 +97,11 @@ var Store = (function(){
     }
   }
 
-  getStoreKey=function() {
+  var getStoreKey=function() {
     return "STORE_"+storeId+"_"+startIndexDish+"_"+sortBy;
   }
 
-  handleDishesDataRequest=function(req) {
+  var handleDishesDataRequest=function(req) {
     var display=true;
     var qsString=getQueryStrings();
     var reload=qsString && qsString.reload && qsString.reload=="true";
@@ -132,12 +132,12 @@ var Store = (function(){
   // Display
   ///////////////////
     
-  createStoreLayout=function () {
+  var createStoreLayout=function () {
     createStoreNav();
     createStoreSections(); 
   }
 
-  createStoreNav=function() {
+  var createStoreNav=function() {
     var nav=document.getElementById("nav");  
     removeChildrenFromElement(nav);
     
@@ -165,7 +165,7 @@ var Store = (function(){
     navItem.appendChild(document.createTextNode("Offline"));
   }
 
-  createStoreSections=function() {
+  var createStoreSections=function() {
    // Clear content
     var content=document.getElementById("content");  
     removeChildrenFromElement(content);
@@ -221,7 +221,7 @@ var Store = (function(){
     moreIndicator.setAttribute("title","Loading more");
   }
   
-  displayCachedData=function() {
+  var displayCachedData=function() {
     var xmlDoc=getCachedData();
     if (xmlDoc) {
       displayData(xmlDoc);
@@ -230,7 +230,7 @@ var Store = (function(){
     }
   }
 
-  displayData=function(xmlDoc) {
+  var displayData=function(xmlDoc) {
     document.getElementById("waitingForData").style.display="none";
     var table=document.getElementById("dishes");  
     var newTable=false;
@@ -289,7 +289,7 @@ var Store = (function(){
     }
   }
   
-  createTable=function() {
+  var createTable=function() {
     var table=document.createElement("table");
     table.setAttribute("id","dishes");
     var tr=document.createElement("tr");
@@ -335,7 +335,7 @@ var Store = (function(){
     return table;
   }
 
-  createTableRowForDish=function(dish) {
+  var createTableRowForDish=function(dish) {
     var tr=document.createElement("tr");
     
     // Attributes
@@ -410,7 +410,7 @@ var Store = (function(){
     return tr;
   }
 
-  createTableRowForNoCachedData=function() {
+  var createTableRowForNoCachedData=function() {
     var tr=document.createElement("tr");
     var td=document.createElement("td");
     td.setAttribute("colspan","4");
@@ -419,7 +419,7 @@ var Store = (function(){
     return tr;
   }
 
-  createTableRowForNoData=function() {
+  var createTableRowForNoData=function() {
     var tr=document.createElement("tr");
     var td=document.createElement("td");
     td.setAttribute("colspan","4");
@@ -428,7 +428,7 @@ var Store = (function(){
     return tr;
   }
 
-  displayTableNoCachedData=function() {
+  var displayTableNoCachedData=function() {
     document.getElementById("waitingForData").style.display="none";
     document.getElementById("moreIndicator").style.display="none";
     var table=document.getElementById("dishes");  
@@ -443,7 +443,7 @@ var Store = (function(){
   // Sort
   ///////////////////
 
-  sortDishesBy=function(fieldToSortBy) {
+  var sortDishesBy=function(fieldToSortBy) {
     // Reset indicators and data
     document.getElementById("waitingForData").style.display="block";
     document.getElementById("moreIndicator").style.display="none";
