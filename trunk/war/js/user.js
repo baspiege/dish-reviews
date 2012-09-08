@@ -1,8 +1,8 @@
-dishrev.user=new Object();
+DishRevUser=new Object();
 
 ///////////////////
 // User Model
 ///////////////////
 
-dishrev.user.canEdit=false;
-dishrev.user.isLoggedIn=false;
+DishRevUser.canEdit=false;
+DishRevUser.isLoggedIn=false;
