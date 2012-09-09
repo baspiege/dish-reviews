@@ -336,7 +336,7 @@ var Stores = (function(){
     tr.appendChild(thDistance);
     var distanceLink=document.createElement("a");
     distanceLink.setAttribute("href","#");
-    distanceLink.setAttribute("onclick","Store.reorderStoresByDistanceAscending();return false;");
+    distanceLink.setAttribute("onclick","Stores.reorderStoresByDistanceAscending();return false;");
     distanceLink.appendChild(document.createTextNode("Distance"));
     thDistance.appendChild(distanceLink);
 
@@ -345,7 +345,7 @@ var Stores = (function(){
     tr.appendChild(thName);
     var nameLink=document.createElement("a");
     nameLink.setAttribute("href","#");
-    nameLink.setAttribute("onclick","Store.reorderStoresByNameAscending();return false;");
+    nameLink.setAttribute("onclick","Stores.reorderStoresByNameAscending();return false;");
     nameLink.appendChild(document.createTextNode("Name"));
     thName.appendChild(nameLink);
 
@@ -363,7 +363,7 @@ var Stores = (function(){
     tr.appendChild(thType);
     var typeLink=document.createElement("a");
     typeLink.setAttribute("href","#");
-    typeLink.setAttribute("onclick","Store.reorderStoresByDishCountDescending();return false;");
+    typeLink.setAttribute("onclick","Stores.reorderStoresByDishCountDescending();return false;");
     typeLink.appendChild(document.createTextNode("Dishes"));
     thType.appendChild(typeLink);
 
