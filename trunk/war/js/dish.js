@@ -274,7 +274,7 @@ var Dish = (function(){
     var dishData=document.createElement("div");
     sectionData.appendChild(dishData);
     dishData.setAttribute("class","data");
-    dishData.setAttribute("id","data");
+    dishData.setAttribute("id","dishData");
 
     // More indicator
     var moreIndicator=document.createElement("progress");
@@ -300,7 +300,7 @@ var Dish = (function(){
     if (table==null) {
       newTable=true;
       table=createTable();
-      document.getElementById("data").appendChild(table);
+      document.getElementById("dishData").appendChild(table);
     }
     
     var dish=xmlDoc.getElementsByTagName("dish")[0];
@@ -548,7 +548,7 @@ var Dish = (function(){
     var table=document.getElementById("reviews");
     if (table==null) {
       table=createTable();
-      document.getElementById("data").appendChild(table);
+      document.getElementById("dishData").appendChild(table);
     }
     table.appendChild(createTableRowForNoCachedData());
   }
