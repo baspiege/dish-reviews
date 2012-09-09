@@ -63,10 +63,12 @@
     </servlet-mapping>
     
     <!-- Dish Actions -->
+    <!--
     <servlet>
       <servlet-name>dish</servlet-name>
       <servlet-class>geonotes.controller.DishServlet</servlet-class>
     </servlet>
+    -->
     <servlet>
       <servlet-name>dishAdd</servlet-name>
       <servlet-class>geonotes.controller.DishAddServlet</servlet-class>
@@ -79,10 +81,12 @@
       <servlet-name>dishVote</servlet-name>
       <servlet-class>geonotes.controller.DishVoteServlet</servlet-class>
     </servlet>
+    <!--
     <servlet-mapping>
       <servlet-name>dish</servlet-name>
       <url-pattern>/dish</url-pattern>
     </servlet-mapping>
+    -->
     <servlet-mapping>
       <servlet-name>dishAdd</servlet-name>
       <url-pattern>/dishAdd</url-pattern>
@@ -123,10 +127,12 @@
     </servlet-mapping>
     
     <!-- Store Actions -->
+    <!--
     <servlet>
       <servlet-name>store</servlet-name>
       <servlet-class>geonotes.controller.StoreServlet</servlet-class>
     </servlet>
+    -->
     <servlet>
       <servlet-name>storeAdd</servlet-name>
       <servlet-class>geonotes.controller.StoreAddServlet</servlet-class>
@@ -143,10 +149,12 @@
       <servlet-name>storeUpdate</servlet-name>
       <servlet-class>geonotes.controller.StoreUpdateServlet</servlet-class>
     </servlet>
+    <!--
     <servlet-mapping>
       <servlet-name>store</servlet-name>
       <url-pattern>/store</url-pattern>
     </servlet-mapping>
+    -->
     <servlet-mapping>
       <servlet-name>storeAdd</servlet-name>
       <url-pattern>/storeAdd</url-pattern>
