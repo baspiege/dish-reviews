@@ -18,6 +18,9 @@
 </nav>
 
 <div id="content">
+  <section>
+  <progress id="waitingForData" title="<fmt:message key="waitingForDataLabel"/>"><fmt:message key="waitingForDataLabel"/></progress>
+  </section>
 </div>
 
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
