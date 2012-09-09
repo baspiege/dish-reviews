@@ -8,14 +8,13 @@ var Dish = (function(){
   var reviewId;
   var gettingReviews=false;
   var moreReviews=false;
-  window.onscroll=checkForMoreReviews;
   var startIndexReview=0;
   var PAGE_SIZE=10; // If changes, update server count as well.
 
   ///////////////////
   // Controller
   ///////////////////
-  
+
   var create=function() {
     gettingReviews=false;
     moreReviews=false;
@@ -26,7 +25,7 @@ var Dish = (function(){
     setUpReviews();
     window.onscroll=function(){ checkForMoreReviews(); };
   }
-  
+
   var setUpPage=function() {
 
     // Check if logged in
@@ -35,19 +34,19 @@ var Dish = (function(){
     if (dishRevUser!="") {
       DishRevUser.isLoggedIn=true;
     }
-      
+
     // If logged in and online, can edit
     DishRevUser.canEdit=DishRevUser.isLoggedIn && navigator.onLine;
 
     // Show 'Edit link' if can edit
-    var dishEditLink=document.getElementById("dishEditLink");  
+    var dishEditLink=document.getElementById("dishEditLink");
     if (DishRevUser.canEdit) {
        dishEditLink.style.display='inline';
     } else {
        dishEditLink.style.display='none';
     }
   }
-  
+
   var setUpReviews=function() {
     if (reviewId) {
       getReviewsDataById();
@@ -119,8 +118,8 @@ var Dish = (function(){
     var reload=false;
     if (qsString && qsString.reload && qsString.reload=="true") {
       reload=true;
-    }  
-  
+    }
+
     // If online, get from server.  Else get from cache.  // TODO - Update cached data?
     if (navigator.onLine) {
       if (!reload) {
@@ -162,9 +161,9 @@ var Dish = (function(){
     }
   }
 
-  var postReviewToFacebook=function(reviewId) {
-    var reviewLink="http://dishrev.appspot.com/dish?dishId=" + dishId + "&reviewId=" + reviewId;
-    var reviewImageLink="http://dishrev.appspot.com/reviewThumbNailImage?reviewId" + reviewId;
+  var postReviewToFacebook=function(aReviewId) {
+    var reviewLink="http://dishrev.appspot.com/dish?dishId=" + dishId + "&reviewId=" + aReviewId;
+    var reviewImageLink="http://dishrev.appspot.com/reviewThumbNailImage?reviewId" + aReviewId;
     var dishName=document.getElementById("dishName").innerHTML;
     var storeName=document.getElementById("storeName").innerHTML;
     var publish = {
@@ -180,16 +179,16 @@ var Dish = (function(){
   ///////////////////
   // View
   ///////////////////
-  
+
   var createDishLayout=function () {
     createDishNav();
-    createDishSections(); 
+    createDishSections();
   }
 
   var createDishNav=function() {
-    var nav=document.getElementById("nav");  
+    var nav=document.getElementById("nav");
     removeChildrenFromElement(nav);
-    
+
     // List
     var navUl=document.createElement("ul");
     nav.appendChild(navUl);
@@ -197,28 +196,28 @@ var Dish = (function(){
 
     // Main
     var navItem=document.createElement("li");
-    navUl.appendChild(navItem);  
+    navUl.appendChild(navItem);
     navItem.setAttribute("id","main");
     var navItemLink=document.createElement("a");
-    navItem.appendChild(navItemLink);  
+    navItem.appendChild(navItemLink);
     navItemLink.setAttribute("href","#");
-    navItemLink.addEventListener('click', function(e){e.preventDefault();Stores.linkTo();}, false);  
-    navItemLink.appendChild(document.createTextNode("Main")); 
-    
+    navItemLink.addEventListener('click', function(e){e.preventDefault();Stores.linkTo();}, false);
+    navItemLink.appendChild(document.createTextNode("Main"));
+
     // Store
     var navItem=document.createElement("li");
-    navUl.appendChild(navItem);  
+    navUl.appendChild(navItem);
     var navItemLink=document.createElement("a");
-    navItem.appendChild(navItemLink);  
+    navItem.appendChild(navItemLink);
     navItemLink.setAttribute("href","#");
     navItemLink.setAttribute("id","storeLink");
     var storeName=document.createElement("span");
-    navItemLink.appendChild(storeName); 
+    navItemLink.appendChild(storeName);
     storeName.setAttribute("id","storeName");
-        
+
     // Offline
     var navItem=document.createElement("li");
-    navUl.appendChild(navItem);  
+    navUl.appendChild(navItem);
     navItem.setAttribute("id","offline");
     navItem.setAttribute("style","display:none");
     navItem.setAttribute("class","nw");
@@ -227,19 +226,19 @@ var Dish = (function(){
 
   var createDishSections=function() {
     // Clear content
-    var content=document.getElementById("content");  
+    var content=document.getElementById("content");
     removeChildrenFromElement(content);
 
     var sectionData=document.createElement("section");
     content.appendChild(sectionData);
-    
+
     // Dish name
     var dishName=document.createElement("span");
     sectionData.appendChild(dishName);
     dishName.setAttribute("id","dishName");
-    
+
     // Space between name and edit link
-    sectionData.appendChild(document.createTextNode(" ")); 
+    sectionData.appendChild(document.createTextNode(" "));
 
     // Edit link
     var editLink=document.createElement("a");
@@ -249,9 +248,9 @@ var Dish = (function(){
     editLink.setAttribute("style","display:none");
     editLink.setAttribute("id","dishEditLink");
     editLink.appendChild(document.createTextNode("Edit"));
-    
+
     // Space
-    sectionData.appendChild(document.createTextNode(" ")); 
+    sectionData.appendChild(document.createTextNode(" "));
 
     // All reviews link
     var allReviewsLink=document.createElement("a");
@@ -262,14 +261,14 @@ var Dish = (function(){
     allReviewsLink.setAttribute("style","display:none");
     allReviewsLink.setAttribute("id","allReviewsLink");
     allReviewsLink.appendChild(document.createTextNode("All Reviews"));
-    
+
     // Waiting for data
     var waitingForData=document.createElement("progress");
     sectionData.appendChild(waitingForData);
     //waitingForData.setAttribute("style","display:none");
     waitingForData.setAttribute("id","waitingForData");
     waitingForData.setAttribute("title","Waiting for data");
-    
+
     // Dish data
     var dishData=document.createElement("div");
     sectionData.appendChild(dishData);
@@ -282,7 +281,7 @@ var Dish = (function(){
     moreIndicator.setAttribute("style","display:none");
     moreIndicator.setAttribute("id","moreIndicator");
     moreIndicator.setAttribute("title","Loading more");
-  }  
+  }
 
   var displayCachedData=function() {
     var xmlDoc=getCachedData();
@@ -302,30 +301,30 @@ var Dish = (function(){
       table=createTable();
       document.getElementById("dishData").appendChild(table);
     }
-    
+
     var dish=xmlDoc.getElementsByTagName("dish")[0];
-    
+
     // Store name
     var storeName=dish.getAttribute("storeName");
     var storeNameTag=document.getElementById("storeName");
     removeChildrenFromElement(storeNameTag);
     storeNameTag.appendChild(document.createTextNode(storeName));
-    
+
     // Store link
     var storeId=dish.getAttribute("storeId");
     var storeLinkTag=document.getElementById("storeLink");
     storeLinkTag.addEventListener('click', function(e){e.preventDefault();Store.linkTo(storeId);}, false);
-    
+
     // Dish Name
     var dishName=dish.getAttribute("dishName");
     var dishNameTag=document.getElementById("dishName");
     removeChildrenFromElement(dishNameTag);
     dishNameTag.appendChild(document.createTextNode(dishName));
-    
+
     // Title
     var title=document.getElementById("title");
     removeChildrenFromElement(title);
-    title.appendChild(document.createTextNode(dishName)); 
+    title.appendChild(document.createTextNode(dishName));
 
     // Process reviews
     var reviews=xmlDoc.getElementsByTagName("review");
@@ -438,7 +437,7 @@ var Dish = (function(){
       descReview.appendChild(document.createTextNode(" "));
 
       var postButton=document.createElement("button");
-      postButton.setAttribute("onclick","postReviewToFacebook(\"" + reviewId + "\");return false;");
+      postButton.setAttribute("onclick","Dish.postReviewToFacebook(\"" + reviewId + "\");return false;");
       postButton.appendChild(document.createTextNode("Share on Facebook"));
       descReview.appendChild(postButton);
     } else {
@@ -561,7 +560,7 @@ var Dish = (function(){
   return {
     display: function(aDishId, aReviewId) {
       dishId=aDishId;
-      reviewId=aReviewId;      
+      reviewId=aReviewId;
       create();
     },
     linkTo: function(aDishId, aReviewId) {
@@ -573,9 +572,12 @@ var Dish = (function(){
         history.pushState(stateObj, "Review", "/stores?reviewId=" + reviewId );
       } else {
         var stateObj = { action: "dish", dishId: dishId };
-        history.pushState(stateObj, "Dish", "/stores?dishId=" + dishId );      
+        history.pushState(stateObj, "Dish", "/stores?dishId=" + dishId );
       }
       create();
+    },
+    postReviewToFacebook: function(aReviewId) {
+      postReviewToFacebook(aReviewId);
     }
   };
 
