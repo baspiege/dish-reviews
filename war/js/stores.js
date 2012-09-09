@@ -577,7 +577,16 @@ var Stores = (function(){
       var stateObj = { action: "stores" };
       history.pushState(stateObj, "Stores", "/stores" );
       create();
-    }
+    },
+    reorderStoresByDishCountDescending: function() {
+      reorderStoresByDishCountDescending();
+    },
+    reorderStoresByDistanceAscending: function() {
+      reorderStoresByDistanceAscending();
+    },
+    reorderStoresByNameAscending: function() {
+      reorderStoresByNameAscending();
+    }    
   };
   
 })();
