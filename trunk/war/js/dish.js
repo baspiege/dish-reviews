@@ -53,7 +53,7 @@ var Dish = (function(){
       getReviewsDataById();
       var allReviewsLink=document.getElementById("allReviewsLink");
       allReviewsLink.style.display="inline";
-      allReviewsLink.addEventListener('click', function(e){e.preventDefault();Dish.display(dishId);}, false);  
+      allReviewsLink.addEventListener('click', function(e){e.preventDefault();Dish.display(dishId);}, false);
     } else {
       getReviewsData();
     }
@@ -210,8 +210,8 @@ var Dish = (function(){
     navUl.appendChild(navItem);  
     var navItemLink=document.createElement("a");
     navItem.appendChild(navItemLink);  
-    //navItemLink.setAttribute("href","#");
-    //navItemLink.addEventListener('click', function(e){e.preventDefault();Store.linkTo(storeId);}, false);  
+    navItemLink.setAttribute("href","#");
+    navItemLink.setAttribute("id","storeLink");
     var storeName=document.createElement("span");
     navItemLink.appendChild(storeName); 
     storeName.setAttribute("id","storeName");
@@ -303,19 +303,26 @@ var Dish = (function(){
       document.getElementById("data").appendChild(table);
     }
     
-    // Set store name and dish name
     var dish=xmlDoc.getElementsByTagName("dish")[0];
+    
+    // Store name
     var storeName=dish.getAttribute("storeName");
     var storeNameTag=document.getElementById("storeName");
     removeChildrenFromElement(storeNameTag);
     storeNameTag.appendChild(document.createTextNode(storeName));
     
-    // TODO - Set link for store...
+    // Store link
+    var storeId=dish.getAttribute("storeId");
+    var storeLinkTag=document.getElementById("storeLink");
+    storeLinkTag.addEventListener('click', function(e){e.preventDefault();Store.linkTo(storeId);}, false);
     
+    // Dish Name
     var dishName=dish.getAttribute("dishName");
     var dishNameTag=document.getElementById("dishName");
     removeChildrenFromElement(dishNameTag);
     dishNameTag.appendChild(document.createTextNode(dishName));
+    
+    // Title
     var title=document.getElementById("title");
     removeChildrenFromElement(title);
     title.appendChild(document.createTextNode(dishName)); 
