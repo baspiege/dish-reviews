@@ -38,9 +38,9 @@ var Stores = (function(){
     if (lat==null || lon==null) {
       return;
     }
-    
+
     showProgressData();
-    
+
     // If online, get from server.  Else get from cache.
     if (navigator.onLine) {
       //displayCachedDataIfExists();
@@ -59,11 +59,11 @@ var Stores = (function(){
   var handleStoresDataRequest=function(req) {
     var display=true;
     var cachedResponse=localStorage.getItem(getStoresKey());
-    
+
     // Save in local storage in case app goes offline
     // TODO - Get lat/lon from result.  Might change between request and response.
     setItemIntoLocalStorage(getStoresKey(), req.responseText);
-    
+
     if (cachedResponse!=null) {
       var display=false;
       if (cachedResponse!=req.responseText) {
@@ -160,7 +160,7 @@ var Stores = (function(){
   var createStoresLayout=function () {
     setPageTitle();
     createStoresNav();
-    createStoresSections();   
+    createStoresSections();
   }
 
   var setPageTitle=function () {
@@ -170,9 +170,9 @@ var Stores = (function(){
   }
 
   var createStoresNav=function() {
-    var nav=document.getElementById("nav");  
+    var nav=document.getElementById("nav");
     removeChildrenFromElement(nav);
-    
+
     // List
     var navUl=document.createElement("ul");
     nav.appendChild(navUl);
@@ -180,73 +180,73 @@ var Stores = (function(){
 
     // My Reviews
     var navItem=document.createElement("li");
-    navUl.appendChild(navItem);  
+    navUl.appendChild(navItem);
     navItem.setAttribute("id","myReviews");
     navItem.setAttribute("style","display:none");
     var navItemLink=document.createElement("a");
-    navItem.appendChild(navItemLink);  
+    navItem.appendChild(navItemLink);
     navItemLink.setAttribute("href","/reviewsOwn");
-    navItemLink.appendChild(document.createTextNode("My Reviews")); 
-    
+    navItemLink.appendChild(document.createTextNode("My Reviews"));
+
     // Fb login
     var navItem=document.createElement("li");
-    navUl.appendChild(navItem);  
+    navUl.appendChild(navItem);
     navItem.setAttribute("id","fblogin");
     navItem.setAttribute("style","display:none");
     var navItemLink=document.createElement("a");
-    navItem.appendChild(navItemLink);  
+    navItem.appendChild(navItemLink);
     navItemLink.setAttribute("id","logonLink");
     navItemLink.setAttribute("href","#");
-    navItemLink.appendChild(document.createTextNode("Log On"));  
-    
+    navItemLink.appendChild(document.createTextNode("Log On"));
+
     // Fb name
     var navItem=document.createElement("li");
-    navUl.appendChild(navItem);  
+    navUl.appendChild(navItem);
     navItem.setAttribute("id","fbname");
     navItem.setAttribute("style","display:none");
     navItem.setAttribute("class","nw");
     navItem.innerHTML="<fb:name uid=\"loggedinuser\" useyou=\"false\" linked=\"true\"></fb:name>";
-    
+
     // OffLink
     var navItem=document.createElement("li");
-    navUl.appendChild(navItem);  
+    navUl.appendChild(navItem);
     navItem.setAttribute("id","offline");
     navItem.setAttribute("style","display:none");
     navItem.setAttribute("class","nw");
     navItem.appendChild(document.createTextNode("Offline"));
-    
+
     // Show 'My Reviews' if logged in
-    var myReviews=document.getElementById("myReviews");  
+    var myReviews=document.getElementById("myReviews");
     if (DishRevUser.isLoggedIn) {
        myReviews.style.display='inline';
     } else {
        myReviews.style.display='none';
     }
-    
+
     // If online, show FB login
     // If offline, show offline
-    var fblogin=document.getElementById("fblogin");  
-    var fbname=document.getElementById("fbname");  
-    var offline=document.getElementById("offline");  
+    var fblogin=document.getElementById("fblogin");
+    var fbname=document.getElementById("fbname");
+    var offline=document.getElementById("offline");
     if (navigator.onLine) {
       fblogin.style.display="inline";
       fbname.style.display="inline";
       offline.style.display="none";
     } else {
-      fblogin.style.display="none";  
+      fblogin.style.display="none";
       fbname.style.display="none";
       offline.style.display="inline";
     }
-    
+
     // Vary login link
     var login=document.getElementById("logonLink");
     if (DishRevUser.isLoggedIn) {
       login.innerHTML="Log Off";
-      login.removeEventListener('click', DishRev.fbLoginLink, false);  
+      login.removeEventListener('click', DishRev.fbLoginLink, false);
       login.addEventListener('click', DishRev.fbLogoutLink, false);
     } else {
       login.innerHTML="Log On";
-      login.removeEventListener('click', DishRev.fbLogoutLink, false);  
+      login.removeEventListener('click', DishRev.fbLogoutLink, false);
       login.addEventListener('click', DishRev.fbLoginLink, false);
     }
   }
@@ -254,20 +254,20 @@ var Stores = (function(){
   var createStoresSections=function() {
     var content=document.getElementById("content");
     removeChildrenFromElement(content);
-    
+
     var sectionLocation=document.createElement("section");
     content.appendChild(sectionLocation);
     var geoStatus=document.createElement("span");
     sectionLocation.appendChild(geoStatus);
     geoStatus.setAttribute("id","geoStatus");
-    
+
     var changeLocationLink=document.createElement("a");
     sectionLocation.appendChild(changeLocationLink);
     changeLocationLink.setAttribute("class","nw");
-    changeLocationLink.setAttribute("style","margin-left:1em"); 
+    changeLocationLink.setAttribute("style","margin-left:1em");
     changeLocationLink.setAttribute("href","/locationChange");
     changeLocationLink.appendChild(document.createTextNode("Change Location"));
-    
+
     var sectionData=document.createElement("section");
     content.appendChild(sectionData);
     sectionData.setAttribute("class","data");
@@ -300,8 +300,8 @@ var Stores = (function(){
     var tableDiv=document.getElementById("storesData");
     var table=createTable();
 
-    var stores=xmlDoc.getElementsByTagName("store"); 
-    
+    var stores=xmlDoc.getElementsByTagName("store");
+
     // No stores
     if (stores.length==0){
       table.appendChild(createTableRowForNoData());
@@ -380,7 +380,7 @@ var Stores = (function(){
     tr.setAttribute("lon",store.getAttribute("lon"));
     //tr.setAttribute("yes",store.getAttribute("yes"));
     tr.setAttribute("dishCount",store.getAttribute("dishCount"));
-    
+
     // Distance and bearing
     tr.appendChild(document.createElement("td"));
 
@@ -586,7 +586,7 @@ var Stores = (function(){
     },
     reorderStoresByNameAscending: function() {
       reorderStoresByNameAscending();
-    }    
+    }
   };
-  
+
 })();
