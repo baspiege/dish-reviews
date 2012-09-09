@@ -9,12 +9,12 @@ var Store = (function(){
   var moreDishes=false;
   var startIndexDish=0;
   var PAGE_SIZE=10; // If changes, update server count as well.
-  var sortBy="name"
-  
+  var sortBy="name";
+
   ///////////////////
   // Controller
   ///////////////////
-  
+
   var create=function() {
     storeId=storeId;
     gettingDishes=false;
@@ -26,7 +26,7 @@ var Store = (function(){
     getDishesData();
     window.onscroll=function(){ checkForMoreDishes(); };
   }
-  
+
   var setUpPage=function() {
 
     // Check if logged in
@@ -35,12 +35,12 @@ var Store = (function(){
     if (dishRevUser!="") {
       DishRevUser.isLoggedIn=true;
     }
-      
+
     // If logged in and online, can edit
     DishRevUser.canEdit=DishRevUser.isLoggedIn && navigator.onLine;
 
     // Show 'Edit link' if can edit
-    var storeEditLink=document.getElementById("storeEditLink");  
+    var storeEditLink=document.getElementById("storeEditLink");
     if (DishRevUser.canEdit) {
        storeEditLink.style.display='inline';
     } else {
@@ -78,7 +78,7 @@ var Store = (function(){
     if (qsString && qsString.reload && qsString.reload=="true") {
       reload=true;
     }
- 
+
     // If online, get from server.  Else get from cache.
     if (navigator.onLine) {
       if (!reload) {
@@ -123,20 +123,20 @@ var Store = (function(){
       displayData(xmlDoc);
     }
   }
-  
+
   ///////////////////
   // Display
   ///////////////////
-    
+
   var createStoreLayout=function () {
     createStoreNav();
-    createStoreSections(); 
+    createStoreSections();
   }
 
   var createStoreNav=function() {
-    var nav=document.getElementById("nav");  
+    var nav=document.getElementById("nav");
     removeChildrenFromElement(nav);
-    
+
     // List
     var navUl=document.createElement("ul");
     nav.appendChild(navUl);
@@ -144,17 +144,17 @@ var Store = (function(){
 
     // Main
     var navItem=document.createElement("li");
-    navUl.appendChild(navItem);  
+    navUl.appendChild(navItem);
     navItem.setAttribute("id","main");
     var navItemLink=document.createElement("a");
-    navItem.appendChild(navItemLink);  
+    navItem.appendChild(navItemLink);
     navItemLink.setAttribute("href","#");
-    navItemLink.addEventListener('click', function(e){e.preventDefault();Stores.linkTo();}, false);  
-    navItemLink.appendChild(document.createTextNode("Main")); 
-    
+    navItemLink.addEventListener('click', function(e){e.preventDefault();Stores.linkTo();}, false);
+    navItemLink.appendChild(document.createTextNode("Main"));
+
     // Offline
     var navItem=document.createElement("li");
-    navUl.appendChild(navItem);  
+    navUl.appendChild(navItem);
     navItem.setAttribute("id","offline");
     navItem.setAttribute("style","display:none");
     navItem.setAttribute("class","nw");
@@ -163,7 +163,7 @@ var Store = (function(){
 
   var createStoreSections=function() {
    // Clear content
-    var content=document.getElementById("content");  
+    var content=document.getElementById("content");
     removeChildrenFromElement(content);
 
     var sectionData=document.createElement("section");
@@ -173,9 +173,9 @@ var Store = (function(){
     var storeName=document.createElement("span");
     sectionData.appendChild(storeName);
     storeName.setAttribute("id","storeName");
-    
+
     // Space between name and edit link
-    sectionData.appendChild(document.createTextNode(" ")); 
+    sectionData.appendChild(document.createTextNode(" "));
 
     // Edit link
     var editLink=document.createElement("a");
@@ -185,24 +185,24 @@ var Store = (function(){
     editLink.setAttribute("style","display:none");
     editLink.setAttribute("id","storeEditLink");
     editLink.appendChild(document.createTextNode("Edit"));
-    
+
     // Add space between edit and location
     sectionData.appendChild(document.createTextNode(" "));
-    
+
     // Location link
     var locationLink=document.createElement("a");
     sectionData.appendChild(locationLink);
     locationLink.setAttribute("href","/storeUpdateLocation?storeId=" + storeId);
     locationLink.setAttribute("class","edit");
     locationLink.appendChild(document.createTextNode("Location"));
-    
+
     // Waiting for data
     var waitingForData=document.createElement("progress");
     sectionData.appendChild(waitingForData);
     //waitingForData.setAttribute("style","display:none");
     waitingForData.setAttribute("id","waitingForData");
     waitingForData.setAttribute("title","Waiting for data");
-    
+
     // Store data
     var storeData=document.createElement("div");
     sectionData.appendChild(storeData);
@@ -216,7 +216,7 @@ var Store = (function(){
     moreIndicator.setAttribute("id","moreIndicator");
     moreIndicator.setAttribute("title","Loading more");
   }
-  
+
   var displayCachedData=function() {
     var xmlDoc=getCachedData();
     if (xmlDoc) {
@@ -228,14 +228,14 @@ var Store = (function(){
 
   var displayData=function(xmlDoc) {
     document.getElementById("waitingForData").style.display="none";
-    var table=document.getElementById("dishes");  
+    var table=document.getElementById("dishes");
     var newTable=false;
     if (table==null) {
       newTable=true;
       table=createTable();
       document.getElementById("storeData").appendChild(table);
     }
-    
+
     // Set store name
     var store=xmlDoc.getElementsByTagName("store")[0];
     var storeName=store.getAttribute("storeName");
@@ -263,18 +263,18 @@ var Store = (function(){
       } else {
         moreDishes=true;
       }
-      
+
       // Make row for each dish
       for (var i=0;i<dishes.length;i++) {
         var dish=dishes[i];
         table.appendChild(createTableRowForDish(dish));
       }
-      
+
       // Show 'more' after table is populated
       if (moreDishes) {
         moreIndicator.style.display="inline";
       }
-      
+
       // Parse for Facebook tags
       if (typeof(FB) != "undefined") {
         FB.XFBML.parse(table);
@@ -284,7 +284,7 @@ var Store = (function(){
       checkForMoreDishes();
     }
   }
-  
+
   var createTable=function() {
     var table=document.createElement("table");
     table.setAttribute("id","dishes");
@@ -327,13 +327,13 @@ var Store = (function(){
     var thLastImage=document.createElement("th");
     tr.appendChild(thLastImage);
     thLastImage.appendChild(document.createTextNode("Last Image"));
-    
+
     return table;
   }
 
   var createTableRowForDish=function(dish) {
     var tr=document.createElement("tr");
-    
+
     // Attributes
     var dishId=dish.getAttribute("dishId");
     var dishText=dish.getAttribute("dishText");
@@ -404,7 +404,7 @@ var Store = (function(){
       imageCell.appendChild(imageLink);
     }
     tr.appendChild(imageCell);
-    
+
     return tr;
   }
 
@@ -429,7 +429,7 @@ var Store = (function(){
   var displayTableNoCachedData=function() {
     document.getElementById("waitingForData").style.display="none";
     document.getElementById("moreIndicator").style.display="none";
-    var table=document.getElementById("dishes");  
+    var table=document.getElementById("dishes");
     if (table==null) {
       table=createTable();
       document.getElementById("storeData").appendChild(table);
@@ -450,7 +450,7 @@ var Store = (function(){
     sortBy=fieldToSortBy;
     getDishesData();
   }
-  
+
   return {
     display: function(aStoreId) {
       storeId=aStoreId;
