@@ -271,7 +271,7 @@ var Stores = (function(){
     var sectionData=document.createElement("section");
     content.appendChild(sectionData);
     sectionData.setAttribute("class","data");
-    sectionData.setAttribute("id","data");
+    sectionData.setAttribute("id","storesData");
     var waitingForData=document.createElement("progress");
     sectionData.appendChild(waitingForData);
     //waitingForData.setAttribute("style","display:none");
@@ -297,7 +297,7 @@ var Stores = (function(){
 
   var displayData=function(xmlDoc) {
     // Create HTML table
-    var tableDiv=document.getElementById("data");
+    var tableDiv=document.getElementById("storesData");
     var table=createTable();
 
     var stores=xmlDoc.getElementsByTagName("store"); 
@@ -426,7 +426,7 @@ var Stores = (function(){
   }
 
   var displayTableNoCachedData=function() {
-    var tableDiv=document.getElementById("data");
+    var tableDiv=document.getElementById("storesData");
     var table=createTable();
     table.appendChild(createTableRowForNoCachedData());
     removeChildrenFromElement(tableDiv);

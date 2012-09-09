@@ -207,7 +207,7 @@ var Store = (function(){
     var storeData=document.createElement("div");
     sectionData.appendChild(storeData);
     storeData.setAttribute("class","data");
-    storeData.setAttribute("id","data");
+    storeData.setAttribute("id","storeData");
 
     // More indicator
     var moreIndicator=document.createElement("progress");
@@ -233,7 +233,7 @@ var Store = (function(){
     if (table==null) {
       newTable=true;
       table=createTable();
-      document.getElementById("data").appendChild(table);
+      document.getElementById("storeData").appendChild(table);
     }
     
     // Set store name
@@ -432,7 +432,7 @@ var Store = (function(){
     var table=document.getElementById("dishes");  
     if (table==null) {
       table=createTable();
-      document.getElementById("data").appendChild(table);
+      document.getElementById("storeData").appendChild(table);
     }
     table.appendChild(createTableRowForNoCachedData());
   }
@@ -445,7 +445,7 @@ var Store = (function(){
     // Reset indicators and data
     document.getElementById("waitingForData").style.display="block";
     document.getElementById("moreIndicator").style.display="none";
-    removeChildrenFromElement(document.getElementById("data"));
+    removeChildrenFromElement(document.getElementById("storeData"));
     startIndexDish=0;
     sortBy=fieldToSortBy;
     getDishesData();
