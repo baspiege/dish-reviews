@@ -25,14 +25,14 @@ window.fbAsyncInit = function() {
 
   FB.Event.subscribe('auth.login', function(response) {
     setCookie("dishRevUser",response.authResponse.userID);
-    if (!isLoggedIn) {
+    if (!DishRevUser.isLoggedIn) {
       window.location.reload();
     }
   });
 
   FB.Event.subscribe('auth.logout', function(response) {
     setCookie("dishRevUser","",-1);
-    if (isLoggedIn) {
+    if (DishRevUser.isLoggedIn) {
       window.location.reload();
     }
   });
