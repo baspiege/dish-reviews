@@ -36,9 +36,10 @@ public class ReviewsXml {
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
             Element root = doc.createElement("dish");
-            root.setAttribute("id", "dish");
+            root.setAttribute("id", Long.toString(aDish.getKey().getId()));
             root.setAttribute("dishName", aDish.getNote());
             root.setAttribute("storeName", aStore.getNote());
+            root.setAttribute("storeId", Long.toString(aStore.getKey().getId()));
             doc.appendChild(root);
             if (aReviews!=null && aReviews.size()>0) {
                 for (Review review:aReviews) {
