@@ -28,7 +28,7 @@ public class DishesXml {
             DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
             Element root = doc.createElement("store");
-            root.setAttribute("id", "store");
+            root.setAttribute("id", Long.toString(aStore.getKey().getId()));
             root.setAttribute("storeName", aStore.getNote());
             doc.appendChild(root);
             if (aDishes!=null && aDishes.size()>0) {
